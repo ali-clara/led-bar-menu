@@ -1,6 +1,6 @@
 # The imports
-from flask import Flask, render_template, request, redirect, url_for
-from flask_classful import FlaskView, method
+from flask import Flask, render_template, redirect, url_for
+from flask_classful import FlaskView, method, route, request
 import yaml
 
 
