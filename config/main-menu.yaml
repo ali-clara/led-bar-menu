@@ -1,17 +1,39 @@
-# Here she is, the main menu! Not completely sold yet that a yaml file is the best way to represent this, but I'm trying it out. Human readable, but going to get long and without any way to spell check
+# Here she is, the main menu! Not completely sold yet that a yaml file is the best way to represent this, but I'm trying it out. Human readable and works well with the spell checker, but going to get long and can't auto sort
+# Conventions - 
+#     All cocktail names and liquor names are title case
+#     All categories (i.e "collection" are lowercase)
+
+# In VScode, "Ctrl + K Ctrl + 2" will fold everything nicely
+
 
 Anthracite Prospector:
-  Cognac:
-    oz: 1.5
-    optional replacement: Brandy
-  Amaro Meletti:
-    oz: 0.75
-  Dark Creme de Cacoa:
-    oz: 0.75
-Highland Locust:
-  Famous Grouse Smoky Black:
-    oz: 1
-  Genepy:
-    oz: 0.5
-  Woodlands Brucato:
-    oz: 0.5
+  liquors:
+    Cognac:
+      oz: 1.5
+      optional replacement: Brandy
+    Amaro Meletti:
+      oz: 0.75
+    Dark Creme de Cacao:
+      oz: 0.75
+  collection: 5057 main menu
+The Highland Locust:
+  liquors:
+    Famous Grouse Smoky Black:
+      oz: 1
+    Genepy:
+      oz: 0.5
+    Woodlands Brucato:
+      oz: 0.5
+  collection: 2201 main menu
+Pippin:
+  liquors:
+    Brandy:
+      oz: 1
+    Creme de Cacao:
+      oz: 0.5
+    Falernum:
+      oz: 0.5
+    Peychaud's Bitters:
+      oz: 0.25
+  collection: 
+    Lord of the Rings: Hobbits

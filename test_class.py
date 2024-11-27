@@ -10,6 +10,11 @@ class TestView(FlaskView):
 
     def __init__(self) -> None:
         super().__init__()
+        self._load_menu()
+        self._load_liquors()
+
+    
+    def _load_menu(self):
         try:
             with open("config/main-menu.yaml") as stream:
                 self.menu_dict = yaml.safe_load(stream)
@@ -19,6 +24,23 @@ class TestView(FlaskView):
         except KeyError as e:
             print(e)
             self.menu_dict = {}
+
+        self.cocktail_names = list(self.menu_dict.keys())
+        self.collections = [self.menu_dict[key]['collection'] for key in list(self.menu_dict.keys())]
+
+    def _load_liquors(self):
+        try:
+            with open("config/locations.yaml") as stream:
+                self.locations_dict = yaml.safe_load(stream)
+        except FileNotFoundError as e:
+            print(e)
+            self.locations_dict = {}
+        except KeyError as e:
+            print(e)
+            self.locations_dict = {}
+
+        self.all_liquors = list(self.locations_dict.values())
+
     
     def index(self):
     # http://localhost:5000/
@@ -28,7 +50,8 @@ class TestView(FlaskView):
     @method("GET")
     def menu(self):
 
-        print(f"available cocktails: {list(self.menu_dict.keys())}")
+        print(f"available cocktails: {self.cocktail_names}")
+        print(f"collections: {self.collections}")
     # http://localhost:5000/menu
         chosen_ingredients = []
 
@@ -36,22 +59,17 @@ class TestView(FlaskView):
         #   take a look at it. 
         if request.method == "POST":
             selected_option = request.form['dropdown']
-            if selected_option == "Moscow Mule":
-                chosen_ingredients = ["Vodka", "Ginger Beer", "Lime Juice"]
-            elif selected_option == "Manhattan":
-                chosen_ingredients = ["Rye Whiskey", "Angostura Bitters", "Vermouth"]
-            elif selected_option == "White Russian":
-                chosen_ingredients = ["Vodka", "Kahlua", "Cream"]
+            chosen_ingredients = list(self.menu_dict[selected_option]['liquors'].keys())
+
+            # if selected_option == "Moscow Mule":
+            #     chosen_ingredients = ["Vodka", "Ginger Beer", "Lime Juice"]
+            # elif selected_option == "Manhattan":
+            #     chosen_ingredients = ["Rye Whiskey", "Angostura Bitters", "Vermouth"]
+            # elif selected_option == "White Russian":
+            #     chosen_ingredients = ["Vodka", "Kahlua", "Cream"]
         
-        options = ["Moscow Mule", "Manhattan", "White Russian"]
-        ingredients = ["Vodka",
-                    "Rye Whiskey",
-                    "Vermouth",
-                    "Kahlua",
-                    "Ginger Beer",
-                    "Angostura Bitters",
-                    "Cream",
-                    "Lime Juice"]
+        options = self.cocktail_names
+        ingredients = self.all_liquors
 
         return render_template('drink_menu.html', options=options, ingredients=ingredients, chosen_ingredients=chosen_ingredients)
     
