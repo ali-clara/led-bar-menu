@@ -1,0 +1,17 @@
+# Here she is, the main menu! Not completely sold yet that a yaml file is the best way to represent this, but I'm trying it out. Human readable, but going to get long and without any way to spell check
+
+Anthracite Prospector:
+  Cognac:
+    oz: 1.5
+    optional replacement: Brandy
+  Amaro Meletti:
+    oz: 0.75
+  Dark Creme de Cacoa:
+    oz: 0.75
+Highland Locust:
+  Famous Grouse Smoky Black:
+    oz: 1
+  Genepy:
+    oz: 0.5
+  Woodlands Brucato:
+    oz: 0.5
