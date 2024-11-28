@@ -1,25 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Flask Dropdown Example</title>
+    <title>Welcome to the Main Menu!</title>
     <style>
         .highlighted {
-            background-color: yellow;
+            background-color: rgb(204, 0, 255);
         }
     </style>
 </head>
 <body>
+    <h1>Welcome to the Main Menu!</h1>
+    <p>Know the name of the drink you want?</p>
     <form method="POST">
-        <select name="dropdown">
+        <label for="name input">Cocktail Name</label><br>
+        <input list="cocktails" name="cocktail input">
+        <datalist id="cocktails">
             {% for option in options %}
             <option value="{{ option }}">{{ option }}</option>
             {% endfor %}
-        </select>
-        <button type="submit">Submit</button>
+        </datalist>
+        <!-- <input type="text" id="name input" name="name input"> -->
+        <button type="submit">Go</button>
     </form>
 
-    <p></p>
+    <hr>
+    <p>Prefer to browse the options instead?</p>
+    <form method="POST">
+        <label for="dropdown">Sort by</label><br>
+        <select name="dropdown">
+            {% for collection in collections %}
+            <option value="{{ option }}">{{ collection }}</option>
+            {% endfor %}
+        </select>
+        <button type="button" onclick="window.location.href='/localhost:5000/dummy/'">Go</button>
+    </form>
 
+    <hr>
+    <p>This is a proxy for the LED setup</p>
     <ul>
         {% for ingredient in ingredients %}
         {% if ingredient in chosen_ingredients %} 

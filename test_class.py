@@ -49,29 +49,37 @@ class TestView(FlaskView):
     @method("POST")
     @method("GET")
     def menu(self):
+        """http://localhost:5000/menu"""
 
         print(f"available cocktails: {self.cocktail_names}")
         print(f"collections: {self.collections}")
-    # http://localhost:5000/menu
-        chosen_ingredients = []
 
         # If we've gotten a change of state on the server (in this case, due to user entry),
         #   take a look at it. 
         if request.method == "POST":
-            selected_option = request.form['dropdown']
-            chosen_ingredients = list(self.menu_dict[selected_option]['liquors'].keys())
+            # When "post" is triggered, take a look at what happened in the HTML form. "request.form" is
+            # a dictionary with key-value pairs "element-name" "element-entry". We don't really care about the name,
+            # but we can use it to grab the dict value
+            element_name = list(request.form.keys())[0]
+            cocktail_entry = request.form.get(element_name)
 
-            # if selected_option == "Moscow Mule":
-            #     chosen_ingredients = ["Vodka", "Ginger Beer", "Lime Juice"]
-            # elif selected_option == "Manhattan":
-            #     chosen_ingredients = ["Rye Whiskey", "Angostura Bitters", "Vermouth"]
-            # elif selected_option == "White Russian":
-            #     chosen_ingredients = ["Vodka", "Kahlua", "Cream"]
+            # Once we know the name of the cocktail, we can grab its ingredients. Do a quick data validation first
+            # This will be more robust in the future - should check for differences in caps/misspellings
+            if cocktail_entry in self.cocktail_names:
+                chosen_ingredients = list(self.menu_dict[cocktail_entry]['liquors'].keys())
+            else:
+                chosen_ingredients = []
+
+        else:
+            chosen_ingredients = []
         
         options = self.cocktail_names
         ingredients = self.all_liquors
 
-        return render_template('drink_menu.html', options=options, ingredients=ingredients, chosen_ingredients=chosen_ingredients)
+        return render_template('drink_menu.html', options=options, ingredients=ingredients, chosen_ingredients=chosen_ingredients, collections=self.collections)
+    
+    def dummy(self):
+        return "<h1>This is a dummy page</h1>"
     
     def thirdpage(self, name):
     # dynamic route
@@ -80,4 +88,7 @@ class TestView(FlaskView):
 
         return "<h1>This is my third page <br> welcome "+name+"</h1>"
 
-TestView.register(app, route_base = '/')
+
+if __name__ == "__main__":
+    TestView.register(app, route_base = '/')
+    app.run(host='0.0.0.0', port=5000, debug=True)
