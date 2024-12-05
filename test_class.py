@@ -96,7 +96,8 @@ class TestView(FlaskView):
                 chosen_collection = form_entry.replace(" ", "_").lower()
                 # Redirect us to the "collections" page with the given collection
                 return redirect(url_for('TestView:collection', arg=chosen_collection))
-            # This will eventually be deleted, but it's here while there's the LED proxy on the website
+            
+            # The else will eventually be deleted, but it's here while there's the LED proxy on the website
             else:
                 chosen_ingredients = []
 
