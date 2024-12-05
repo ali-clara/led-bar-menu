@@ -35,4 +35,16 @@ Pippin:
       oz: 0.5
     Peychaud's Bitters:
       oz: 0.25
-  collection: Lord of the Rings
+  collection: lord of the rings
+Merry:
+  liquors:
+    Brandy:
+      oz: 1
+    Triple sec:
+      oz: 0.5
+    Angostura Bitters:
+      dash: 2
+  other:
+    Lime:
+      oz: 0.5
+  collection: lord of the rings
