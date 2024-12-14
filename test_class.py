@@ -25,8 +25,29 @@ class TestView(FlaskView):
             print(e)
             self.menu_dict = {}
 
+        # Create lists of the cocktail names and collection names, for easy reference later
         self.cocktail_names = list(self.menu_dict.keys())
-        self.collections = [self.menu_dict[key]['collection'] for key in list(self.menu_dict.keys())]
+        self.collections = []
+        # For each cocktail...
+        for key in self.menu_dict:
+            # Grab what collection it belongs to, correcting for capitalization just in case.
+            collection = self.menu_dict[key]['collection'].title()
+            # Check if its in our list of collections. If it's not, add it.
+            if collection not in self.collections:
+                self.collections.append(collection)
+
+        # Build a dictionary that sorts the cocktail names by collection
+        #   e.g {'5057 main menu': ['Anthracite Prospector'], '2201 main menu': ['The Highland Locust'], 'lord of the rings': ['Pippin']}
+        # Double for loop yay
+        self.collection_dict = {collection_name:[] for collection_name in self.collections}
+        for collection in self.collection_dict:
+            for cocktail in self.cocktail_names:
+                if self.menu_dict[cocktail]["collection"].title() == collection:
+                    self.collection_dict[collection].append(cocktail)
+
+        print(f"Cocktail names: {self.cocktail_names}")
+        print(f"Collections: {self.collections}")
+        print(f"Sorted collection dict: {self.collection_dict}")
 
     def _load_liquors(self):
         try:
@@ -57,29 +78,51 @@ class TestView(FlaskView):
         # If we've gotten a change of state on the server (in this case, due to user entry),
         #   take a look at it. 
         if request.method == "POST":
-            # When "post" is triggered, take a look at what happened in the HTML form. "request.form" is
+            # When "post" is triggered, take a look at what happened in the HTML form. The value "request.form" is
             # a dictionary with key-value pairs "element-name" "element-entry". We don't really care about the name,
             # but we can use it to grab the dict value
             element_name = list(request.form.keys())[0]
-            cocktail_entry = request.form.get(element_name)
+            form_entry = request.form.get(element_name)
 
-            # Once we know the name of the cocktail, we can grab its ingredients. Do a quick data validation first
-            # This will be more robust in the future - should check for differences in caps/misspellings
-            if cocktail_entry in self.cocktail_names:
-                chosen_ingredients = list(self.menu_dict[cocktail_entry]['liquors'].keys())
+            # If the form has returned a cocktail, process that
+            if form_entry in self.cocktail_names:
+                # Once we know the name of the cocktail, we can grab its ingredients. Do a quick data validation first
+                # This will be more robust in the future - should check for differences in caps/misspellings
+                chosen_ingredients = list(self.menu_dict[form_entry]['liquors'].keys())
+            # Otherwise, if the form has returned a collection, process ~that~
+            elif form_entry in self.collections:
+                # This line isn't strictly necessary, but I think title case with spaces looks dumb in a URL, so I 
+                #   do some string formatting
+                chosen_collection = form_entry.replace(" ", "_").lower()
+                # Redirect us to the "collections" page with the given collection
+                return redirect(url_for('TestView:collection', arg=chosen_collection))
+            
+            # The else will eventually be deleted, but it's here while there's the LED proxy on the website
             else:
                 chosen_ingredients = []
 
-        else:
-            chosen_ingredients = []
-        
-        options = self.cocktail_names
-        ingredients = self.all_liquors
-
-        return render_template('drink_menu.html', options=options, ingredients=ingredients, chosen_ingredients=chosen_ingredients, collections=self.collections)
+        return render_template('main_menu.html', options=self.cocktail_names, ingredients=self.all_liquors, chosen_ingredients=chosen_ingredients, collections=self.collections)
     
-    def dummy(self):
-        return "<h1>This is a dummy page</h1>"
+    def collection(self, arg:str):
+        """http://localhost:5000/collection/arg"""
+        # Do some string processing to match our collection title formatting - 
+        #   replace any underscores or hyphens with spaces, and make it title case
+        if "_" in arg:
+            title = arg.replace("_", " ").title()
+        elif "-" in arg:
+            title = arg.replace("-", " ").title()
+        else:
+            title = arg.title()
+
+        # Check if it's a valid collection name. If not, stop here and let us know
+        if title not in self.collections:
+            return "<p> not a valid cocktail menu collection :3"
+        
+        # If we're good, then load the available cocktails as dropdowns
+        cocktails_in_collection = self.collection_dict[title]
+        ingredients_list = [list(self.menu_dict[cocktail]["liquors"].keys()) for cocktail in cocktails_in_collection]
+
+        return render_template('collections.html', header=title.title()+" Collection", cocktails=cocktails_in_collection, ingredients=ingredients_list)
     
     def thirdpage(self, name):
     # dynamic route

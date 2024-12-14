@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Georgia, 'Times New Roman', Times, serif
+}
+
+/* Style the header */
+.header {
+  grid-area: header;
+  background-color: #f1f1f1;
+  padding: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+  font-size: 30px;
+}
+
+/* The grid container */
+.grid-container {
+  display: grid;
+  grid-template-areas: 
+    'left header header header header' 
+    'left middle middle middle middle' 
+    'footer footer footer footer footer';
+  /* grid-column-gap: 10px; - if you want gap between the columns */
+} 
+
+.left,
+.middle{
+  padding: 10px;
+}
+
+/* Style the left column */
+.left {
+  grid-area: left;
+  background-color: #579cba;
+}
+
+/* Style the middle column */
+.middle {
+  grid-area: middle;
+  background-color: #bbb;
+}
+
+/* Style the footer */
+.footer {
+  grid-area: footer;
+  background-color: #f1f1f1;
+  padding: 10px;
+  text-align: center;
+}
+
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media (max-width: 600px) {
+  .grid-container  {
+    grid-template-areas: 
+      'header header header header header' 
+      'left left left left left' 
+      'middle middle middle middle middle' 
+      'footer footer footer footer footer';
+  }
+}
+
+</style>
+</head>
+<body>
+
+<div class="grid-container">
+    <div class="header">
+        <h2>{{header}}</h2>
+    </div>
+  
+    <div class="left">Column</div>
+
+    <!-- The nested "for" loops for the cocktail dropdowns -->
+    <div class="middle">
+        {% for i in range(cocktails|length) %}
+            <details>
+                <summary>{{cocktails[i]}}</summary>
+                    {% for ingredient in ingredients[i] %}
+                    &emsp;&emsp;{{ingredient}}<br>
+                    {% endfor %}
+            </details>
+        {% endfor %}
+    </div>  
+  
+  <div class="footer">
+    <p>Footer</p>
+  </div>
+</div>
+
+</body>
+</html>
+
+
