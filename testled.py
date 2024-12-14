@@ -1,23 +1,18 @@
+# SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
+# SPDX-License-Identifier: MIT
+# Simple test for NeoPixels on Raspberry Pi
 import time
-from rpi_ws281x import Adafruit_NeoPixel, Color
+import board
+import neopixel
+# Choose an open pin connected to the Data In of the NeoPixel strip, i.e. board.D18
+# NeoPixels must be connected to D10, D12, D18 or D21 to work.
+pixel_pin = board.D18
+# The number of NeoPixels
+num_pixels = 150
+# The order of the pixel colors - RGB or GRB. Some NeoPixels have red and green reversed!
+# For RGBW NeoPixels, simply change the ORDER to RGBW or GRBW.
+ORDER = neopixel.GRB
+pixels = neopixel.NeoPixel(pixel_pin, num_pixels, brightness=0.2, auto_write=False, pixel_order=ORDER)
 
-LED_COUNT = 8        
-LED_PIN = 18         
-LED_FREQ_HZ = 800000 
-LED_DMA = 10        
-LED_BRIGHTNESS = 255 
-LED_INVERT = False    
-
-strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS)
-
-strip.begin()
-
-for i in range(LED_COUNT):
-    strip.setPixelColor(i, Color(255, 0, 0))
-    strip.show()
-    time.sleep(0.5)
-
-for i in range(LED_COUNT):
-    strip.setPixelColor(i, Color(0, 0, 0))
-    strip.show()
-    time.sleep(0.5)
+pixels[0] = (255, 0, 0)
+time.sleep(5)
