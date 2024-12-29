@@ -15,4 +15,5 @@ ORDER = neopixel.GRB
 pixels = neopixel.NeoPixel(pixel_pin, num_pixels, brightness=0.2, auto_write=False, pixel_order=ORDER)
 
 pixels[0] = (255, 0, 0)
+pixels[1] = (0,255,0)
 time.sleep(5)
