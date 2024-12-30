@@ -1,59 +1,166 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <title>Welcome to the Main Menu!</title>
+    <title>Main Menu</title>
+
     <style>
-        .highlighted {
-            background-color: rgb(204, 0, 255);
+
+    /* Set up highlighted font for dummy leds, get rid of this eventually*/
+    .highlighted {
+        background-color: rgb(204, 0, 255);
+    }
+
+    /* General body style params */
+    body {
+        font-family: Georgia, 'Times New Roman', Times, serif
         }
+
+    /* Not sure what this one is exactly, I think it's page grid layout */
+    /* * {
+    box-sizing: border-box;
+    } */
+
+    /* Set up the grid container. Two columns, three rows */
+    /* https://www.w3schools.com/css/css_grid_item.asp */
+    .grid-container {
+    display: grid;
+    grid-template-columns: 15% auto;
+    grid-template-rows: auto auto auto; 
+    /* width: 100vw; */
+    } 
+
+    /* Style the left column */
+    .left {
+        grid-column: 1 / span 1; /* Starts in column 1, spans 1 column. etc etc */
+        grid-row: 1 / span 3;
+        background-color: #579cba;
+    }
+
+    /* Style the header */
+    .header {
+        grid-column: 2 / end;
+        grid-row: 1 / span 1;
+        background-color: #f1f1f1;
+        padding-left: 30px;
+        padding-right: 30px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        text-align: center;
+        font-size: 30px;
+    }
+    
+    /* Style the middle column */
+    .middle {
+    grid-column: 2 / end;
+    grid-row: 2 / span 1;
+    padding: 10px;
+    background-color: #bbb;
+    width: end;
+    }
+
+    /* Style the footer */
+    .footer {
+    grid-column: 1 / end;
+    grid-row: 3 / span 1;
+    background-color: #f1f1f1;
+    padding: 10px;
+    text-align: center;
+    }
+
+    /* Navbar */
+    .vertical-menu{
+        padding: 10px;
+        width: 13%; /* Just under the column width */
+        position: fixed; /* Make it stay in place when you scroll */
+    }
+
+    /* Style the elements <a> inside the navbar */
+    .vertical-menu a {
+        color: black; /* Black text color */
+        display: block; /* Make the links appear below each other */
+        padding: 5px 5px 16px 16px; /* Add some padding */
+        text-decoration: none; /* Remove underline from links */
+    }
+
+    /* Style the navbar "active" element, e.g which one we're on */
+    .vertical-menu a.active {
+        background-color: #04AA6D;
+        color: white;
+        }
+
+    /* Style the navbar hover */
+    .vertical-menu a:hover {
+        background-color: #555;
+        color: white;
+        }
+
     </style>
 </head>
+
 <body>
-    <h1>Welcome to the Main Menu!</h1>
-    <p>Know the name of the drink you want?</p>
-    <form id="cocktail" method="POST">
-        <label for="cocktail-input">Cocktail Name</label><br>
-        <input list="cocktails" id="cocktail-input" name="cocktail input">
-        <datalist id="cocktails">
-            {% for option in options %}
-            <option value="{{ option }}">{{ option }}</option>
-            {% endfor %}
-        </datalist>
-        <button form="cocktail" type="submit">Go</button>
-    </form>
 
-    <hr>
+<div class="grid-container">
+    <div class="header">
+        <h2>Welcome to the Main Menu!</h2>
+    </div>
+  
+    <div class="left">
+        <!-- Navbar! We're on the homepage, so make sure that one's "active" -->
+        <div class="vertical-menu">
+            <a class="active" href="/menu">Home</a>
+            <a href="/collections">Collections</a>
+            <a href="/random_cocktail_generator">Random Cocktail Generator</a>
+        </div>
+    </div>
+
+    <div class="middle">
+
+        <p>Know the name of the drink you want?</p>
+        <form id="cocktail" method="POST">
+            <label for="cocktail-input">Cocktail Name</label><br>
+            <input list="cocktails" id="cocktail-input" name="cocktail input">
+            <datalist id="cocktails">
+                {% for option in options %}
+                <option value="{{ option }}">{{ option }}</option>
+                {% endfor %}
+            </datalist>
+            <button form="cocktail" type="submit">Light em up</button>
+        </form>
+
+        <hr>
     
-    <p>Prefer to browse the options instead?</p>
-    <form method="POST">
-        <label for="collection-select">Sort by</label><br>
-        <select id="collection-select" name="dropdown">
-            {% for collection in collections %}
-            <option value="{{ collection }}">{{ collection }}</option>
-            {% endfor %}
-        </select>
+        <p>Prefer to browse the options instead?</p>
+        <form method="POST">
+            <label for="collection-select">Sort by</label><br>
+            <select id="collection-select" name="dropdown">
+                {% for collection in collections %}
+                <option value="{{ collection }}">{{ collection }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Go</button>
+        </form>
 
-        <!-- <button type="button" onclick="window.location.href='{{chosen_collection}}'">Go</button> -->
-        <button type="submit">Go</button>
-    </form>
+        <hr>
+        <p>Recipe</p>
 
-    
+        <hr>
+        <p>This is a proxy for the LED setup</p>
+        <ul>
+            {% for ingredient in ingredients %}
+            {% if ingredient in chosen_ingredients %} 
+            <li class="highlighted">{{ingredient}}</li>
+            {% else %}
+            <li>{{ingredient}}</li>
+            {% endif %}
+            {% endfor%}
+        </ul>
 
-    <hr>
-    <p>Recipe</p>
-
-
-    <hr>
-    <p>This is a proxy for the LED setup</p>
-    <ul>
-        {% for ingredient in ingredients %}
-        {% if ingredient in chosen_ingredients %} 
-        <li class="highlighted">{{ingredient}}</li>
-        {% else %}
-        <li>{{ingredient}}</li>
-        {% endif %}
-        {% endfor%}
-    </ul>
+    </div>  
+  
+  <div class="footer">
+    <p>Footer</p>
+  </div>
+</div>
 
 </body>
 </html>

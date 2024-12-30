@@ -2,72 +2,90 @@
 <html>
 <head>
 <style>
-* {
-  box-sizing: border-box;
-}
-
-body {
-  font-family: Georgia, 'Times New Roman', Times, serif
-}
-
-/* Style the header */
-.header {
-  grid-area: header;
-  background-color: #f1f1f1;
-  padding: 30px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  text-align: center;
-  font-size: 30px;
-}
-
-/* The grid container */
-.grid-container {
-  display: grid;
-  grid-template-areas: 
-    'left header header header header' 
-    'left middle middle middle middle' 
-    'footer footer footer footer footer';
-  /* grid-column-gap: 10px; - if you want gap between the columns */
-} 
-
-.left,
-.middle{
-  padding: 10px;
-}
-
-/* Style the left column */
-.left {
-  grid-area: left;
-  background-color: #579cba;
-}
-
-/* Style the middle column */
-.middle {
-  grid-area: middle;
-  background-color: #bbb;
-}
-
-/* Style the footer */
-.footer {
-  grid-area: footer;
-  background-color: #f1f1f1;
-  padding: 10px;
-  text-align: center;
-}
-
-/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
-@media (max-width: 600px) {
-  .grid-container  {
-    grid-template-areas: 
-      'header header header header header' 
-      'left left left left left' 
-      'middle middle middle middle middle' 
-      'footer footer footer footer footer';
+  * {
+    box-sizing: border-box;
   }
-}
+
+  body {
+    font-family: Georgia, 'Times New Roman', Times, serif
+  }
+
+    /* Set up the grid container. Two columns, three rows */
+    /* https://www.w3schools.com/css/css_grid_item.asp */
+    .grid-container {
+      display: grid;
+      grid-template-columns: 15% auto;
+      grid-template-rows: auto auto auto; 
+      /* width: 100vw; */
+    } 
+
+    /* Style the left column */
+    .left {
+        grid-column: 1 / span 1;
+        grid-row: 1 / span 3;
+        background-color: #579cba;
+    }
+
+    /* Style the header */
+    .header {
+        grid-column: 2 / end;
+        grid-row: 1 / span 1;
+        background-color: #f1f1f1;
+        padding-left: 30px;
+        padding-right: 30px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        text-align: center;
+        font-size: 30px;
+    }
+    
+    /* Style the middle column */
+    .middle {
+      grid-column: 2 / end;
+      grid-row: 2 / span 1;
+      padding: 10px;
+      background-color: #bbb;
+      width: end;
+    }
+
+  /* Style the footer */
+  .footer {
+      grid-column: 1 / end;
+      grid-row: 3 / span 1;
+      background-color: #f1f1f1;
+      padding: 10px;
+      text-align: center;
+    }
+
+  /* Navbar */
+  .vertical-menu{
+      padding: 10px;
+      width: 13%; /* Just under the column width */
+      position: fixed; /* Make it stay in place when you scroll */
+    }
+
+    /* Style the elements <a> inside the navbar */
+    .vertical-menu a {
+      color: black; /* Black text color */
+      display: block; /* Make the links appear below each other */
+      padding: 5px 5px 16px 16px; /* Add some padding */
+      text-decoration: none; /* Remove underline from links */
+    }
+
+    /* Style the navbar "active" element, e.g which one we're on */
+    .vertical-menu a.active {
+        background-color: #04AA6D;
+        color: white;
+    }
+
+    /* Style the navbar hover */
+    .vertical-menu a:hover {
+        background-color: #555;
+        color: white;
+    }
 
 </style>
+
 </head>
 <body>
 
@@ -76,9 +94,17 @@ body {
         <h2>{{header}}</h2>
     </div>
   
-    <div class="left">Column</div>
+    <div class="left">
+      <!-- Navbar! We're on the collections page, so make sure that one's "active" -->
+      <div class="vertical-menu">
+        <a href="/menu">Home</a>
+        <a class="active" href="/collections">Collections</a>
+        <a href="/random-cocktail-generator">Random Cocktail Generator</a>
+      </div>
+    </div>
 
     <!-- The nested "for" loops for the cocktail dropdowns -->
+      <!-- {They're in jinja, this took forever} -->
     <div class="middle">
         {% for i in range(cocktails|length) %}
             <details>

@@ -45,9 +45,9 @@ class TestView(FlaskView):
                 if self.menu_dict[cocktail]["collection"].title() == collection:
                     self.collection_dict[collection].append(cocktail)
 
-        print(f"Cocktail names: {self.cocktail_names}")
-        print(f"Collections: {self.collections}")
-        print(f"Sorted collection dict: {self.collection_dict}")
+        # print(f"Cocktail names: {self.cocktail_names}")
+        # print(f"Collections: {self.collections}")
+        # print(f"Sorted collection dict: {self.collection_dict}")
 
     def _load_liquors(self):
         try:
@@ -62,7 +62,6 @@ class TestView(FlaskView):
 
         self.all_liquors = list(self.locations_dict.values())
 
-    
     def index(self):
     # http://localhost:5000/
         return redirect(url_for('TestView:menu'))
@@ -72,8 +71,12 @@ class TestView(FlaskView):
     def menu(self):
         """http://localhost:5000/menu"""
 
-        print(f"available cocktails: {self.cocktail_names}")
-        print(f"collections: {self.collections}")
+        # print(f"available cocktails: {self.cocktail_names}")
+        # print(f"collections: {self.collections}")
+
+        # These may become class vars eventually
+        chosen_ingredients = [] # proxy for led lights
+        chosen_collection = None
 
         # If we've gotten a change of state on the server (in this case, due to user entry),
         #   take a look at it. 
@@ -116,7 +119,7 @@ class TestView(FlaskView):
 
         # Check if it's a valid collection name. If not, stop here and let us know
         if title not in self.collections:
-            return "<p> not a valid cocktail menu collection :3"
+            return "<p> not a valid cocktail menu collection :3 </p>"
         
         # If we're good, then load the available cocktails as dropdowns
         cocktails_in_collection = self.collection_dict[title]
@@ -124,12 +127,12 @@ class TestView(FlaskView):
 
         return render_template('collections.html', header=title.title()+" Collection", cocktails=cocktails_in_collection, ingredients=ingredients_list)
     
-    def thirdpage(self, name):
-    # dynamic route
-    # http://localhost:5000/thirdpage/sometext
-        print(f"name: {name}")
-
-        return "<h1>This is my third page <br> welcome "+name+"</h1>"
+    @route("collections")
+    def collections_main_page(self):
+        return "<p> Collections page </p>"
+    
+    def random_cocktail_generator(self):
+        return "<p>This will generate you a random cocktail once we integrate Dane's script</p>"
 
 
 if __name__ == "__main__":
