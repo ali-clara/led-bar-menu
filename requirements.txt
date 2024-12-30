@@ -1,0 +1,3 @@
+PyYAML
+Flask
+Flask-Classful

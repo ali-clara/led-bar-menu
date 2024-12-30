@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Welcome to the Main Menu!</title>
+    <style>
+        .highlighted {
+            background-color: rgb(204, 0, 255);
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Main Menu!</h1>
+    <p>Know the name of the drink you want?</p>
+    <form id="cocktail" method="POST">
+        <label for="cocktail-input">Cocktail Name</label><br>
+        <input list="cocktails" id="cocktail-input" name="cocktail input">
+        <datalist id="cocktails">
+            {% for option in options %}
+            <option value="{{ option }}">{{ option }}</option>
+            {% endfor %}
+        </datalist>
+        <button form="cocktail" type="submit">Go</button>
+    </form>
+
+    <hr>
+    
+    <p>Prefer to browse the options instead?</p>
+    <form method="POST">
+        <label for="collection-select">Sort by</label><br>
+        <select id="collection-select" name="dropdown">
+            {% for collection in collections %}
+            <option value="{{ collection }}">{{ collection }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- <button type="button" onclick="window.location.href='{{chosen_collection}}'">Go</button> -->
+        <button type="submit">Go</button>
+    </form>
+
+    
+
+    <hr>
+    <p>Recipe</p>
+
+
+    <hr>
+    <p>This is a proxy for the LED setup</p>
+    <ul>
+        {% for ingredient in ingredients %}
+        {% if ingredient in chosen_ingredients %} 
+        <li class="highlighted">{{ingredient}}</li>
+        {% else %}
+        <li>{{ingredient}}</li>
+        {% endif %}
+        {% endfor%}
+    </ul>
+
+</body>
+</html>
