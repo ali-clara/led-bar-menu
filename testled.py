@@ -9,6 +9,9 @@ import neopixel
 import time
 
 pixels = neopixel.NeoPixel(board.D18, 150, brightness=0.2, auto_write=False)
+pixels.fill((0,0,0))
+pixels.show()
+
 exit_loop = False
 
 print("LED strip configuration")
@@ -25,14 +28,16 @@ while not exit_loop:
         except TypeError:
             print("Could not convert input to integer")
         else:
-            pixels[start_pix:end_pix] = (0, 255, 0)
-            pixels.show()
+            range = pixels.range(start_pix, end_pix)
+            range.fill(0, 255, 0)
+            range.show()
     elif entry == "c" or entry == "C":
         pixels.fill((0, 0, 0))
         pixels.show()
     elif entry == "q" or entry == "Q":
+        pixels.fill((0, 0, 0))
+        pixels.show()
         exit_loop == True
-
 
 # A note that the lights don't turn off at the end of the script. Will need an off button
 
