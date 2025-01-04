@@ -18,8 +18,9 @@ print("LED strip configuration")
 while not exit_loop:
     entry = input("(a) Strip on (b) Individual LED setup (c) Strip off (q) Quit")
     if entry == "a" or entry == "A":
-        pixels.fill((0, 255, 0))
-        pixels.show()
+        with pixels as pix:
+            pix[::2] = [(255, 0, 0)] * (len(pix) // 2)
+            time.sleep(2)
     elif entry == "b" or entry == "B":
         print("Neopixel configuration mode. Entering integers (0-150) will turn on those leds \n")
         try:
@@ -35,8 +36,7 @@ while not exit_loop:
         pixels.fill((0, 0, 0))
         pixels.show()
     elif entry == "q" or entry == "Q":
-        pixels.fill((0, 0, 0))
-        pixels.show()
+        pixels.deinit()
         exit_loop == True
 
 # A note that the lights don't turn off at the end of the script. Will need an off button
