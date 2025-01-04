@@ -18,20 +18,19 @@ print("LED strip configuration")
 while not exit_loop:
     entry = input("(a) Strip on (b) Individual LED setup (c) Strip off (q) Quit")
     if entry == "a" or entry == "A":
-        with pixels as pix:
-            pix[::2] = [(255, 0, 0)] * (len(pix) // 2)
-            time.sleep(2)
+        pixels.fill((0, 255, 0))
+        pixels.show()
     elif entry == "b" or entry == "B":
         print("Neopixel configuration mode. Entering integers (0-150) will turn on those leds \n")
         try:
             start_pix = int(input("Start pixel: "))
-            end_pix = int(input("End pixel: "))
+            stop_pix = int(input("End pixel: "))
         except TypeError:
             print("Could not convert input to integer")
         else:
-            range = pixels.range(start_pix, end_pix)
-            range.fill(0, 255, 0)
-            range.show()
+            for i in range(start_pix, stop_pix):
+                pixels[i] = (0, 255, 0)
+            pixels.show()
     elif entry == "c" or entry == "C":
         pixels.fill((0, 0, 0))
         pixels.show()
