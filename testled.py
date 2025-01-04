@@ -16,7 +16,8 @@ exit_loop = False
 
 print("LED strip configuration")
 while not exit_loop:
-    entry = input("(a) Strip on (b) Individual LED setup (c) Strip off (q) Quit")
+    print("---")
+    entry = input("(a) Strip on (b) Individual LED setup (c) Strip off (q) Quit \n")
     if entry == "a" or entry == "A":
         pixels.fill((0, 255, 0))
         pixels.show()
