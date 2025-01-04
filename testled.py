@@ -36,11 +36,12 @@ while not exit_loop:
         pixels.fill((0, 0, 0))
         pixels.show()
     elif entry == "q" or entry == "Q":
-        try:
-            pixels.deinit()
-        except AttributeError:
-            pass
         exit_loop == True
+
+try:
+    pixels.deinit()
+except AttributeError:
+    pass
 
 # A note that the lights don't turn off at the end of the script. Will need an off button
 
