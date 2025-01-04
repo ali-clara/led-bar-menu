@@ -6,7 +6,9 @@
 
 import board
 import neopixel
-import time
+import yaml
+
+location_dict = {"pixel ranges": [], "cabinet locations": []}
 
 pixels = neopixel.NeoPixel(board.D18, 150, brightness=0.2, auto_write=False)
 pixels.fill((0,0,0))
@@ -25,13 +27,20 @@ while not exit_loop:
         print("Neopixel configuration mode. Entering integers (0-150) will turn on those leds \n")
         try:
             start_pix = int(input("Start pixel: "))
-            stop_pix = int(input("End pixel: "))
+            stop_pix = int(input("Stop pixel: "))
         except TypeError:
             print("Could not convert input to integer")
+        # If we've been given a valid start and stop, turn on those pixels
         else:
             for i in range(start_pix, stop_pix):
                 pixels[i] = (0, 255, 0)
             pixels.show()
+        
+        pix_loc = input("Enter a cabinet location corresponding to this pixel range (Return for no entry)")
+        if pix_loc is not "":
+            location_dict["pixel ranges"].append((start_pix, stop_pix))
+            location_dict["cabinet locations"].append((pix_loc))
+
     elif entry == "c" or entry == "C":
         pixels.fill((0, 0, 0))
         pixels.show()
@@ -42,6 +51,8 @@ try:
     pixels.deinit()
 except AttributeError:
     pass
+
+print(location_dict)
 
 # A note that the lights don't turn off at the end of the script. Will need an off button
 
