@@ -8,6 +8,12 @@ Getting lit (hah)
 - Should display the recipe on the website (would need amounts), maybe that's enough to clear up confusion
 - How to encode that in the yaml though
 
+
+### Docs
+- https://docs.circuitpython.org/projects/neopixel/en/latest/index.html
+- https://cdn-learn.adafruit.com/downloads/pdf/neopixels-on-raspberry-pi.pdf 
+- https://pinout.xyz/
+
 ### Units
 - oz
 - dash (bitters)
