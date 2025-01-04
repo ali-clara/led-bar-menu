@@ -1,4 +1,4 @@
-#!/home/alicj/Documents/Github/led-bar-menu/flask-env/bin/python3
+#!/home/alicj/Documents/Github/led-bar-menu/flask-env/bin/python
 
 """Simple FTDI EEPROM configurator.
 """

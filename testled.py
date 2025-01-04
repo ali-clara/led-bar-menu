@@ -10,7 +10,7 @@ import yaml
 
 location_dict = {"pixel ranges": [], "cabinet locations": []}
 
-pixels = neopixel.NeoPixel(board.D18, 150, brightness=0.2, auto_write=False)
+pixels = neopixel.NeoPixel(board.D10, 150, brightness=0.2, auto_write=False)
 pixels.fill((0,0,0))
 pixels.show()
 
