@@ -36,7 +36,7 @@ while not exit_loop:
                 pixels[i] = (0, 255, 0)
             pixels.show()
         
-        pix_loc = input("Enter a cabinet location corresponding to this pixel range (Return for no entry)")
+        pix_loc = input("Enter a cabinet location corresponding to this pixel range (Return for no entry): ")
         if pix_loc != "":
             location_dict["pixel ranges"].append((start_pix, stop_pix))
             location_dict["cabinet locations"].append((pix_loc))
