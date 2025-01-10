@@ -3,7 +3,6 @@ from flask import Flask, render_template, redirect, url_for
 from flask_classful import FlaskView, method, route, request
 import yaml
 
-
 app = Flask(__name__, template_folder="templates")
 
 class TestView(FlaskView):
@@ -13,7 +12,6 @@ class TestView(FlaskView):
         self._load_menu()
         self._load_liquors()
 
-    
     def _load_menu(self):
         try:
             with open("config/main-menu.yaml") as stream:
@@ -63,8 +61,14 @@ class TestView(FlaskView):
         self.all_liquors = list(self.locations_dict.values())
 
     def index(self):
-    # http://localhost:5000/
+        """The main page. Redirects to the menu
+        This lives at http://localhost:5000/ or http://10.0.0.120:5000
+        """
         return redirect(url_for('TestView:menu'))
+    
+    @app.errorhandler(404)
+    def not_found(self):
+        return render_template('a.html')
 
     @method("POST")
     @method("GET")
@@ -138,3 +142,4 @@ class TestView(FlaskView):
 if __name__ == "__main__":
     TestView.register(app, route_base = '/')
     app.run(host='0.0.0.0', port=5000, debug=True)
+    
