@@ -3,7 +3,7 @@ from flask import Flask, render_template, redirect, url_for
 from flask_classful import FlaskView, method, route, request
 import yaml
 
-app = Flask(__name__, template_folder="templates")
+# app = Flask(__name__, template_folder="templates")
 
 class TestView(FlaskView):
 
@@ -66,9 +66,8 @@ class TestView(FlaskView):
         """
         return redirect(url_for('TestView:menu'))
     
-    @app.errorhandler(404)
     def not_found(self):
-        return render_template('a.html')
+        return render_template("error404.html")
 
     @method("POST")
     @method("GET")
@@ -133,13 +132,16 @@ class TestView(FlaskView):
     
     @route("collections")
     def collections_main_page(self):
-        return "<p> Collections page </p>"
+        mytext = "Collections page"
+        return render_template('empty_template.html', text=mytext)
     
+    @route("random-cocktail-generator")
     def random_cocktail_generator(self):
-        return "<p>This will generate you a random cocktail once we integrate Dane's script</p>"
+        mytext = "This will generate you a random cocktail once we integrate Dane's script"
+        return render_template('empty_template.html', text=mytext)
 
-
-if __name__ == "__main__":
-    TestView.register(app, route_base = '/')
-    app.run(host='0.0.0.0', port=5000, debug=True)
+# if __name__ == "__main__":
+#     TestView.register(app, route_base = '/')
+#     app.register_error_handler(404, TestView.not_found)
+#     app.run(host='0.0.0.0', port=5000, debug=True)
     
