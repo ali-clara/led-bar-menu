@@ -24,7 +24,7 @@ while not exit_loop:
     print("---")
     entry = input("(a) Strip on (b) Individual LED setup (c) Strip off (q) Quit \n")
     if entry == "a" or entry == "A":
-        pixels.fill((0, 255, 0))
+        pixels.fill((255, 255, 0))
         pixels.show()
     elif entry == "b" or entry == "B":
         print("Neopixel configuration mode. Entering integers (0-150) will turn on those leds \n")
@@ -35,8 +35,11 @@ while not exit_loop:
             print("Could not convert input to integer")
         # If we've been given a valid start and stop, turn on those pixels
         else:
-            for i in range(start_pix, stop_pix):
-                pixels[i] = (0, 255, 0)
+            for i in range(start_pix, stop_pix+1):
+                try:
+                    pixels[i] = (0, 255, 0)
+                except IndexError as e:
+                    print(e)
             pixels.show()
         
         pix_loc = input("Enter a cabinet location corresponding to this pixel range (Return for no entry): ")
