@@ -44,8 +44,8 @@ while not exit_loop:
         
         pix_loc = input("Enter a cabinet location corresponding to this pixel range (Return for no entry): ")
         if pix_loc != "":
-            location_dict["pixel ranges"].append((start_pix, stop_pix))
-            location_dict["cabinet locations"].append((pix_loc))
+            location_dict["pixel ranges"].append([start_pix, stop_pix])
+            location_dict["cabinet locations"].append([pix_loc])
 
     elif entry == "c" or entry == "C":
         pixels.fill((0, 0, 0))
