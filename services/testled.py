@@ -60,6 +60,9 @@ except AttributeError:
 # Eventually should save this to a yaml, but for now just print it
 print(location_dict)
 
+with open('led_locs.yml', 'w') as outfile:
+    yaml.dump(location_dict, outfile, default_flow_style=False)
+
 
 
 
