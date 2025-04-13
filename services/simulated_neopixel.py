@@ -4,7 +4,7 @@ class board:
     def __init__(self):
         pass
         
-class NeoPixel:
+class NeoPixel():
     def __init__(
         self,
         pin,
@@ -16,6 +16,12 @@ class NeoPixel:
         pixel_order: str = None
     ):
         pass
+
+    def __setitem__(self, key, value):
+        setattr(self, str(key), value)
+
+    def __getitem__(self, key):
+        return getattr(self, key)
 
     def deinit(self):
         pass
@@ -30,3 +36,5 @@ if __name__ == "__main__":
     pixels = NeoPixel("pin", 150)
     pixels.deinit()
     print(board.D10)
+
+
