@@ -4,8 +4,12 @@
 # The strip needs 5V power. They're BRIGHT even at 20%
 # A note that the strip doesn't turn off at the end of the script. Our interface will need an off button or a timer. Or both
 
-import board
-import neopixel
+try:
+    import board
+    import neopixel
+except ImportError:
+    import simulated_neopixel as neopixel
+    from simulated_neopixel import board
 import yaml
 
 location_dict = {"pixel ranges": [], "cabinet locations": []}
@@ -31,7 +35,7 @@ while not exit_loop:
         try:
             start_pix = int(input("Start pixel: "))
             stop_pix = int(input("Stop pixel: "))
-        except TypeError:
+        except:
             print("Could not convert input to integer")
         # If we've been given a valid start and stop, turn on those pixels
         else:
@@ -39,10 +43,10 @@ while not exit_loop:
                 pixels[i] = (0, 255, 0)
             pixels.show()
         
-        pix_loc = input("Enter a cabinet location corresponding to this pixel range (Return for no entry): ")
-        if pix_loc != "":
-            location_dict["pixel ranges"].append([start_pix, stop_pix])
-            location_dict["cabinet locations"].append([pix_loc])
+            pix_loc = input("Enter a cabinet location corresponding to this pixel range (Return for no entry): ")
+            if pix_loc != "":
+                location_dict["pixel ranges"].append([start_pix, stop_pix])
+                location_dict["cabinet locations"].append([pix_loc])
 
     elif entry == "c" or entry == "C":
         pixels.fill((0, 0, 0))
@@ -57,14 +61,7 @@ try:
 except AttributeError:
     pass
 
-# Eventually should save this to a yaml, but for now just print it
+# Save and print the pixel locations
 print(location_dict)
-
 with open('led_locs.yml', 'w') as outfile:
     yaml.dump(location_dict, outfile, default_flow_style=False)
-
-
-
-
-
-
