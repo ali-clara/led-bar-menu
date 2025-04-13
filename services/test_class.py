@@ -1,6 +1,11 @@
 # The imports
 from flask import Flask, render_template, redirect, url_for
 from flask_classful import FlaskView, method, route, request
+try:
+    from led import LED
+except ImportError:
+    from services.led import LED
+
 import yaml
 
 # app = Flask(__name__, template_folder="templates")
@@ -11,6 +16,7 @@ class TestView(FlaskView):
         super().__init__()
         self._load_menu()
         self._load_liquors()
+        self.lights = LED()
 
     def _load_menu(self):
         try:
@@ -95,6 +101,10 @@ class TestView(FlaskView):
                 # Once we know the name of the cocktail, we can grab its ingredients. Do a quick data validation first
                 # This will be more robust in the future - should check for differences in caps/misspellings
                 chosen_ingredients = list(self.menu_dict[form_entry]['liquors'].keys())
+
+                self.lights.illuminate(chosen_ingredients)
+                print(chosen_ingredients)
+
             # Otherwise, if the form has returned a collection, process ~that~
             elif form_entry in self.collections:
                 # This line isn't strictly necessary, but I think title case with spaces looks dumb in a URL, so I 
