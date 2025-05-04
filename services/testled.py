@@ -11,6 +11,7 @@ except ImportError:
     import simulated_neopixel as neopixel
     from simulated_neopixel import board
 import yaml
+import time
 
 location_dict = {"pixel ranges": [], "cabinet locations": []}
 
@@ -31,25 +32,35 @@ while not exit_loop:
         pixels.fill((255, 255, 0))
         pixels.show()
     elif entry == "b" or entry == "B":
-        print("Neopixel configuration mode. Entering integers (0-150) will turn on those leds \n")
-        try:
-            start_pix = int(input("Start pixel: "))
-            stop_pix = int(input("Stop pixel: "))
-        except:
-            print("Could not convert input to integer")
-        # If we've been given a valid start and stop, turn on those pixels
-        else:
+        pixel_ranges = []
+        done = False
+        print("Neopixel configuration mode. Entering integers (0-255) will turn on those leds \n")
+        while not done:
+            try:
+                start_pix = int(input("Start pixel: "))
+                stop_pix = int(input("Stop pixel: "))
+            except:
+                print("Could not convert input to integer")
+            # If we've been given a valid start and stop, turn on those pixels
+            else:
+                pixel_ranges.append((start_pix, stop_pix))
+            
+            check_done = input("Done entering ranges? (y/n) \n")
+            if check_done == "y":
+                done = True
+
+        for start_pix, stop_pix in pixel_ranges:
             for i in range(start_pix, stop_pix+1):
                 try:
                     pixels[i] = (0, 255, 0)
                 except IndexError as e:
                     print(e)
-            pixels.show()
-        
-            pix_loc = input("Enter a cabinet location corresponding to this pixel range (Return for no entry): ")
-            if pix_loc != "":
-                location_dict["pixel ranges"].append([start_pix, stop_pix])
-                location_dict["cabinet locations"].append([pix_loc])
+        pixels.show()
+    
+        pix_loc = input("Enter a cabinet location corresponding to this pixel range (Return for no entry): ")
+        if pix_loc != "":
+            location_dict["pixel ranges"].append([start_pix, stop_pix])
+            location_dict["cabinet locations"].append([pix_loc])
 
     elif entry == "c" or entry == "C":
         pixels.fill((0, 0, 0))
@@ -66,5 +77,10 @@ except AttributeError:
 
 # Save and print the pixel locations
 print(location_dict)
-with open('led_locs.yml', 'w') as outfile:
-    yaml.dump(location_dict, outfile, default_flow_style=False)
+save = input("Save locations? (y/n) \n")
+if save == "y" or save == "Y":
+    suffix = input("Enter a suffix for the file (leave blank to give it the current unix timestamp): \n")
+    if suffix == "":
+        suffix = time.time()
+    with open(f'led_locs_{suffix}.yml', 'w') as outfile:
+        yaml.dump(location_dict, outfile, default_flow_style=False)
