@@ -21,7 +21,7 @@ class LED:
         self.pixels.show()
 
         # Seems like 3-wide is pretty good
-        self.test_locs = {"Famous Grouse Smoky Black": 38, "Genepy": 50, "Woodlands Brucato": 109}
+        self.test_locs = {"Famous Grouse Smoky Black": 38, "Genepy": 66, "Woodlands Brucato": 109}
 
 
     def _spirit_to_pixel(self, spirit):
