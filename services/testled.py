@@ -14,6 +14,7 @@ import yaml
 import time
 
 location_dict = {}
+coordinate_dict = {}
 
 # Initialize the NeoPixel strip with GPIO pin 10 (needed for not running this with SUDO privileges),
 # 150 lights, and 20% brightness. Auto_write means we're going to need to call pixels.show() whenever we want them lit up
@@ -27,8 +28,8 @@ exit_loop = False
 print("LED strip configuration")
 while not exit_loop:
     print("---")
-    entry = input("(a) Strip on (b) Individual LED setup (c) Strip off (q) Quit \n")
-    if entry == "a" or entry == "A":
+    entry = input("(on) Strip on (b) Individual LED setup (c) Coordinate setup (off) Strip off (q) Quit \n")
+    if entry == "on" or entry == "ON":
         pixels.fill((255, 255, 0))
         pixels.show()
     elif entry == "b" or entry == "B":
@@ -60,6 +61,20 @@ while not exit_loop:
             location_dict.update({pix_loc: pixel_ranges})
 
     elif entry == "c" or entry == "C":
+        print("Neopixel coordinate mode. \n Enter the light (0-255) you want to set: \n")
+        try:
+            pix = int(input("Pixel: "))
+        except:
+            print("Could not convert input to integer")
+        else:
+            pixels[pix] = (255, 0, 0)
+            pixels.show()
+
+            x_input = input("X coordinate: ")
+            y_input = input("Y coordinate: ")
+            coordinate_dict.update({pix: {"x": x_input, "y": y_input}})
+
+    elif entry == "off" or entry == "OFF":
         pixels.fill((0, 0, 0))
         pixels.show()
     elif entry == "q" or entry == "Q":
@@ -73,6 +88,7 @@ except AttributeError:
     pass
 
 # Save and print the pixel locations
+print(coordinate_dict)
 print(location_dict)
 save = input("Save locations? (y/n) \n")
 if save == "y" or save == "Y":
@@ -81,3 +97,5 @@ if save == "y" or save == "Y":
         suffix = time.time()
     with open(f'led_locs_{suffix}.yml', 'w') as outfile:
         yaml.dump(location_dict, outfile, default_flow_style=False)
+    with open(f'led_coords_{suffix}.yml', 'w') as outfile:
+        yaml.dump(coordinate_dict, outfile, default_flow_style=False)
