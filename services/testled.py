@@ -13,7 +13,7 @@ except ImportError:
 import yaml
 import time
 
-location_dict = {"pixel ranges": [], "cabinet locations": []}
+location_dict = {}
 
 # Initialize the NeoPixel strip with GPIO pin 10 (needed for not running this with SUDO privileges),
 # 150 lights, and 20% brightness. Auto_write means we're going to need to call pixels.show() whenever we want them lit up
@@ -43,24 +43,21 @@ while not exit_loop:
                 print("Could not convert input to integer")
             # If we've been given a valid start and stop, turn on those pixels
             else:
-                pixel_ranges.append((start_pix, stop_pix))
+                pixel_ranges.append([start_pix, stop_pix])
+                for i in range(start_pix, stop_pix+1):
+                    try:
+                        pixels[i] = (0, 255, 0)
+                    except IndexError as e:
+                        print(e)
+                pixels.show()
             
             check_done = input("Done entering ranges? (y/n) \n")
             if check_done == "y":
                 done = True
-
-        for start_pix, stop_pix in pixel_ranges:
-            for i in range(start_pix, stop_pix+1):
-                try:
-                    pixels[i] = (0, 255, 0)
-                except IndexError as e:
-                    print(e)
-        pixels.show()
     
         pix_loc = input("Enter a cabinet location corresponding to this pixel range (Return for no entry): ")
         if pix_loc != "":
-            location_dict["pixel ranges"].append([start_pix, stop_pix])
-            location_dict["cabinet locations"].append([pix_loc])
+            location_dict.update({pix_loc: pixel_ranges})
 
     elif entry == "c" or entry == "C":
         pixels.fill((0, 0, 0))
