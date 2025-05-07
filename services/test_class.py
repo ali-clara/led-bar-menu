@@ -8,6 +8,11 @@ except ImportError:
 
 import yaml
 
+try:
+    import recipe_parsing_helpers as recipe
+except ImportError:
+    from services import recipe_parsing_helpers as recipe
+
 # app = Flask(__name__, template_folder="templates")
 
 class TestView(FlaskView):
@@ -15,45 +20,31 @@ class TestView(FlaskView):
     def __init__(self) -> None:
         super().__init__()
         self._load_menu()
-        self._load_liquors()
+        self._load_cabinet()
         self.lights = LED()
 
     def _load_menu(self):
-        try:
-            with open("config/main-menu.yaml") as stream:
-                self.menu_dict = yaml.safe_load(stream)
-        except FileNotFoundError as e:
-            print(e)
-            self.menu_dict = {}
-        except KeyError as e:
-            print(e)
-            self.menu_dict = {}
+        # Read in the main menu and validate it against our master list of ingredients
+        menu_dict_raw = recipe.load_main_menu()
+        all_ingredients = recipe.load_all_ingredients()
+        self.menu_dict = recipe.validate_all_recipes(menu_dict_raw, all_ingredients)
 
-        # Create lists of the cocktail names and collection names, for easy reference later
-        self.cocktail_names = list(self.menu_dict.keys())
-        self.collections = []
-        # For each cocktail...
-        for key in self.menu_dict:
-            # Grab what collection it belongs to, correcting for capitalization just in case.
-            collection = self.menu_dict[key]['collection'].title()
-            # Check if its in our list of collections. If it's not, add it.
-            if collection not in self.collections:
-                self.collections.append(collection)
+        print(self.menu_dict)
+
+        # Pull out collection and cocktail names
+        self.collection_names = recipe.load_collection_names(self.menu_dict)
+        self.cocktail_names = recipe.load_recipe_names(self.menu_dict)
+        self.used_ingredients = recipe.load_used_ingredients(self.menu_dict)
 
         # Build a dictionary that sorts the cocktail names by collection
         #   e.g {'5057 main menu': ['Anthracite Prospector'], '2201 main menu': ['The Highland Locust'], 'lord of the rings': ['Pippin']}
-        # Double for loop yay
-        self.collection_dict = {collection_name:[] for collection_name in self.collections}
-        for collection in self.collection_dict:
-            for cocktail in self.cocktail_names:
-                if self.menu_dict[cocktail]["collection"].title() == collection:
-                    self.collection_dict[collection].append(cocktail)
+        self.collection_dict = recipe.sort_collections(self.menu_dict, self.collection_names)
 
         # print(f"Cocktail names: {self.cocktail_names}")
-        # print(f"Collections: {self.collections}")
+        # print(f"Collections: {self.collection_names}")
         # print(f"Sorted collection dict: {self.collection_dict}")
 
-    def _load_liquors(self):
+    def _load_cabinet(self):
         try:
             with open("config/locations.yaml") as stream:
                 self.locations_dict = yaml.safe_load(stream)
@@ -64,7 +55,7 @@ class TestView(FlaskView):
             print(e)
             self.locations_dict = {}
 
-        self.all_liquors = list(self.locations_dict.values())
+        self.cabinet_liquors = list(self.locations_dict.values())
 
     def index(self):
         """The main page. Redirects to the menu
@@ -81,7 +72,7 @@ class TestView(FlaskView):
         """http://localhost:5000/menu"""
 
         # print(f"available cocktails: {self.cocktail_names}")
-        # print(f"collections: {self.collections}")
+        # print(f"collections: {self.collection_names}")
 
         # These may become class vars eventually
         chosen_ingredients = [] # proxy for led lights
@@ -100,13 +91,13 @@ class TestView(FlaskView):
             if form_entry in self.cocktail_names:
                 # Once we know the name of the cocktail, we can grab its ingredients. Do a quick data validation first
                 # This will be more robust in the future - should check for differences in caps/misspellings
-                chosen_ingredients = list(self.menu_dict[form_entry]['liquors'].keys())
+                chosen_ingredients = list(self.menu_dict[form_entry]['ingredients'].keys())
 
                 self.lights.illuminate(chosen_ingredients)
                 print(chosen_ingredients)
 
             # Otherwise, if the form has returned a collection, process ~that~
-            elif form_entry in self.collections:
+            elif form_entry in self.collection_names:
                 # This line isn't strictly necessary, but I think title case with spaces looks dumb in a URL, so I 
                 #   do some string formatting
                 chosen_collection = form_entry.replace(" ", "_").lower()
@@ -117,7 +108,7 @@ class TestView(FlaskView):
             else:
                 chosen_ingredients = []
 
-        return render_template('main_menu.html', options=self.cocktail_names, ingredients=self.all_liquors, chosen_ingredients=chosen_ingredients, collections=self.collections)
+        return render_template('main_menu.html', options=self.cocktail_names, ingredients=self.used_ingredients, chosen_ingredients=chosen_ingredients, collections=self.collection_names)
     
     def collection(self, arg:str):
         """http://localhost:5000/collection/arg"""
@@ -131,12 +122,12 @@ class TestView(FlaskView):
             title = arg.title()
 
         # Check if it's a valid collection name. If not, stop here and let us know
-        if title not in self.collections:
+        if title not in self.collection_names:
             return "<p> not a valid cocktail menu collection :3 </p>"
         
         # If we're good, then load the available cocktails as dropdowns
         cocktails_in_collection = self.collection_dict[title]
-        ingredients_list = [list(self.menu_dict[cocktail]["liquors"].keys()) for cocktail in cocktails_in_collection]
+        ingredients_list = [list(self.menu_dict[cocktail]["ingredients"].keys()) for cocktail in cocktails_in_collection]
 
         return render_template('collections.html', header=title.title()+" Collection", cocktails=cocktails_in_collection, ingredients=ingredients_list)
     
@@ -150,7 +141,9 @@ class TestView(FlaskView):
         mytext = "This will generate you a random cocktail once we integrate Dane's script"
         return render_template('empty_template.html', text=mytext)
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
 #     TestView.register(app, route_base = '/')
 #     app.register_error_handler(404, TestView.not_found)
 #     app.run(host='0.0.0.0', port=5000, debug=True)
+
+    test = TestView()

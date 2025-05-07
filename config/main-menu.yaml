@@ -6,45 +6,77 @@
 # In VScode, "Ctrl + K Ctrl + 2" will fold everything nicely
 
 
+Whiskey:
+  ingredients:
+    Four Roses Bourbon:
+    Bulleit Rye:
+    Sonoma Valley Cherrywood Rye:
+    Famous Grouse Smokey Black:
+    The Deacon Scotch:
+Boulevardier:
+  ingredients:
+    Campari:
+      units: oz
+      amount: 1
+    Sweet Vermouth:
+      units: oz
+      amount: 1
+    Whiskey:
+      units: oz
+      amount: 1.25
+  garnish: orange twist
+  collection: classics
 Anthracite Prospector:
-  liquors:
+  ingredients:
     Cognac:
-      oz: 1.5
-      optional replacement: Brandy
+      units: oz
+      amount: 1.5
     Amaro Meletti:
-      oz: 0.75
+      units: oz
+      amount: 0.75
     Dark Creme de Cacao:
-      oz: 0.75
+      units: oz
+      amount: 0.75
   collection: 5057 main menu
 The Highland Locust:
-  liquors:
+  ingredients:
     Famous Grouse Smoky Black:
-      oz: 1
-    Genepy:
-      oz: 0.5
-    Woodlands Brucato:
-      oz: 0.5
+      units: oz
+      amount: 1
+    Geneppy:
+      units: oz
+      amount: 0.5
+    Brucato Woodlands:
+      units: oz
+      amount: 0.5
   collection: 2201 main menu
 Pippin:
-  liquors:
+  ingredients:
     Brandy:
-      oz: 1
+      units: oz
+      amount: 1
     Creme de Cacao:
-      oz: 0.5
+      units: oz
+      amount: 0.5
     Falernum:
-      oz: 0.5
+      units: oz
+      amount: 0.5
     Peychaud's Bitters:
-      oz: 0.25
+      unit: oz
+      amount: 0.25
   collection: lord of the rings
 Merry:
-  liquors:
+  ingredients:
     Brandy:
-      oz: 1
+      units: oz
+      amount: 1
     Triple sec:
-      oz: 0.5
+      units: oz
+      amount: 0.5
     Angostura Bitters:
-      dash: 2
-  other:
+      units: dash
+      amount: 2
     Lime:
-      oz: 0.5
+      units: oz
+      amount: 0.5
   collection: lord of the rings
