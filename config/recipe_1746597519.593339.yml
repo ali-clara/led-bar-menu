@@ -1,0 +1,13 @@
+Negroni:
+  collection: Classics
+  ingredients:
+    Campari:
+      amount: '1'
+      units: oz
+    Gin:
+      amount: '1'
+      units: oz
+    Sweet Vermouth:
+      amount: '1'
+      units: oz
+  notes: It's a negroni.
