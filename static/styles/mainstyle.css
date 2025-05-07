@@ -1,0 +1,90 @@
+/* Set up highlighted font for dummy leds, get rid of this eventually*/
+.highlighted {
+    background-color: rgb(204, 0, 255);
+}
+
+/* General body style params */
+body {
+    font-family: Georgia, 'Times New Roman', Times, serif
+    }
+
+/* Not sure what this one is exactly, I think it's page grid layout */
+/* * {
+box-sizing: border-box;
+} */
+
+/* Set up the grid container. Two columns, three rows */
+/* https://www.w3schools.com/css/css_grid_item.asp */
+.grid-container {
+display: grid;
+grid-template-columns: 15% auto;
+grid-template-rows: auto auto auto; 
+/* width: 100vw; */
+} 
+
+/* Style the left column */
+.left {
+    grid-column: 1 / span 1; /* Starts in column 1, spans 1 column. etc etc */
+    grid-row: 1 / span 3;
+    background-color: #579cba;
+    padding: 10px;
+    min-height: 250px;
+}
+
+/* Style the header */
+.header {
+    grid-column: 2 / end;
+    grid-row: 1 / span 1;
+    background-color: #f1f1f1;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    font-size: 30px;
+}
+
+/* Style the middle column */
+.middle {
+grid-column: 2 / end;
+grid-row: 2 / span 1;
+padding: 10px;
+background-color: #bbb;
+width: end;
+}
+
+/* Style the footer */
+.footer {
+grid-column: 1 / end;
+grid-row: 3 / span 1;
+background-color: #f1f1f1;
+padding: 10px;
+text-align: center;
+}
+
+/* Navbar */
+.vertical-menu{
+    padding: 10px;
+    width: 13%; /* Just under the column width */
+    position: fixed; /* Make it stay in place when you scroll */
+}
+
+/* Style the elements <a> inside the navbar */
+.vertical-menu a {
+    color: black; /* Black text color */
+    display: block; /* Make the links appear below each other */
+    padding: 5px 5px 16px 16px; /* Add some padding */
+    text-decoration: none; /* Remove underline from links */
+}
+
+/* Style the navbar "active" element, e.g which one we're on */
+.vertical-menu a.active {
+    background-color: #04AA6D;
+    color: white;
+    }
+
+/* Style the navbar hover */
+.vertical-menu a:hover {
+    background-color: #555;
+    color: white;
+    }
