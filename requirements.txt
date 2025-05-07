@@ -1,3 +1,5 @@
 PyYAML
 Flask
 Flask-Classful
+jellyfish
+pandas

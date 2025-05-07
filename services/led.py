@@ -20,7 +20,7 @@ class LED:
         self.pixels.fill((0,0,0))
         self.pixels.show()
 
-        # Seems like 3-wide is pretty goodg
+        # Seems like 3-wide is pretty good
         self.test_locs = {"Famous Grouse Smoky Black": 38, "Genepy": 66, "Woodlands Brucato": 109}
 
 
