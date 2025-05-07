@@ -67,12 +67,15 @@ while not exit_loop:
         except:
             print("Could not convert input to integer")
         else:
-            pixels[pix] = (255, 0, 0)
-            pixels.show()
-
-            x_input = input("X coordinate: ")
-            y_input = input("Y coordinate: ")
-            coordinate_dict.update({pix: {"x": x_input, "y": y_input}})
+            try:
+                pixels[pix] = (255, 0, 0)
+            except:
+                print("Only pixels between 0-255 are valid!")
+            else:
+                pixels.show()
+                x_input = input("X coordinate: ")
+                y_input = input("Y coordinate: ")
+                coordinate_dict.update({pix: {"x": x_input, "y": y_input}})
 
     elif entry == "off" or entry == "OFF":
         pixels.fill((0, 0, 0))
