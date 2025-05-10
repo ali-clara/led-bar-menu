@@ -1,0 +1,554 @@
+Agares:
+  collection: '2201'
+  ingredients:
+    Brandy:
+      amount: '1.5'
+      units: oz
+    Dark Creme de Cacao:
+      amount: '0.5'
+      units: oz
+    Orange Bitters:
+      amount: '1'
+      units: dash
+    Pistachio Liqueur:
+      amount: '0.75'
+      units: oz
+  notes: ''
+Anthracite Prospector:
+  collection: '5057'
+  ingredients:
+    Amaro Meletti:
+      amount: '.75'
+      units: oz
+    Cognac:
+      amount: '1.5'
+      units: oz
+    Dark Creme de Cacao:
+      amount: '.75'
+      units: oz
+    Orange Bitters:
+      amount: '2'
+      units: dashes
+  notes: 'See also: Whiskey Anthracite Prospector'
+Anthracite Prospector (Whiskey):
+  collection: '5057'
+  ingredients:
+    Amaro Meletti:
+      amount: '.75'
+      units: oz
+    Dark Creme de Cacao:
+      amount: '.75'
+      units: oz
+    Orange Bitters:
+      amount: '2'
+      units: dashes
+    Whiskey:
+      amount: '1.5'
+      units: oz
+  notes: ''
+Boomer Sour:
+  collection: '5057'
+  ingredients:
+    Angostura Bitters:
+      amount: '1'
+      units: dash
+    Elderflower liqueur:
+      amount: '0.5'
+      units: oz
+    Lemon Juice:
+      amount: '0.5'
+      units: lemon
+    Sloe Gin:
+      amount: '1'
+      units: oz
+  notes: An egg white foam is an excellent touch.
+Crossing the Delaware:
+  collection: '2201'
+  ingredients:
+    Brandy:
+      amount: '2'
+      units: oz
+    Cinnamon:
+      amount: '1'
+      units: stick
+    Falernum:
+      amount: '1'
+      units: oz
+    Green Chartreuse:
+      amount: '0.5'
+      units: oz
+    Lemon juice:
+      amount: '0.5'
+      units: lemon
+  notes: Douse cinnamon stick in green chartreuse, set aflame, and extinguish with
+    rest of drink.
+Crossing the Rubicon:
+  collection: '5057'
+  ingredients:
+    Falernum:
+      amount: '0.5'
+      units: oz
+    Gin:
+      amount: '2'
+      units: oz
+    Green Chartreuse:
+      amount: '0.5'
+      units: oz
+    Lemon juice:
+      amount: '0.5'
+      units: lemon
+    Rosemary:
+      amount: '1'
+      units: sprig
+  notes: Pour the green chartreuse over the rosemary twig, then set the cup aflame.
+    Let burn to taste, then extinguish by pouring the rest of the drink over it.
+'Forget the Name #1':
+  collection: '5057'
+  ingredients:
+    Amaretto:
+      amount: '.5'
+      units: oz
+    Lime Juice:
+      amount: '1'
+      units: lime
+    Mezcal:
+      amount: '2'
+      units: oz
+    Triple Sec:
+      amount: '0.25'
+      units: oz
+  notes: Can use half smoky mezcal, half tequila for a good balance of smoke
+General Tso:
+  collection: '2201'
+  ingredients:
+    Gin:
+      amount: '1.5'
+      units: oz
+    San Pellegrino Blood Orange:
+      amount: '3'
+      units: oz
+    Szechuan Tincture:
+      amount: '4'
+      units: dashes
+  notes: ''
+Jockstrap:
+  collection: '2201'
+  ingredients:
+    Lime Juice:
+      amount: '0.5'
+      units: lime
+    Mezcal:
+      amount: '1.5'
+      units: oz
+    Simple syrup:
+      amount: '0.5'
+      units: oz
+    Szechuan tincture:
+      amount: '2'
+      units: dashes
+  notes: Shaken. Itevb tiu (smokal?)
+Licorice Fern Margarita:
+  collection: '2201'
+  ingredients:
+    Absinthe:
+      amount: '0.25'
+      units: oz
+    Honey Liqueur:
+      amount: '0.5'
+      units: oz
+    Licorice Fern Bitters:
+      amount: '5'
+      units: dashes
+    Licorice Fern Tincture:
+      amount: '5'
+      units: dashes
+    Tequila Blanco:
+      amount: '2'
+      units: oz
+    Triple sec:
+      amount: '0.25'
+      units: oz
+  notes: The specific licorice fern bitters called for is Licc++ 1.0
+Mai Tai (Mac Nut):
+  collection: '5057'
+  ingredients:
+    Amaretto:
+      amount: '0.25'
+      units: oz
+    Dark Rum:
+      amount: '1'
+      units: oz
+    Falernum:
+      amount: '1'
+      units: dash
+    Light Rum:
+      amount: '1'
+      units: oz
+    Lime Juice:
+      amount: '0.5'
+      units: lime
+    Macadamia Liqueur:
+      amount: '0.25'
+      units: oz
+    Triple Sec:
+      amount: '0.5'
+      units: oz
+  notes: 'Use orgeat rather than amaretto if available. '
+Mai Tai (Trader Vic's):
+  collection: Classics
+  ingredients:
+    Amaretto:
+      amount: '0.5'
+      units: oz
+    Dark Rum:
+      amount: '1'
+      units: oz
+    Falernum:
+      amount: '1'
+      units: dash
+    Light Rum:
+      amount: '1'
+      units: oz
+    Lime Juice:
+      amount: '0.5'
+      units: lime
+    Triple Sec:
+      amount: '0.5'
+      units: oz
+  notes: Use orgeat rather than Amaretto if available
+Max's Mojito:
+  collection: '5057'
+  ingredients:
+    Light Rum:
+      amount: '1.5'
+      units: oz
+    Lime Juice:
+      amount: '0.5'
+      units: oz
+    Mint Leaves:
+      amount: '10'
+      units: leaves
+    Seltzer:
+      amount: fill
+      units: to top
+    White Sugar:
+      amount: '2'
+      units: Tbsp
+  notes: Add the mint leaves and sugar to a glass and/or mortar and pestle to muddle.
+    Then mix with liquid ingredients.
+Monet:
+  collection: Zig Zag Clones
+  ingredients:
+    Dry Vermouth:
+      amount: unkn
+      units: oz
+    Elderflower Liqueur:
+      amount: unkn
+      units: oz
+    Gin:
+      amount: unkn
+      units: oz
+    Grapefruit Bitters:
+      amount: unkn
+      units: dashes
+    Lemon juice:
+      amount: unkn
+      units: lemon
+  notes: Need to determine quantities
+Oil Spill:
+  collection: '5057'
+  ingredients:
+    Coconut Liqueur:
+      amount: '0.5'
+      units: oz
+    Dark Rum:
+      amount: '1'
+      units: oz
+    Dark creme de cacao:
+      amount: '0.75'
+      units: oz
+    Islay Scotch:
+      amount: '1'
+      units: bsp
+  notes: Float the scotch. The original recipe includes an undecipherable Dane note.
+Pear Flower Spritz:
+  collection: '5057'
+  ingredients:
+    Elderflower Liqueur:
+      amount: '0.5'
+      units: oz
+    Green Chartreuse:
+      amount: '0.25'
+      units: oz
+    Pear Brandy:
+      amount: '1.5'
+      units: oz
+    Sparkling water:
+      amount: ''
+      units: fill to top
+  notes: ''
+Pearplexing:
+  collection: '2201'
+  ingredients:
+    Creme de Cassis:
+      amount: '0.5'
+      units: oz
+    Lemon Juice:
+      amount: '0.5'
+      units: oz
+    Pear Brandy:
+      amount: '1'
+      units: oz
+    Zirbenz:
+      amount: '0.5'
+      units: oz
+  notes: ''
+Prospector Cocktail:
+  collection: '5057'
+  ingredients:
+    Cognac:
+      amount: '1.5'
+      units: oz
+    Cointreau:
+      amount: '.5'
+      units: oz
+    Green Chartreuse:
+      amount: '.5'
+      units: oz
+    Lemon Twist:
+      amount: '1'
+      units: ea
+    White Creme de Cacao:
+      amount: '.5'
+      units: oz
+  notes: Can do a small squeeze of lemon juice or lemon bitters instead of a twist.
+    Per 622 Menu, sever in a couple rocks glass.
+Quartz:
+  collection: '2201'
+  ingredients:
+    Angostura orange bitters:
+      amount: '3'
+      units: dashes
+    Maraschino:
+      amount: '1'
+      units: oz
+    Tequila:
+      amount: '1.5'
+      units: oz
+  notes: This is not especially good, but could be built on. The notion was to build
+    a series of quartz-themed cocktails.
+Sack Lunch:
+  collection: '2201'
+  ingredients:
+    Creme de Violette:
+      amount: '0.5'
+      units: oz
+    Fig Brandy:
+      amount: '0.25'
+      units: oz
+    Macadamia Liqueur:
+      amount: '0.25'
+      units: oz
+    Sloe Gin:
+      amount: '0.75'
+      units: oz
+  notes: ''
+Saskatoon Slammer:
+  collection: '2201'
+  ingredients:
+    Canadian Whiskey:
+      amount: '1.5'
+      units: oz
+    Elderflower Liqueur:
+      amount: '0.5'
+      units: oz
+    Grapefruit bitters:
+      amount: '1'
+      units: dash
+    Meyer lemon juice:
+      amount: '0.5'
+      units: lemon
+    Simple syrup:
+      amount: ''
+      units: to taste
+  notes: Shaken.
+Sloe Loris:
+  collection: '2201'
+  ingredients:
+    Amaro Meletti:
+      amount: '0.333'
+      units: oz
+    Cookie Monster Bitters:
+      amount: '2'
+      units: dashes
+    Lemon juice:
+      amount: '0.5'
+      units: lemon
+    Orange Bitters:
+      amount: '2'
+      units: dashes
+    Sloe Gin:
+      amount: '0.667'
+      units: oz
+    Sweet Vermouth:
+      amount: '0.333'
+      units: oz
+    Whiskey:
+      amount: '1'
+      units: oz
+  notes: Could try using Brovo Amaro Kim in place of Cookie Monster, as it also has
+    the milkthistle and chocolate notes. The orange bitters are only added if the
+    vermouth isn't an orangey one.
+Smoke Signal:
+  collection: '2201'
+  ingredients:
+    Apperol:
+      amount: '0.75'
+      units: oz
+    Green Chartreuse:
+      amount: '0.5'
+      units: oz
+    Mezcal:
+      amount: '1'
+      units: oz
+    Szechuan tincture:
+      amount: '1'
+      units: dash
+  notes: Any Green Chartreuse substitute will work
+Smoky Quartz:
+  collection: '2201'
+  ingredients:
+    Angostura Orange Bitters:
+      amount: '2'
+      units: dashes
+    Aztec Chocolate Bitters:
+      amount: '4'
+      units: dashes
+    Islay Scotch:
+      amount: '1'
+      units: rinse
+    Maraschino:
+      amount: '1'
+      units: oz
+    Mezcal:
+      amount: '1.5'
+      units: oz
+  notes: ''
+The Division Bell:
+  collection: '5057'
+  ingredients:
+    Apperol:
+      amount: '0.75'
+      units: oz
+    Lime juice:
+      amount: '0.75'
+      units: oz
+    Maraschino:
+      amount: '0.5'
+      units: oz
+    Mezcal:
+      amount: '1'
+      units: oz
+  notes: By the way, this one's Pink
+The Great Molasses Flood:
+  collection: '5057'
+  ingredients:
+    Amaro Meletti:
+      amount: '0.5'
+      units: oz
+    Bourbon:
+      amount: '1'
+      units: oz
+    Cinnamon Infused Whiskey:
+      amount: '0.25'
+      units: oz
+    Creme de Cacao:
+      amount: '0.5'
+      units: oz
+    Light Rum:
+      amount: '0.5'
+      units: oz
+    Vanilla Extract:
+      amount: '0.25'
+      units: tsp
+  notes: Written down as WIP. Consider angostura
+The Great Wall:
+  collection: '2201'
+  ingredients:
+    Brucato Chaparral:
+      amount: '0.5'
+      units: oz
+    Del Maguey Vida:
+      amount: '1'
+      units: oz
+    Gentian Amaro:
+      amount: '0.75'
+      units: oz
+    Lemon juice:
+      amount: '0.5'
+      units: lemon
+    Szechuan tincture:
+      amount: '1'
+      units: dash
+  notes: ''
+The Highland Locust:
+  collection: '2201'
+  ingredients:
+    Brucato Woodlands:
+      amount: '0.5'
+      units: oz
+    Famous Grouse Smoky Black:
+      amount: '1'
+      units: oz
+    Genepy:
+      amount: '0.5'
+      units: oz
+  notes: ''
+The Left Hand:
+  collection: '2201'
+  ingredients:
+    Bourbon:
+      amount: '1.5'
+      units: oz
+    Campari:
+      amount: '0.75'
+      units: oz
+    Chocolate Bitters:
+      amount: '3'
+      units: dashes
+    Sweet Vermouth:
+      amount: '0.75'
+      units: oz
+  notes: ''
+The Spanish Graft:
+  collection: '2201'
+  ingredients:
+    Amaro Nonino:
+      amount: '1'
+      units: oz
+    Sakura Bitters:
+      amount: '2'
+      units: dashes
+    Tanqueray Sevilla Orange:
+      amount: '1'
+      units: oz
+    Zirbenz:
+      amount: '0.25'
+      units: oz
+  notes: ''
+White Rose:
+  collection: '2201'
+  ingredients:
+    Elderflower liqueur:
+      amount: '1'
+      units: oz
+    Gin:
+      amount: '1'
+      units: oz
+    Lime juice:
+      amount: '0.5'
+      units: lime
+    Simple:
+      amount: '0.5'
+      units: oz
+  notes: ''

@@ -1,0 +1,51 @@
+Apple Brandy:
+  collection: Tags
+  ingredients:
+    Calvados: {}
+  notes: Alias of Calvados
+Brandy:
+  collection: Tags
+  ingredients:
+    christian_brothers_vs: {}
+    christian_brothers_vsop: {}
+  notes: You're a fine girl. Just normal brandies in this tag, nothing flavored
+Brandy (Inclusive):
+  collection: Tags
+  ingredients:
+    Brandy: {}
+    Calvados: {}
+    Kirsch: {}
+    Pear Brandy: {}
+  notes: You're an inclusive girl. Contains flavored brandies as well as those more
+    similar to Cognac
+Calvados:
+  collection: Tags
+  ingredients:
+    boulard_calvados: {}
+  notes: Calvados
+Cherry Brandy:
+  collection: Tags
+  ingredients:
+    Kirschwasser: {}
+  notes: Alias of Kirschwasser
+Cognac:
+  collection: Tags
+  ingredients:
+    christian_brothers_vs: {}
+    christian_brothers_vsop: {}
+  notes: Cognac/acceptable substitutes
+Kirsch:
+  collection: Tags
+  ingredients:
+    Kirschwasser: {}
+  notes: Alias of Kirschwasser
+Kirschwasser:
+  collection: Tags
+  ingredients:
+    fidelitas_kirsch: {}
+  notes: Kirsch
+Pear Brandy:
+  collection: Tags
+  ingredients:
+    pear_williams: {}
+  notes: Pear Brandies

@@ -1,0 +1,56 @@
+Cachaca:
+  collection: Tags
+  ingredients:
+    pitu_cachaca: {}
+  notes: Contains all Cachaca
+Coconut Rum:
+  collection: Tags
+  ingredients:
+    placeholder_coconut_rum: {} 
+  notes: Should include all coconut rum
+Dark Rum:
+  collection: Tags
+  ingredients:
+    plantation_dark: {}
+  notes: Should include all dark rums, not light or golden
+Flavored Rum:
+  collection: Tags
+  ingredients:
+    Coconut Rum: {} 
+  notes: Should include all rum with atypical flavor
+Gold Rum:
+  collection: Tags
+  ingredients:
+    bacardi_gold: {}
+    largo_bay_151: {}
+  notes: Should include all gold rums, not light or dark
+Light Rum:
+  collection: Tags
+  ingredients:
+    plantation_light: {}
+  notes: Should include all white/light rums, not gold/spiced/dark
+Overproof Rum:
+  collection: Tags
+  ingredients:
+    largo_bay_151: {}
+  notes: Should include all rums that can be set on fire
+White Rum:
+  collection: Tags
+  ingredients:
+    Light Rum: {}
+  notes: This is an alias of Light Rum
+Rum:
+  collection: Tags
+  ingredients:
+    Light Rum: {}
+    Gold Rum: {}
+    Dark Rum: {}
+    Overproof Rum: {}
+  notes: Should include all rums
+Rum (Inclusive):
+  collection: Tags
+  ingredients:
+    Rum: {}
+    Flavored Rum: {}
+    Cachaca: {}
+  notes: Should include all rums

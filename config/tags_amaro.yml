@@ -1,0 +1,28 @@
+Brovo Amaro:
+  collection: Tags
+  ingredients:
+    amaro_01: {}
+    amaro_04: {}
+    amaro_14: {}
+    amaro_kim: {}
+    brovo_american: {}
+    tacoma_punk: {}
+  notes: All brovo products that are considered amaros. Considering genepy family
+    to be an herbal liqueur
+Brucato Amaro:
+  collection: Tags
+  ingredients:
+    brucato_chaparral: {}
+    brucato_woodlands: {}
+  notes: All brucato amaro products
+Cynar:
+  collection: Tags
+  ingredients:
+    cynar_70: {}
+    cynar_std: {}
+  notes: Both versions of Cynar
+Gentian Amaro:
+  collection: Tags
+  ingredients:
+    lofi_gentian: {}
+  notes: ''

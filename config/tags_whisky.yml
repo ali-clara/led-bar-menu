@@ -1,0 +1,69 @@
+Bourbon:
+  collection: Tags
+  ingredients:
+    four_roses_bourbon: {}
+    high_west_bourye: {}
+    yellowstone_bourbon: {}
+  notes: Should include all Bourbon Whiskeys
+Canadian Whisky:
+  collection: Tags
+  ingredients:
+    black_velvet: {}
+  notes: Should include all whisky from Canada
+Irish Whiskey:
+  collection: Tags
+  ingredients:
+    kilbrin_irish: {}
+    knappogue_12_year: {}
+  notes: Should include all whiskey from Ireland
+Japanese Whisky:
+  collection: Tags
+  ingredients:
+    placeholder_japanese_whisky: {}
+  notes: Should include all Japanese Whisky
+Peated Whisky:
+  collection: Tags
+  ingredients:
+    islay_single_malt: {}
+    famous_grouse_smoky_black: {}
+  notes: Should include all peated whiskies/whiskeys, regardless of peat level
+Rye Whiskey:
+  collection: Tags
+  ingredients:
+    bulleit_95_rye: {}
+    high_west_bourye: {}
+    sonoma_cherrywood_rye: {}
+  notes: Should include all Rye Whiskey (or Whisky)
+Scotch Whisky:
+  collection: Tags
+  ingredients:
+    aultmore_12_year: {}
+    famous_grouse: {}
+    famous_grouse_smoky_black: {}
+    the_deacon: {}
+  notes: Should include all Whisky from Scotland
+Whiskey:
+  collection: Tags
+  ingredients:
+    Rye Whiskey: {}
+    Whiskey (Specific): {}
+    Whisky (Specific): {}
+  notes: All Whiskeys/Whiskies
+Whiskey (Specific):
+  collection: Tags
+  ingredients:
+    Bourbon: {}
+    Irish Whiskey: {}
+  notes: Whiskey spelled with the 'e'
+Whisky:
+  collection: Tags
+  ingredients:
+    Whiskey: {}
+  notes: Alias of Whiskey
+Whisky (Specific):
+  collection: Tags
+  ingredients:
+    Canadian Whisky: {}
+    Japanese Whiskey: {}
+    Scotch Whisky: {}
+  notes: Whisky spelled without the 'e'
