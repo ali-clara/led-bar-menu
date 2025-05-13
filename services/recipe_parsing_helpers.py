@@ -4,22 +4,38 @@ import copy
 import pandas as pd
 import os
 import jellyfish as jf
+import glob
 
 dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
 similarity_threshold = 0.75
 
-def load_main_menu():
+def read_main_menu():
+    recipes_dict = {}
+    tags_dict = {}
+    recipe_path = os.path.join(dir_path, "config")
     try:
-        with open(os.path.join(dir_path, "config/main-menu.yaml")) as stream:
-            menu_dict = yaml.safe_load(stream)
+        for file in glob.glob(recipe_path+"/recipes*.yml"):
+            with open(file) as stream:
+                recipes_dict.update(yaml.safe_load(stream))
     except FileNotFoundError as e:
         print(e)
-        menu_dict = {}
+        recipes_dict = {}
 
-    return menu_dict
+    try:
+        for file in glob.glob(recipe_path+"/tags*.yml"):
+            with open(file) as stream:
+                tags_dict.update(yaml.safe_load(stream))
+    except FileNotFoundError as e:
+        print(e)
+        tags_dict = {}
+
+    return recipes_dict, tags_dict
 
 def load_recipe_names(menu_dict):
     return list(menu_dict.keys())
+
+def load_tags(tags_dict):
+    return list(tags_dict.keys())
 
 def load_collection_names(menu_dict):
     collections = []
@@ -65,7 +81,7 @@ def load_all_ingredients():
 
     return all_ingredients_formatted
                 
-def identify_tags(ingredient_list:list, recipe_list:list):
+def check_tags(ingredient_list:list, recipe_list:list):
     not_tags = copy.deepcopy(recipe_list)
     tags = []
 
@@ -74,10 +90,26 @@ def identify_tags(ingredient_list:list, recipe_list:list):
             not_tags.remove(ingredient)
             tags.append(ingredient)
 
-    print(f"Tags: {tags}")
-    print(f"Not tags: {not_tags}")
-
     return tags, not_tags
+
+def expand_tag(given_tag, tags_dict):
+    tag_names = load_tags(tags_dict)
+    parents = [given_tag]
+    children = []
+
+    while len(parents) > 0:
+        for parent in parents:
+            if parent in tag_names:
+                kids = list(tags_dict[parent]["ingredients"].keys())
+                for kid in kids:
+                    if kid in tag_names:
+                        parents.append(kid)
+                    else:
+                        children.append(kid)
+            parents.remove(parent)
+
+    print(f"{given_tag} expanded to {children}")
+
 
 def get_closest_match(x, list_random):
     best_match = None
@@ -138,21 +170,36 @@ def validate_all_recipes(menu_dict:dict, all_ingredients):
     return validated_menu
 
 if __name__ == "__main__":
-    menu_dict = load_main_menu()
-    print(menu_dict)
+    menu_dict, tags_dict = read_main_menu()
     recipe_names = load_recipe_names(menu_dict)
+    tag_names = load_tags(tags_dict)
     collections = load_collection_names(menu_dict)
-    # print(f"Menu: {menu_dict}")
+    # print(f"Full menu: {menu_dict}")
     # print("---")
     # print(f"Recipe names: {recipe_names}")
     # print("---")
     # print(f"Collections: {collections}")
+    # print("---")
 
     used_ingredients = load_used_ingredients(menu_dict)
-    # identify_tags(used_ingredients, recipe_names)
+    # print(f"Used ingredients: {used_ingredients}")
+    # print("---")
 
-    all_ingredients = load_all_ingredients()
+    # tags, not_tags = check_tags(used_ingredients, recipe_names)
+    # print(f"Tags: {tags}")
+    # print(f"Not tags: {not_tags}")
+
+        
+    for i, ingredient in enumerate(used_ingredients):
+        expand_tag(ingredient, tags_dict)
+
+    
+
+    # print(used_ingredients)
+
+
+    # all_ingredients = load_all_ingredients()
 
     # test_similarity(used_ingredients, all_ingredients)
 
-    validate_all_recipes(menu_dict, all_ingredients)
+    # validate_all_recipes(menu_dict, all_ingredients)

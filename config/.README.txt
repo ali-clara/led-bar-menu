@@ -7,3 +7,6 @@ Tags:
 - Keep tags in the appropriate, named files whenever possible. These files should be set up by category, so that it is easy to figure out what tags a new entry needs to be added to
 - When creating a tag, use the highest level tag possible, i.e. if creating a liqueurs tag, use "Orange Liqueur" tag rather than "Triple Sec (Exclusive)" tag
 - When a name has multiple usages, i.e. Mezcal may refer either to just the smoky variety popular in American cocktails, or else all Mezcals including Tequila, create multiple versions of the tag, with the default name being however it is most likely to be used when we enter a recipe. So in this case, the tag "Mezcal" refers to the American usage, and the tag "Mezcal (Inclusive)" refers to the broader category
+
+File names:
+- Must either start with "recipes" or "tags", respectively (i.e "recipes_steely_dan.yml"). New yaml files with this convention will be automatically added 
