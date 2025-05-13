@@ -1,109 +1,112 @@
-plantation_light
-plantation_dark
-kilbrin_irish
-knappogue_12_year
-pitu_cachaca
-high_west_bourye
-aultmore_12_year
-the_deacon
-azunia_reposado
-tanqueray_sevilla
-sonoma_cherrywood_rye
-roku
-sipsmith_sloe_gin
-fidelitas_kirsch
-pear_williams
-tanqueray_london_dry
-zignum_reposado
-famous_grouse
-famous_grouse_smoky_black
-del_maguey_classico
-del_maguey_puebla
-cuervo_gold
-largo_bay_151
-yuzu_curacao
-boulard_calvados
-dryfly_gin
-christian_brothers_vsop
-christian_brothers_vs
-tj_mezcal
-genepy
-yellow_chartreuse
-green_chartreuse
-1800_tequila
-lofi_gentian
-amaro_04
-zirbenz
-amaro_angostura
-reddit_aroma
-bacardi_gold
-brucato_woodlands
-limoncello
-elder_mead
-cynar_std
-cynar_70
-byrrh
-rosso_amaro
-huckleberry_gin_julia
-cointreau
-campari
-brucato_chaparral
-aperol
-nonino
-sambuca_di_amore
-cardamaro
-meletti
-peachtree
-mr_stacks_creme_de_cacao
-de_kuyper_creme_de_menthe
-cristiani_amaretto
-galliano
-bulleit_95_rye
-four_roses_bourbon
-amaro_14
-bols_triple_sec
-douglas_fir
-drip_coffee_liqueur
-luxardo_maraschino
-amaro_01
-amaro_kim
-brovo_american
-uncharted_rhapsody
-tacoma_punk
-giffard_cacao
-pistacchio_mk_ii
-gen-p
-dry_curacao
-kahana_mac_nut
-360_huckleberry
-yellowstone_bourbon
-red_huck_jar
-pistacchio_mk_i
-falernum
-cristiani_maraschino
-martinellis
-martini_rosso
-nocino
-craft_cordials_elderflower
-drillaud_elderflower
-nixta
-portugal_red_blend
-passion_fruit_syrup
+plantation_light, G8
+plantation_dark, G5
+kilbrin_irish, D20
+knappogue_12_year, C22
+pitu_cachaca, C2
+high_west_bourye, D23
+aultmore_12_year, C19
+the_deacon, E23
+azunia_reposado, E17
+tanqueray_sevilla, E5
+sonoma_cherrywood_rye, E19
+roku, E2
+sipsmith_sloe_gin, D2
+fidelitas_kirsch, F8
+pear_williams, F10
+tanqueray_london_dry, F2
+zignum_reposado, D17
+famous_grouse, none
+famous_grouse_smoky_black,none
+del_maguey_classico, D15
+del_maguey_puebla, D12
+cuervo_gold, F15
+largo_bay_151, C4
+yuzu_curacao, B17
+boulard_calvados, D9
+dryfly_gin, F5
+christian_brothers_vsop, D5
+christian_brothers_vs, E9
+tj_mezcal, E15
+genepy, A2
+yellow_chartreuse, B2
+green_chartreuse, B4
+1800_tequila, E12
+lofi_gentian, J4
+amaro_04, L3
+zirbenz, L5
+amaro_angostura, I2
+reddit_aroma, H4
+bacardi_gold, C4
+brucato_woodlands, A7
+limoncello, C10
+elder_mead, F12
+cynar_std, none
+cynar_70, B13
+byrrh, A10
+rosso_amaro, K4
+huckleberry_gin_julia, J5
+cointreau, B15
+campari, A19
+brucato_chaparral, A5
+aperol, A22
+nonino, A12
+sambuca_di_amore, C8
+cardamaro, B7
+meletti, B10
+mr_stacks_creme_de_cacao, C13
+cristiani_amaretto, G12
+galliano, B22
+bulleit_95_rye, F22
+four_roses_bourbon, G2
+amaro_14, J3
+bols_triple_sec, C15
+douglas_fir, I5
+drip_coffee_liqueur, J7
+luxardo_maraschino, B19
+amaro_01, M3
+amaro_kim, I3
+brovo_american, A16
+uncharted_rhapsody, A4
+tacoma_punk, N3
+giffard_cacao, H5
+pistacchio_mk_i, L6
+pistacchio_mk_ii, N2
+gen-p, A1
+dry_curacao, none
+kahana_mac_nut, L7
+360_huckleberry, I6
+yellowstone_bourbon, F17
+falernum, N7
+cristiani_maraschino, K7
+martini_rosso, N1
+nocino, A17
+craft_cordials_elderflower, I7
+drillaud_elderflower, M6
+nixta, N5
+szechuan_liqueur, A14
+cinnamon_whiskey, I1
+chai, J1
+sesame_whiskey, K1
+lapsang_whiskey, L2
+blue_curacao, M2
 
-sweet_vermouth
-dry_vermouth
-brovo_pink
-brovo_jammy
-brovo_witty
-brovo_pretty
+mai_tai, L4
+babylon_sisters, J6
 
-angostura_bitters
-peychauds_bitters
+sweet_vermouth, fridge
+dry_vermouth, fridge
+brovo_pink, fridge
+brovo_jammy, fridge
+brovo_witty, fridge
+brovo_pretty, fridge
 
-lime
-lemon
+angostura_bitters, bitters
+peychauds_bitters, bitters
 
-placeholder_japanese_whisky
-placeholder_coconut_rum
+lime, bowl
+lemon, bowl
+
+placeholder_japanese_whisky, none
+placeholder_coconut_rum, none
 
 
