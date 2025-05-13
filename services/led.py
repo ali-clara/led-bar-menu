@@ -1,5 +1,8 @@
 # Script for interfacing with the neopixels
 import time
+import yaml
+import os
+import numpy as np
 try: # real hardware
     import board
     import neopixel
@@ -11,8 +14,10 @@ except ImportError: # simulated hardware
         import services.simulated_neopixel as neopixel
         from services.simulated_neopixel import board
 
+dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
+
 class LED:
-    def __init__(self):
+    def __init__(self, spirit_locations):
         # Initialize the NeoPixel strip with GPIO pin 10 (needed for not running this with SUDO privileges),
         # 150 lights, and 20% brightness. Auto_write means we're going to need to call pixels.show() whenever we want them lit up
         self.pixels = neopixel.NeoPixel(board.D10, 255, brightness=0.2, auto_write=False)
@@ -23,19 +28,39 @@ class LED:
         # Seems like 3-wide is pretty good
         self.test_locs = {"Famous Grouse Smoky Black": 38, "Genepy": 66, "Woodlands Brucato": 109}
 
+        # Dictionary of spirit:location, where 'location' is a coordinate not a neopixel address (e.g A7 not 150)
+        self.spirit_loc_dict = spirit_locations
 
-    def _spirit_to_pixel(self, spirit):
+        # Dictionary of coordiante:[neopixel start, neopixel stop]
+        with open(dir_path+"/config/led_locs_final.yml") as stream:
+            self.led_loc_dict = yaml.safe_load(stream)
+
+    def _spirit_to_pixel(self, spirit_list):
+        
         pixels = []
+        for spirit in spirit_list:
+            print(spirit)
+            try:
+                cabinet_location = self.spirit_loc_dict[spirit]
+                print(cabinet_location.strip())
+                neopixel_range = self.led_loc_dict[cabinet_location.strip()][0] # should write something to reformat the locs
+            except KeyError as e:
+                print(f"key error in accessing cabinet locations: {e}")
+            else:
+                print(neopixel_range)
+                pixels.append(neopixel_range)
 
-        if type(spirit) == str:
-            pass
-        elif type(spirit) == list:
-            for s in spirit:
-                if s in self.test_locs:
-                    pixel_loc = self.test_locs[s] # int
-                    pixels.append(pixel_loc)
-                    pixels.append(pixel_loc-1)
-                    pixels.append(pixel_loc+1)
+        # pixels = []
+
+        # if type(spirit) == str:
+        #     pass
+        # elif type(spirit) == list:
+        #     for s in spirit:
+        #         if s in self.test_locs:
+        #             pixel_loc = self.test_locs[s] # int
+        #             pixels.append(pixel_loc)
+        #             pixels.append(pixel_loc-1)
+        #             pixels.append(pixel_loc+1)
 
         # return pixels as a list
         return pixels

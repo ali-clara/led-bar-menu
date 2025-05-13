@@ -20,16 +20,17 @@ class TestView(FlaskView):
     def __init__(self) -> None:
         super().__init__()
         self._load_menu()
-        self._load_cabinet()
-        self.lights = LED()
+        self.lights = LED(self.location_dict)
 
     def _load_menu(self):
         # Read in the main menu and validate it against our master list of ingredients
-        menu_dict_raw = recipe.load_main_menu()
-        all_ingredients = recipe.load_all_ingredients()
-        self.menu_dict = recipe.validate_all_recipes(menu_dict_raw, all_ingredients)
+        menu_dict_raw, tags_dict = recipe.read_main_menu()
+        all_ingredients, self.location_dict = recipe.load_all_ingredients()
+        self.cabinet_liquors = list(self.location_dict.keys())
+        self.menu_dict = recipe.validate_all_recipes(menu_dict_raw, all_ingredients, tags_dict)
 
-        print(self.menu_dict)
+        print("--")
+        print(f"Validated recipes: {list(self.menu_dict.keys())}")
 
         # Pull out collection and cocktail names
         self.collection_names = recipe.load_collection_names(self.menu_dict)
@@ -43,19 +44,6 @@ class TestView(FlaskView):
         # print(f"Cocktail names: {self.cocktail_names}")
         # print(f"Collections: {self.collection_names}")
         # print(f"Sorted collection dict: {self.collection_dict}")
-
-    def _load_cabinet(self):
-        try:
-            with open("config/locations.yaml") as stream:
-                self.locations_dict = yaml.safe_load(stream)
-        except FileNotFoundError as e:
-            print(e)
-            self.locations_dict = {}
-        except KeyError as e:
-            print(e)
-            self.locations_dict = {}
-
-        self.cabinet_liquors = list(self.locations_dict.values())
 
     def index(self):
         """The main page. Redirects to the menu

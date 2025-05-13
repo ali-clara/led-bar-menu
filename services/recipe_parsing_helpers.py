@@ -5,6 +5,7 @@ import pandas as pd
 import os
 import jellyfish as jf
 import glob
+import numpy as np
 
 dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
 similarity_threshold = 0.75
@@ -75,11 +76,13 @@ def load_used_ingredients(menu_dict):
     return ingredient_list
 
 def load_all_ingredients():
-    all_ingredients = pd.read_csv(os.path.join(dir_path, "config/ingredients.csv"), header=None)
-    all_ingredients_list =  list(all_ingredients[0])
+    all_ingredients = pd.read_csv(os.path.join(dir_path, "config/ingredients.csv"), names=["ingredients", "locations"])
+    all_ingredients_list =  list(all_ingredients["ingredients"])
     all_ingredients_formatted = [ingredient.replace("_", " ").title() for ingredient in all_ingredients_list]
+    locations = list(all_ingredients["locations"])
+    location_dict = {ingredient:location for ingredient, location in zip(all_ingredients_formatted, locations)}
 
-    return all_ingredients_formatted
+    return all_ingredients_formatted, location_dict
                 
 def check_tags(ingredient_list:list, recipe_list:list):
     not_tags = copy.deepcopy(recipe_list)
@@ -97,18 +100,32 @@ def expand_tag(given_tag, tags_dict):
     parents = [given_tag]
     children = []
 
+    # Should probably make this fail after X iterations or X minutes, as a failsafe. If we accidentally put in
+    # circular tags, it'll spin and spin
+    # Or a 'seen this parent before' ?
+
     while len(parents) > 0:
         for parent in parents:
+            # If our parent is a tag, expand it into kids
             if parent in tag_names:
                 kids = list(tags_dict[parent]["ingredients"].keys())
+                # For each of those kids...
                 for kid in kids:
+                    # If it's a tag, put it in parents
                     if kid in tag_names:
                         parents.append(kid)
+                    # Otherwise, put it in children
                     else:
                         children.append(kid)
+            # Remove the expanded tag
             parents.remove(parent)
 
-    print(f"{given_tag} expanded to {children}")
+    # print(f"{given_tag} expanded to {children}")
+
+    if len(children) > 0:
+        return children
+    else:
+        return False
 
 
 def get_closest_match(x, list_random):
@@ -124,7 +141,7 @@ def get_closest_match(x, list_random):
             best_match = current_string
 
     if len(close_to) > 1:
-            print(f"Warning: {x} is close to {close_to}. Choosing {best_match}")
+            print(f"Watch out: {x} is close to {close_to}. Choosing {best_match}")
     return best_match, highest_jaro
 
 def test_similarity(used_ingredients, all_ingredients):
@@ -132,22 +149,33 @@ def test_similarity(used_ingredients, all_ingredients):
         result, score = get_closest_match(used, all_ingredients)
         print(used, "|", result, "|", score)
 
-def validate_ingredient(ingredient:str, all_ingredients, recipe_name):
+def validate_ingredient(ingredient:str, all_ingredients, recipe_name, tags_dict):
     # if score is over threshold, ingredient is good. Replace with name in 'ingredients.csv' master doc
+    # otherwise, check if it's a tag. If so, check if we have ~any~ acceptable 
     # otherwise, false
     result, score = get_closest_match(ingredient, all_ingredients)
+    children = expand_tag(ingredient, tags_dict)
     if score > similarity_threshold:
         return result
+    elif children:
+        children_scores = []
+        children_results = []
+        for child in children:
+            result, score = get_closest_match(child, all_ingredients)
+            children_scores.append(score)
+            children_results.append(result)
+        if any(np.array(children_scores) > similarity_threshold):
+            return ingredient
     else:
         print(f"Warning: Could not validate {recipe_name}, {ingredient} is below the similarity threshold.")
         return False
 
-def validate_one_recipe(recipe:dict, all_ingredients:list, recipe_name:str):
+def validate_one_recipe(recipe:dict, all_ingredients:list, recipe_name:str, tags_dict):
     # if all the ingredients of the recipe are good, recipe is good
     # otherwise, false
     recipe_ingredients = list(recipe.keys())
     for ingredient in recipe_ingredients:
-        validated = validate_ingredient(ingredient, all_ingredients, recipe_name)
+        validated = validate_ingredient(ingredient, all_ingredients, recipe_name, tags_dict)
         if not validated:
             return False
         else:
@@ -155,13 +183,13 @@ def validate_one_recipe(recipe:dict, all_ingredients:list, recipe_name:str):
 
     return recipe
 
-def validate_all_recipes(menu_dict:dict, all_ingredients):
+def validate_all_recipes(menu_dict:dict, all_ingredients, tags_dict):
     # for each recipe, validate it. If it's good, keep it.
     # Otherwise, throw out the recipe and flag it (let us know)
     validated_menu = copy.deepcopy(menu_dict)
     for key in menu_dict:
         recipe = menu_dict[key]["ingredients"]
-        validated = validate_one_recipe(recipe, all_ingredients, key)
+        validated = validate_one_recipe(recipe, all_ingredients, key, tags_dict)
         if not validated:
             validated_menu.pop(key)
         else:
@@ -188,18 +216,14 @@ if __name__ == "__main__":
     # tags, not_tags = check_tags(used_ingredients, recipe_names)
     # print(f"Tags: {tags}")
     # print(f"Not tags: {not_tags}")
-
         
-    for i, ingredient in enumerate(used_ingredients):
-        expand_tag(ingredient, tags_dict)
+    # for ingredient in used_ingredients:
+    #     children = expand_tag(ingredient, tags_dict)
+    #     if children:
+    #         print(f"expanded {ingredient} to {children}")
 
-    
-
-    # print(used_ingredients)
-
-
-    # all_ingredients = load_all_ingredients()
+    all_ingredients, location_dict = load_all_ingredients()
+    # print(all_ingredients)
 
     # test_similarity(used_ingredients, all_ingredients)
-
-    # validate_all_recipes(menu_dict, all_ingredients)
+    validate_all_recipes(menu_dict, all_ingredients, tags_dict)
