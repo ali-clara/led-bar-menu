@@ -2,7 +2,6 @@
 import time
 import yaml
 import os
-import numpy as np
 try: # real hardware
     import board
     import neopixel
@@ -48,7 +47,7 @@ class LED:
                 print(f"key error in accessing cabinet locations: {e}")
             else:
                 print(neopixel_range)
-                pixels.append(neopixel_range)
+                [pixels.append(neo) for neo in neopixel_range]
 
         # pixels = []
 
