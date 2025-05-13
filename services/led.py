@@ -39,6 +39,7 @@ class LED:
         pixels = []
         for spirit in spirit_list:
             print(spirit)
+            spirit = spirit.replace("_", " ").title()
             try:
                 cabinet_location = self.spirit_loc_dict[spirit]
                 print(cabinet_location.strip())

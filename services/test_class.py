@@ -24,10 +24,10 @@ class TestView(FlaskView):
 
     def _load_menu(self):
         # Read in the main menu and validate it against our master list of ingredients
-        menu_dict_raw, tags_dict = recipe.read_main_menu()
+        menu_dict_raw, self.tags_dict = recipe.read_main_menu()
         all_ingredients, self.location_dict = recipe.load_all_ingredients()
         self.cabinet_liquors = list(self.location_dict.keys())
-        self.menu_dict = recipe.validate_all_recipes(menu_dict_raw, all_ingredients, tags_dict)
+        self.menu_dict = recipe.validate_all_recipes(menu_dict_raw, all_ingredients, self.tags_dict)
 
         print("--")
         print(f"Validated recipes: {list(self.menu_dict.keys())}")
@@ -80,8 +80,16 @@ class TestView(FlaskView):
                 # Once we know the name of the cocktail, we can grab its ingredients. Do a quick data validation first
                 # This will be more robust in the future - should check for differences in caps/misspellings
                 chosen_ingredients = list(self.menu_dict[form_entry]['ingredients'].keys())
+                lit_up_ingredients = []
 
-                self.lights.illuminate(chosen_ingredients)
+                for ingredient in chosen_ingredients:
+                    children = recipe.expand_tag(ingredient, self.tags_dict)
+                    if children:
+                        [lit_up_ingredients.append(child) for child in children]
+                    else:
+                        lit_up_ingredients.append(ingredient)
+
+                self.lights.illuminate(lit_up_ingredients)
                 print(chosen_ingredients)
 
             # Otherwise, if the form has returned a collection, process ~that~
