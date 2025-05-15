@@ -1,0 +1,416 @@
+Aja:
+  collection: Steely Dan
+  ingredients:
+    Amaro Meletti:
+      amount: '0.75'
+      units: oz
+    Lemon Juice:
+      amount: '1'
+      units: dash
+    Orgeat:
+      amount: '1'
+      units: dash
+    Yuzu Gin:
+      amount: '1.5'
+      units: oz
+  notes: Aja
+Babylon Sisters:
+  collection: Steely Dan
+  ingredients:
+    Absinthe:
+      amount: '1'
+      units: spritz
+    Black Lemon Bitters:
+      amount: '1'
+      units: dash
+    Kirschwasser:
+      amount: '0.5'
+      units: oz
+    Maraschino:
+      amount: '2'
+      units: bsp
+    Simple Syrup:
+      amount: '0.25'
+      units: oz
+    Smoky Scotch Whisky:
+      amount: '0.25'
+      units: oz
+  notes: Shake it. Also, Maraschino is 1-2 bsps, simple was originally written down
+    as 1 tbsp, I halved that and converted to oz because it was too sweet last I made
+    this.
+Black Cow:
+  collection: Steely Dan
+  ingredients:
+    Aztec Chocolate Bitters:
+      amount: '2'
+      units: dashes
+    Four Roses Bourbon:
+      amount: '1.5'
+      units: oz
+    Orgeat:
+      amount: '0.25'
+      units: oz
+    Rootbeer bitters:
+      amount: '2'
+      units: dashes
+  notes: Aja
+Brooklyn:
+  collection: Steely Dan
+  ingredients:
+    Brandy:
+      amount: '1'
+      units: oz
+    Lemon:
+      amount: '1'
+      units: squeeze
+    Sloe Gin:
+      amount: '0.75'
+      units: oz
+    Sweet Vermouth:
+      amount: '0.5'
+      units: oz
+    Triple Sec:
+      amount: '0.5'
+      units: oz
+  notes: Can't Buy a Thrill
+Deacon Blues:
+  collection: Steely Dan
+  ingredients:
+    Cardamaro:
+      amount: '0.5'
+      units: oz
+    Hella Orange Bitters:
+      amount: '2'
+      units: dashes
+    Maple Syrup:
+      amount: '0.5'
+      units: tsp
+    Nocino:
+      amount: '0.25'
+      units: oz
+    Scotch Whisky:
+      amount: '1.5'
+      units: oz
+  notes: Aja. Credit to Zig Zag Cafe
+Don't Take Me Alive:
+  collection: The Royal Scam
+  ingredients:
+    Bourbon:
+      amount: '1'
+      units: oz
+    Falernum:
+      amount: '0.25'
+      units: oz
+    Green Chartreuse:
+      amount: '0.25'
+      units: oz
+    Lemon twist:
+      amount: '1'
+      units: twist
+    Szechuan bitters:
+      amount: '2'
+      units: dashes
+  notes: No quantities were written down for this in the doc, so I made these numbers
+    up as I edited. Also the recipe just said "lemon", which probably referred to
+    juice, but I think using a twist here and leaning into the old fashioned style
+    is more interesting here than the sour angle. But needs testing.
+FM:
+  collection: Steely Dan
+  ingredients:
+    Grapefruit bitters:
+      amount: '2'
+      units: dashes
+    Pear Brandy:
+      amount: '1'
+      units: oz
+    Sweet Vermouth:
+      amount: '0.5'
+      units: oz
+    Triple sec:
+      amount: '0.5'
+      units: oz
+    Velvet falernum:
+      amount: '0.5'
+      units: oz
+  notes: ''
+Gaucho:
+  collection: Steely Dan
+  ingredients:
+    Brovo Pink:
+      amount: '0.5'
+      units: oz
+    Falernum:
+      amount: '1'
+      units: bsp
+    Pear Brandy:
+      amount: '0.5'
+      units: oz
+    Sonoma Cherrywood Rye:
+      amount: '0.75'
+      units: oz
+  notes: Gaucho. Combine with Josie for a good time
+Glamour Profession:
+  collection: Steely Dan
+  ingredients:
+    Brut:
+      amount: '2'
+      units: oz
+    Falernum:
+      amount: '0.25'
+      units: oz
+    Lemon Juice:
+      amount: '1'
+      units: tsp
+    Szechuan bitters:
+      amount: '1'
+      units: dash
+    Yellow Chartreuse:
+      amount: '0.5'
+      units: oz
+  notes: Gaucho
+Green Flower Street:
+  collection: The Nightfly
+  ingredients:
+    Blue Curacao:
+      amount: until the lime turns green
+      units: ''
+    Elderflower liqueur:
+      amount: '0.5'
+      units: oz
+    Gin:
+      amount: '1'
+      units: oz
+    Lime Juice:
+      amount: '1'
+      units: lime
+    Scotch:
+      amount: '0.5'
+      units: oz
+    Szechuan bitters:
+      amount: '1'
+      units: dash
+  notes: 'The Nightfly. Original marginal note: Really GFS should have midori'
+Hey Nineteen:
+  collection: Steely Dan
+  ingredients:
+    360 Huckleberry:
+      amount: '0.375'
+      units: oz
+    Brucato Woodlands:
+      amount: '0.25'
+      units: oz
+    Byrrh:
+      amount: '0.5'
+      units: oz
+    Cuervo Gold:
+      amount: '0.75'
+      units: oz
+    Peychauds Bitters:
+      amount: '2'
+      units: dashes
+  notes: Blame Dane for making the original recipe too big if you don't like measuring
+    out 3/8ths of an oz
+Home at Last:
+  collection: Steely Dan
+  ingredients:
+    Apperol:
+      amount: '0.5'
+      units: oz
+    Prosecco:
+      amount: '3'
+      units: oz
+    Szechuan bitters:
+      amount: '1'
+      units: dash
+    Zirbenz:
+      amount: '1'
+      units: oz
+  notes: Szechuan bitters = 5 spice tincture
+I've Got the News:
+  collection: Steely Dan
+  ingredients:
+    Amaretto:
+      amount: '0.5'
+      units: oz
+    Coffee Liqueur:
+      amount: '1'
+      units: splash
+    Hella Orange Bitters:
+      amount: '1'
+      units: dash
+    Irish Cream:
+      amount: '1'
+      units: oz
+    Scotch Whisky:
+      amount: '1'
+      units: oz
+  notes: Aja
+Josie:
+  collection: Steely Dan
+  ingredients:
+    Calvados:
+      amount: '1.5'
+      units: oz
+    Cinnamon Whiskey:
+      amount: '0.25'
+      units: tsp
+    Falernum:
+      amount: '0.75'
+      units: oz
+    Overproof rum:
+      amount: float
+      units: float
+  notes: Set rum float aflame
+Lunch With Gina:
+  collection: Steely Dan
+  ingredients:
+    Grapefruit Sparkling Water:
+      amount: fill to top
+      units: ''
+    Peychauds Bitters:
+      amount: '4'
+      units: dashes
+    Tanqueray London Dry:
+      amount: '1'
+      units: oz
+  notes: Everything Must Go. Serve in a large wine glass.
+My Rival:
+  collection: Steely Dan
+  ingredients:
+    BroVo Jammy:
+      amount: '1'
+      units: oz
+    Del Maguey Classico:
+      amount: '1.5'
+      units: oz
+    Kaffir lime bitters:
+      amount: '4'
+      units: dashes
+    Prickly Pear Syrup:
+      amount: '0.75'
+      units: oz
+  notes: Gaucho
+Parker's Band:
+  collection: Steely Dan
+  ingredients:
+    Amaretto:
+      amount: '0.5'
+      units: oz
+    Black walnut bitters:
+      amount: '4'
+      units: drops
+    Bourbon:
+      amount: '1'
+      units: oz
+    Elderflower liqueur:
+      amount: '0.5'
+      units: oz
+    Rye Whiskey:
+      amount: '1'
+      units: oz
+  notes: Pretzel Logic
+Pearl of the Quarter:
+  collection: Steely Dan
+  ingredients:
+    Brandy:
+      amount: '1'
+      units: oz
+    Grapefruit bitters:
+      amount: '3'
+      units: dashes
+    Lemon:
+      amount: '1'
+      units: squeeze
+    Triple sec:
+      amount: '0.5'
+      units: oz
+  notes: Countdown to Ecstasy. Do NOT add Maraschino
+Peg:
+  collection: Steely Dan
+  ingredients:
+    Absinthe:
+      amount: '1'
+      units: Spritz
+    Dark creme de cacao:
+      amount: '0.75'
+      units: oz
+    Lapsang Whiskey:
+      amount: '1'
+      units: Spritz
+    Planteray Dark Rum:
+      amount: '1.5'
+      units: oz
+    Szechuan Tincture:
+      amount: '1'
+      units: dash
+    Zirbenz:
+      amount: '0.75'
+      units: oz
+  notes: Aja
+Pretzel Logic:
+  collection: Steely Dan
+  ingredients:
+    Amaro Meletti:
+      amount: '0.5'
+      units: oz
+    Brandy:
+      amount: '1.5'
+      units: oz
+    Cardamaro:
+      amount: '0.5'
+      units: oz
+    Lemon:
+      amount: '0.5'
+      units: Lemon
+  notes: Pretzel Logic
+Rikki Don't Lose that Number:
+  collection: Steely Dan
+  ingredients:
+    Amaretto:
+      amount: '0.5'
+      units: oz
+    Amaro Meletti:
+      amount: '0.5'
+      units: oz
+    Aztec Chocolate Bitters:
+      amount: '1'
+      units: dash
+    Maraschino:
+      amount: '0.25'
+      units: oz
+    Rum:
+      amount: '1.5'
+      units: oz
+  notes: Pretzel Logic. Kinda bad. M. helped
+Third World Man:
+  collection: Gaucho
+  ingredients:
+    'BroVo Amaro #4':
+      amount: '0.75'
+      units: oz
+    Elderflower Liqueur:
+      amount: '1'
+      units: splash
+    Smoky Scotch:
+      amount: '0.25'
+      units: oz
+    Tanqueray:
+      amount: '1.5'
+      units: oz
+  notes: Gaucho
+Time Out of Mind:
+  collection: Steely Dan
+  ingredients:
+    Cognac:
+      amount: '0.75'
+      units: oz
+    Lemon:
+      amount: '0.5'
+      units: lemon
+    Maraschino:
+      amount: '0.5'
+      units: oz
+    Tacoma Punk:
+      amount: '0.5'
+      units: oz
+  notes: Gaucho. Serve with a mystical sphere (ball ice).

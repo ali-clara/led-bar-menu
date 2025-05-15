@@ -54,3 +54,13 @@ Rum (Inclusive):
     Flavored Rum: {}
     Cachaca: {}
   notes: Should include all rums
+Planteray Light Rum:
+  collection: Tags
+  ingredients:
+    plantation_light: {}
+  notes: Just an alias to cover Plantation->Planteray change
+Planteray Dark Rum:
+  collection: Tags
+  ingredients:
+    plantation_dark: {}
+  notes: Just an alias to cover Plantation->Planteray change

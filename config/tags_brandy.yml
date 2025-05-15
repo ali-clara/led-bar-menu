@@ -16,6 +16,7 @@ Brandy (Inclusive):
     Calvados: {}
     Kirsch: {}
     Pear Brandy: {}
+    Fig Brandy: {}
   notes: You're an inclusive girl. Contains flavored brandies as well as those more
     similar to Cognac
 Calvados:
@@ -48,4 +49,9 @@ Pear Brandy:
   collection: Tags
   ingredients:
     pear_williams: {}
+  notes: Pear Brandies
+Fig Brandy:
+  collection: Tags
+  ingredients:
+    placeholder_fig_brandy: {}
   notes: Pear Brandies
