@@ -44,13 +44,15 @@ class LED:
             try:
                 cabinet_location = self.spirit_loc_dict[spirit]
                 print(cabinet_location.strip())
-                neopixel_range = np.array(self.led_loc_dict[cabinet_location.strip()]) # should write something to reformat the locs
-                neopixel_range = neopixel_range.flatten()
+                neopixel_range = self.led_loc_dict[cabinet_location.strip()] # should write something to reformat the locs
+                # neopixel_range = neopixel_range.flatten()
             except KeyError as e:
                 print(f"key error in accessing cabinet locations: {e}")
             else:
                 print(neopixel_range)
                 [pixels.append(neo) for neo in neopixel_range]
+                for start, stop in neopixel_range:
+                    self.range_on(start, stop)
 
         # pixels = []
 
@@ -70,7 +72,7 @@ class LED:
     def illuminate(self, spirit):
         pixels = self._spirit_to_pixel(spirit)
         print(f"lighting up pixels {pixels}")
-        self.pixels_on(pixels)
+        # self.pixels_on(pixels)
 
     def all_on(self, color=(255, 255, 0)):
         self.pixels.fill(color)
