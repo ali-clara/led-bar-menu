@@ -69,6 +69,9 @@ class TestView(FlaskView):
         # If we've gotten a change of state on the server (in this case, due to user entry),
         #   take a look at it. 
         if request.method == "POST":
+            # Clear the LEDS, if they're on
+            self.lights.all_off()
+
             # When "post" is triggered, take a look at what happened in the HTML form. The value "request.form" is
             # a dictionary with key-value pairs "element-name" "element-entry". We don't really care about the name,
             # but we can use it to grab the dict value
