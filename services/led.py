@@ -2,6 +2,7 @@
 import time
 import yaml
 import os
+import numpy as np
 try: # real hardware
     import board
     import neopixel
@@ -43,7 +44,8 @@ class LED:
             try:
                 cabinet_location = self.spirit_loc_dict[spirit]
                 print(cabinet_location.strip())
-                neopixel_range = self.led_loc_dict[cabinet_location.strip()][0] # should write something to reformat the locs
+                neopixel_range = np.array(self.led_loc_dict[cabinet_location.strip()]) # should write something to reformat the locs
+                neopixel_range = neopixel_range.flatten()
             except KeyError as e:
                 print(f"key error in accessing cabinet locations: {e}")
             else:
