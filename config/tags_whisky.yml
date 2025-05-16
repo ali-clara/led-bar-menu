@@ -67,3 +67,18 @@ Whisky (Specific):
     Japanese Whisky: {}
     Scotch Whisky: {}
   notes: Whisky spelled without the 'e'
+Smoky Scotch Whisky:
+  collection: Tags
+  ingredients:
+    famous_grouse_smoky_black: {}
+  notes: Anything that is a little smokier than usual
+Smoky Scotch:
+  collection: Tags
+  ingredients:
+    Smoky Scotch Whisky: {}
+  notes: Alias
+Scotch:
+  collection: Tags
+  ingredients:
+    Scotch Whisky: {}
+  notes: Alias
