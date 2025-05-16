@@ -88,8 +88,11 @@ class LED:
         self.pixels.show()
     
     def range_on(self, start_pix: int, stop_pix: int, color=(255,255,0)):
-        for i in range(start_pix, stop_pix):
-            self.pixels[i] = color
+        for i in range(start_pix, stop_pix+1):
+            try:
+                self.pixels[i] = color
+            except IndexError:
+                pass
         self.pixels.show()
 
     def range_off(self, start_pix: int, stop_pix: int):
