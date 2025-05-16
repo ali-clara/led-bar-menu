@@ -15,6 +15,12 @@ Coffee Liqueur:
     drip_coffee_liqueur: {}
     kahlua: {}
   notes: ''
+Creme de Cacao:
+  collection: Tags
+  ingredients:
+    Dark Creme de Cacao: {}
+    White Creme de Cacao: {}
+  notes: ''
 Dark Creme de Cacao:
   collection: Tags
   ingredients:
@@ -25,7 +31,7 @@ Elderflower Liqueur:
   ingredients:
     craft_cordials_elderflower: {}
     drillaud_elderflower: {}
-    st_germaine: {}
+    st_germain: {}
   notes: ''
 Fruit Liqueur:
   collection: Tags
@@ -82,10 +88,9 @@ Misc Liqueur:
     Macadamia Nut Liqueur: {}
     Nocino: {}
     White Creme de Cacao: {}
-    cristiani_amaretto: {}
+    Amaretto: {}
     nixta: {}
-    pistacchio_mk_i: {}
-    pistacchio_mk_ii: {}
+    Pistachio Liqueur: {}
   notes: Anything that doesn't fit in the Fruit or Herbal categories, and some that
     maybe do but aren't in them anyways
 Orange Liqueur:
@@ -123,3 +128,24 @@ Yuzu Liqueur:
   ingredients:
     yuzu_curacao: {}
   notes: ''
+Pistachio Liqueur:
+  collection: Tags
+  ingredients:
+    pistacchio_mk_i: {}
+    pistacchio_mk_ii: {}
+  notes: 'We should really dump these out instead of making them a tag'
+Amaretto:
+  collection: Tags
+  ingredients:
+    cristiani_amaretto: {}
+  notes: 
+Honey Liqueur:
+  collection: Tags
+  ingredients:
+    placeholder_honey_liqueur: {}
+  notes: 
+Macadamia Liqueur:
+  collection: Tags
+  ingredients:
+    Macadamia Nut Liqueur: {}
+  notes: 

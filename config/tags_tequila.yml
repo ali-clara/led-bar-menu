@@ -35,3 +35,9 @@ Tequila Reposado:
     cuervo_gold: {}
     zignum_reposado: {}
   notes: Can include reposado mezcals
+Del Maguey Vida:
+  collection: Tags
+  ingredients:
+    del_maguey_classico: {}
+    del_maguey_puebla: {}
+  notes: Anything with the Del Maguey Vida brand

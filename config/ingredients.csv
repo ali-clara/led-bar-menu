@@ -100,15 +100,84 @@ brovo_pink, fridge
 brovo_jammy, fridge
 brovo_witty, fridge
 brovo_pretty, fridge
+orgeat, fridge
+maple_syrup, fridge
+prickly_pear_syrup, fridge
+irish_cream, fridge
+brut, fridge
 
 angostura_bitters, bitters
 peychauds_bitters, bitters
 orange_bitters, bitters
+angostura_orange_bitters, bitters
+angostura_orange, bitters
+hella_bitters_orange, bitters
+hella_orange_bitters, bitters
+licorice_fern_bitters, bitters
+kaffir_lime_bitters, bitters
+pho_bitters, bitters
+szechuan_bitters, bitters
+szechuan_tincture, bitters
+grapefruit_bitters, bitters
+cookie_monster_bitters, bitters
+aztec_chocolate_bitters, bitters
+chocolate_bitters, bitters
+black_walnut_bitters, bitters
+rootbeer_bitters, bitters
+
+simple_syrup, cart
+simple, cart
 
 lime, bowl
+lime_juice, bowl
+lime_twist, bowl
+lime_zest, bowl
 lemon, bowl
+lemon_juice, bowl
+lemon_twist, bowl
+lemon_zest, bowl
+meyer_lemon, bowl
+meyer_lemon_juice, bowl
+meyer_lemon_twist, bowl
+meyer_lemon_zest, bowl
+orange, bowl
+orange_juice, bowl
+orange_twist, bowl
+orange_zest, bowl
+grapefruit, bowl
+grapefruit_juice, bowl
+grapefruit_twist, bowl
+grapefruit_zest, bowl
+
+mint_leaves, plant
+rosemary, plant
+rosemary_twig, plant
+rosemary_sprig, plant
+
+san_pellegrino_blood_orange, soda
+san_pellegrino_lemon, soda
+san_pellegrino_grapefuit, soda
+san_pellegrino_orange, soda
+seltzer, soda
+ginger_beer, soda
+sparkling_water, soda
+grapefruit_sparkling_water, soda
+lemon_sparkling_water, soda
+lime_sparkling_water, soda
+
+white_sugar, kitchen
+vanilla_extract, kitchen
+vanilla, kitchen
+cinnamon, kitchen
+cinnamon_stick, kitchen
 
 placeholder_japanese_whisky, none
 placeholder_coconut_rum, none
+placeholder_honey_liqueur, none
+st_germain, none
+islay_scotch, none
+creme_de_cassis, none
+placeholder_fig_brandy, none
+creme_de_violette, none
 
 
