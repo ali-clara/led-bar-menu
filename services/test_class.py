@@ -24,10 +24,10 @@ class TestView(FlaskView):
 
     def _load_menu(self):
         # Read in the main menu and validate it against our master list of ingredients
-        menu_dict_raw, self.tags_dict = recipe.read_main_menu()
+        menu_dict_raw, self.tags_dict, alias_dict = recipe.read_main_menu()
         all_ingredients, self.location_dict = recipe.load_all_ingredients()
         self.cabinet_liquors = list(self.location_dict.keys())
-        self.menu_dict = recipe.validate_all_recipes(menu_dict_raw, all_ingredients, self.tags_dict)
+        self.menu_dict = recipe.validate_all_recipes(menu_dict_raw, all_ingredients, self.tags_dict, alias_dict)
 
         print("--")
         print(f"Validated recipes: {list(self.menu_dict.keys())}")

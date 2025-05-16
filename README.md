@@ -7,7 +7,6 @@ Getting lit (hah)
 - Should display the recipe on the website
 
 ### Works! Notes:
-- Bottom selection doesn't light up the entire range (led spirit_to_pixel() problem)
 - Aliases tag (amaro meletti == meletti)
 - String validation with the tags
 - Colors and brightnesses

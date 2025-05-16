@@ -107,7 +107,7 @@ Triple Sec (Exclusive):
     cointreau: {}
     bols_triple_sec: {}
   notes: Include only actual triple-sec
-Triplesec:
+Triple Sec:
   collection: Tags
   ingredients:
     Orange Liqueur: {}

@@ -9,6 +9,7 @@ import numpy as np
 
 dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
 similarity_threshold = 0.75
+tag_threshold = 0.875
 
 def read_main_menu():
     recipes_dict = {}
@@ -30,7 +31,24 @@ def read_main_menu():
         print(e)
         tags_dict = {}
 
-    return recipes_dict, tags_dict
+    try:
+        file = dir_path+"/config/aliases.yml"
+        with open(file) as stream:
+            alias_dict = yaml.safe_load(stream)
+    except FileNotFoundError as e:
+        print(e)
+        alias_dict = {}
+    else:
+        alias_dict_restructured = {}
+        for key in alias_dict:
+            aliases = list(alias_dict[key]["ingredients"].keys())
+
+            aliases = [alias.lower() for alias in aliases]
+            key = key.lower()
+
+            alias_dict_restructured.update({key:aliases})
+
+    return recipes_dict, tags_dict, alias_dict_restructured
 
 def load_recipe_names(menu_dict):
     return list(menu_dict.keys())
@@ -83,7 +101,48 @@ def load_all_ingredients():
     location_dict = {ingredient:location for ingredient, location in zip(all_ingredients_formatted, locations)}
 
     return all_ingredients_formatted, location_dict
+
+def get_closest_match(x, list_random, threshold=similarity_threshold, verbose=False):
+    best_match = None
+    highest_jaro = 0
+    close_to = []
+    for current_string in list_random:
+        current_score = jf.jaro_similarity(x, current_string)
+        if current_score > threshold:
+            close_to.append(current_string)
+        if(current_score > highest_jaro):
+            highest_jaro = current_score
+            best_match = current_string
+
+    if verbose:
+        if len(close_to) > 1:
+                print(f"Watch out: {x} is close to {close_to}. Choosing {best_match}")
+
+    return best_match, highest_jaro
                 
+def check_alias(ingredient, alias_dict:dict):
+        
+    names_to_check = [ingredient]
+    ingredient = ingredient.lower()
+
+    ## should add string validation to all this
+
+    # print(ingredient)
+    # if it's a key, add its values
+    if ingredient in alias_dict.keys():
+        values = alias_dict[ingredient]
+        [names_to_check.append(value) for value in values]
+
+    # if it's a value, add its keys
+    for key in alias_dict:
+        aliases = alias_dict[key]
+        if ingredient in aliases:
+            names_to_check.append(key)
+
+    # print(f"given {ingredient}, should check {names_to_check} against the ingredients list")
+
+    return names_to_check
+
 def check_tags(ingredient_list:list, recipe_list:list):
     not_tags = copy.deepcopy(recipe_list)
     tags = []
@@ -95,30 +154,48 @@ def check_tags(ingredient_list:list, recipe_list:list):
 
     return tags, not_tags
 
+def check_tag(given_tag, tag_names):
+    # checks to see if a given tag is close to a key in tags_dict. If it is, it replaces the given tag with the key
+    # tag_names = load_tags(tags_dict)
+    best_match, score = get_closest_match(given_tag, tag_names)
+    # print(given_tag, best_match, score)
+    if score > tag_threshold:
+        return True, best_match, score
+    else:
+        return False, given_tag, score
+
 def expand_tag(given_tag, tags_dict):
     tag_names = load_tags(tags_dict)
     parents = [given_tag]
     children = []
+    timeout = 10
 
-    # Should probably make this fail after X iterations or X minutes, as a failsafe. If we accidentally put in
-    # circular tags, it'll spin and spin
-    # Or a 'seen this parent before' ?
-
+    # Stops after 10 iterations as a failsafe -- . If we accidentally put in circular tags, it'll spin and spin
+    i = 0
     while len(parents) > 0:
+        if i > timeout:
+            print(f"Error: circular tags detected: {parents}")
+            return False
+        
         for parent in parents:
+            # Remove the expanded tag
+            parents.remove(parent)
+
             # If our parent is a tag, expand it into kids
-            if parent in tag_names:
+            tag, parent, _ = check_tag(parent, tag_names)
+            if tag:
                 kids = list(tags_dict[parent]["ingredients"].keys())
                 # For each of those kids...
                 for kid in kids:
                     # If it's a tag, put it in parents
-                    if kid in tag_names:
+                    tag, kid, _ = check_tag(kid, tag_names)
+                    if tag:
                         parents.append(kid)
                     # Otherwise, put it in children
                     else:
                         children.append(kid)
-            # Remove the expanded tag
-            parents.remove(parent)
+            
+        i += 1
 
     # print(f"{given_tag} expanded to {children}")
 
@@ -127,55 +204,70 @@ def expand_tag(given_tag, tags_dict):
     else:
         return False
 
-
-def get_closest_match(x, list_random):
-    best_match = None
-    highest_jaro = 0
-    close_to = []
-    for current_string in list_random:
-        current_score = jf.jaro_similarity(x, current_string)
-        if current_score > similarity_threshold:
-            close_to.append(current_string)
-        if(current_score > highest_jaro):
-            highest_jaro = current_score
-            best_match = current_string
-
-    if len(close_to) > 1:
-            print(f"Watch out: {x} is close to {close_to}. Choosing {best_match}")
-    return best_match, highest_jaro
-
 def test_similarity(used_ingredients, all_ingredients):
     for used in used_ingredients:
-        result, score = get_closest_match(used, all_ingredients)
+        result, score = get_closest_match(used, all_ingredients, verbose=True)
         print(used, "|", result, "|", score)
 
-def validate_ingredient(ingredient:str, all_ingredients, recipe_name, tags_dict):
+def get_closest_match_list(x_list, list_random):
+    best_match = None
+    best_score = 0
+    for x in x_list:
+        result, score = get_closest_match(x, list_random)
+        if score > best_score:
+            best_match = result
+            best_score = score
+
+    # print(best_match, score)
+    # print("---")
+    
+    return best_match, score
+
+def validate_ingredient(ingredient:str, all_ingredients, recipe_name, tags_dict, alias_dict, verbose):
     # if score is over threshold, ingredient is good. Replace with name in 'ingredients.csv' master doc
     # otherwise, check if it's a tag. If so, check if we have ~any~ acceptable 
     # otherwise, false
-    result, score = get_closest_match(ingredient, all_ingredients)
-    children = expand_tag(ingredient, tags_dict)
-    if score > similarity_threshold:
-        return result
-    elif children:
+    # Check and see if there's an alias for our ingredient (e.g "meletti" and "amaro meletti")
+    aliases = check_alias(ingredient, alias_dict)
+    # Use string comparison to get the closest match between the ingredient we're looking at (from a recipe)
+    # and our master list of ingredients
+    best_match, match_score = get_closest_match_list(aliases, all_ingredients)
+    # Check and see if we're dealing with a tag instead of a single ingredient
+    # children = expand_tag(ingredient, tags_dict)
+    tag_names = load_tags(tags_dict)
+    tag, tag_name, tag_score = check_tag(ingredient, tag_names)
+    # If we've identified a tag, check a match for each child
+    if tag:
+        children = expand_tag(tag_name, tags_dict)
         children_scores = []
-        children_results = []
+        children_matches = []
         for child in children:
-            result, score = get_closest_match(child, all_ingredients)
-            children_scores.append(score)
-            children_results.append(result)
+            child = child.replace("_", " ").title()
+            match, child_score = get_closest_match(child, all_ingredients)
+            children_scores.append(child_score)
+            children_matches.append(match)
+        # If we've found a match, return the tag
         if any(np.array(children_scores) > similarity_threshold):
-            return ingredient
+            if verbose:
+                print(f"tag   - {ingredient} -> {tag_name}, {tag_score}")
+            return tag_name
+    # Otherwise, if we've gotten a match, return it
+    if match_score > similarity_threshold:
+        if verbose:
+            print(f"match - {ingredient} -> {best_match}, {match_score}")
+        return best_match
+    
+    # Otherwise, no can do chief. Return False
     else:
         print(f"Warning: Could not validate {recipe_name}, {ingredient} is below the similarity threshold.")
         return False
 
-def validate_one_recipe(recipe:dict, all_ingredients:list, recipe_name:str, tags_dict):
+def validate_one_recipe(recipe:dict, all_ingredients:list, recipe_name:str, tags_dict, alias_dict, verbose):
     # if all the ingredients of the recipe are good, recipe is good
     # otherwise, false
     recipe_ingredients = list(recipe.keys())
     for ingredient in recipe_ingredients:
-        validated = validate_ingredient(ingredient, all_ingredients, recipe_name, tags_dict)
+        validated = validate_ingredient(ingredient, all_ingredients, recipe_name, tags_dict, alias_dict, verbose)
         if not validated:
             return False
         else:
@@ -183,13 +275,13 @@ def validate_one_recipe(recipe:dict, all_ingredients:list, recipe_name:str, tags
 
     return recipe
 
-def validate_all_recipes(menu_dict:dict, all_ingredients, tags_dict):
+def validate_all_recipes(menu_dict:dict, all_ingredients, tags_dict, alias_dict, verbose=False):
     # for each recipe, validate it. If it's good, keep it.
     # Otherwise, throw out the recipe and flag it (let us know)
     validated_menu = copy.deepcopy(menu_dict)
     for key in menu_dict:
         recipe = menu_dict[key]["ingredients"]
-        validated = validate_one_recipe(recipe, all_ingredients, key, tags_dict)
+        validated = validate_one_recipe(recipe, all_ingredients, key, tags_dict, alias_dict, verbose)
         if not validated:
             validated_menu.pop(key)
         else:
@@ -198,7 +290,7 @@ def validate_all_recipes(menu_dict:dict, all_ingredients, tags_dict):
     return validated_menu
 
 if __name__ == "__main__":
-    menu_dict, tags_dict = read_main_menu()
+    menu_dict, tags_dict, alias_dict = read_main_menu()
     recipe_names = load_recipe_names(menu_dict)
     tag_names = load_tags(tags_dict)
     collections = load_collection_names(menu_dict)
@@ -226,4 +318,4 @@ if __name__ == "__main__":
     # print(all_ingredients)
 
     # test_similarity(used_ingredients, all_ingredients)
-    validate_all_recipes(menu_dict, all_ingredients, tags_dict)
+    validate_all_recipes(menu_dict, all_ingredients, tags_dict, alias_dict, verbose=True)

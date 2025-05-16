@@ -38,3 +38,8 @@ Elderflower:
   ingredients:
     Elderflower Liqueur: {}
   notes: 'Rare to add elderflower not as a liqueur'
+Amaro Meletti:
+  collection: Tags
+  ingredients:
+    meletti: {}
+  notes: ''
