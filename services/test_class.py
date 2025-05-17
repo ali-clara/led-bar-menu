@@ -95,6 +95,10 @@ class TestView(FlaskView):
                 self.lights.illuminate(lit_up_ingredients)
                 print(chosen_ingredients)
 
+            elif form_entry in self.cabinet_liquors:
+                self.lights.illuminate([form_entry])
+                print(f"lighting up single ingredient: {form_entry}")
+
             # Otherwise, if the form has returned a collection, process ~that~
             elif form_entry in self.collection_names:
                 # This line isn't strictly necessary, but I think title case with spaces looks dumb in a URL, so I 
