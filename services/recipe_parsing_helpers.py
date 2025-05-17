@@ -218,10 +218,11 @@ def get_closest_match_list(x_list, list_random):
             best_match = result
             best_score = score
 
-    # print(best_match, score)
+    # print(x_list)
+    # print(best_match, best_score)
     # print("---")
     
-    return best_match, score
+    return best_match, best_score
 
 def validate_ingredient(ingredient:str, all_ingredients, recipe_name, tags_dict, alias_dict, verbose):
     # if score is over threshold, ingredient is good. Replace with name in 'ingredients.csv' master doc
