@@ -25,8 +25,8 @@ class LED:
         self.pixels.fill((0,0,0))
         self.pixels.show()
 
-        # Seems like 3-wide is pretty good
-        self.test_locs = {"Famous Grouse Smoky Black": 38, "Genepy": 66, "Woodlands Brucato": 109}
+        # # Seems like 3-wide is pretty good
+        # self.test_locs = {"Famous Grouse Smoky Black": 38, "Genepy": 66, "Woodlands Brucato": 109}
 
         # Dictionary of spirit:location, where 'location' is a coordinate not a neopixel address (e.g A7 not 150)
         self.spirit_loc_dict = spirit_locations

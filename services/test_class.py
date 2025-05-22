@@ -78,12 +78,13 @@ class TestView(FlaskView):
             element_name = list(request.form.keys())[0]
             form_entry = request.form.get(element_name)
 
+            lit_up_ingredients = []
+
             # If the form has returned a cocktail, process that
             if form_entry in self.cocktail_names:
                 # Once we know the name of the cocktail, we can grab its ingredients. Do a quick data validation first
                 # This will be more robust in the future - should check for differences in caps/misspellings
                 chosen_ingredients = list(self.menu_dict[form_entry]['ingredients'].keys())
-                lit_up_ingredients = []
 
                 for ingredient in chosen_ingredients:
                     children = recipe.expand_tag(ingredient, self.tags_dict)
@@ -95,9 +96,17 @@ class TestView(FlaskView):
                 self.lights.illuminate(lit_up_ingredients)
                 print(chosen_ingredients)
 
-            elif form_entry in self.cabinet_liquors:
-                self.lights.illuminate([form_entry])
-                print(f"lighting up single ingredient: {form_entry}")
+            elif form_entry in self.used_ingredients:
+                children = recipe.expand_tag(form_entry, self.tags_dict)
+                if children:
+                    [lit_up_ingredients.append(child) for child in children]
+                    print(f"lighting up tag: {form_entry}")
+                else:
+                    lit_up_ingredients.append(ingredient)
+                    print(f"lighting up single ingredient: {form_entry}")
+
+                self.lights.illuminate(lit_up_ingredients)
+                
 
             # Otherwise, if the form has returned a collection, process ~that~
             elif form_entry in self.collection_names:

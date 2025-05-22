@@ -303,7 +303,7 @@ if __name__ == "__main__":
     # print("---")
 
     used_ingredients = load_used_ingredients(menu_dict)
-    # print(f"Used ingredients: {used_ingredients}")
+    print(f"Used ingredients: {used_ingredients}")
     # print("---")
 
     # tags, not_tags = check_tags(used_ingredients, recipe_names)
@@ -319,4 +319,4 @@ if __name__ == "__main__":
     # print(all_ingredients)
 
     # test_similarity(used_ingredients, all_ingredients)
-    validate_all_recipes(menu_dict, all_ingredients, tags_dict, alias_dict, verbose=True)
+    # validate_all_recipes(menu_dict, all_ingredients, tags_dict, alias_dict, verbose=True)
