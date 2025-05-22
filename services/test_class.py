@@ -102,7 +102,7 @@ class TestView(FlaskView):
                     [lit_up_ingredients.append(child) for child in children]
                     print(f"lighting up tag: {form_entry}")
                 else:
-                    lit_up_ingredients.append(ingredient)
+                    lit_up_ingredients.append(form_entry)
                     print(f"lighting up single ingredient: {form_entry}")
 
                 self.lights.illuminate(lit_up_ingredients)
