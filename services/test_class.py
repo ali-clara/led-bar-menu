@@ -36,6 +36,7 @@ class TestView(FlaskView):
         self.collection_names = recipe.load_collection_names(self.menu_dict)
         self.cocktail_names = recipe.load_recipe_names(self.menu_dict)
         self.used_ingredients = recipe.load_used_ingredients(self.menu_dict)
+        self.tags = recipe.load_tags(self.tags_dict)
 
         # Build a dictionary that sorts the cocktail names by collection
         #   e.g {'5057 main menu': ['Anthracite Prospector'], '2201 main menu': ['The Highland Locust'], 'lord of the rings': ['Pippin']}
@@ -96,7 +97,7 @@ class TestView(FlaskView):
                 self.lights.illuminate(lit_up_ingredients)
                 print(chosen_ingredients)
 
-            elif form_entry in self.used_ingredients:
+            elif form_entry in self.used_ingredients or form_entry in self.tags:
                 children = recipe.expand_tag(form_entry, self.tags_dict)
                 if children:
                     [lit_up_ingredients.append(child) for child in children]
