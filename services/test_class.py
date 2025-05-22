@@ -81,11 +81,11 @@ class TestView(FlaskView):
             lit_up_ingredients = []
 
             print(form_entry)
-            is_recipe, recipe_match, recipe_score = recipe.check_match(form_entry, self.cocktail_names, match_threshold=0.7)
+            is_recipe, recipe_match, recipe_score = recipe.check_match(form_entry, self.cocktail_names, match_threshold=0.705)
             print(is_recipe, recipe_match, recipe_score)
             is_ingredient, ingredient_match, score = recipe.check_match(form_entry, self.all_ingredients, match_threshold=0.75)
             print(is_ingredient, ingredient_match, score)
-            is_tag, tag_match, tag_score = recipe.check_match(form_entry, self.tags)
+            is_tag, tag_match, tag_score = recipe.check_match(form_entry, self.tags, match_threshold=0.75)
             print(is_tag, tag_match, tag_score)
 
             # If the form has returned a cocktail, process that
