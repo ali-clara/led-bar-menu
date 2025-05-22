@@ -25,9 +25,8 @@ class TestView(FlaskView):
     def _load_menu(self):
         # Read in the main menu and validate it against our master list of ingredients
         menu_dict_raw, self.tags_dict, alias_dict = recipe.read_main_menu()
-        all_ingredients, self.location_dict = recipe.load_all_ingredients()
-        self.cabinet_liquors = list(self.location_dict.keys())
-        self.menu_dict = recipe.validate_all_recipes(menu_dict_raw, all_ingredients, self.tags_dict, alias_dict)
+        self.all_ingredients, self.location_dict = recipe.load_all_ingredients()
+        self.menu_dict = recipe.validate_all_recipes(menu_dict_raw, self.all_ingredients, self.tags_dict, alias_dict)
 
         print("--")
         print(f"Validated recipes: {list(self.menu_dict.keys())}")
@@ -97,7 +96,7 @@ class TestView(FlaskView):
                 self.lights.illuminate(lit_up_ingredients)
                 print(chosen_ingredients)
 
-            elif form_entry in self.used_ingredients or form_entry in self.tags:
+            elif form_entry in self.all_ingredients or form_entry in self.tags:
                 children = recipe.expand_tag(form_entry, self.tags_dict)
                 if children:
                     [lit_up_ingredients.append(child) for child in children]
