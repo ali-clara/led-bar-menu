@@ -9,7 +9,6 @@ import numpy as np
 
 dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
 similarity_threshold = 0.75
-tag_threshold = 0.875
 
 def read_main_menu():
     recipes_dict = {}
@@ -102,13 +101,13 @@ def load_all_ingredients():
 
     return all_ingredients_formatted, location_dict
 
-def get_closest_match(x, list_random, threshold=similarity_threshold, verbose=False):
+def get_closest_match(x, list_random, verbose=False):
     best_match = None
     highest_jaro = 0
     close_to = []
     for current_string in list_random:
         current_score = jf.jaro_similarity(x, current_string)
-        if current_score > threshold:
+        if current_score > similarity_threshold:
             close_to.append(current_string)
         if(current_score > highest_jaro):
             highest_jaro = current_score
@@ -143,26 +142,26 @@ def check_alias(ingredient, alias_dict:dict):
 
     return names_to_check
 
-def check_tags(ingredient_list:list, recipe_list:list):
-    not_tags = copy.deepcopy(recipe_list)
-    tags = []
+# def check_tags(ingredient_list:list, recipe_list:list):
+#     not_tags = copy.deepcopy(recipe_list)
+#     tags = []
 
-    for ingredient in ingredient_list:
-        if ingredient in recipe_list:
-            not_tags.remove(ingredient)
-            tags.append(ingredient)
+#     for ingredient in ingredient_list:
+#         if ingredient in recipe_list:
+#             not_tags.remove(ingredient)
+#             tags.append(ingredient)
 
-    return tags, not_tags
+#     return tags, not_tags
 
-def check_tag(given_tag, tag_names):
+def check_match(given_input, valid_names, match_threshold=0.875):
     # checks to see if a given tag is close to a key in tags_dict. If it is, it replaces the given tag with the key
     # tag_names = load_tags(tags_dict)
-    best_match, score = get_closest_match(given_tag, tag_names)
+    best_match, score = get_closest_match(given_input, valid_names)
     # print(given_tag, best_match, score)
-    if score > tag_threshold:
+    if score > match_threshold:
         return True, best_match, score
     else:
-        return False, given_tag, score
+        return False, given_input, score
 
 def expand_tag(given_tag, tags_dict):
     tag_names = load_tags(tags_dict)
@@ -182,13 +181,13 @@ def expand_tag(given_tag, tags_dict):
             parents.remove(parent)
 
             # If our parent is a tag, expand it into kids
-            tag, parent, _ = check_tag(parent, tag_names)
+            tag, parent, _ = check_match(parent, tag_names)
             if tag:
                 kids = list(tags_dict[parent]["ingredients"].keys())
                 # For each of those kids...
                 for kid in kids:
                     # If it's a tag, put it in parents
-                    tag, kid, _ = check_tag(kid, tag_names)
+                    tag, kid, _ = check_match(kid, tag_names)
                     if tag:
                         parents.append(kid)
                     # Otherwise, put it in children
@@ -236,7 +235,7 @@ def validate_ingredient(ingredient:str, all_ingredients, recipe_name, tags_dict,
     # Check and see if we're dealing with a tag instead of a single ingredient
     # children = expand_tag(ingredient, tags_dict)
     tag_names = load_tags(tags_dict)
-    tag, tag_name, tag_score = check_tag(ingredient, tag_names)
+    tag, tag_name, tag_score = check_match(ingredient, tag_names)
     # If we've identified a tag, check a match for each child
     if tag:
         children = expand_tag(tag_name, tags_dict)

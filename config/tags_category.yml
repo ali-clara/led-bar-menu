@@ -23,7 +23,7 @@ Base Spirits:
     Mezcal (Inclusive): {}
     Rum (Inclusive): {}
     Vodka (Inclusive): {}
-    Whiskey: {}
+    Whiskey (Inclusive): {}
   notes: Include only high-level tags here
 Citrus:
   collection: Tags

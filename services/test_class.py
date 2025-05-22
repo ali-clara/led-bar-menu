@@ -80,11 +80,19 @@ class TestView(FlaskView):
 
             lit_up_ingredients = []
 
+            print(form_entry)
+            is_recipe, recipe_match, recipe_score = recipe.check_match(form_entry, self.cocktail_names, match_threshold=0.7)
+            print(is_recipe, recipe_match, recipe_score)
+            is_ingredient, ingredient_match, score = recipe.check_match(form_entry, self.all_ingredients, match_threshold=0.75)
+            print(is_ingredient, ingredient_match, score)
+            is_tag, tag_match, tag_score = recipe.check_match(form_entry, self.tags)
+            print(is_tag, tag_match, tag_score)
+
             # If the form has returned a cocktail, process that
-            if form_entry in self.cocktail_names:
+            if is_recipe:
                 # Once we know the name of the cocktail, we can grab its ingredients. Do a quick data validation first
                 # This will be more robust in the future - should check for differences in caps/misspellings
-                chosen_ingredients = list(self.menu_dict[form_entry]['ingredients'].keys())
+                chosen_ingredients = list(self.menu_dict[recipe_match]['ingredients'].keys())
 
                 for ingredient in chosen_ingredients:
                     children = recipe.expand_tag(ingredient, self.tags_dict)
@@ -96,17 +104,15 @@ class TestView(FlaskView):
                 self.lights.illuminate(lit_up_ingredients)
                 print(chosen_ingredients)
 
-            elif form_entry in self.all_ingredients or form_entry in self.tags:
-                children = recipe.expand_tag(form_entry, self.tags_dict)
-                if children:
-                    [lit_up_ingredients.append(child) for child in children]
-                    print(f"lighting up tag: {form_entry}")
-                else:
-                    lit_up_ingredients.append(form_entry)
-                    print(f"lighting up single ingredient: {form_entry}")
-
+            elif is_tag:
+                children = recipe.expand_tag(tag_match, self.tags_dict)
+                [lit_up_ingredients.append(child) for child in children]
+                print(f"lighting up tag: {tag_match}")
                 self.lights.illuminate(lit_up_ingredients)
-                
+            
+            elif is_ingredient:
+                print(f"lighting up single ingredient: {ingredient_match}")
+                self.lights.illuminate([ingredient_match])
 
             # Otherwise, if the form has returned a collection, process ~that~
             elif form_entry in self.collection_names:

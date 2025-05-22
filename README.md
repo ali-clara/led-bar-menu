@@ -7,9 +7,8 @@ Getting lit (hah)
 - Should display the recipe on the website
 
 ### Works! Notes:
-- Aliases tag (amaro meletti == meletti)
-- String validation with the tags
 - Colors and brightnesses
+- Publish the logs to the website
 
 
 ### Docs
