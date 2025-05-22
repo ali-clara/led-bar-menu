@@ -67,6 +67,13 @@ Whisky (Specific):
     Japanese Whisky: {}
     Scotch Whisky: {}
   notes: Whisky spelled without the 'e'
+Whiskey (Inclusive):
+  collection: Tags
+  ingredients:
+    Whiskey: {}
+    Whiskey (Specific): {}
+    cinnamon_whiskey: {}
+  notes: Jack you might want to check this one, I did my best
 Smoky Scotch Whisky:
   collection: Tags
   ingredients:
