@@ -31,7 +31,7 @@ class LED:
         # Dictionary of spirit:location, where 'location' is a coordinate not a neopixel address (e.g A7 not 150)
         self.spirit_loc_dict = spirit_locations
 
-        # Dictionary of coordiante:[neopixel start, neopixel stop]
+        # Dictionary of coordinate:[neopixel start, neopixel stop]
         with open(dir_path+"/config/led_locs_final.yml") as stream:
             self.led_loc_dict = yaml.safe_load(stream)
 
