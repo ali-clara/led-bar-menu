@@ -1,0 +1,28 @@
+#Calvados:
+#  collection: Tags
+#  ingredients:
+#    boulard_calvados: {}
+#  notes: Calvados
+
+Vermouth:
+  collection: Tags
+  ingredients:
+    sweet_vermouth: {}
+    dry_vermouth: {}
+    brovo_pink: {}
+    brovo_jammy: {}
+    brovo_witty: {}
+    brovo_pretty: {}
+
+Sparkling:
+  collection: Tags
+  ingredients:
+    brut: {}
+    prosecco: {}
+    
+Wine (Inclusive):
+  collection: Tags
+  ingredients:
+    Vermouth: {}
+    Sparkling: {}
+  notes: Should probably also include normal wines like a general red or white if they ever make their way onto an ingredients list, but as yet they are not.

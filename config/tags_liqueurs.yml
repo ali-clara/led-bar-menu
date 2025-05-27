@@ -46,7 +46,7 @@ Fruit Liqueur:
   notes: ''
 Sweet Liqueur:
   collection: Tags
-  ingredeints:
+  ingredients:
     Fruit Liqueur: {}
     Coffee Liqueur: {}
     Elderflower Liqueur: {}

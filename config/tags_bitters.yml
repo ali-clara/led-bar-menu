@@ -1,0 +1,43 @@
+#Calvados:
+#  collection: Tags
+#  ingredients:
+#    boulard_calvados: {}
+#  notes: Calvados
+
+Bitters:
+  collection: Tags
+  ingredients:
+    grapefruit_bitters: {}
+    aztec_chocolate_bitters: {}
+    chocolate_bitters: {}
+    black_walnut_bitters: {}
+    rootbeer_bitters: {}
+    Aromatic Bitters: {}
+    Homemade Bitters: {}
+    Orange Bitters: {}
+
+Orange Bitters:
+    collection: Tags
+    ingredients:
+      orange_bitters: {}
+      angostura_orange_bitters: {}
+      angostura_orange: {}
+      hella_bitters_orange: {}
+      hella_orange_bitters: {}
+
+Homemade Bitters:
+  collection: Tags
+  ingredients:
+    licorice_fern_bitters: {}
+    kaffir_lime_bitters: {}
+    pho_bitters: {}
+    szechuan_bitters: {}
+    szechuan_tincture: {}
+    cookie_monster_bitters: {}
+
+Aromatic Bitters:
+  collection: Tags
+  ingredients:
+    angostura_bitters: {}
+    reddit_aroma: {}
+    peychauds_bitters: {}
