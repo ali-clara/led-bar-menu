@@ -7,13 +7,9 @@ import glob
 import numpy as np
 
 
-
-#print(os.listdir())
-
 #What I need to do now is load everything into the document
 
 #This holds in the data of all of the tag files.
-##It's possible that we're going to to run into problems with the aliases, so I might need to exclude that one specifically.
 yamls = {}
 for filename in os.listdir("..\\config"):
     if filename[-4:] == '.yml' and filename[:5] == "tags_":
@@ -82,4 +78,3 @@ def resolve_random_recipe(rand_recipe):
             random_ingredients[resolution] = random_ingredients[i]
             del random_ingredients[i]
     print(random_ingredients)
-
