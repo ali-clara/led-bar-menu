@@ -13,9 +13,8 @@ Random Last Word:
     Random Sweet Liqueur:
         amount: '1'
         units: oz
-  notes: ''
- 
- Random Negroni:
+  notes: ''  
+Random Negroni:
   collection: Random Recipes
   ingredients:
     Random Base Spirit:

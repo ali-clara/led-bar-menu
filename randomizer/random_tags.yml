@@ -1,14 +1,44 @@
+#A random tag format lives in the 'Random' collection, and has only one data field: included.
+#Each item in <included> has an integer weight, which affects the distribution when it's selected.
+
 Random Base Spirit:
-  collection: Random
+  collection: random
   included:
-    Base Spirits: {}
+    Base Spirits: 1
     #Might at some point have it weight some things more heavily, might even do that within the recipe file
 
 
 Random Sweet Liqueur:
-  collection: Random
+  collection: random
   included:
-    Fruit Liqueur: {}
-    Coffee Liqueur: {}
-    Creme de Cacao: {}
-    Macadamia Nut Liqueur: {}
+    Sweet Liqueur: 1
+    
+Random Citrus:
+  collection: random
+  included:
+    lemon: 5
+    lime: 10
+    meyer_lemon: 1
+    orange: 2
+    grapefruit: 1
+
+Random Herbal Liqueur:
+  collection: random
+  included:
+    Herbal Liqueur: 1
+
+Random Vermouth:
+  collection: random
+  included:
+    Vermouth: 1
+
+Random Amaro:
+  collection: random
+  included:
+    Amaro: 1
+
+
+Random Bitters:
+  collection: random
+  included:
+    Bitters: 1
