@@ -1,0 +1,5 @@
+Add random tags:
+	A random tag is just a list of weights of existing tags.
+	(Potential future idea, including data for temperatiure)
+
+Figure out how the yaml reading works to snag all the necessary parts

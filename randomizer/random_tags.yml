@@ -1,0 +1,14 @@
+Random Base Spirit:
+  collection: Random
+  included:
+    Base Spirits: {}
+    #Might at some point have it weight some things more heavily, might even do that within the recipe file
+
+
+Random Sweet Liqueur:
+  collection: Random
+  included:
+    Fruit Liqueur: {}
+    Coffee Liqueur: {}
+    Creme de Cacao: {}
+    Macadamia Nut Liqueur: {}

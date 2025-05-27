@@ -44,6 +44,12 @@ Fruit Liqueur:
     limoncello: {}
     peachtree: {}
   notes: ''
+Sweet Liqueur:
+  collection: Tags
+  ingredeints:
+    Fruit Liqueur: {}
+    Coffee Liqueur: {}
+    Elderflower Liqueur: {}
 Green Chartreuse (Flammable):
   collection: Tags
   ingredients:
