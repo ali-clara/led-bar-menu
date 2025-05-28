@@ -75,8 +75,8 @@ class LED:
                 [pixels.append(neo) for neo in neopixel_range]
                 for start, stop in neopixel_range:
                     self.range_on(start, stop, color, brightness)
-                if out_of_cabient:
-                    self.range_on(1, 4, color, brightness=0.3)
+            if out_of_cabient:
+                self.range_on(1, 4, color, brightness=0.3)
 
 
         # pixels = []
