@@ -25,15 +25,28 @@ class LED:
         self.pixels.fill((0,0,0))
         self.pixels.show()
 
-        # # Seems like 3-wide is pretty good
-        # self.test_locs = {"Famous Grouse Smoky Black": 38, "Genepy": 66, "Woodlands Brucato": 109}
-
         # Dictionary of spirit:location, where 'location' is a coordinate not a neopixel address (e.g A7 not 150)
         self.spirit_loc_dict = spirit_locations
 
         # Dictionary of coordinate:[neopixel start, neopixel stop]
         with open(dir_path+"/config/led_locs_final.yml") as stream:
             self.led_loc_dict = yaml.safe_load(stream)
+
+        # Initialize colors
+        self.rainbow_dict = {"red": (228, 3, 3),
+                            "orange": (255, 140, 0),
+                            "yellow": (255, 237, 0),
+                            "green": (0, 128, 38),
+                            "blue": (0, 77, 255),
+                            "violet": (117, 7, 135),
+                            "white": (255, 255, 255),
+                            "pink": (255, 175, 200),
+                            "light blue": (116, 215, 238),
+                            "brown": (97, 57, 21),
+                            "black": (0, 0, 0),
+                            }
+        
+        self.unused_colors = list(self.rainbow_dict.values())
 
     def _spirit_to_pixel(self, spirit_list):
         
@@ -46,13 +59,18 @@ class LED:
                 print(cabinet_location.strip())
                 neopixel_range = self.led_loc_dict[cabinet_location.strip()]
                 # neopixel_range = neopixel_range.flatten()
+                brightness = self._get_brightness_scalar(cabinet_location)
+                color = self.unused_colors.pop(0)
             except KeyError as e:
                 print(f"key error in accessing cabinet locations: {e}")
+            except IndexError as e:
+                print(e)
+                color = (255,255,255)
             else:
                 print(neopixel_range)
                 [pixels.append(neo) for neo in neopixel_range]
                 for start, stop in neopixel_range:
-                    self.range_on(start, stop)
+                    self.range_on(start, stop, color, brightness)
 
         # pixels = []
 
@@ -68,6 +86,19 @@ class LED:
 
         # return pixels as a list
         return pixels
+    
+    def _get_brightness_scalar(self, location:str):
+        # Returns a scalar between 0-1 based on the cabinet location
+        if "A" in location:
+            return 1
+        elif "B" in location or "C" in location or "D" in location or "E" in location or "F" in location:
+            return 0.5
+        elif "G" in location:
+            return 0.3
+        elif "H" in location or "I" in location or "J" in location or "K" in location or "L" in location or "M" in location or "N" in location:
+            return 0.2
+        else:
+            return 0
     
     def illuminate(self, spirit):
         pixels = self._spirit_to_pixel(spirit)
@@ -88,9 +119,10 @@ class LED:
         self.pixels.show()
     
     def range_on(self, start_pix: int, stop_pix: int, color=(255,255,0), brightness=0.1):
+        scaled_color = np.round(brightness*np.array(color))
         for i in range(start_pix, stop_pix+1):
             try:
-                self.pixels[i] = color
+                self.pixels[i] = scaled_color
             except IndexError:
                 pass
         self.pixels.show()
