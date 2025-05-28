@@ -50,33 +50,37 @@ class LED:
     def _spirit_to_pixel(self, spirit_list):
         
         pixels = []
-        out_of_cabient = False
         for spirit in spirit_list:
             print(spirit)
             spirit = spirit.replace("_", " ").title()
             try:
                 color = self.unused_colors.pop(0)
+            # When we run out of rainbow, pop() will return an IndexError. Reset the rainbow and continue
+            except IndexError:
+                self.unused_colors = list(self.rainbow_dict.values())
+                color = self.unused_colors.pop(0)
+                
+            try:
                 cabinet_location = self.spirit_loc_dict[spirit]
-                print(cabinet_location.strip())
-                neopixel_range = self.led_loc_dict[cabinet_location.strip()]
-                # neopixel_range = neopixel_range.flatten()
-                brightness = self._get_brightness_scalar(cabinet_location)
-                print(brightness)
             # If it's not in the cabinet, light up the area near the pi
             except KeyError as e:
                 print(f"key error in accessing cabinet locations: {e}")
-                out_of_cabient = True
-            # When we run out of rainbow, pop() will return an IndexError. Reset the rainbow and continue
-            except IndexError as e:
-                self.unused_colors = list(self.rainbow_dict.values())
-                color = self.unused_colors.pop(0)
+                cabinet_location = "G18"
+            
+            try:
+                neopixel_range = self.led_loc_dict[cabinet_location.strip()]
+                # neopixel_range = neopixel_range.flatten()
+                brightness = self._get_brightness_scalar(cabinet_location)
+
+                print(cabinet_location.strip())
+                print(brightness)
+            except Exception as e:
+                print(f"Not sure what happened here: {e}")
             else:
                 print(neopixel_range)
                 [pixels.append(neo) for neo in neopixel_range]
                 for start, stop in neopixel_range:
                     self.range_on(start, stop, color, brightness)
-            if out_of_cabient:
-                self.range_on(1, 4, color, brightness=0.3)
 
 
         # pixels = []
