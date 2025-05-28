@@ -60,8 +60,11 @@ class LED:
                 # neopixel_range = neopixel_range.flatten()
                 brightness = self._get_brightness_scalar(cabinet_location)
                 color = self.unused_colors.pop(0)
+            # If it's not in the cabinet, light up the area near the pi
             except KeyError as e:
                 print(f"key error in accessing cabinet locations: {e}")
+                neopixel_range = [[1, 4]]
+            # When we run out of rainbow, pop() will return an IndexError. Reset the rainbow and continue
             except IndexError as e:
                 self.unused_colors = list(self.rainbow_dict.values())
                 color = self.unused_colors.pop(0)
