@@ -48,8 +48,8 @@ while not exit_loop:
                 pixel_ranges.append([start_pix, stop_pix])
                 for i in range(start_pix, stop_pix+1):
                     try:
-                        r = brightness*255
-                        g = brightness*255
+                        r = int(brightness*255)
+                        g = int(brightness*255)
                         pixels[i] = (r, g, 0)
                     except IndexError as e:
                         print(e)
