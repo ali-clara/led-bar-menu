@@ -50,11 +50,11 @@ while not exit_loop:
             # If we've been given a valid start and stop, turn on those pixels
             else:
                 pixel_ranges.append([start_pix, stop_pix])
+                r = int(r*brightness)
+                g = int(g*brightness)
+                b = int(b*brightness)
                 for i in range(start_pix, stop_pix+1):
                     try:
-                        r = int(r*brightness)
-                        g = int(g*brightness)
-                        b = int(b*brightness)
                         pixels[i] = (r, g, b)
                     except IndexError as e:
                         print(e)
