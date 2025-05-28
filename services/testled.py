@@ -12,6 +12,7 @@ except ImportError:
     from simulated_neopixel import board
 import yaml
 import time
+import numpy as np
 
 location_dict = {}
 coordinate_dict = {}
@@ -40,6 +41,9 @@ while not exit_loop:
             try:
                 start_pix = int(input("Start pixel: "))
                 stop_pix = int(input("Stop pixel: "))
+                r = int(input("r: "))
+                g = int(input("g: "))
+                b = int(input("b: "))
                 brightness = float(input("Brightness (0-1): "))
             except:
                 print("Could not convert input to integer")
@@ -48,9 +52,10 @@ while not exit_loop:
                 pixel_ranges.append([start_pix, stop_pix])
                 for i in range(start_pix, stop_pix+1):
                     try:
-                        r = int(brightness*255)
-                        g = int(brightness*255)
-                        pixels[i] = (r, g, 0)
+                        r = int(r*brightness)
+                        g = int(g*brightness)
+                        b = int(b*brightness)
+                        pixels[i] = (r, g, b)
                     except IndexError as e:
                         print(e)
                 pixels.show()
