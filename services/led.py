@@ -59,6 +59,7 @@ class LED:
                 neopixel_range = self.led_loc_dict[cabinet_location.strip()]
                 # neopixel_range = neopixel_range.flatten()
                 brightness = self._get_brightness_scalar(cabinet_location)
+                print(brightness)
                 color = self.unused_colors.pop(0)
                 print(color)
             except KeyError as e:
