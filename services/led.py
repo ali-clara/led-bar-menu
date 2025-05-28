@@ -61,11 +61,7 @@ class LED:
                 neopixel_range = self.led_loc_dict[cabinet_location.strip()]
                 # neopixel_range = neopixel_range.flatten()
                 brightness = self._get_brightness_scalar(cabinet_location)
-<<<<<<< HEAD
                 print(brightness)
-                color = self.unused_colors.pop(0)
-=======
->>>>>>> 346ef974aae27f13c5f4dfbdf5c436c53b03ee8a
             # If it's not in the cabinet, light up the area near the pi
             except KeyError as e:
                 print(f"key error in accessing cabinet locations: {e}")
