@@ -121,6 +121,7 @@ class TestView(FlaskView):
     def resippy(self, arg:str):
         """http://localhost:5000/recipe/arg"""
         
+        self.lights.all_off()
         chosen_ingredients = list(self.menu_dict[arg]['ingredients'].keys())
         print(chosen_ingredients)
         
