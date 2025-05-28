@@ -34,16 +34,15 @@ class LED:
 
         # Initialize colors
         self.rainbow_dict = {"red": (228, 3, 3),
-                            "orange": (255, 140, 0),
+                            "orange": (255, 69, 0),
                             "yellow": (255, 237, 0),
-                            "green": (0, 128, 38),
+                            "green": (0, 255, 10),
                             "blue": (0, 77, 255),
                             "violet": (117, 7, 135),
                             "white": (255, 255, 255),
-                            "pink": (255, 175, 200),
-                            "light blue": (116, 215, 238),
-                            "brown": (97, 57, 21),
-                            "black": (0, 0, 0),
+                            "pink": (255, 105, 180),
+                            "light blue": (0, 191, 255),
+                            "brown": (139, 69, 19),
                             }
         
         self.unused_colors = list(self.rainbow_dict.values())
@@ -64,8 +63,8 @@ class LED:
             except KeyError as e:
                 print(f"key error in accessing cabinet locations: {e}")
             except IndexError as e:
-                print(e)
-                color = (255,255,255)
+                self.unused_colors = list(self.rainbow_dict.values())
+                color = self.unused_colors.pop(0)
             else:
                 print(neopixel_range)
                 [pixels.append(neo) for neo in neopixel_range]
