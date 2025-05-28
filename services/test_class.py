@@ -71,14 +71,13 @@ class TestView(FlaskView):
         if request.method == "POST":
             # Clear the LEDS, if they're on
             self.lights.all_off()
+            self.lit_up_ingredients = []
 
             # When "post" is triggered, take a look at what happened in the HTML form. The value "request.form" is
             # a dictionary with key-value pairs "element-name" "element-entry". We don't really care about the name,
             # but we can use it to grab the dict value
             element_name = list(request.form.keys())[0]
             form_entry = request.form.get(element_name)
-
-            lit_up_ingredients = []
 
             print(form_entry)
             is_recipe, recipe_match, recipe_score = recipe.check_match(form_entry, self.cocktail_names, match_threshold=0.705)
@@ -96,9 +95,9 @@ class TestView(FlaskView):
 
             elif is_tag:
                 children = recipe.expand_tag(tag_match, self.tags_dict)
-                [lit_up_ingredients.append(child) for child in children]
+                [self.lit_up_ingredients.append(child) for child in children]
                 print(f"lighting up tag: {tag_match}")
-                self.lights.illuminate(lit_up_ingredients)
+                self.lights.illuminate(self.lit_up_ingredients)
             
             elif is_ingredient:
                 print(f"lighting up single ingredient: {ingredient_match}")
@@ -125,15 +124,14 @@ class TestView(FlaskView):
         print(chosen_ingredients)
         
         # Part 1 - the LEDS. Expand any children and call the LED class
-        lit_up_ingredients = []
         for ingredient in chosen_ingredients:
             children = recipe.expand_tag(ingredient, self.tags_dict)
             if children:
-                [lit_up_ingredients.append(child) for child in children]
+                [self.lit_up_ingredients.append(child) for child in children]
             else:
-                lit_up_ingredients.append(ingredient)
+                self.lit_up_ingredients.append(ingredient)
 
-        self.lights.illuminate(lit_up_ingredients)
+        self.lights.illuminate(self.lit_up_ingredients)
 
         # Part 2 - the website. For each ingredient
         rendered_ingredients = []
