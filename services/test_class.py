@@ -122,7 +122,14 @@ class TestView(FlaskView):
         """http://localhost:5000/recipe/arg"""
         
         self.lights.all_off()
+        self.lit_up_ingredients = []
+        
+        print("lit up ingredients:")
+        print(self.lit_up_ingredients)
+        
+
         chosen_ingredients = list(self.menu_dict[arg]['ingredients'].keys())
+        print("chosen ingredients:")
         print(chosen_ingredients)
         
         # Part 1 - the LEDS. Expand any children and call the LED class
@@ -134,6 +141,9 @@ class TestView(FlaskView):
                 self.lit_up_ingredients.append(ingredient)
 
         self.lights.illuminate(self.lit_up_ingredients)
+
+        print("lit up ingredients:")
+        print(self.lit_up_ingredients)
 
         # Part 2 - the website. For each ingredient
         rendered_ingredients = []
