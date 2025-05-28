@@ -61,6 +61,7 @@ class LED:
                 # neopixel_range = neopixel_range.flatten()
                 brightness = self._get_brightness_scalar(cabinet_location)
                 color = self.unused_colors.pop(0)
+                print(color)
             except KeyError as e:
                 print(f"key error in accessing cabinet locations: {e}")
             except IndexError as e:
