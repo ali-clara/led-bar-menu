@@ -40,6 +40,7 @@ while not exit_loop:
             try:
                 start_pix = int(input("Start pixel: "))
                 stop_pix = int(input("Stop pixel: "))
+                brightness = float(input("Brightness (0-1): "))
             except:
                 print("Could not convert input to integer")
             # If we've been given a valid start and stop, turn on those pixels
@@ -47,8 +48,9 @@ while not exit_loop:
                 pixel_ranges.append([start_pix, stop_pix])
                 for i in range(start_pix, stop_pix+1):
                     try:
-                        # pixels[i] = (0, 255, 0)
-                        pixels.setPixelColor(i, 0, 25, 0)
+                        r = brightness*255
+                        g = brightness*255
+                        pixels[i] = (0, 255, 0)
                     except IndexError as e:
                         print(e)
                 pixels.show()
