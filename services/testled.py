@@ -47,7 +47,8 @@ while not exit_loop:
                 pixel_ranges.append([start_pix, stop_pix])
                 for i in range(start_pix, stop_pix+1):
                     try:
-                        pixels[i] = (0, 255, 0)
+                        # pixels[i] = (0, 255, 0)
+                        pixels.setPixelColor(i, 0, 25, 0)
                     except IndexError as e:
                         print(e)
                 pixels.show()
