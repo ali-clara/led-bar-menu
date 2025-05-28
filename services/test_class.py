@@ -90,19 +90,9 @@ class TestView(FlaskView):
 
             # If the form has returned a cocktail, process that
             if is_recipe:
-                # Once we know the name of the cocktail, we can grab its ingredients. Do a quick data validation first
-                # This will be more robust in the future - should check for differences in caps/misspellings
-                chosen_ingredients = list(self.menu_dict[recipe_match]['ingredients'].keys())
-
-                for ingredient in chosen_ingredients:
-                    children = recipe.expand_tag(ingredient, self.tags_dict)
-                    if children:
-                        [lit_up_ingredients.append(child) for child in children]
-                    else:
-                        lit_up_ingredients.append(ingredient)
-
-                self.lights.illuminate(lit_up_ingredients)
-                print(chosen_ingredients)
+                # Once we know the name of the cocktail, we can grab its ingredients
+                # self.resippy(recipe_match)
+                return redirect(url_for('TestView:resippy', arg=recipe_match))
 
             elif is_tag:
                 children = recipe.expand_tag(tag_match, self.tags_dict)
@@ -127,6 +117,37 @@ class TestView(FlaskView):
                 chosen_ingredients = []
 
         return render_template('main_menu.html', options=self.cocktail_names, ingredients=self.used_ingredients, chosen_ingredients=chosen_ingredients, collections=self.collection_names)
+    
+    def resippy(self, arg:str):
+        """http://localhost:5000/recipe/arg"""
+        
+        chosen_ingredients = list(self.menu_dict[arg]['ingredients'].keys())
+        print(chosen_ingredients)
+        
+        # Part 1 - the LEDS. Expand any children and call the LED class
+        lit_up_ingredients = []
+        for ingredient in chosen_ingredients:
+            children = recipe.expand_tag(ingredient, self.tags_dict)
+            if children:
+                [lit_up_ingredients.append(child) for child in children]
+            else:
+                lit_up_ingredients.append(ingredient)
+
+        self.lights.illuminate(lit_up_ingredients)
+
+        # Part 2 - the website. For each ingredient
+        rendered_ingredients = []
+        units = []
+        amounts = []
+        locations = []
+        for ing in chosen_ingredients:
+            # Format the ingredients nicely
+            rendered_ingredients.append(ing.replace("_", " ").title())
+            units.append(self.menu_dict[arg]['ingredients'][ing]["units"])
+            amounts.append(self.menu_dict[arg]['ingredients'][ing]["amount"])
+        # Then render the html page
+        return render_template('recipe.html', header=arg.title(), cocktail=arg, ingredients=rendered_ingredients, units=units, amounts=amounts)
+
     
     def collection(self, arg:str):
         """http://localhost:5000/collection/arg"""
