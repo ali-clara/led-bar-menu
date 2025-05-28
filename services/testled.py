@@ -18,7 +18,7 @@ coordinate_dict = {}
 
 # Initialize the NeoPixel strip with GPIO pin 10 (needed for not running this with SUDO privileges),
 # 150 lights, and 20% brightness. Auto_write means we're going to need to call pixels.show() whenever we want them lit up
-pixels = neopixel.NeoPixel(board.D10, 255, brightness=0.1, auto_write=False)
+pixels = neopixel.NeoPixel(board.D10, 255, brightness=0.4, auto_write=False)
 # Make sure our strip is off
 pixels.fill((0,0,0))
 pixels.show()
