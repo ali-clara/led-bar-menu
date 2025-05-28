@@ -139,14 +139,14 @@ class TestView(FlaskView):
         rendered_ingredients = []
         units = []
         amounts = []
-        locations = []
         for ing in chosen_ingredients:
             # Format the ingredients nicely
             rendered_ingredients.append(ing.replace("_", " ").title())
             units.append(self.menu_dict[arg]['ingredients'][ing]["units"])
             amounts.append(self.menu_dict[arg]['ingredients'][ing]["amount"])
+        notes = self.menu_dict[arg]["notes"]
         # Then render the html page
-        return render_template('recipe.html', header=arg.title(), cocktail=arg, ingredients=rendered_ingredients, units=units, amounts=amounts)
+        return render_template('recipe.html', header=arg.title(), cocktail=arg, ingredients=rendered_ingredients, units=units, amounts=amounts, notes=notes)
 
     
     def collection(self, arg:str):
