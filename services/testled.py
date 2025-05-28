@@ -50,7 +50,7 @@ while not exit_loop:
                     try:
                         r = brightness*255
                         g = brightness*255
-                        pixels[i] = (0, 255, 0)
+                        pixels[i] = (r, g, 0)
                     except IndexError as e:
                         print(e)
                 pixels.show()
