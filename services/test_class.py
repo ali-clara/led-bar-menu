@@ -21,6 +21,7 @@ class TestView(FlaskView):
         super().__init__()
         self._load_menu()
         self.lights = LED(self.location_dict)
+        self.lit_up_ingredients = []
 
     def _load_menu(self):
         # Read in the main menu and validate it against our master list of ingredients
