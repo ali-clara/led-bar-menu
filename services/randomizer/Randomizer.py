@@ -7,13 +7,16 @@ import glob
 import numpy as np
 
 
+dir_path = os.path.dirname( __file__ )
+serv_path = os.path.join(dir_path, "..")
+config_path = os.path.join(serv_path, '..\\config')
 #What I need to do now is load everything into the document
 
 #This holds in the data of all of the tag files.
 yamls = {}
-for filename in os.listdir("..\\config"):
+for filename in os.listdir(config_path):
     if filename[-4:] == '.yml' and filename[:5] == "tags_":
-        with open("..\\config\\%s"%filename, 'r') as file:
+        with open(config_path+"\\%s"%filename, 'r') as file:
             yamls[filename[:-4]] = yaml.safe_load(file)
             file.close()
 
@@ -23,7 +26,7 @@ ingredients = []
 for tagfile in yamls:
     for tag in yamls[tagfile].keys():
         tags.append(tag)
-with open("..\\config\\Ingredients.csv", 'r') as file:
+with open(config_path+"\\Ingredients.csv", 'r') as file:
     data = file.read().split("\n")
     for i in data:
         if len(i)>1:
@@ -50,7 +53,7 @@ def get_ingredients(tag):
 #Take an (extant!) random ingredient tag and resolve it to an existing ingredient
 def resolve_random_ingredient(rand_ingredient):
     data = {}
-    with open("random_tags.yml", 'r') as file:
+    with open(dir_path+"\\random_tags.yml", 'r') as file:
         data = yaml.safe_load(file)
         file.close()
     configuration = data[rand_ingredient]['included']
@@ -65,16 +68,27 @@ def resolve_random_ingredient(rand_ingredient):
         available_ingredients = get_ingredients(selected)
         return available_ingredients[int(np.random.rand()*len(available_ingredients))]
 
-
-def resolve_random_recipe(rand_recipe):
+def load_random_recipes():
     recipes = {}
-    with open("random_recipes.yml", 'r') as file:
+    with open(dir_path+"\\random_recipes.yml", 'r') as file:
         recipes = yaml.safe_load(file)
         file.close()
+    return recipes
+
+def get_random_recipe_options():
+    recipes = load_random_recipes()
+    return list(recipes.keys())
+
+def resolve_random_recipe(rand_recipe):
+    recipes = load_random_recipes()
     random_ingredients = recipes[rand_recipe]['ingredients']
     for i in list(random_ingredients.keys()):
         if i[:6] == "Random":
             resolution = resolve_random_ingredient(i)
             random_ingredients[resolution] = random_ingredients[i]
             del random_ingredients[i]
+    return random_ingredients
+
+if __name__ == "__main__":
+    random_ingredients = resolve_random_recipe("Random Sour")
     print(random_ingredients)

@@ -10,8 +10,10 @@ import yaml
 
 try:
     import recipe_parsing_helpers as recipe
+    from randomizer import Randomizer as rands
 except ImportError:
     from services import recipe_parsing_helpers as recipe
+    from services.randomizer import Randomizer as rands
 
 # app = Flask(__name__, template_folder="templates")
 
@@ -71,6 +73,8 @@ class TestView(FlaskView):
         if request.method == "POST":
             # Clear the LEDS, if they're on
             self.lights.all_off()
+
+            print(request.form)
 
             # When "post" is triggered, take a look at what happened in the HTML form. The value "request.form" is
             # a dictionary with key-value pairs "element-name" "element-entry". We don't really care about the name,
@@ -154,10 +158,40 @@ class TestView(FlaskView):
         mytext = "Collections page"
         return render_template('empty_template.html', text=mytext)
     
-    @route("random-cocktail-generator")
+    
+    @method("POST")
+    @method("GET")
     def random_cocktail_generator(self):
+        random_recipe_options = rands.get_random_recipe_options()
         mytext = "This will generate you a random cocktail once we integrate Dane's script"
-        return render_template('empty_template.html', text=mytext)
+        random_ten = []
+
+        if request.method == "POST":   
+
+            # When "post" is triggered, take a look at what happened in the HTML form. The value "request.form" is
+            # a dictionary with key-value pairs "element-name" "element-entry". We don't really care about the name,
+            # but we can use it to grab the dict value
+            element_name = list(request.form.keys())[0]
+            # form_entry = request.form.get(element_name)
+
+            if element_name in random_recipe_options:
+                random_ten = []
+
+                for _ in range(10):
+                    random_dict = rands.resolve_random_recipe(element_name)
+                    ingredients = (list(random_dict.keys()))
+                    # Dane's monster string, currently getting killed by html
+                    amounts = "\n".join("%s\<br> \&emsp;\&emsp;%s" % (
+                        i, random_dict[i]['amount'] + ' ' + random_dict[i]['units']
+                    ) for i in ingredients) + "\n\n"
+
+                    print(amounts)
+                    random_ten.append(amounts)
+
+            elif element_name == "Random Random":
+                pass
+
+        return render_template('randomizer.html', rand_options=random_recipe_options, cocktails=random_ten)
 
 if __name__ == "__main__":
 #     TestView.register(app, route_base = '/')

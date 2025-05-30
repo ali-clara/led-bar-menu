@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/mainstyle.css') }}">
+    <title>404 Error Page</title>
+</head>
+
+<body>
+    <div class="grid-container">
+        <div class="header">
+        </div>
+    
+        <div class="left">
+          <!-- Navbar! We're not on any menu page, so don't set any of them active -->
+          <div class="vertical-menu">
+            <a href="/menu">Home</a>
+            <a href="/collections">Collections</a>
+            <a href="/random_cocktail_generator">Random Cocktail Generator</a>
+          </div>
+        </div>
+  
+        <div class="middle">
+            <form id="random" method="POST">
+                {% for i in range(rand_options|length) %}
+                &emsp; <button type="submit" name="{{rand_options[i]}}">{{rand_options[i]}}</button>
+                {% endfor %}
+                &emsp; <button form="random" type="submit">Random Random</button><br>
+            </form>
+
+            <p>Random recipes for you:</p><br>
+            {% for cocktail in cocktails %}
+                {{cocktail}}
+            {% endfor %}
+
+        </div>  
+    
+      <div class="footer">
+        <p>Footer</p>
+      </div>
+  
+    </div>
+  </body>
+
+  </html>
