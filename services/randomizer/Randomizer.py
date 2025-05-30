@@ -81,6 +81,8 @@ def get_random_recipe_options():
 
 def resolve_random_recipe(rand_recipe):
     recipes = load_random_recipes()
+    if rand_recipe == "Random Random":
+        rand_recipe = recipes[int(np.random.rand()*len(recipes))]
     random_ingredients = recipes[rand_recipe]['ingredients']
     for i in list(random_ingredients.keys()):
         if i[:6] == "Random":
