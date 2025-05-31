@@ -104,6 +104,5 @@ if __name__ == "__main__":
     random_ingredients = resolve_random_recipe("Random Sour")
     print(random_ingredients)
 
-
     for i in range(10):
         print(resolve_random_recipe("Random Random"))
