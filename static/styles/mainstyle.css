@@ -88,3 +88,17 @@ text-align: center;
     background-color: #555;
     color: white;
     }
+
+.button-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 10px;
+
+  @media (min-width: 415px) {
+    grid-template-columns: repeat(auto-fit, minmax(150px, max-content));
+    justify-content: center;
+  }
+
+  margin: 20px;
+  padding: 10px;
+}

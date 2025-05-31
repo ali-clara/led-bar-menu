@@ -24,6 +24,7 @@ class TestView(FlaskView):
         self._load_menu()
         self.lights = LED(self.location_dict)
         self.lit_up_ingredients = []
+        self.random_ten = []
 
     def _load_menu(self):
         # Read in the main menu and validate it against our master list of ingredients
@@ -195,7 +196,6 @@ class TestView(FlaskView):
     def random_cocktail_generator(self):
         random_recipe_options = rands.get_random_recipe_options()
         mytext = "This will generate you a random cocktail once we integrate Dane's script"
-        random_ten = []
 
         if request.method == "POST":   
 
@@ -206,44 +206,46 @@ class TestView(FlaskView):
             # form_entry = request.form.get(element_name)
 
             print(element_name)
-
+            numcols = 5
+            
             if element_name in random_recipe_options:
-                random_ten = []
+                self.random_ten = []
 
-                for _ in range(10):
-                    random_dict = rands.resolve_random_recipe(element_name)
-                    ingredients = []
-                    quantity = []
+                for row in range(2): # rows
+                    self.random_ten.append([])
+                    for _ in range(numcols): # columns
+                        random_dict = rands.resolve_random_recipe(element_name)
+                        ingredients = []
+                        quantity = []
 
-                    # Dane's monster string, currently getting killed by html
-                    amounts = "\n".join("%s\n\t%s" % (
-                        i, random_dict[i]['amount'] + ' ' + random_dict[i]['units']
-                    ) for i in ingredients) + "\n\n"
+                        # Dane's monster string, currently getting killed by html
+                        amounts = "\n".join("%s\n\t%s" % (
+                            i, random_dict[i]['amount'] + ' ' + random_dict[i]['units']
+                        ) for i in ingredients) + "\n\n"
 
-                    for i in random_dict:
-                        ingredient = i.replace("_", " ").title()
-                        amount = random_dict[i]["amount"]
-                        unit = random_dict[i]["units"]
+                        for i in random_dict:
+                            ingredient = i.replace("_", " ").title()
+                            amount = random_dict[i]["amount"]
+                            unit = random_dict[i]["units"]
 
-                        quantity.append(amount + " " + unit)
-                        ingredients.append(ingredient)
+                            quantity.append(amount + " " + unit)
+                            ingredients.append(ingredient)
 
-                    random_ten.append([ingredients, quantity])
-
+                        self.random_ten[row].append([ingredients, quantity])
 
             elif element_name.isnumeric():
                 try:
                     index = int(element_name)
-                    ingredients, quantity = random_ten[index]
+                    ingredients, quantity = self.random_ten[index//numcols][index%numcols]
                 except ValueError as e:
                     print(f"Could not convert {element_name} to integer: {e}")
                 except IndexError as e:
-                    print(f"Could not index cocktails: {e} not found in {random_ten}")
+                    print(f"Could not index cocktails: '{e}' not found in {self.random_ten}")
                 else:
                     self.lights.illuminate(ingredients)
 
 
-        return render_template('randomizer.html', rand_options=random_recipe_options, cocktails=random_ten)
+        return render_template('randomizer.html', rand_options=random_recipe_options, cocktails=self.random_ten)
 
 if __name__ == "__main__":
 #     TestView.register(app, route_base = '/')
