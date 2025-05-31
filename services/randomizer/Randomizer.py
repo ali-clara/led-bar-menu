@@ -79,6 +79,15 @@ def get_random_recipe_options():
     recipes = load_random_recipes()
     return list(recipes.keys())
 
+def select_random_recipe(classic=False):
+    options = []
+    with open(os.path.join(config_path, "recipes_classics.yml"), 'r') as file:
+        options = list(yaml.safe_load(file).keys())
+    if not classic:
+        with open(os.path.join(config_path, "recipes_2201_and_5057_menus.yml"), 'r') as file:
+            options = options + list(yaml.safe_load(file).keys())
+    return options[int(np.random.rand() * len(options))]
+
 def resolve_random_recipe(rand_recipe):
     recipes = load_random_recipes()
     if rand_recipe == "Random Random":
