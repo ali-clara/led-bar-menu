@@ -89,7 +89,6 @@ def select_random_recipe(classic=False):
             options = options + list(yaml.safe_load(file).keys())
     return options[int(np.random.rand() * len(options))]
 
-
 def resolve_random_recipe(rand_recipe):
     recipes = load_random_recipes()
     if rand_recipe == "Random Random":
