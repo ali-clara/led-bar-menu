@@ -109,8 +109,9 @@ class LED:
         elif "H" in location or "I" in location or "J" in location or "K" in location or "L" in location or "M" in location or "N" in location:
             return 0.2
         else:
-            return 0
-    
+            print("Not a standard led location")
+            return 0.4
+
     def illuminate(self, spirit):
         pixels = self._spirit_to_pixel(spirit)
         # self.pixels_on(pixels)
