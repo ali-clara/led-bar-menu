@@ -129,7 +129,7 @@ class LED:
         self.pixels.show()
     
     def range_on(self, start_pix: int, stop_pix: int, color=(255,255,0), brightness=0.1):
-        print(f"lighting up pixels {start_pix, stop_pix}")
+        # print(f"lighting up pixels {start_pix, stop_pix}")
         scaled_color = brightness*np.array(color)
         int_scaled_color = scaled_color.astype(int)
         for i in range(start_pix, stop_pix+1):
