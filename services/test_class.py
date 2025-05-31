@@ -174,22 +174,43 @@ class TestView(FlaskView):
             element_name = list(request.form.keys())[0]
             # form_entry = request.form.get(element_name)
 
+            print(element_name)
+
             if element_name in random_recipe_options:
                 random_ten = []
 
                 for _ in range(10):
                     random_dict = rands.resolve_random_recipe(element_name)
-                    ingredients = (list(random_dict.keys()))
+                    ingredients = []
+                    quantity = []
+
                     # Dane's monster string, currently getting killed by html
-                    amounts = "\n".join("%s\<br> \&emsp;\&emsp;%s" % (
+                    amounts = "\n".join("%s\n\t%s" % (
                         i, random_dict[i]['amount'] + ' ' + random_dict[i]['units']
                     ) for i in ingredients) + "\n\n"
 
-                    print(amounts)
-                    random_ten.append(amounts)
+                    for i in random_dict:
+                        ingredient = i.replace("_", " ").title()
+                        amount = random_dict[i]["amount"]
+                        unit = random_dict[i]["units"]
 
-            elif element_name == "Random Random":
-                pass
+                        quantity.append(amount + " " + unit)
+                        ingredients.append(ingredient)
+
+                    random_ten.append([ingredients, quantity])
+
+
+            elif element_name.isnumeric():
+                try:
+                    index = int(element_name)
+                    ingredients, quantity = random_ten[index]
+                except ValueError as e:
+                    print(f"Could not convert {element_name} to integer: {e}")
+                except IndexError as e:
+                    print(f"Could not index cocktails: {e} not found in {random_ten}")
+                else:
+                    self.lights.illuminate(ingredients)
+
 
         return render_template('randomizer.html', rand_options=random_recipe_options, cocktails=random_ten)
 

@@ -26,12 +26,22 @@
                 &emsp; <button type="submit" name="{{rand_options[i]}}">{{rand_options[i]}}</button>
                 {% endfor %}
                 &emsp; <button form="random" type="submit">Random Random</button><br>
-            </form>
 
             <p>Random recipes for you:</p><br>
-            {% for cocktail in cocktails %}
-                {{cocktail}}
+            {% for j in range(cocktails|length) %}
+                <button type="submit" name="{{j}}">
+                    {% for i in range(cocktails[j][0]|length) %}
+                        {{cocktails[j][0][i]}}<br>
+                        &emsp;{{cocktails[j][1][i]}}<br>
+                    {% endfor %}
+                </button>
+
+                <br>
+                <br>
+                
             {% endfor %}
+
+            </form>
 
         </div>  
     
