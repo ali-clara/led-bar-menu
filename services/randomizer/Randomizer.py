@@ -82,7 +82,7 @@ def get_random_recipe_options():
 def resolve_random_recipe(rand_recipe):
     recipes = load_random_recipes()
     if rand_recipe == "Random Random":
-        rand_recipe = recipes[int(np.random.rand() * len(recipes))]
+        rand_recipe = get_random_recipe_options()[int(np.random.rand() * len(recipes))]
     random_ingredients = recipes[rand_recipe]['ingredients']
     for i in list(random_ingredients.keys()):
         if i[:6] == "Random":
@@ -94,3 +94,7 @@ def resolve_random_recipe(rand_recipe):
 if __name__ == "__main__":
     random_ingredients = resolve_random_recipe("Random Sour")
     print(random_ingredients)
+
+
+    for i in range(10):
+        print(resolve_random_recipe("Random Random"))

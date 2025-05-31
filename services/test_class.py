@@ -210,7 +210,7 @@ class TestView(FlaskView):
             print(element_name)
             numcols = 5
             
-            if element_name in random_recipe_options:
+            if element_name in random_recipe_options or element_name == "Random Random":
                 self.random_ten = []
 
                 for row in range(2): # rows
