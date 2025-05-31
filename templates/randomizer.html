@@ -34,7 +34,7 @@
              {% set index = 0%}
              {% for row in range(rows)%}
                 <div class="button-container">
-                    {% for cocktail in cocktails[0] %}
+                    {% for cocktail in cocktails[row] %}
                         <button type="submit" name="{{index}}">
                             {% for i in range(cocktail[0]|length) %}
                                 {{cocktail[0][i]}}<br>

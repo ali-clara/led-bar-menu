@@ -107,3 +107,7 @@ a:link {
   color: black;
   background-color: transparent;
 }
+
+.button:active {
+    background-color: #7c1da1;
+}
