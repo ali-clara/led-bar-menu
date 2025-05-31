@@ -9,7 +9,7 @@ import numpy as np
 
 dir_path = os.path.dirname( __file__ )
 serv_path = os.path.join(dir_path, "..")
-config_path = os.path.join(serv_path, '..\\config')
+config_path = os.path.join(serv_path, '../config')
 #What I need to do now is load everything into the document
 
 #This holds in the data of all of the tag files.
@@ -33,7 +33,8 @@ with open(config_path+"\\Ingredients.csv", 'r') as file:
             ingredients.append(i.split(',')[0])
 
 
-#Armed with the tags and the ingredients, we now
+#As input, a tag
+#As output, a list of all ingredients in that tag.
 def get_ingredients(tag):
     ingredience = []
     #To avoid recursion
@@ -53,7 +54,7 @@ def get_ingredients(tag):
 #Take an (extant!) random ingredient tag and resolve it to an existing ingredient
 def resolve_random_ingredient(rand_ingredient):
     data = {}
-    with open(dir_path+"\\random_tags.yml", 'r') as file:
+    with open(dir_path+"/random_tags.yml", 'r') as file:
         data = yaml.safe_load(file)
         file.close()
     configuration = data[rand_ingredient]['included']
@@ -70,7 +71,7 @@ def resolve_random_ingredient(rand_ingredient):
 
 def load_random_recipes():
     recipes = {}
-    with open(dir_path+"\\random_recipes.yml", 'r') as file:
+    with open(dir_path+"/random_recipes.yml", 'r') as file:
         recipes = yaml.safe_load(file)
         file.close()
     return recipes
@@ -78,6 +79,16 @@ def load_random_recipes():
 def get_random_recipe_options():
     recipes = load_random_recipes()
     return list(recipes.keys())
+
+def select_random_recipe(classic=False):
+    options = []
+    with open(os.path.join(config_path, "recipes_classics.yml"), 'r') as file:
+        options = list(yaml.safe_load(file).keys())
+    if not classic:
+        with open(os.path.join(config_path, "recipes_2201_and_5057_menus.yml"), 'r') as file:
+            options = options + list(yaml.safe_load(file).keys())
+    return options[int(np.random.rand() * len(options))]
+
 
 def resolve_random_recipe(rand_recipe):
     recipes = load_random_recipes()
@@ -92,5 +103,5 @@ def resolve_random_recipe(rand_recipe):
     return random_ingredients
 
 if __name__ == "__main__":
-    random_ingredients = resolve_random_recipe("Random Sour")
-    print(random_ingredients)
+    for i in range(10):
+        print(select_random_recipe(True))
