@@ -11,3 +11,575 @@ Negroni:
       amount: '1'
       units: oz
   notes: It's a negroni.
+  
+Old Fashioned:
+  collection: Classics
+  ingredients:
+    Whisky:
+      amount: '2'
+      units: oz
+    Angostura Bitters:
+      amount: '2'
+      units: dashes
+    Sugar:
+      amount: '1'
+      units: tsp or cube
+    Orange Twist:
+      amount: '1'
+      units: twist
+  notes: Can use Simple Syrup in place of sugar
+  
+Margarita:
+  collection: Classics
+  ingredients:
+    Tequila Blanco:
+      amount: '2'
+      units: oz
+    Cointreau:
+      amount: '1'
+      units: oz
+    Lime Juice:
+      amount: '1'
+      units: oz
+  notes: Salt the rim.
+  
+Cosmopolitan:
+  collection: Classics
+  ingredients:
+    Vodka (Inclusive):
+      amount: '1.5'
+      units: oz
+    Cointreau:
+      amount: '1'
+      units: oz
+    Lime Juice:
+      amount: '0.5'
+      units: oz
+    Cranberry Juice:
+      amount: '0.25'
+      units: oz
+  notes: Shaken, garnish with lime.
+
+Moscow Mule:
+  collection: Classics
+  ingredients:
+    Vodka:
+      amount: '2'
+      units: oz
+    Ginger Beer:
+      amount: '5'
+      units: oz
+    Lime Juice:
+      amount: '0.5'
+      units: oz
+  notes: Serve in a copper mug unless you're a baby about eating heavy metals I guess.
+  
+Dublin Mule:
+  collection: Classics
+  ingredients:
+    Whiskey:
+      amount: '2'
+      units: oz
+    Ginger Beer:
+      amount: '5'
+      units: oz
+    Lime Juice:
+      amount: '0.5'
+      units: oz
+  notes: Serve in a copper mug unless you're a baby about eating heavy metals I guess.
+
+Dark and Stormy:
+  collection: Classics
+  ingredients:
+    Dark Rum:
+      amount: '2'
+      units: oz
+    Ginger Beer:
+      amount: '5'
+      units: oz
+    Lime Juice:
+      amount: '0.5'
+      units: oz
+  notes: Serve in a copper mug unless you're a baby about eating heavy metals I guess.
+
+Martini:
+  collection: Classics
+  ingredients:
+    Gin:
+      amount: '3'
+      units: oz
+    Dry Vermouth:
+      amount: '0.5'
+      units: oz
+    Olive:
+      amount: '1'
+      units: piece
+  notes: Olives are gross.
+  
+Vodka Martini:
+  collection: Classics
+  ingredients:
+    Vodka:
+      amount: '3'
+      units: oz
+    Dry Vermouth:
+      amount: '0.5'
+      units: oz
+    Olive:
+      amount: '1'
+      units: piece
+  notes: Olives are gross.
+  
+Mojito:
+  collection: Classics
+  ingredients:
+    White Rum:
+      amount: '2'
+      units: oz
+    Lime Juice:
+      amount: '0.75'
+      units: oz
+    Simple Syrup:
+      amount: '0.5'
+      units: oz
+    Mint:
+      amount: '3'
+      units: leaves
+  notes: I usually use Max's recipe wherein you muddle the leaves with sugar.
+  
+Whiskey Sour:
+  collection: Classics
+  ingredients:
+    Whiskey:
+      amount: '2'
+      units: oz
+    Lemon Juice:
+      amount: '1'
+      units: oz
+    Sugar:
+      amount: '1'
+      units: tsp
+    Egg White:
+      amount: '1'
+      units: egg
+  notes: Egg white tastes right
+  
+French 75:
+  collection: Classics
+  ingredients:
+    Gin:
+      amount: '2'
+      units: oz
+    Simple Syrup:
+      amount: '2'
+      units: dashes
+    Lemon Juice:
+      amount: '0.5'
+      units: oz
+    Champagne:
+      amount: 
+      units: to top
+  notes: Shaken, except for the champagne bit
+  
+Manhattan:
+  collection: Classics
+  ingredients:
+    Rye Whiskey:
+      amount: '2'
+      units: oz
+    Sweet Vermouth:
+      amount: '1'
+      units: oz
+    Angostura Bitters:
+      amount: '2'
+      units: dashes
+  notes: Stir in a mixing glass with ice, strain into a chilled martini glass.
+  
+Aperol Spritz:
+  collection: Classics
+  ingredients:
+    Aperol:
+      amount: '1'
+      units: oz
+    Prosecco:
+      amount: '1'
+      units: oz
+    Orange Liqueur:
+      amount: '0.25'
+      units: oz (optional)
+  notes: The addition of orange liqueur is not traditional, but quite tasty.
+  
+Gimlet:
+  collection: Classics
+  ingredients:
+    Gin:
+      amount: '2'
+      units: oz
+    Simple Syrup:
+      amount: '0.75'
+      units: oz
+    Lime Juice:
+      amount: '0.75'
+      units: oz
+  notes: Shake and strain, baby.
+  
+Vodka Gimlet:
+  collection: Classics
+  ingredients:
+    Vodka:
+      amount: '2'
+      units: oz
+    Simple Syrup:
+      amount: '0.75'
+      units: oz
+    Lime Juice:
+      amount: '0.75'
+      units: oz
+  notes: Shake and strain, baby.
+  
+Sazerac:
+  collection: Classics
+  ingredients:
+    Rye:
+      amount: '2'
+      units: oz
+    Simple Syrup:
+      amount: '0.25'
+      units: oz
+    Peychauds Bitters:
+      amount: '2'
+      units: dashes
+    Absinthe:
+      amount: '0.25'
+      units: oz
+  notes: For the Absinthe, numerous delivery mechanisms are feasible. Doing a rinse of the glass and pouring it out is traditional, just adding it as an ingredient is reasonable, and using the atomizer is economical.
+  
+Aviation:
+  collection: Classics
+  ingredients:
+    Gin:
+      amount: '2'
+      units: oz
+    Maraschino:
+      amount: '0.5'
+      units: oz
+    Lemon Juice:
+      amount: '0.75'
+      units: oz
+    Creme de Violette:
+      amount: '0.25'
+      units: oz
+  notes: Shake until chilled. Garnish with a cherry.
+  
+Tom Collins:
+  collection: Classics
+  ingredients:
+    Gin:
+      amount: '2'
+      units: oz
+    Lemon Juice:
+      amount: '1'
+      units: oz
+    Simple Syrup:
+      amount: '0.5'
+      units: oz
+    Soda:
+      amount: 
+      units: to top
+  notes: Garnish with a lemon slice and a cherry. Should technically use Old Tom Gin
+  
+Paloma:
+  collection: Classics
+  ingredients:
+    Tequila:
+      amount: '2'
+      units: oz
+    Lime Juice:
+      amount: '0.5'
+      units: oz
+    Grapefuit Soda:
+      amount:
+      units: to top
+  notes: Can have a salt rim.
+  
+Last Word:
+  collection: Classics
+  ingredients:
+    Gin:
+      amount: '1'
+      units: part
+    Maraschino:
+      amount: '1'
+      units: part
+    Lime Juice:
+      amount: '1'
+      units: part
+    Green Chartreuse:
+      amount: '1'
+      units: part
+  notes: Shake until chilled. Garnish with a cherry.
+  
+Sidecar:
+  collection: Classics
+  ingredients:
+    Cognac:
+      amount: '2'
+      units: oz
+    Cointreau:
+      amount: '1'
+      units: oz
+    Lemon Juice:
+      amount: '0.75'
+      units: oz
+  notes: Shake until chilled.
+  
+Mint Julep:
+  collection: Classics
+  ingredients:
+    Bourbon:
+      amount: '2'
+      units: oz
+    Mint:
+      amount: '9'
+      units: leaves
+    Simple Syrup:
+      amount: '0.25'
+      units: oz
+  notes: Muddle the leaves and simple. Add bourbon and fill with crushed ice. Garnish with a mint sprig.
+  
+Daquiri:
+  collection: Classics
+  ingredients:
+    Light Rum:
+      amount: '2'
+      units: oz
+    Simple Syrup:
+      amount: '1'
+      units: oz
+    Lime Juice:
+      amount: '1'
+      units: oz
+  notes: Shake until chilled. Garnish with lime.
+  
+Martinez:
+  collection: Classics
+  ingredients:
+    Gin:
+      amount: '1.5'
+      units: oz
+    Sweet Vermouth:
+      amount: '1.5'
+      units: oz
+    Maraschino:
+      amount: '0.25'
+      units: oz
+    Angostura Bitters:
+      amount: '2'
+      units: dashes
+  notes: Stirred. Should technically be Old Tom Gin.
+  
+Boulevardier:
+  collection: Classics
+  ingredients:
+    Whiskey:
+      amount: '1'
+      units: part
+    Sweet Vermouth:
+      amount: '1'
+      units: part
+    Campari:
+      amount: '1'
+      units: part
+  notes: Stirred. Garnish with an orange twist.
+  
+Gin and Tonic:
+  collection: Classics
+  ingredients:
+    Gin:
+      amount: '2'
+      units: oz
+    Tonic:
+      amount: '5'
+      units: oz
+  notes: I mean, duh.
+  
+Penicillin:
+  collection: Classics
+  ingredients:
+    Scotch:
+      amount: '2'
+      units: oz
+    Lemon Juice:
+      amount: '0.75'
+      units: oz
+    Honey-Ginger Syrup:
+      amount: '0.75'
+      units: oz
+    Islay Scotch:
+      amount: '0.25'
+      units: oz
+  notes: Shake until chilled. Islay is a float. Garnish with candied ginger.
+  
+Greyhound:
+  collection: Classics
+  ingredients:
+    Gin:
+      amount: '2'
+      units: oz
+    Grapefruit Juice:
+      amount: '4'
+      units: oz
+  notes: Stirred. Garnish with lime.
+
+Littoral Coitus:
+  collection: Classics
+  ingredients:
+    Vodka:
+      amount: '1.5'
+      units: oz
+    Peach Schnapps:
+      amount: '0.5'
+      units: oz
+    Orange Juice:
+      amount: '2'
+      units: oz
+    Cranberry Juice:
+      amount: '2'
+      units: oz
+  notes: Garnish with an orange wedge.
+
+Pina Colada:
+  collection: Classics
+  ingredients:
+    Rum:
+      amount: '2.5'
+      units: oz
+    Pineapple Juice:
+      amount: '3'
+      units: oz
+    Coconut Cream:
+      amount: '1'
+      units: oz
+  notes: I feel like this is supposed to have more stuff in it.
+  
+Bees Knees:
+  collection: Classics
+  ingredients:
+    Gin:
+      amount: '2'
+      units: oz
+    Lemon Juice:
+      amount: '0.75'
+      units: oz
+    Honey Syrup:
+      amount: '0.5'
+      units: oz
+  notes: Garnish with a lemon twist.
+  
+Death in the Afternoon:
+  collection: Classics
+  ingredients:
+    Absinthe:
+      amount: '1.5'
+      units: oz
+    Champagne:
+      amount: '4.5'
+      units: oz
+  notes: Champagne flute. 
+  
+Screwdriver:
+  collection: Classics
+  ingredients:
+    Vodka:
+      amount: '1.5'
+      units: oz
+    Orange Juice:
+      amount: 
+      units: to top
+  notes: Serve in Philip's Head
+
+Corpse Reviver No. 1:
+  collection: Classics
+  ingredients:
+    Calvados:
+      amount: '1'
+      units: oz
+    Cognac:
+      amount: '1'
+      units: oz
+    Sweet Vermouth:
+      amount: '0.5'
+      units: oz
+  notes: You probably are looking for the #2. 
+
+Corpse Reviver No. 2:
+  collection: Classics
+  ingredients:
+    Gin:
+      amount: '0.75'
+      units: oz
+    Cointreau:
+      amount: '0.75'
+      units: oz
+    Lillet Blanc:
+      amount: '0.75'
+      units: oz
+    Lemon Juice:
+      amount: '0.75'
+      units: oz
+    Simple Syrup:
+      amount: '0.5'
+      units: tsp
+    Absinthe:
+      amount: '2'
+      units: dashes
+  notes: Shake, strain, lemon twist to garnish. 
+  
+Improved Whiskey Cocktail:
+  collection: Classics
+  ingredients:
+    Whiskey:
+      amount: '2'
+      units: oz
+    Maraschino:
+      amount: '1'
+      units: bsp
+    Angostura Bitters:
+      amount: '1'
+      units: dash
+    Peychauds Bitters:
+      amount: '1'
+      units: dash
+    Simple Syrup:
+      amount: '0.25'
+      units: tsp
+    Absinthe:
+      amount: '1'
+      units: dash
+  notes: Lemon twist to garnish. 
+  
+Ramos Gin Fizz:
+  collection: Classics
+  ingredients:
+    Gin:
+      amount: '2'
+      units: oz
+    Heavy Cream:
+      amount: '1'
+      units: oz
+    Egg White:
+      amount: '1'
+      units: pcs
+    Fresh Lemon:
+      amount: '0.5'
+      units: oz
+    Fresh Lime:
+      amount: '0.5'
+      units: oz
+    Orange Flower Water:
+      amount: '2-3'
+      units: dashes
+    Soda:
+      amount:
+      units: to top
+  notes: Shake everything except the foam.
