@@ -30,18 +30,16 @@
 
             <p>Random recipes:</p><br>
 
-            <!-- fix this later -->
-             {% set index = 0%}
+            <!-- fix this later -->             
              {% for row in range(rows)%}
                 <div class="button-container">
-                    {% for cocktail in cocktails[row] %}
-                        <button type="submit" name="{{index}}">
-                            {% for i in range(cocktail[0]|length) %}
-                                {{cocktail[0][i]}}<br>
-                                &emsp;{{cocktail[1][i]}}<br>
+                    {% for j in range(cocktails[row]|length) %}
+                        <button type="submit" name="{{j + row*5}}">
+                            {% for i in range(cocktails[row][j][0]|length) %}
+                                {{cocktails[row][j][0][i]}}<br>
+                                &emsp;{{cocktails[row][j][1][i]}}<br>
                             {% endfor %}
                         </button>
-                        {% set index = index + 1%}
                     {% endfor %}
                 </div>
             {% endfor %}

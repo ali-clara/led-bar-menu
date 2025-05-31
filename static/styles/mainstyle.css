@@ -108,6 +108,6 @@ a:link {
   background-color: transparent;
 }
 
-.button:active {
+button:focus {
     background-color: #7c1da1;
 }

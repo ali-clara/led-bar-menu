@@ -249,9 +249,15 @@ class TestView(FlaskView):
                 try:
                     index = int(element_name)
                     # ingredients, quantity = self.random_ten[index//numcols][index%numcols]
+                    print(self.random_ten)
+                    print(index)
+
                     flattened_ten = []
                     for i in range(numrows):
                         [flattened_ten.append(rand) for rand in self.random_ten[i]]
+                    
+                    print(flattened_ten)
+
                     ingredients, quantity = flattened_ten[index]
                 except ValueError as e:
                     print(f"Could not convert {element_name} to integer: {e}")
