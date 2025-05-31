@@ -17,7 +17,7 @@
             <div class="vertical-menu">
                 <a class="active" href="/menu">Home</a>
                 <a href="/collections">Collections</a>
-                <a href="/random-cocktail-generator">Random Cocktail Generator</a>
+                <a href="/random_cocktail_generator">Random Cocktail Generator</a>
             </div>
         </div>
 
@@ -40,7 +40,7 @@
         <p>Prefer to browse the options instead?</p>
         <form method="POST">
             <label for="collection-select">Sort by</label><br>
-            <select id="collection-select" name="dropdown">
+            <select id="collection-select" name="collection dropdown">
                 {% for collection in collections %}
                 <option value="{{ collection }}">{{ collection }}</option>
                 {% endfor %}

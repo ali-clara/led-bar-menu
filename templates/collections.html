@@ -3,7 +3,7 @@
 
 <head>
   <link rel="stylesheet" href="{{ url_for('static',filename='styles/mainstyle.css') }}">
-  <title>Main Menu</title>
+  <title>{{header}} Collection</title>
 </head>
 
 <body>
@@ -17,7 +17,7 @@
         <div class="vertical-menu">
           <a href="/menu">Home</a>
           <a class="active" href="/collections">Collections</a>
-          <a href="/random-cocktail-generator">Random Cocktail Generator</a>
+          <a href="/random_cocktail_generator">Random Cocktail Generator</a>
         </div>
       </div>
 
@@ -26,11 +26,14 @@
       <div class="middle">
           {% for i in range(cocktails|length) %}
               <details>
-                  <summary>{{cocktails[i]}}</summary>
+                  <summary> <a href="/resippy/{{cocktails[i]}}">{{cocktails[i]}}</a></summary>
                       {% for ingredient in ingredients[i] %}
                       &emsp;&emsp;{{ingredient}}<br>
                       {% endfor %}
+                      <br>
+                      &emsp;&emsp;Bartender's note: {{notes[i]}}
               </details>
+              <br>
           {% endfor %}
       </div>  
   

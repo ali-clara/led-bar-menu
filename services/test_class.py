@@ -77,45 +77,49 @@ class TestView(FlaskView):
             self.lights.all_off()
             self.lit_up_ingredients = []
 
-            print(request.form)
+            print(f"request.form -> {request.form}")
 
             # When "post" is triggered, take a look at what happened in the HTML form. The value "request.form" is
-            # a dictionary with key-value pairs "element-name" "element-entry". We don't really care about the name,
-            # but we can use it to grab the dict value
+            # a dictionary with key-value pairs "element-name" "element-entry". We use "element-name" to determine which
+            # button was selected, and "element-entry" to determine the input info
             element_name = list(request.form.keys())[0]
             form_entry = request.form.get(element_name)
 
-            print(form_entry)
-            is_recipe, recipe_match, recipe_score = recipe.check_match(form_entry, self.cocktail_names, match_threshold=0.705)
-            print(is_recipe, recipe_match, recipe_score)
-            is_ingredient, ingredient_match, score = recipe.check_match(form_entry, self.all_ingredients, match_threshold=0.75)
-            print(is_ingredient, ingredient_match, score)
-            is_tag, tag_match, tag_score = recipe.check_match(form_entry, self.tags, match_threshold=0.75)
-            print(is_tag, tag_match, tag_score)
+            print(element_name)
 
             # If the form has returned a cocktail, process that
-            if is_recipe:
-                # Once we know the name of the cocktail, we can grab its ingredients
-                # self.resippy(recipe_match)
-                return redirect(url_for('TestView:resippy', arg=recipe_match))
+            if element_name == "cocktail input":
+                print(form_entry)
+                is_recipe, recipe_match, recipe_score = recipe.check_match(form_entry, self.cocktail_names, match_threshold=0.705)
+                print(is_recipe, recipe_match, recipe_score)
+                is_ingredient, ingredient_match, score = recipe.check_match(form_entry, self.all_ingredients, match_threshold=0.75)
+                print(is_ingredient, ingredient_match, score)
+                is_tag, tag_match, tag_score = recipe.check_match(form_entry, self.tags, match_threshold=0.75)
+                print(is_tag, tag_match, tag_score)
 
-            elif is_tag:
-                children = recipe.expand_tag(tag_match, self.tags_dict)
-                [self.lit_up_ingredients.append(child) for child in children]
-                print(f"lighting up tag: {tag_match}")
-                self.lights.illuminate(self.lit_up_ingredients)
-            
-            elif is_ingredient:
-                print(f"lighting up single ingredient: {ingredient_match}")
-                self.lights.illuminate([ingredient_match])
+                if is_recipe:
+                    # Once we know the name of the cocktail, we can grab its ingredients
+                    # self.resippy(recipe_match)
+                    return redirect(url_for('TestView:resippy', arg=recipe_match))
+
+                elif is_tag:
+                    children = recipe.expand_tag(tag_match, self.tags_dict)
+                    [self.lit_up_ingredients.append(child) for child in children]
+                    print(f"lighting up tag: {tag_match}")
+                    self.lights.illuminate(self.lit_up_ingredients)
+                
+                elif is_ingredient:
+                    print(f"lighting up single ingredient: {ingredient_match}")
+                    self.lights.illuminate([ingredient_match])
 
             # Otherwise, if the form has returned a collection, process ~that~
-            elif form_entry in self.collection_names:
-                # This line isn't strictly necessary, but I think title case with spaces looks dumb in a URL, so I 
-                #   do some string formatting
-                chosen_collection = form_entry.replace(" ", "_").lower()
-                # Redirect us to the "collections" page with the given collection
-                return redirect(url_for('TestView:collection', arg=chosen_collection))
+            elif element_name == "collection dropdown":
+                if form_entry in self.collection_names:
+                    # This line isn't strictly necessary, but I think title case with spaces looks dumb in a URL, so I 
+                    #   do some string formatting
+                    chosen_collection = form_entry.replace(" ", "_").lower()
+                    # Redirect us to the "collections" page with the given collection
+                    return redirect(url_for('TestView:collection', arg=chosen_collection))
             
             # The else will eventually be deleted, but it's here while there's the LED proxy on the website
             else:
@@ -182,20 +186,27 @@ class TestView(FlaskView):
         # If we're good, then load the available cocktails as dropdowns
         cocktails_in_collection = self.collection_dict[title]
         ingredients_list = [list(self.menu_dict[cocktail]["ingredients"].keys()) for cocktail in cocktails_in_collection]
+        notes_list = [self.menu_dict[cocktail]["notes"] for cocktail in cocktails_in_collection]
 
-        return render_template('collections.html', header=title.title()+" Collection", cocktails=cocktails_in_collection, ingredients=ingredients_list)
+        return render_template('collections.html', header=title.title()+" Collection", 
+                               cocktails=cocktails_in_collection, 
+                               ingredients=ingredients_list,
+                               notes=notes_list)
     
     @route("collections")
     def collections_main_page(self):
         mytext = "Collections page"
         return render_template('empty_template.html', text=mytext)
     
-    
     @method("POST")
     @method("GET")
     def random_cocktail_generator(self):
         random_recipe_options = rands.get_random_recipe_options()
         mytext = "This will generate you a random cocktail once we integrate Dane's script"
+
+        # What we want displayed on the website
+        numrows = 2
+        numcols = 5
 
         if request.method == "POST":   
 
@@ -208,12 +219,11 @@ class TestView(FlaskView):
             # form_entry = request.form.get(element_name)
 
             print(element_name)
-            numcols = 5
             
             if element_name in random_recipe_options or element_name == "Random Random":
                 self.random_ten = []
 
-                for row in range(2): # rows
+                for row in range(numrows): # rows
                     self.random_ten.append([])
                     for _ in range(numcols): # columns
                         random_dict = rands.resolve_random_recipe(element_name)
@@ -238,7 +248,8 @@ class TestView(FlaskView):
             elif element_name.isnumeric():
                 try:
                     index = int(element_name)
-                    ingredients, quantity = self.random_ten[index//numcols][index%numcols]
+                    # ingredients, quantity = self.random_ten[index//numcols][index%numcols]
+                    ingredients, quantity = self.random_ten[index]
                 except ValueError as e:
                     print(f"Could not convert {element_name} to integer: {e}")
                 except IndexError as e:
@@ -247,7 +258,7 @@ class TestView(FlaskView):
                     self.lights.illuminate(ingredients)
 
 
-        return render_template('randomizer.html', rand_options=random_recipe_options, cocktails=self.random_ten)
+        return render_template('randomizer.html', rand_options=random_recipe_options, cocktails=self.random_ten, rows=numrows)
 
 if __name__ == "__main__":
 #     TestView.register(app, route_base = '/')

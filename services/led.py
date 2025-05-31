@@ -33,9 +33,9 @@ class LED:
             self.led_loc_dict = yaml.safe_load(stream)
 
         # Initialize colors
-        self.rainbow_dict = {"red": (228, 3, 3),
+        self.rainbow_dict = {"yellow": (255, 237, 0),
+                            "red": (228, 3, 3),
                             "orange": (255, 69, 0),
-                            "yellow": (255, 237, 0),
                             "green": (0, 255, 10),
                             "blue": (0, 77, 255),
                             "violet": (117, 7, 135),
@@ -109,8 +109,9 @@ class LED:
         elif "H" in location or "I" in location or "J" in location or "K" in location or "L" in location or "M" in location or "N" in location:
             return 0.2
         else:
-            return 0
-    
+            print("Not a standard led location")
+            return 0.4
+
     def illuminate(self, spirit):
         pixels = self._spirit_to_pixel(spirit)
         # self.pixels_on(pixels)
@@ -129,7 +130,7 @@ class LED:
         self.pixels.show()
     
     def range_on(self, start_pix: int, stop_pix: int, color=(255,255,0), brightness=0.1):
-        print(f"lighting up pixels {start_pix, stop_pix}")
+        # print(f"lighting up pixels {start_pix, stop_pix}")
         scaled_color = brightness*np.array(color)
         int_scaled_color = scaled_color.astype(int)
         for i in range(start_pix, stop_pix+1):

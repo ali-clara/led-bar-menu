@@ -580,3 +580,14 @@ Ramos Gin Fizz:
       amount:
       units: to top
   notes: Shake everything except the foam.
+
+Trinidad Sour:
+  collection: Classics
+  ingredients: 
+    Mystery 1:
+      amount: ""
+      units: ""
+    Mystery 2:
+      amount: ""
+      units: ""
+  notes: gotcha Dane

@@ -3,7 +3,7 @@
 
 <head>
     <link rel="stylesheet" href="{{ url_for('static',filename='styles/mainstyle.css') }}">
-    <title>404 Error Page</title>
+    <title>Random cocktail generator</title>
 </head>
 
 <body>
@@ -21,36 +21,43 @@
         </div>
   
         <div class="middle">
+            <p>Choose a flavor profile to generate 10 random cocktails</p>
             <form id="random" method="POST">
                 {% for i in range(rand_options|length) %}
                 &emsp; <button type="submit" name="{{rand_options[i]}}">{{rand_options[i]}}</button>
                 {% endfor %}
                 &emsp; <button form="random" type="submit" name="Random Random">Random Random</button><br>
 
-            <p>Random recipes for you:</p><br>
+            <p>Random recipes:</p><br>
 
             <!-- fix this later -->
-            <div class="button-container">
-                {% for j in range(cocktails[0]|length) %}
-                    <button type="submit" name="{{j}}">
-                        {% for i in range(cocktails[0][j][0]|length) %}
-                            {{cocktails[0][j][0][i]}}<br>
-                            &emsp;{{cocktails[0][j][1][i]}}<br>
-                        {% endfor %}
-                    </button>
-                {% endfor %}
-            </div>
+             {% set index = 0%}
+             {% for row in range(rows)%}
+                <div class="button-container">
+                    {% for cocktail in cocktails[0] %}
+                        <button type="submit" name="{{index}}">
+                            {% for i in range(cocktail[0]|length) %}
+                                {{cocktail[0][i]}}<br>
+                                &emsp;{{cocktail[1][i]}}<br>
+                            {% endfor %}
+                        </button>
+                        {% set index = index + 1%}
+                    {% endfor %}
+                </div>
+            {% endfor %}
 
-            <div class="button-container">
-                {% for j in range(cocktails[1]|length) %}
-                    <button type="submit" name="{{j}}">
-                        {% for i in range(cocktails[1][j][0]|length) %}
-                            {{cocktails[1][j][0][i]}}<br>
-                            &emsp;{{cocktails[1][j][1][i]}}<br>
+            <!-- <div class="button-container">
+                {% set index = 5%}
+                {% for cocktail in cocktails[1] %}
+                    <button type="submit" name="{{index}}">
+                        {% for i in range(cocktail[0]|length) %}
+                            {{cocktail[0][i]}}<br>
+                            &emsp;{{cocktail[1][i]}}<br>
                         {% endfor %}
                     </button>
+                    {% set index = index + 1%}
                 {% endfor %}
-            </div>
+            </div> -->
 
 
             </form>
