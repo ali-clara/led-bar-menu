@@ -54,7 +54,7 @@ class TestView(FlaskView):
         This lives at http://localhost:5000/ or http://10.0.0.120:5000
         """
         return redirect(url_for('TestView:menu'))
-    
+
     def not_found(self):
         return render_template("error404.html")
 
@@ -71,7 +71,7 @@ class TestView(FlaskView):
         chosen_collection = None
 
         # If we've gotten a change of state on the server (in this case, due to user entry),
-        #   take a look at it. 
+        #   take a look at it.
         if request.method == "POST":
             # Clear the LEDS, if they're on
             self.lights.all_off()
@@ -107,7 +107,7 @@ class TestView(FlaskView):
                     [self.lit_up_ingredients.append(child) for child in children]
                     print(f"lighting up tag: {tag_match}")
                     self.lights.illuminate(self.lit_up_ingredients)
-                
+
                 elif is_ingredient:
                     print(f"lighting up single ingredient: {ingredient_match}")
                     self.lights.illuminate([ingredient_match])
@@ -115,32 +115,32 @@ class TestView(FlaskView):
             # Otherwise, if the form has returned a collection, process ~that~
             elif element_name == "collection dropdown":
                 if form_entry in self.collection_names:
-                    # This line isn't strictly necessary, but I think title case with spaces looks dumb in a URL, so I 
+                    # This line isn't strictly necessary, but I think title case with spaces looks dumb in a URL, so I
                     #   do some string formatting
                     chosen_collection = form_entry.replace(" ", "_").lower()
                     # Redirect us to the "collections" page with the given collection
                     return redirect(url_for('TestView:collection', arg=chosen_collection))
-            
+
             # The else will eventually be deleted, but it's here while there's the LED proxy on the website
             else:
                 chosen_ingredients = []
 
         return render_template('main_menu.html', options=self.cocktail_names, ingredients=self.used_ingredients, chosen_ingredients=chosen_ingredients, collections=self.collection_names)
-    
+
     def resippy(self, arg:str):
         """http://localhost:5000/recipe/arg"""
-        
+
         self.lights.all_off()
         self.lit_up_ingredients = []
-        
+
         print("lit up ingredients:")
         print(self.lit_up_ingredients)
-        
+
 
         chosen_ingredients = list(self.menu_dict[arg]['ingredients'].keys())
         print("chosen ingredients:")
         print(chosen_ingredients)
-        
+
         # Part 1 - the LEDS. Expand any children and call the LED class
         for ingredient in chosen_ingredients:
             children = recipe.expand_tag(ingredient, self.tags_dict)
@@ -167,10 +167,10 @@ class TestView(FlaskView):
         # Then render the html page
         return render_template('recipe.html', header=arg.title(), cocktail=arg, ingredients=rendered_ingredients, units=units, amounts=amounts, notes=notes)
 
-    
+
     def collection(self, arg:str):
         """http://localhost:5000/collection/arg"""
-        # Do some string processing to match our collection title formatting - 
+        # Do some string processing to match our collection title formatting -
         #   replace any underscores or hyphens with spaces, and make it title case
         if "_" in arg:
             title = arg.replace("_", " ").title()
@@ -182,22 +182,22 @@ class TestView(FlaskView):
         # Check if it's a valid collection name. If not, stop here and let us know
         if title not in self.collection_names:
             return "<p> not a valid cocktail menu collection :3 </p>"
-        
+
         # If we're good, then load the available cocktails as dropdowns
         cocktails_in_collection = self.collection_dict[title]
         ingredients_list = [list(self.menu_dict[cocktail]["ingredients"].keys()) for cocktail in cocktails_in_collection]
         notes_list = [self.menu_dict[cocktail]["notes"] for cocktail in cocktails_in_collection]
 
-        return render_template('collections.html', header=title.title()+" Collection", 
-                               cocktails=cocktails_in_collection, 
+        return render_template('collections.html', header=title.title()+" Collection",
+                               cocktails=cocktails_in_collection,
                                ingredients=ingredients_list,
                                notes=notes_list)
-    
+
     @route("collections")
     def collections_main_page(self):
         mytext = "Collections page"
         return render_template('empty_template.html', text=mytext)
-    
+
     @method("POST")
     @method("GET")
     def random_cocktail_generator(self):
@@ -208,7 +208,7 @@ class TestView(FlaskView):
         numrows = 2
         numcols = 5
 
-        if request.method == "POST":   
+        if request.method == "POST":
 
             self.lights.all_off()
 
@@ -219,7 +219,7 @@ class TestView(FlaskView):
             # form_entry = request.form.get(element_name)
 
             print(element_name)
-            
+
             if element_name in random_recipe_options or element_name == "Random Random":
                 self.random_ten = []
 
@@ -239,8 +239,10 @@ class TestView(FlaskView):
                             ingredient = i.replace("_", " ").title()
                             amount = random_dict[i]["amount"]
                             unit = random_dict[i]["units"]
-
-                            quantity.append(amount + " " + unit)
+                            if quantity.lower() == "taste":
+                                quantity.append("To taste (think on the order of %s)" % unit)
+                            else:
+                                quantity.append(amount + " " + unit)
                             ingredients.append(ingredient)
 
                         self.random_ten[row].append([ingredients, quantity])
