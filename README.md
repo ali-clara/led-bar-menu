@@ -7,7 +7,6 @@ Getting lit (hah)
 - Should display the recipe on the website
 
 ### Works! Notes:
-- Colors and brightnesses
 - Publish the logs to the website
 
 

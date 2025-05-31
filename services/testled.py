@@ -12,13 +12,14 @@ except ImportError:
     from simulated_neopixel import board
 import yaml
 import time
+import numpy as np
 
 location_dict = {}
 coordinate_dict = {}
 
 # Initialize the NeoPixel strip with GPIO pin 10 (needed for not running this with SUDO privileges),
 # 150 lights, and 20% brightness. Auto_write means we're going to need to call pixels.show() whenever we want them lit up
-pixels = neopixel.NeoPixel(board.D10, 255, brightness=0.1, auto_write=False)
+pixels = neopixel.NeoPixel(board.D10, 255, brightness=0.4, auto_write=False)
 # Make sure our strip is off
 pixels.fill((0,0,0))
 pixels.show()
@@ -40,14 +41,21 @@ while not exit_loop:
             try:
                 start_pix = int(input("Start pixel: "))
                 stop_pix = int(input("Stop pixel: "))
+                r = int(input("r: "))
+                g = int(input("g: "))
+                b = int(input("b: "))
+                brightness = float(input("Brightness (0-1): "))
             except:
                 print("Could not convert input to integer")
             # If we've been given a valid start and stop, turn on those pixels
             else:
                 pixel_ranges.append([start_pix, stop_pix])
+                r = int(r*brightness)
+                g = int(g*brightness)
+                b = int(b*brightness)
                 for i in range(start_pix, stop_pix+1):
                     try:
-                        pixels[i] = (0, 255, 0)
+                        pixels[i] = (r, g, b)
                     except IndexError as e:
                         print(e)
                 pixels.show()
