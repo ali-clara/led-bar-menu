@@ -199,6 +199,8 @@ class TestView(FlaskView):
 
         if request.method == "POST":   
 
+            self.lights.all_off()
+
             # When "post" is triggered, take a look at what happened in the HTML form. The value "request.form" is
             # a dictionary with key-value pairs "element-name" "element-entry". We don't really care about the name,
             # but we can use it to grab the dict value
