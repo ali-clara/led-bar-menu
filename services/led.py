@@ -33,9 +33,9 @@ class LED:
             self.led_loc_dict = yaml.safe_load(stream)
 
         # Initialize colors
-        self.rainbow_dict = {"red": (228, 3, 3),
+        self.rainbow_dict = {"yellow": (255, 237, 0),
+                            "red": (228, 3, 3),
                             "orange": (255, 69, 0),
-                            "yellow": (255, 237, 0),
                             "green": (0, 255, 10),
                             "blue": (0, 77, 255),
                             "violet": (117, 7, 135),

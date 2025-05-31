@@ -102,3 +102,8 @@ text-align: center;
   margin: 20px;
   padding: 10px;
 }
+
+a:link {
+  color: black;
+  background-color: transparent;
+}
