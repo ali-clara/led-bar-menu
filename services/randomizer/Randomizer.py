@@ -12,6 +12,19 @@ serv_path = os.path.join(dir_path, "..")
 config_path = os.path.join(serv_path, '../config')
 #What I need to do now is load everything into the document
 
+eighty_six = []
+
+with open(os.path.join(config_path, "ingredients.csv"), 'r') as file:
+    data = list(i.split(',') for i in file.read().split('\n'))
+    for entry in data:
+
+        if len(''.join(entry))>0:
+            if entry[1].strip() == 'none':
+                eighty_six.append(entry[0])
+
+
+
+
 #This holds in the data of all of the tag files.
 yamls = {}
 for filename in os.listdir(config_path):
@@ -65,7 +78,11 @@ def resolve_random_ingredient(rand_ingredient):
     if selected in ingredients:
         return selected
     elif selected in tags:
-        available_ingredients = get_ingredients(selected)
+        known_ingredients = get_ingredients(selected)
+        available_ingredients = []
+        for i in known_ingredients:
+            if i not in eighty_six:
+                available_ingredients.append(i)
         return available_ingredients[int(np.random.rand()*len(available_ingredients))]
 
 def load_random_recipes():
@@ -101,9 +118,9 @@ def resolve_random_recipe(rand_recipe):
     return random_ingredients
 
 if __name__ == "__main__":
-    random_ingredients = resolve_random_recipe("Random Sour")
-    print(random_ingredients)
-
-
-    for i in range(10):
-        print(resolve_random_recipe("Random Random"))
+    for i in range(1000):
+        R = resolve_random_ingredient("Random Base Spirit")
+        if R == "placeholder_japanese_whisky":
+            print("Uh-oh spaghettios")
+        if i%100 == 0:
+            print(i//100)
