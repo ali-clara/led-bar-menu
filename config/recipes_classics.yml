@@ -10,7 +10,7 @@ Negroni:
     Sweet Vermouth:
       amount: '1'
       units: oz
-  notes: It's a negroni.
+  notes: Storred with ice in a mixing glass, and strained into a rocks glass over a large ice cube. Garnish with an orange twist.
   
 Old Fashioned:
   collection: Classics
@@ -24,10 +24,7 @@ Old Fashioned:
     Sugar:
       amount: '1'
       units: tsp or cube
-    Orange Twist:
-      amount: '1'
-      units: twist
-  notes: Can use Simple Syrup in place of sugar
+  notes: Add sugar, bitters, and a tsp of water to a mixing glass and stir until sugar nearly dissolved. Add ice and bourbon, strain over one large ice cube. Garnish with an orange twist.
   
 Margarita:
   collection: Classics
@@ -41,7 +38,7 @@ Margarita:
     Lime Juice:
       amount: '1'
       units: oz
-  notes: Salt the rim.
+  notes: Shaken with ice. Salt the rim.
   
 Cosmopolitan:
   collection: Classics
@@ -100,7 +97,7 @@ Dark and Stormy:
     Lime Juice:
       amount: '0.5'
       units: oz
-  notes: Serve in a copper mug unless you're a baby about eating heavy metals I guess.
+  notes: Serve in a copper mug unless you're a baby about eating heavy metals I guess. Technically should be Goslings Black Seal rum, but eh
 
 Martini:
   collection: Classics
@@ -145,7 +142,7 @@ Mojito:
     Mint:
       amount: '3'
       units: leaves
-  notes: I usually use Max's recipe wherein you muddle the leaves with sugar.
+  notes: I usually use Max's recipe wherein you muddle the leaves with sugar. But same basic process here, mix the simple and leaves together first, then rum, then fill.
   
 Whiskey Sour:
   collection: Classics
@@ -162,7 +159,7 @@ Whiskey Sour:
     Egg White:
       amount: '1'
       units: egg
-  notes: Egg white tastes right
+  notes: Egg white tastes right. Add wet ingredients to the shaker, and "dry" shake for 30 seconds without ice. Then add ice, and shake until chilled. Strain into a rocks glass over fresh ice, and garnish with a few drops of angostura.
   
 French 75:
   collection: Classics
@@ -179,7 +176,7 @@ French 75:
     Champagne:
       amount: 
       units: to top
-  notes: Shaken, except for the champagne bit
+  notes: Shaken, strained, and filled to the top with champagne. Garnish with a lemon twist.
   
 Manhattan:
   collection: Classics
@@ -202,7 +199,7 @@ Aperol Spritz:
       amount: '1'
       units: oz
     Prosecco:
-      amount: '1'
+      amount: '2'
       units: oz
     Orange Liqueur:
       amount: '0.25'
@@ -241,18 +238,18 @@ Sazerac:
   collection: Classics
   ingredients:
     Rye:
-      amount: '2'
+      amount: '2.5'
       units: oz
-    Simple Syrup:
-      amount: '0.25'
-      units: oz
+    Sugar:
+      amount: '1'
+      units: cube
     Peychauds Bitters:
-      amount: '2'
+      amount: '4'
       units: dashes
     Absinthe:
       amount: '0.25'
       units: oz
-  notes: For the Absinthe, numerous delivery mechanisms are feasible. Doing a rinse of the glass and pouring it out is traditional, just adding it as an ingredient is reasonable, and using the atomizer is economical.
+  notes: In a mixing glass, muddle the sugar cube, water, and Peychaud's Bitters, then add whiskey and stir. For the Absinthe, numerous delivery mechanisms are feasible. Doing a rinse of the glass and pouring it out is traditional, just adding it as an ingredient is reasonable, and using the atomizer is economical. Garnish with a lemon twist.
   
 Aviation:
   collection: Classics
@@ -269,7 +266,7 @@ Aviation:
     Creme de Violette:
       amount: '0.25'
       units: oz
-  notes: Shake until chilled. Garnish with a cherry.
+  notes: Shake until chilled. Garnish with a brandied cherry.
   
 Tom Collins:
   collection: Classics
@@ -317,7 +314,7 @@ Last Word:
     Green Chartreuse:
       amount: '1'
       units: part
-  notes: Shake until chilled. Garnish with a cherry.
+  notes: Shake until chilled. Garnish with a maraschino cherry.
   
 Sidecar:
   collection: Classics
