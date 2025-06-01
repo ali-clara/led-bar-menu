@@ -584,10 +584,13 @@ Ramos Gin Fizz:
 Trinidad Sour:
   collection: Classics
   ingredients: 
-    Mystery 1:
-      amount: ""
-      units: ""
-    Mystery 2:
-      amount: ""
-      units: ""
-  notes: gotcha Dane
+    Reddit Aroma:
+      amount: '1'
+      units: oz
+    Fresh Lime:
+      amount: '1'
+      units: oz
+    Coconut Cream:
+      amount: '0.5'
+      units: oz
+  notes: In the absence of coconut cream, simple is fine, or your favorite sweetener.
