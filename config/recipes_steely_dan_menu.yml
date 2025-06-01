@@ -93,7 +93,7 @@ Deacon Blues:
       units: oz
   notes: Aja. Credit to Zig Zag Cafe
 Don't Take Me Alive:
-  collection: The Royal Scam
+  collection: Steely Dan
   ingredients:
     Bourbon:
       amount: '1'
@@ -110,7 +110,7 @@ Don't Take Me Alive:
     Szechuan bitters:
       amount: '2'
       units: dashes
-  notes: No quantities were written down for this in the doc, so I made these numbers
+  notes: The Royal Scam. No quantities were written down for this in the doc, so I made these numbers
     up as I edited. Also the recipe just said "lemon", which probably referred to
     juice, but I think using a twist here and leaning into the old fashioned style
     is more interesting here than the sour angle. But needs testing.
@@ -169,7 +169,7 @@ Glamour Profession:
       units: oz
   notes: Gaucho
 Green Flower Street:
-  collection: The Nightfly
+  collection: Steely Dan
   ingredients:
     Blue Curacao:
       amount: until the lime turns green

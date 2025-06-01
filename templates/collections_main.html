@@ -3,12 +3,13 @@
 
 <head>
     <link rel="stylesheet" href="{{ url_for('static',filename='styles/mainstyle.css') }}">
-    <title>Title</title>
+    <title>Collections</title>
 </head>
 
 <body>
     <div class="grid-container">
         <div class="header">
+          <h2>Collections</h2>
         </div>
     
         <div class="left">
@@ -21,7 +22,11 @@
         </div>
   
         <div class="middle">
-            <p>{{text}}</p>
+            {% for i in range(collections|length)%}
+              <a href="/collection/{{collections[i]}}">{{collections[i]}}</a><br>
+              &emsp;-&ensp;{{notes[i]}}
+              <br><br>
+            {% endfor %}
         </div>  
     
       <div class="footer">

@@ -9,32 +9,40 @@
 <body>
     <div class="grid-container">
         <div class="header">
+            <h2>Random Cocktail Generator</h2>
         </div>
     
         <div class="left">
           <!-- Navbar! We're not on any menu page, so don't set any of them active -->
           <div class="vertical-menu">
             <a href="/menu">Home</a>
-            <a href="/collections">Collections</a>
-            <a href="/random_cocktail_generator">Random Cocktail Generator</a>
+            <a href="/collections_main_page">Collections</a>
+            <a class="active" href="/random_cocktail_generator">Random Cocktail Generator</a>
           </div>
         </div>
   
         <div class="middle">
-            <p>Choose a flavor profile to generate 10 random cocktails</p>
+            
             <form id="random" method="POST">
+            
+            <p>Feeling the decision paralysis? Pick a random recipe from our menu</p>
+            <button form="random" type="submit" name="random existing">I'm feeling lucky</button>
+            
+            <p>Or choose a flavor profile to generate 10 random cocktails</p>
                 {% for i in range(rand_options|length) %}
                 &emsp; <button type="submit" name="{{rand_options[i]}}">{{rand_options[i]}}</button>
                 {% endfor %}
                 &emsp; <button form="random" type="submit" name="Random Random">Random Random</button><br>
 
-            <p>Random recipes:</p><br>
+            <br>
+            <p style="text-align: center;">Random recipes</p>
 
-            <!-- fix this later -->             
+            <!-- it's fixed but CURSED -->             
              {% for row in range(rows)%}
                 <div class="button-container">
                     {% for j in range(cocktails[row]|length) %}
-                        <button type="submit" name="{{j + row*5}}">
+                        <!-- It thinks this is an error but it just... isn't -->
+                        <button style="background-color:{{button_color[j+row*cols]}};" type="submit" name="{{j + row*cols}}">
                             {% for i in range(cocktails[row][j][0]|length) %}
                                 {{cocktails[row][j][0][i]}}<br>
                                 &emsp;{{cocktails[row][j][1][i]}}<br>

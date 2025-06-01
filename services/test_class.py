@@ -188,30 +188,33 @@ class TestView(FlaskView):
         ingredients_list = [list(self.menu_dict[cocktail]["ingredients"].keys()) for cocktail in cocktails_in_collection]
         notes_list = [self.menu_dict[cocktail]["notes"] for cocktail in cocktails_in_collection]
 
-        return render_template('collections.html', header=title.title()+" Collection",
+        return render_template('collection.html', header=title.title()+" Collection",
                                cocktails=cocktails_in_collection,
                                ingredients=ingredients_list,
                                notes=notes_list)
 
-    @route("collections")
+    # @route("collections")
     def collections_main_page(self):
-        mytext = "Collections page"
-        return render_template('empty_template.html', text=mytext)
+        collection_descriptions = ["The creations of Jack and Dane from their time in 2201",
+                                   "Cocktails from our undergrad days at Ali's uncle's house",
+                                   "Classic drinks! You could order these in public and people will probably know what you mean",
+                                   "Plagiarized from our favorite cocktail bar, The Zig Zag Cafe in Pike Place",
+                                   "Drinks inspired by Steely Dan songs and albums. Ask for a physical menu for extra ~zing~"]
+        return render_template('collections_main.html', collections=self.collection_names, notes=collection_descriptions)
 
     @method("POST")
     @method("GET")
     def random_cocktail_generator(self):
         random_recipe_options = rands.get_random_recipe_options()
-        mytext = "This will generate you a random cocktail once we integrate Dane's script"
 
         # What we want displayed on the website
         numrows = 2
         numcols = 5
+        button_color = [None]*numrows*numcols
 
         if request.method == "POST":
 
             self.lights.all_off()
-
             # When "post" is triggered, take a look at what happened in the HTML form. The value "request.form" is
             # a dictionary with key-value pairs "element-name" "element-entry". We don't really care about the name,
             # but we can use it to grab the dict value
@@ -239,8 +242,8 @@ class TestView(FlaskView):
                             ingredient = i.replace("_", " ").title()
                             amount = random_dict[i]["amount"]
                             unit = random_dict[i]["units"]
-                            if quantity.lower() == "taste":
-                                quantity.append("To taste (think on the order of %s)" % unit)
+                            if amount.lower() == "taste":
+                                quantity.append("To taste (%s)" % unit)
                             else:
                                 quantity.append(amount + " " + unit)
                             ingredients.append(ingredient)
@@ -266,10 +269,17 @@ class TestView(FlaskView):
                 except IndexError as e:
                     print(f"Could not index cocktails: '{e}' not found in {self.random_ten}")
                 else:
+                    button_color[index] = "#cf6275"
                     self.lights.illuminate(ingredients)
 
+            elif element_name == "random existing":
+                print("hi")
+                random_cocktail = rands.select_random_recipe()
+                return redirect(url_for('TestView:resippy', arg=random_cocktail))
 
-        return render_template('randomizer.html', rand_options=random_recipe_options, cocktails=self.random_ten, rows=numrows)
+
+        return render_template('randomizer.html', rand_options=random_recipe_options, cocktails=self.random_ten, 
+                               rows=numrows, cols=numcols, button_color=button_color)
 
 if __name__ == "__main__":
 #     TestView.register(app, route_base = '/')

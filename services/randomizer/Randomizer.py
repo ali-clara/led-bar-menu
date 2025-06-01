@@ -118,9 +118,11 @@ def resolve_random_recipe(rand_recipe):
     return random_ingredients
 
 if __name__ == "__main__":
-    for i in range(1000):
-        R = resolve_random_ingredient("Random Base Spirit")
-        if R == "placeholder_japanese_whisky":
-            print("Uh-oh spaghettios")
-        if i%100 == 0:
-            print(i//100)
+    # for i in range(1000):
+    #     R = resolve_random_ingredient("Random Base Spirit")
+    #     if R == "placeholder_japanese_whisky":
+    #         print("Uh-oh spaghettios")
+    #     if i%100 == 0:
+    #         print(i//100)
+
+    print(select_random_recipe())
