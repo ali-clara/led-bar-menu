@@ -195,11 +195,12 @@ class TestView(FlaskView):
 
     # @route("collections")
     def collections_main_page(self):
-        collection_descriptions = ["The creations of Jack and Dane from their time in 2201",
-                                   "Cocktails from our undergrad days at Ali's uncle's house",
-                                   "Classic drinks! You could order these in public and people will probably know what you mean",
-                                   "Plagiarized from our favorite cocktail bar, The Zig Zag Cafe in Pike Place",
-                                   "Drinks inspired by Steely Dan songs and albums. Ask for a physical menu for extra ~zing~"]
+        collection_descriptions = ["Classic drinks! You could order these in public and people will probably know what you mean",
+                                    "Drinks inspired by Steely Dan songs and albums. Ask for a physical menu for extra ~zing~"
+                                    "The creations of Jack and Dane from their time in the 2201 N 106th st apartment",
+                                    "Cocktails from our undergrad days at Ali's uncle's house",
+                                    "Plagiarized from our favorite cocktail bar, The Zig Zag Cafe in Pike Place",
+                                    ]
         return render_template('collections_main.html', collections=self.collection_names, notes=collection_descriptions)
 
     @method("POST")
