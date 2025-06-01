@@ -49,3 +49,8 @@ Velvet Falernum:
   ingredients:
     falernum: {}
   notes: ''
+Rye:
+  collection: Tags
+  ingredients:
+    Rye Whiskey: {}
+  notes: ''

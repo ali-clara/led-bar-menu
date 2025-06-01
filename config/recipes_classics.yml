@@ -567,10 +567,10 @@ Ramos Gin Fizz:
     Egg White:
       amount: '1'
       units: pcs
-    Fresh Lemon:
+    Lemon:
       amount: '0.5'
       units: oz
-    Fresh Lime:
+    Lime:
       amount: '0.5'
       units: oz
     Orange Flower Water:
@@ -587,7 +587,7 @@ Trinidad Sour:
     Reddit Aroma:
       amount: '1'
       units: oz
-    Fresh Lime:
+    Lime:
       amount: '1'
       units: oz
     Coconut Cream:
