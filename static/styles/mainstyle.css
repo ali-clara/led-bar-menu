@@ -108,10 +108,13 @@ a:link {
   background-color: transparent;
 }
 
-
 button {
     text-align: left;
     /* border: none; */
     /* border-radius: 8px; */
     padding: 3px 10px;
+}
+
+table, th, td {
+  border: 1px solid #bbb;
 }

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/mainstyle.css') }}">
+    <title>Menu Editor</title>
+
+    <script>
+        var rowIdx = 0;
+        var numBtns = 1;     
+
+        function AddField(tableId, elementId) {
+            // Grab the table references and update the rowIdx if we need to
+            var tableRef = document.getElementById(tableId);
+            if (rowIdx == 0) {
+                // The first .parentNode will give the CELL the second will give the ROW, then get the INDEX from the ROW
+                rowIdx = document.getElementById(elementId).parentNode.parentNode.rowIndex + 1;
+            }
+            // Create a new row at the specified index
+            var newRow = tableRef.insertRow(rowIdx);
+            // Do this twice so we're working in the right cell (second column)
+            var cell0  = newRow.insertCell();
+            var cell1 = newRow.insertCell();
+            var cell2 = newRow.insertCell();
+            
+            // Create a bunch of elements to put in those cells
+            var ingElement = document.createElement('input');
+            var amountElement = document.createElement('input');
+            var unitElement = document.createElement('input');
+            var comma1Node = document.createTextNode(" , ");
+            var comma2Node = document.createTextNode(" , ");
+            var removeBtn = document.createElement('input');
+
+            // Assign attributes to those elements
+            ingElement.setAttribute("form", "add recipe");
+            ingElement.setAttribute("name", `input_recipe_ingredient_${numBtns}`);
+
+            amountElement.setAttribute("form", "add recipe");
+            amountElement.setAttribute("name", `input_recipe_amount_${numBtns}`);
+
+            unitElement.setAttribute("form", "add recipe");
+            unitElement.setAttribute("name", `input_recipe_unit_${numBtns}`);
+
+            var id = `btnRemove${numBtns}`
+            removeBtn.setAttribute("type", "button")
+            removeBtn.setAttribute("value", `${id}`);
+            removeBtn.setAttribute("id", `${id}`)
+            removeBtn.setAttribute("onclick", `removeField("${tableId}", "${id}")`)
+
+            // Append the elements to the appropriate cell
+            cell1.appendChild(ingElement);
+            cell1.appendChild(comma1Node);
+            cell1.appendChild(amountElement);
+            cell1.appendChild(comma2Node);
+            cell1.appendChild(unitElement)
+            cell2.appendChild(removeBtn);
+
+            // Update our counters
+            rowIdx = rowIdx + 1;
+            numBtns = numBtns + 1;
+
+            // verification that we got to the end of this method
+            enableButton2()
+        }
+
+        function removeField(tableId, id) {
+            // Grab the table reference
+            var tableRef = document.getElementById(tableId);
+            // Grab the table row that corresponds to the id
+            var row = document.getElementById(id).parentNode.parentNode.rowIndex;
+            // Get that thang out of here
+            tableRef.deleteRow(row);
+            // Update our master row index accordingly
+            rowIdx = rowIdx - 1;
+
+            // verification that we got to the end of this method
+            disableButton2()
+        }
+        
+        function enableButton2() {
+            document.getElementById("button2").disabled = false;
+        }
+
+        function disableButton2() {
+            document.getElementById("button2").disabled = true;
+        }
+    </script>
+</head>
+
+<body>
+    <div class="grid-container">
+        <div class="header">
+            <h2>Menu Editor</h2>
+        </div>
+    
+        <div class="left">
+          <!-- Navbar! We're not on any menu page, so don't set any of them active -->
+          <div class="vertical-menu">
+            <a href="/menu">Home</a>
+            <a href="/collections_main_page">Collections</a>
+            <a href="/random_cocktail_generator">Random Cocktail Generator</a>
+            <a href="/credits">Credits</a>
+          </div>
+        </div>
+  
+        <div class="middle">
+            <table id="tbl">
+                <form id="add spirit" method="POST">
+                    <tr>
+                        <td><strong>Add Spirit</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Name: </td>
+                        <td><input list="spirits" id="inputAddSpirit"></td>
+                    </tr>
+                    <tr>
+                        <td>Coordinate: </td>
+                        <td><input list="coordinates" id="inputCoord"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                        <!-- Button to preview the spirit location - lights up the leds but doesn't change the csv -->
+                        <button form="add spirit" type="submit">Preview</button>
+                        <!-- Button to add the spirit to our master list. We want "Add" to be disabled until you preview the location -->
+                        <button form="add spirit" id="btnAddSpirit" type="submit">Add</button>
+                        </td>
+                        <!-- Since sending a "post" resets the page, I need to disable the button manually/in Python instead of 
+                        letting the Preview Spirit button handle it in html. I pass in add_spirits_disabled from the flask method,
+                        which sets the disabled flag to "true" or "false". It's not actually an error, my ide just thinks it is -->
+                        <script>document.getElementById("btnAddSpirit").disabled = {{add_spirits_disabled}};</script>
+                    </tr>
+                </form>
+                <tr><td><br><br></td></tr>
+            
+                <form id="add recipe" method="POST">
+                    <tr>
+                        <td><strong>Add Recipe</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Name: </td>
+                        <td><input id="inputRecipeName" name="input_recipe_name"></td>
+                    </tr>
+                    <tr>
+                        <td>Collection: </td>
+                        <td>
+                            <input list="collections" id="inputCollections" name="input_recipe_collections">
+                            <datalist id="collections">
+                                {% for collection in collections %}
+                                <option value="{{collection}}">{{collection}}</option>
+                                {% endfor %}
+                            </datalist>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Notes: </td>
+                        <td><input id="inputRecipeNotes" name="input_recipe_notes"></td>
+                    </tr>
+                    <tr>
+                        <td>Ingredient, Amount, Units: &emsp;</td>
+                        <td><input id="inputIngName" name="input_recipe_ingredient_0"> , 
+                            <input id="inputIngAmount" name="input_recipe_amount_0"> , 
+                            <input id="inputIngUnit" name="input_recipe_unit_0"></td>
+                        <td><button form="add recipe" type="button" id="btnAddIng" onclick="AddField('tbl', 'btnAddIng')">Add ingredient</button></td>
+                        <!-- <td><button type="button" id="button1" value="button 1" onclick="enableButton2()">Test</button></td> -->
+                    </tr>
+                    <!-- Button to add the recipe to the appropriate yaml-->
+                    <tr>
+                        <td><button form="add recipe" type="submit">Add</button></td>
+                    </tr>
+                </form>
+                <tr><td><br><br></td></tr>
+
+                <form id="remove spirit" method="POST">
+                    <tr>
+                        <td><strong>Remove Spirit</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Name: </td>
+                        <td><input id="inputRemoveSpirit"></td>
+                    </tr>
+                    <tr>
+                        <td><button form="remove spirit" type="submit" id="btnRemoveSpirit">Remove</button></td>
+                    </tr>
+                </form>
+            </table>
+
+            <br><br><br>
+            <input type="button" id="button1" value="button 1" onclick="enableButton2()"  />
+            <input type="button" id="button2" value="button 2" disabled />
+            
+        </div>  
+    
+      <div class="footer">
+        <p>Footer</p>
+      </div>
+  
+    </div>
+  </body>
+
+  </html>

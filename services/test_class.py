@@ -288,6 +288,19 @@ class TestView(FlaskView):
         mytext = "test credits"
         return render_template('empty_template.html', text=mytext)
 
+    @method("GET")
+    @method("POST")
+    def modify_spirits(self):
+        """Developer mode babey"""
+        add_spirits_disabled="true"
+
+        if request.method == "POST":
+            print(request.form)
+
+
+        return render_template('modify_spirits.html', add_spirits_disabled=add_spirits_disabled, collections=self.collection_names)
+
+
 if __name__ == "__main__":
 #     TestView.register(app, route_base = '/')
 #     app.register_error_handler(404, TestView.not_found)
