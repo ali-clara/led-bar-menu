@@ -284,6 +284,10 @@ class TestView(FlaskView):
         return render_template('randomizer.html', rand_options=random_recipe_options, cocktails=self.random_ten, 
                                rows=numrows, cols=numcols, button_color=button_color)
 
+    def credits(self):
+        mytext = "test credits"
+        return render_template('empty_template.html', text=mytext)
+
 if __name__ == "__main__":
 #     TestView.register(app, route_base = '/')
 #     app.register_error_handler(404, TestView.not_found)
