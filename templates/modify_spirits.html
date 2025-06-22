@@ -111,23 +111,23 @@
                     </tr>
                     <tr>
                         <td>Name: </td>
-                        <td><input list="spirits" id="inputAddSpirit"></td>
+                        <td><input list="spirits" id="inputAddSpirit" name="input_add_spirit" value={{inputSpirit}}></td>
                     </tr>
                     <tr>
                         <td>Coordinate: </td>
-                        <td><input list="coordinates" id="inputCoord"></td>
+                        <td><input list="coordinates" id="inputCoord" name="input_add_coord" value={{inputCoord}}></td>
                     </tr>
                     <tr>
                         <td>
                         <!-- Button to preview the spirit location - lights up the leds but doesn't change the csv -->
-                        <button form="add spirit" type="submit">Preview</button>
+                        <button form="add spirit" type="submit" name="btn_preview">Preview</button>
                         <!-- Button to add the spirit to our master list. We want "Add" to be disabled until you preview the location -->
-                        <button form="add spirit" id="btnAddSpirit" type="submit">Add</button>
+                        <button form="add spirit" id="btnAddSpirit" type="submit" name="btn_add">Add</button>
                         </td>
                         <!-- Since sending a "post" resets the page, I need to disable the button manually/in Python instead of 
                         letting the Preview Spirit button handle it in html. I pass in add_spirits_disabled from the flask method,
                         which sets the disabled flag to "true" or "false". It's not actually an error, my ide just thinks it is -->
-                        <script>document.getElementById("btnAddSpirit").disabled = {{add_spirits_disabled}};</script>
+                        <script>document.getElementById("btnAddSpirit").disabled = {{addSpiritsDisabled}};</script>
                     </tr>
                 </form>
                 <tr><td><br><br></td></tr>
@@ -143,7 +143,7 @@
                     <tr>
                         <td>Collection: </td>
                         <td>
-                            <input list="collections" id="inputCollections" name="input_recipe_collections">
+                            <input list="collections" id="inputCollection" name="input_recipe_collection">
                             <datalist id="collections">
                                 {% for collection in collections %}
                                 <option value="{{collection}}">{{collection}}</option>
@@ -176,7 +176,7 @@
                     </tr>
                     <tr>
                         <td>Name: </td>
-                        <td><input id="inputRemoveSpirit"></td>
+                        <td><input id="inputRemoveSpirit" name="input_remove_spirit"></td>
                     </tr>
                     <tr>
                         <td><button form="remove spirit" type="submit" id="btnRemoveSpirit">Remove</button></td>

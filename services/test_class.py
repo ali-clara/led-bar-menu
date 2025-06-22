@@ -292,13 +292,66 @@ class TestView(FlaskView):
     @method("POST")
     def modify_spirits(self):
         """Developer mode babey"""
-        add_spirits_disabled="true"
+        # Set some initial parameters to pass to html
+        add_spirits_disabled = "true"
+        input_spirit = ""
+        input_coord = ""
 
         if request.method == "POST":
             print(request.form)
+            print(request.form.keys())
+
+            if "input_recipe_name" in request.form.keys():
+                print("add recipe mode")
+                recipe_name = request.form["input_recipe_name"]
+                recipe_collection = request.form["input_recipe_collection"]
+                recipe_notes = request.form["input_recipe_notes"]
+
+                # The cocktail ingredients, amounts, and units start at the third, fourth, and fifth index of request.form, 
+                # in that order. To get them organized nicely, we start at the appropriate index and grab every third dictionary value.
+                # This is robust to any number of ingredients
+                cocktail_makeup = list(request.form.values())[3:]
+                ingredients = cocktail_makeup[0::3]
+                amounts = cocktail_makeup[1::3]
+                units = cocktail_makeup[2::3]
+                print(ingredients, amounts, units)
+
+            elif "input_add_spirit" in request.form.keys():
+                # "Preview" mode
+                if "btn_preview" in request.form.keys():
+                    print("preview spirit mode")
+                    # Get the values of the html input elements
+                    spirit_to_add = request.form["input_add_spirit"]
+                    coord_to_add = request.form["input_add_coord"]
+                    # Do something with them
+                    # I.e check that the given coord is valid, make it lower snake case, etc
+                    pass
+                    # Update the html display
+                    input_spirit = spirit_to_add
+                    input_coord = coord_to_add
+                    add_spirits_disabled = "false"
+                # "Add" mode
+                elif "btn_add" in request.form.keys():
+                    print("add spirit mode")
+                    # Get the values of the html input elements
+                    spirit_to_add = request.form["input_add_spirit"]
+                    coord_to_add = request.form["input_add_coord"]
+                    # Do something with them
+                    pass
+                    # Update the html display
+                    input_spirit = ""
+                    input_coord = ""
+                    add_spirits_disabled = "true"
+
+            elif "input_remove_spirit" in request.form.keys():
+                print("remove spirit mode")
+                spirit_to_remove = request.form["input_remove_spirit"]
+                # Have a popup window here that asks if you're sure. While the window is up, have the 
+                # spirit leds flash
 
 
-        return render_template('modify_spirits.html', add_spirits_disabled=add_spirits_disabled, collections=self.collection_names)
+        return render_template('modify_spirits.html', addSpiritsDisabled=add_spirits_disabled, collections=self.collection_names,
+                               inputSpirit=input_spirit, inputCoord=input_coord)
 
 
 if __name__ == "__main__":
