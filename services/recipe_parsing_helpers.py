@@ -289,6 +289,44 @@ def validate_all_recipes(menu_dict:dict, all_ingredients, tags_dict, alias_dict,
     
     return validated_menu
 
+def format_new_recipe_yaml(recipe_name:str, collection:str, notes:str, ingredients:list, amounts:list, units:list):
+    # First build the ingredients dictionary. Loop through the list of strings and append accordingly
+    ingredients_dict = {}
+    for ingredient, amount, unit in zip(ingredients, amounts, units):
+        ingredients_dict.update({ingredient: {'amount': amount, 'units': unit}})
+    # Then use the ingredients dict along with the other recipe info to build out the rest of the yaml
+    new_recipe = {recipe_name: {'collection': collection, 'ingredients': ingredients_dict, 'notes': notes}}
+    # Yay
+    return new_recipe
+
+def update_recipe_yaml(recipe_name:str, collection:str, notes:str, ingredients:list, amounts:list, units:list):
+    recipe_path = os.path.join(dir_path, "config")
+
+    # Look for any recipe file that has the collection name. Should only be one file
+    num_files = 0
+    for file in glob.glob(f"{recipe_path}/recipes_*{collection.lower()}*.yml"):
+        if file is None:
+            print(f"No file found for the {collection} collection. We should make one")
+        else:
+            print(file)
+            num_files += 1
+    
+    if num_files > 1:
+        print(f"Found more than one recipe yaml with '{collection}' in the name. Is that intentional?")
+    else:
+        try:
+            with open(file) as stream:
+                menu_dict = yaml.safe_load(stream)
+        except FileNotFoundError as e:
+            print(e)
+        else:
+            new_recipe = format_new_recipe_yaml(recipe_name, collection, notes, ingredients, amounts, units)
+            menu_dict.update(new_recipe)
+            with open(file, 'w') as outfile:
+                yaml.dump(menu_dict, outfile, default_flow_style=False)
+
+
+
 if __name__ == "__main__":
     menu_dict, tags_dict, alias_dict = read_main_menu()
     recipe_names = load_recipe_names(menu_dict)
@@ -302,7 +340,7 @@ if __name__ == "__main__":
     # print("---")
 
     used_ingredients = load_used_ingredients(menu_dict)
-    print(f"Used ingredients: {used_ingredients}")
+    # print(f"Used ingredients: {used_ingredients}")
     # print("---")
 
     # tags, not_tags = check_tags(used_ingredients, recipe_names)
@@ -319,3 +357,12 @@ if __name__ == "__main__":
 
     # test_similarity(used_ingredients, all_ingredients)
     # validate_all_recipes(menu_dict, all_ingredients, tags_dict, alias_dict, verbose=True)
+
+    # corn_and_oil = format_new_recipe_yaml('Corn and Oil', 'Classics', "Ali's favorite. Stirred", 
+    #                                       ['Rum', 'Falernum', 'Lime'], ['1', '1', ''], ['oz', 'oz', 'squeeze'])
+    # print("---")
+    # menu_dict.update(corn_and_oil)
+    # print(menu_dict)
+
+    update_recipe_yaml('Corn and Oil', 'Classics', "Ali's favorite. Stirred, preferably with big ice cube.", 
+                                          ['Rum', 'Falernum', 'Lime'], ['1', '1', ''], ['oz', 'oz', 'squeeze'])

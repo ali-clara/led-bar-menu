@@ -314,6 +314,10 @@ class TestView(FlaskView):
                 ingredients = cocktail_makeup[0::3]
                 amounts = cocktail_makeup[1::3]
                 units = cocktail_makeup[2::3]
+
+                recipe.update_recipe_yaml(recipe_name, recipe_collection, recipe_notes,
+                                          ingredients, amounts, units)
+
                 print(ingredients, amounts, units)
 
             elif "input_add_spirit" in request.form.keys():
