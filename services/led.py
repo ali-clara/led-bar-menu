@@ -48,7 +48,7 @@ class LED:
         self.unused_colors = list(self.rainbow_dict.values())
 
     def _spirit_to_pixel(self, spirit_list):
-        
+        # Todo - simplify this w the new illumiate_location method, below
         pixels = []
         for spirit in spirit_list:
             print(spirit)
@@ -112,9 +112,32 @@ class LED:
             print("Not a standard led location")
             return 0.4
 
-    def illuminate(self, spirit):
+    def illuminate_spirit(self, spirit):
         pixels = self._spirit_to_pixel(spirit)
         # self.pixels_on(pixels)
+
+    def illuminate_location(self, location:str, flash=False):
+        neopixel_range = self.led_loc_dict[location.strip()]
+        pixels = []
+        try:
+            color = self.unused_colors.pop(0)
+        # When we run out of rainbow, pop() will return an IndexError. Reset the rainbow and continue
+        except IndexError:
+            self.unused_colors = list(self.rainbow_dict.values())
+            color = self.unused_colors.pop(0)
+        try:
+            # neopixel_range = neopixel_range.flatten()
+            brightness = self._get_brightness_scalar(location)
+            print(f"location {location.strip()}")
+            print(f"brightness {brightness}")
+        except Exception as e:
+            print(f"Not sure what happened here: {e}")
+        else:
+            print(f"pixels {neopixel_range}")
+            [pixels.append(neo) for neo in neopixel_range]
+            for start, stop in neopixel_range:
+                self.range_on(start, stop, color, brightness)
+
 
     def all_on(self, color=(255, 255, 0)):
         self.pixels.fill(color)

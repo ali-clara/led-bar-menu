@@ -106,11 +106,11 @@ class TestView(FlaskView):
                     children = recipe.expand_tag(tag_match, self.tags_dict)
                     [self.lit_up_ingredients.append(child) for child in children]
                     print(f"lighting up tag: {tag_match}")
-                    self.lights.illuminate(self.lit_up_ingredients)
+                    self.lights.illuminate_spirit(self.lit_up_ingredients)
 
                 elif is_ingredient:
                     print(f"lighting up single ingredient: {ingredient_match}")
-                    self.lights.illuminate([ingredient_match])
+                    self.lights.illuminate_spirit([ingredient_match])
 
             # Otherwise, if the form has returned a collection, process ~that~
             elif element_name == "collection dropdown":
@@ -149,7 +149,7 @@ class TestView(FlaskView):
             else:
                 self.lit_up_ingredients.append(ingredient)
 
-        self.lights.illuminate(self.lit_up_ingredients)
+        self.lights.illuminate_spirit(self.lit_up_ingredients)
 
         print("lit up ingredients:")
         print(self.lit_up_ingredients)
@@ -166,7 +166,6 @@ class TestView(FlaskView):
         notes = self.menu_dict[arg]["notes"]
         # Then render the html page
         return render_template('recipe.html', header=arg.title(), cocktail=arg, ingredients=rendered_ingredients, units=units, amounts=amounts, notes=notes)
-
 
     def collection(self, arg:str):
         """http://localhost:5000/collection/arg"""
@@ -225,7 +224,8 @@ class TestView(FlaskView):
             # form_entry = request.form.get(element_name)
 
             print(element_name)
-
+            # If we've hit one of the broader "Random X" buttons, we want to generate 10 random cocktails of that
+            # formula. E.g Random Negroni, Random Last Word, Random Random
             if element_name in random_recipe_options or element_name == "Random Random":
                 self.random_ten = []
 
@@ -252,7 +252,7 @@ class TestView(FlaskView):
                             ingredients.append(ingredient)
 
                         self.random_ten[row].append([ingredients, quantity])
-
+            # If we've selected one of the random recipes
             elif element_name.isnumeric():
                 try:
                     index = int(element_name)
@@ -273,10 +273,10 @@ class TestView(FlaskView):
                     print(f"Could not index cocktails: '{e}' not found in {self.random_ten}")
                 else:
                     button_color[index] = "#cf6275"
-                    self.lights.illuminate(ingredients)
-
+                    self.lights.illuminate_spirit(ingredients)
+            # If we've hit the "I'm feeling lucky" button
             elif element_name == "random existing":
-                print("hi")
+                print("random existing")
                 random_cocktail = rands.select_random_recipe()
                 return redirect(url_for('TestView:resippy', arg=random_cocktail))
 
@@ -303,22 +303,21 @@ class TestView(FlaskView):
 
             if "input_recipe_name" in request.form.keys():
                 print("add recipe mode")
+                # Pull out the name, collection, and notes directly with their keys.
                 recipe_name = request.form["input_recipe_name"]
                 recipe_collection = request.form["input_recipe_collection"]
                 recipe_notes = request.form["input_recipe_notes"]
-
+                # Since we can have an arbitrary number of ingredients, extracting them is slightly different.
                 # The cocktail ingredients, amounts, and units start at the third, fourth, and fifth index of request.form, 
                 # in that order. To get them organized nicely, we start at the appropriate index and grab every third dictionary value.
-                # This is robust to any number of ingredients
                 cocktail_makeup = list(request.form.values())[3:]
                 ingredients = cocktail_makeup[0::3]
                 amounts = cocktail_makeup[1::3]
                 units = cocktail_makeup[2::3]
-
+                print(ingredients, amounts, units)
+                # Update the external yaml file with our new info
                 recipe.update_recipe_yaml(recipe_name, recipe_collection, recipe_notes,
                                           ingredients, amounts, units)
-
-                print(ingredients, amounts, units)
 
             elif "input_add_spirit" in request.form.keys():
                 # "Preview" mode
@@ -326,22 +325,28 @@ class TestView(FlaskView):
                     print("preview spirit mode")
                     # Get the values of the html input elements
                     spirit_to_add = request.form["input_add_spirit"]
-                    coord_to_add = request.form["input_add_coord"]
-                    # Do something with them
-                    # I.e check that the given coord is valid, make it lower snake case, etc
-                    pass
-                    # Update the html display
-                    input_spirit = spirit_to_add
-                    input_coord = coord_to_add
-                    add_spirits_disabled = "false"
+                    coord_to_add = request.form["input_add_coord"].upper()
+                    # Check that the given coord is valid
+                    cabinet_locs = recipe.load_cabinet_locs()
+                    if coord_to_add in cabinet_locs.keys():
+                        # If it's valid, light up the pixels. Todo -- need to make this flash
+                        self.lights.illuminate_location(coord_to_add, flash=True)
+                        # Update the html display
+                        input_spirit = spirit_to_add
+                        input_coord = coord_to_add
+                        add_spirits_disabled = "false"
+                    else:
+                        print("Invalid coordinate given")
                 # "Add" mode
                 elif "btn_add" in request.form.keys():
                     print("add spirit mode")
                     # Get the values of the html input elements
                     spirit_to_add = request.form["input_add_spirit"]
                     coord_to_add = request.form["input_add_coord"]
-                    # Do something with them
-                    pass
+                    # We've already checked that the coord is valid and we're happy with the location, so we can
+                    # directly update the csv.
+                    # HTML todo -- disable the "Add" button whenever we type in the input form
+                    recipe.update_ingredient_locs(spirit_to_add, coord_to_add)
                     # Update the html display
                     input_spirit = ""
                     input_coord = ""

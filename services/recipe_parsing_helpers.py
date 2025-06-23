@@ -6,6 +6,7 @@ import os
 import jellyfish as jf
 import glob
 import numpy as np
+import csv
 
 dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
 similarity_threshold = 0.75
@@ -54,6 +55,43 @@ def load_recipe_names(menu_dict):
 
 def load_tags(tags_dict):
     return list(tags_dict.keys())
+
+def load_cabinet_locs() -> dict:
+    """Loads all the cabinet locations and their corresponding led pixel indices. See the ReadMe for more details on the location
+    setup - briefly, rows are letters (A-N) and 'columns' are numbers (1-7)(I think).
+
+    Returns:
+        dict: Location: [[start pix 1, stop pix 1], ... [start pix n, stop pix n]]
+    """
+    try:
+        file = dir_path+"/config/led_locs_final.yml"
+        with open(file) as stream:
+            all_locations_dict = yaml.safe_load(stream)
+    except FileNotFoundError as e:
+        print(e)
+        all_locations_dict = {}
+
+    return all_locations_dict
+
+def update_ingredient_locs(spirit:str, coord:str):
+    """Appends the given (spirit, coord) pair to ingredients.csv
+
+    Args:
+        spirit (str): _description_
+        coord (str): _description_
+    """
+    all_cabinet_locs = load_cabinet_locs()
+    if coord in all_cabinet_locs.keys():
+        spirit = spirit.replace(" ", "_").lower()
+        new_entry = [spirit, coord]
+        try:
+            with open(os.path.join(dir_path, "config/ingredients.csv"), 'a') as csvfile:
+                writer = csv.writer(csvfile, delimiter=',', lineterminator='\r')
+                writer.writerow(new_entry)
+        except FileNotFoundError as e:
+            print(e)
+    else:
+        print(f"Invalid coordinate {coord}")
 
 def load_collection_names(menu_dict):
     collections = []
@@ -355,14 +393,21 @@ if __name__ == "__main__":
     all_ingredients, location_dict = load_all_ingredients()
     # print(all_ingredients)
 
+    # # Test the similarity metric and the validation
     # test_similarity(used_ingredients, all_ingredients)
     # validate_all_recipes(menu_dict, all_ingredients, tags_dict, alias_dict, verbose=True)
 
+    # # Test the new recipe formatting
     # corn_and_oil = format_new_recipe_yaml('Corn and Oil', 'Classics', "Ali's favorite. Stirred", 
     #                                       ['Rum', 'Falernum', 'Lime'], ['1', '1', ''], ['oz', 'oz', 'squeeze'])
     # print("---")
     # menu_dict.update(corn_and_oil)
     # print(menu_dict)
 
-    update_recipe_yaml('Corn and Oil', 'Classics', "Ali's favorite. Stirred, preferably with big ice cube.", 
-                                          ['Rum', 'Falernum', 'Lime'], ['1', '1', ''], ['oz', 'oz', 'squeeze'])
+    # # Test the yaml updating
+    # update_recipe_yaml('Corn and Oil', 'Classics', "Ali's favorite. Stirred, preferably with big ice cube. This was written from recipe_parsing_helpers.py", 
+    #                                       ['Rum', 'Falernum', 'Lime'], ['1', '1', ''], ['oz', 'oz', 'squeeze'])
+
+    # print(load_cabinet_locs().keys())
+
+    # update_cabinet_locs("test", "G7")
