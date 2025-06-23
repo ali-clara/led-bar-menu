@@ -73,26 +73,6 @@ def load_cabinet_locs() -> dict:
 
     return all_locations_dict
 
-def update_ingredient_locs(spirit:str, coord:str):
-    """Appends the given (spirit, coord) pair to ingredients.csv
-
-    Args:
-        spirit (str): _description_
-        coord (str): _description_
-    """
-    all_cabinet_locs = load_cabinet_locs()
-    if coord in all_cabinet_locs.keys():
-        spirit = spirit.replace(" ", "_").lower()
-        new_entry = [spirit, coord]
-        try:
-            with open(os.path.join(dir_path, "config/ingredients.csv"), 'a') as csvfile:
-                writer = csv.writer(csvfile, delimiter=',', lineterminator='\r')
-                writer.writerow(new_entry)
-        except FileNotFoundError as e:
-            print(e)
-    else:
-        print(f"Invalid coordinate {coord}")
-
 def load_collection_names(menu_dict):
     collections = []
     for cocktail in menu_dict:
@@ -131,6 +111,11 @@ def load_used_ingredients(menu_dict):
     return ingredient_list
 
 def load_all_ingredients():
+    """_summary_
+
+    Returns:
+        list, dict: list of text-formatted ingredients, dictionary of ingredient:location
+    """
     all_ingredients = pd.read_csv(os.path.join(dir_path, "config/ingredients.csv"), names=["ingredients", "locations"])
     all_ingredients_list =  list(all_ingredients["ingredients"])
     all_ingredients_formatted = [ingredient.replace("_", " ").title() for ingredient in all_ingredients_list]
@@ -363,7 +348,48 @@ def update_recipe_yaml(recipe_name:str, collection:str, notes:str, ingredients:l
             with open(file, 'w') as outfile:
                 yaml.dump(menu_dict, outfile, default_flow_style=False)
 
+def add_spirit(spirit:str, coord:str):
+    """Appends the given (spirit, coord) pair to ingredients.csv
 
+    Args:
+        spirit (str): _description_
+        coord (str): _description_
+    """
+    all_cabinet_locs = load_cabinet_locs()
+    if coord in all_cabinet_locs.keys():
+        spirit = spirit.replace(" ", "_").lower()
+        new_entry = [spirit, coord]
+        try:
+            with open(os.path.join(dir_path, "config/ingredients.csv"), 'a') as csvfile:
+                writer = csv.writer(csvfile, delimiter=',', lineterminator='\r')
+                writer.writerow(new_entry)
+        except FileNotFoundError as e:
+            print(e)
+    else:
+        print(f"Invalid coordinate {coord}")
+
+def remove_spirit(spirit:str):
+    """Removes the given spirit from ingredients.csv.
+
+    Args:
+        spirit (str): _description_
+    """
+    with open(os.path.join(dir_path, "config/ingredients.csv"), 'r') as orig:
+        orig_rows = [row for row in csv.reader(orig)]
+
+    with open(os.path.join(dir_path, "config/ingredients.csv"), 'w', newline='') as file:
+        writer = csv.writer(file)
+        for row in orig_rows:
+            print(row)
+            # Try-except block in case we've done anything funny with the csv
+            try:
+                # Jack likes having spaces in the csv for organization, so preserve that here
+                if len(row) == 0:
+                    writer.writerow([])
+                elif row[0] != spirit:
+                        writer.writerow(row)
+            except Exception as e:
+                print(e)
 
 if __name__ == "__main__":
     menu_dict, tags_dict, alias_dict = read_main_menu()
@@ -411,3 +437,5 @@ if __name__ == "__main__":
     # print(load_cabinet_locs().keys())
 
     # update_cabinet_locs("test", "G7")
+
+    remove_spirit("website_test_spirit")

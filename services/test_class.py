@@ -346,7 +346,7 @@ class TestView(FlaskView):
                     # We've already checked that the coord is valid and we're happy with the location, so we can
                     # directly update the csv.
                     # HTML todo -- disable the "Add" button whenever we type in the input form
-                    recipe.update_ingredient_locs(spirit_to_add, coord_to_add)
+                    recipe.add_spirit(spirit_to_add, coord_to_add)
                     # Update the html display
                     input_spirit = ""
                     input_coord = ""
@@ -357,6 +357,8 @@ class TestView(FlaskView):
                 spirit_to_remove = request.form["input_remove_spirit"]
                 # Have a popup window here that asks if you're sure. While the window is up, have the 
                 # spirit leds flash
+                spirit_to_remove = spirit_to_remove.replace(" ", "_").lower()
+                recipe.remove_spirit(spirit_to_remove)
 
 
         return render_template('modify_spirits.html', addSpiritsDisabled=add_spirits_disabled, collections=self.collection_names,
