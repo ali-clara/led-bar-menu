@@ -320,28 +320,28 @@ class TestView(FlaskView):
                 # Update the website display
                 ingredient_selected = ingredient_match
                 location_selected = self.location_dict[ingredient_match].title()
-            elif is_tag and tag_score > ingredient_score or tag_score == ingredient_score:
-                if tag_score != 0:
-                    # If it's a tag, we need to get all the spirits it describes
-                    children = recipe.expand_tag(tag_match, self.tags_dict)
-                    # Turn on those LEDs
-                    [self.lit_up_ingredients.append(child) for child in children]
-                    self.lights.illuminate_spirit(self.lit_up_ingredients)
-                    # Get and format the cabinet locations of each child spirit
-                    locations = ""
-                    ingredients = ""
-                    print(self.location_dict)
-                    for child in children:
-                        print(child)
-                        try:
-                            locations = locations + format_for_web(self.location_dict[format_for_web(child)]) + ", "
-                            ingredients = ingredients + format_for_web(child) + ", "
-                        except KeyError as e:
-                            print(f"Could not find {e} in the dictionary of cabinet locations.")
+            # elif is_tag and tag_score > ingredient_score or tag_score == ingredient_score:
+            #     if tag_score != 0:
+            #         # If it's a tag, we need to get all the spirits it describes
+            #         children = recipe.expand_tag(tag_match, self.tags_dict)
+            #         # Turn on those LEDs
+            #         [self.lit_up_ingredients.append(child) for child in children]
+            #         self.lights.illuminate_spirit(self.lit_up_ingredients)
+            #         # Get and format the cabinet locations of each child spirit
+            #         locations = ""
+            #         ingredients = ""
+            #         print(self.location_dict)
+            #         for child in children:
+            #             print(child)
+            #             try:
+            #                 locations = locations + format_for_web(self.location_dict[format_for_web(child)]) + ", "
+            #                 ingredients = ingredients + format_for_web(child) + ", "
+            #             except KeyError as e:
+            #                 print(f"Could not find {e} in the dictionary of cabinet locations.")
 
-                    # Update the website display
-                    location_selected = locations[0:-2] # Trim off the last two characters (comma and space)
-                    ingredient_selected = ingredients[0:-2]
+            #         # Update the website display
+            #         location_selected = locations[0:-2] # Trim off the last two characters (comma and space)
+            #         ingredient_selected = ingredients[0:-2]
 
         return render_template('put_away_ingredient.html', ingredients=self.all_ingredients,
                                ingredientSelected=ingredient_selected, locationSelected=location_selected)
