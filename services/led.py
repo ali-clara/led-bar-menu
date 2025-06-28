@@ -113,7 +113,10 @@ class LED:
             return 0.4
 
     def illuminate_spirit(self, spirit):
-        pixels = self._spirit_to_pixel(spirit)
+        if type(spirit) == list:
+            pixels = self._spirit_to_pixel(spirit)
+        elif type(spirit) == str:
+            pixels = self._spirit_to_pixel([spirit])
         # self.pixels_on(pixels)
 
     def illuminate_location(self, location:str, flash=False):

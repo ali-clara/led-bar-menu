@@ -15,6 +15,9 @@ except ImportError:
     from services import recipe_parsing_helpers as recipe
     from services.randomizer import Randomizer as rands
 
+def format_for_web(string:str):
+    return string.replace("_", " ").title()
+
 # app = Flask(__name__, template_folder="templates")
 
 class TestView(FlaskView):
@@ -48,6 +51,8 @@ class TestView(FlaskView):
         # print(f"Cocktail names: {self.cocktail_names}")
         # print(f"Collections: {self.collection_names}")
         # print(f"Sorted collection dict: {self.collection_dict}")
+
+    
 
     def index(self):
         """The main page. Redirects to the menu
@@ -92,12 +97,12 @@ class TestView(FlaskView):
                 print(form_entry)
                 is_recipe, recipe_match, recipe_score = recipe.check_match(form_entry, self.cocktail_names, match_threshold=0.705)
                 print(is_recipe, recipe_match, recipe_score)
-                is_ingredient, ingredient_match, score = recipe.check_match(form_entry, self.all_ingredients, match_threshold=0.75)
-                print(is_ingredient, ingredient_match, score)
+                is_ingredient, ingredient_match, ingredient_score = recipe.check_match(form_entry, self.all_ingredients, match_threshold=0.75)
+                print(is_ingredient, ingredient_match, ingredient_score)
                 is_tag, tag_match, tag_score = recipe.check_match(form_entry, self.tags, match_threshold=0.75)
                 print(is_tag, tag_match, tag_score)
 
-                if is_recipe:
+                if is_recipe and recipe_score > ingredient_score:
                     # Once we know the name of the cocktail, we can grab its ingredients
                     # self.resippy(recipe_match)
                     return redirect(url_for('TestView:resippy', arg=recipe_match))
@@ -160,7 +165,7 @@ class TestView(FlaskView):
         amounts = []
         for ing in chosen_ingredients:
             # Format the ingredients nicely
-            rendered_ingredients.append(ing.replace("_", " ").title())
+            rendered_ingredients.append(format_for_web(ing))
             units.append(self.menu_dict[arg]['ingredients'][ing]["units"])
             amounts.append(self.menu_dict[arg]['ingredients'][ing]["amount"])
         notes = self.menu_dict[arg]["notes"]
@@ -172,7 +177,7 @@ class TestView(FlaskView):
         # Do some string processing to match our collection title formatting -
         #   replace any underscores or hyphens with spaces, and make it title case
         if "_" in arg:
-            title = arg.replace("_", " ").title()
+            title = format_for_web(arg)
         elif "-" in arg:
             title = arg.replace("-", " ").title()
         else:
@@ -242,7 +247,7 @@ class TestView(FlaskView):
                         ) for i in ingredients) + "\n\n"
 
                         for i in random_dict:
-                            ingredient = i.replace("_", " ").title()
+                            ingredient = format_for_web(i)
                             amount = random_dict[i]["amount"]
                             unit = random_dict[i]["units"]
                             if amount.lower() == "taste":
@@ -288,6 +293,59 @@ class TestView(FlaskView):
         mytext = "test credits"
         return render_template('empty_template.html', text=mytext)
 
+    @method("GET")
+    @method("POST")
+    def put_away_ingredient(self):
+
+        ingredient_selected = ""
+        location_selected = ""
+
+        if request.method == "POST":
+            # Clear the LEDS, if they're on
+            self.lights.all_off()
+            self.lit_up_ingredients = []
+
+            print(request.form)
+            ingredient_input = request.form["ingredient_input"]
+
+            # Check to see if the input matches an ingredient or tag in our database
+            is_ingredient, ingredient_match, ingredient_score = recipe.check_match(ingredient_input, self.all_ingredients, match_threshold=0.75)
+            print(is_ingredient, ingredient_match, ingredient_score)
+            is_tag, tag_match, tag_score = recipe.check_match(ingredient_input, self.tags, match_threshold=0.75)
+            print(is_tag, tag_match, tag_score)
+
+            if is_ingredient and ingredient_score > tag_score:
+                self.lit_up_ingredients.append(ingredient_match)
+                self.lights.illuminate_spirit(self.lit_up_ingredients)
+                # Update the website display
+                ingredient_selected = ingredient_match
+                location_selected = self.location_dict[ingredient_match].title()
+            elif is_tag and tag_score > ingredient_score or tag_score == ingredient_score:
+                if tag_score != 0:
+                    # If it's a tag, we need to get all the spirits it describes
+                    children = recipe.expand_tag(tag_match, self.tags_dict)
+                    # Turn on those LEDs
+                    [self.lit_up_ingredients.append(child) for child in children]
+                    self.lights.illuminate_spirit(self.lit_up_ingredients)
+                    # Get and format the cabinet locations of each child spirit
+                    locations = ""
+                    ingredients = ""
+                    print(self.location_dict)
+                    for child in children:
+                        print(child)
+                        try:
+                            locations = locations + format_for_web(self.location_dict[format_for_web(child)]) + ", "
+                            ingredients = ingredients + format_for_web(child) + ", "
+                        except KeyError as e:
+                            print(f"Could not find {e} in the dictionary of cabinet locations.")
+
+                    # Update the website display
+                    location_selected = locations[0:-2] # Trim off the last two characters (comma and space)
+                    ingredient_selected = ingredients[0:-2]
+
+        return render_template('put_away_ingredient.html', ingredients=self.all_ingredients,
+                               ingredientSelected=ingredient_selected, locationSelected=location_selected)
+    
     @method("GET")
     @method("POST")
     def modify_spirits(self):

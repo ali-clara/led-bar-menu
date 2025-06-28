@@ -393,6 +393,7 @@ def remove_spirit(spirit:str):
 
 if __name__ == "__main__":
     menu_dict, tags_dict, alias_dict = read_main_menu()
+    print(tags_dict)
     recipe_names = load_recipe_names(menu_dict)
     tag_names = load_tags(tags_dict)
     collections = load_collection_names(menu_dict)
@@ -417,6 +418,7 @@ if __name__ == "__main__":
     #         print(f"expanded {ingredient} to {children}")
 
     all_ingredients, location_dict = load_all_ingredients()
+    print(location_dict)
     # print(all_ingredients)
 
     # # Test the similarity metric and the validation
@@ -438,4 +440,4 @@ if __name__ == "__main__":
 
     # update_cabinet_locs("test", "G7")
 
-    remove_spirit("website_test_spirit")
+    # remove_spirit("website_test_spirit")
