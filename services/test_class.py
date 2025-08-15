@@ -356,6 +356,12 @@ class TestView(FlaskView):
         input_coord = ""
 
         if request.method == "POST":
+            # Clear the LEDS, if they're on
+            self.lights.all_off()
+            # self.lit_up_ingredients = []
+
+            print(self.lit_up_ingredients)
+
             print(request.form)
             print(request.form.keys())
 
