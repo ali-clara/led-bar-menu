@@ -54,3 +54,8 @@ Rye:
   ingredients:
     Rye Whiskey: {}
   notes: ''
+Orange Flower Water:
+  collection: Tags
+  ingredients:
+    Orange Blossom Water: {}
+  notes: ''

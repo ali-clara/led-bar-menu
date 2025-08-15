@@ -9,7 +9,7 @@ import numpy as np
 import csv
 
 dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
-similarity_threshold = 0.75
+similarity_threshold = 0.79
 
 def read_main_menu():
     recipes_dict = {}
@@ -259,6 +259,8 @@ def validate_ingredient(ingredient:str, all_ingredients, recipe_name, tags_dict,
     # children = expand_tag(ingredient, tags_dict)
     tag_names = load_tags(tags_dict)
     tag, tag_name, tag_score = check_match(ingredient, tag_names)
+
+
     # If we've identified a tag, check a match for each child
     if tag:
         children = expand_tag(tag_name, tags_dict)
@@ -272,10 +274,12 @@ def validate_ingredient(ingredient:str, all_ingredients, recipe_name, tags_dict,
         # If we've found a match, return the tag
         if any(np.array(children_scores) > similarity_threshold):
             if verbose:
-                print(f"tag   - {ingredient} -> {tag_name}, {tag_score}")
+                print(f"tag - {ingredient} -> {tag_name}, {tag_score}")
             return tag_name
+        else:
+            return False
     # Otherwise, if we've gotten a match, return it
-    if match_score > similarity_threshold:
+    elif match_score > similarity_threshold:
         if verbose:
             print(f"match - {ingredient} -> {best_match}, {match_score}")
         return best_match
@@ -393,10 +397,21 @@ def remove_spirit(spirit:str):
 
 if __name__ == "__main__":
     menu_dict, tags_dict, alias_dict = read_main_menu()
-    print(tags_dict)
-    recipe_names = load_recipe_names(menu_dict)
-    tag_names = load_tags(tags_dict)
-    collections = load_collection_names(menu_dict)
+    # print(menu_dict)
+    # print("---")
+    # print(tags_dict)
+
+    ingredients, locs = load_all_ingredients()
+
+    menu_val = validate_all_recipes(menu_dict, ingredients, tags_dict, alias_dict, verbose=False)
+
+    print(menu_val)
+
+
+    # recipe_names = load_recipe_names(menu_dict)
+    # tag_names = load_tags(tags_dict)
+    # collections = load_collection_names(menu_dict)
+
     # print(f"Full menu: {menu_dict}")
     # print("---")
     # print(f"Recipe names: {recipe_names}")
@@ -404,7 +419,7 @@ if __name__ == "__main__":
     # print(f"Collections: {collections}")
     # print("---")
 
-    used_ingredients = load_used_ingredients(menu_dict)
+    # used_ingredients = load_used_ingredients(menu_dict)
     # print(f"Used ingredients: {used_ingredients}")
     # print("---")
 
@@ -417,8 +432,8 @@ if __name__ == "__main__":
     #     if children:
     #         print(f"expanded {ingredient} to {children}")
 
-    all_ingredients, location_dict = load_all_ingredients()
-    print(location_dict)
+    # all_ingredients, location_dict = load_all_ingredients()
+    # print(location_dict)
     # print(all_ingredients)
 
     # # Test the similarity metric and the validation
