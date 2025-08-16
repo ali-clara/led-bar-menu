@@ -9,7 +9,7 @@ import numpy as np
 import csv
 
 dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
-similarity_threshold = 0.79
+similarity_threshold = 0.75
 
 # -------------------- LOADING & READING -------------------- #
 def read_main_menu():

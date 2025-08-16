@@ -94,6 +94,9 @@ class TestView(FlaskView):
 
             # If the form has returned a cocktail, process that
             if element_name == "cocktail input":
+                if element_name == "Third World Man":
+                    print(form_entry)
+
                 print(form_entry)
                 is_recipe, recipe_match, recipe_score = recipe.check_match(form_entry, self.cocktail_names, match_threshold=0.705)
                 print(is_recipe, recipe_match, recipe_score)
