@@ -11,6 +11,7 @@ import csv
 dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
 similarity_threshold = 0.79
 
+# -------------------- LOADING & READING -------------------- #
 def read_main_menu():
     recipes_dict = {}
     tags_dict = {}
@@ -124,6 +125,7 @@ def load_all_ingredients():
 
     return all_ingredients_formatted, location_dict
 
+# -------------------- FUZZY STRINGS -------------------- #
 def get_closest_match(x, list_random, verbose=False):
     best_match = None
     highest_jaro = 0
@@ -147,8 +149,6 @@ def check_alias(ingredient, alias_dict:dict):
     names_to_check = [ingredient]
     ingredient = ingredient.lower()
 
-    ## should add string validation to all this
-
     # print(ingredient)
     # if it's a key, add its values
     if ingredient in alias_dict.keys():
@@ -165,17 +165,6 @@ def check_alias(ingredient, alias_dict:dict):
 
     return names_to_check
 
-# def check_tags(ingredient_list:list, recipe_list:list):
-#     not_tags = copy.deepcopy(recipe_list)
-#     tags = []
-
-#     for ingredient in ingredient_list:
-#         if ingredient in recipe_list:
-#             not_tags.remove(ingredient)
-#             tags.append(ingredient)
-
-#     return tags, not_tags
-
 def check_match(given_input, valid_names, match_threshold=0.875):
     # checks to see if a given tag is close to a key in tags_dict. If it is, it replaces the given tag with the key
     # tag_names = load_tags(tags_dict)
@@ -186,6 +175,27 @@ def check_match(given_input, valid_names, match_threshold=0.875):
     else:
         return False, given_input, score
 
+def test_similarity(used_ingredients, all_ingredients):
+    for used in used_ingredients:
+        result, score = get_closest_match(used, all_ingredients, verbose=True)
+        print(used, "|", result, "|", score)
+
+def get_closest_match_list(x_list, list_random):
+    best_match = None
+    best_score = 0
+    for x in x_list:
+        result, score = get_closest_match(x, list_random)
+        if score > best_score:
+            best_match = result
+            best_score = score
+
+    # print(x_list)
+    # print(best_match, best_score)
+    # print("---")
+    
+    return best_match, best_score
+
+# -------------------- TAGS -------------------- #
 def expand_tag(given_tag, tags_dict):
     tag_names = load_tags(tags_dict)
     parents = [given_tag]
@@ -226,26 +236,7 @@ def expand_tag(given_tag, tags_dict):
     else:
         return False
 
-def test_similarity(used_ingredients, all_ingredients):
-    for used in used_ingredients:
-        result, score = get_closest_match(used, all_ingredients, verbose=True)
-        print(used, "|", result, "|", score)
-
-def get_closest_match_list(x_list, list_random):
-    best_match = None
-    best_score = 0
-    for x in x_list:
-        result, score = get_closest_match(x, list_random)
-        if score > best_score:
-            best_match = result
-            best_score = score
-
-    # print(x_list)
-    # print(best_match, best_score)
-    # print("---")
-    
-    return best_match, best_score
-
+# -------------------- CHECKING INVENTORY FOR RECIPES -------------------- #
 def validate_ingredient(ingredient:str, all_ingredients, recipe_name, tags_dict, alias_dict, verbose):
     # if score is over threshold, ingredient is good. Replace with name in 'ingredients.csv' master doc
     # otherwise, check if it's a tag. If so, check if we have ~any~ acceptable 
@@ -259,7 +250,6 @@ def validate_ingredient(ingredient:str, all_ingredients, recipe_name, tags_dict,
     # children = expand_tag(ingredient, tags_dict)
     tag_names = load_tags(tags_dict)
     tag, tag_name, tag_score = check_match(ingredient, tag_names)
-
 
     # If we've identified a tag, check a match for each child
     if tag:
@@ -303,6 +293,9 @@ def validate_one_recipe(recipe:dict, all_ingredients:list, recipe_name:str, tags
     return recipe
 
 def validate_all_recipes(menu_dict:dict, all_ingredients, tags_dict, alias_dict, verbose=False):
+    # should: make sure we have the ingredients to make a recipe
+    # currently: makes too many of its own decisions
+
     # for each recipe, validate it. If it's good, keep it.
     # Otherwise, throw out the recipe and flag it (let us know)
     validated_menu = copy.deepcopy(menu_dict)
@@ -316,6 +309,7 @@ def validate_all_recipes(menu_dict:dict, all_ingredients, tags_dict, alias_dict,
     
     return validated_menu
 
+# -------------------- ADDING THINGS VIA WEBSITE -------------------- #
 def format_new_recipe_yaml(recipe_name:str, collection:str, notes:str, ingredients:list, amounts:list, units:list):
     # First build the ingredients dictionary. Loop through the list of strings and append accordingly
     ingredients_dict = {}
@@ -365,7 +359,7 @@ def add_spirit(spirit:str, coord:str):
         new_entry = [spirit, coord]
         try:
             with open(os.path.join(dir_path, "config/ingredients.csv"), 'a') as csvfile:
-                writer = csv.writer(csvfile, delimiter=',', lineterminator='\r')
+                writer = csv.writer(csvfile, delimiter=',', lineterminator='\n\r')
                 writer.writerow(new_entry)
         except FileNotFoundError as e:
             print(e)
@@ -394,6 +388,29 @@ def remove_spirit(spirit:str):
                         writer.writerow(row)
             except Exception as e:
                 print(e)
+
+# -------------------- FLAGGING OUR MISTAKES -------------------- #
+def check_recipe_against_csv(menu_dict:dict, all_ingredients, tags_dict, alias_dict):
+    validated_menu = copy.deepcopy(menu_dict)
+    tag_names = load_tags(tags_dict)
+
+    for key in menu_dict:
+        # Pull out the recipe and its ingredients
+        recipe = menu_dict[key]["ingredients"]
+        recipe_ingredients = list(recipe.keys())
+        # Check and see if there's an alias for our ingredient (e.g "meletti" and "amaro meletti")
+        for ingredient in recipe_ingredients:
+            aliases = check_alias(ingredient, alias_dict)
+        
+
+    # for each recipe
+        # get each ingredient
+        # ingredient.replace(" ", "_").lower()
+        # check if it exists in the csv
+        # if yes, profit
+        # if no, flag
+
+
 
 if __name__ == "__main__":
     menu_dict, tags_dict, alias_dict = read_main_menu()
