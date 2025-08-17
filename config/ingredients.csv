@@ -8,6 +8,7 @@ aultmore_12_year, C19
 the_deacon, E23
 azunia_reposado, E17
 tanqueray_sevilla, E5
+tanqueray_sevilla_orange, none
 sonoma_cherrywood_rye, E19
 roku, E2
 sipsmith_sloe_gin, D2
@@ -84,7 +85,7 @@ craft_cordials_elderflower, I7
 drillaud_elderflower, M6
 nixta, N5
 szechuan_liqueur, A14
-cinnamon_whiskey, I1
+cinnamon_infused_whiskey, I1
 chai, J1
 sesame_whiskey, K1
 lapsang_whiskey, L2
@@ -96,20 +97,25 @@ creme_de_violette, none
 peach_schnapps, none
 kahlua, none
 lillet_blanc, none
-placeholder_japanese_whisky, none
-placeholder_coconut_rum, none
-placeholder_honey_liqueur, none
 st_germain, none
 islay_scotch, none
 creme_de_cassis, none
-placeholder_fig_brandy, none
 creme_de_violette, none
+champagne, none
+black_velvet, none
+amaro_nonino, none
+
+placeholder_japanese_whisky, none
+placeholder_coconut_rum, none
+placeholder_honey_liqueur, none
+placeholder_anejo, none
+placeholder_yuzu_gin, none
 placeholder_red_wine, none
 placeholder_white_wine, none
-angostura_cacao_bitters, none
+placeholder_fig_brandy, none
+placeholder_vodka, none
 
 mai_tai, L4
-babylon_sisters, J6
 
 sweet_vermouth, fridge
 dry_vermouth, fridge
@@ -126,7 +132,7 @@ prosecco, fridge
 cranberry_juice, none
 olive, none
 egg_white, fridge
-heavy_creme, none
+heavy_cream, none
 pineapple_juice, none
 coconut_cream, fridge
 
@@ -166,6 +172,7 @@ pistachio_tincture, bitters_rack_middle
 homemade_rhubarb, bitters_rack_middle
 sakura_bitters, bitters_rack_middle
 
+angostura_cacao_bitters, none
 fee_bros_aztec_chocolate_bitters, bitters_rack_bottom
 chocolate_bitters, bitters_rack_bottom
 rootbeer_bitters, bitters_rack_bottom
@@ -177,7 +184,7 @@ fee_bros_plum, bitters_rack_bottom
 scrappy_lavender_bitters, bitters_rack_bottom
 fee_bros_peach, bitters_rack_bottom
 fee_bros_black_walnut, bitters_rack_bottom
-scrappy_grapefruit, bitters_rack_bottom
+scrappy_grapefruit_bitters, bitters_rack_bottom
 fee_bros_cranberry, bitters_rack_bottom
 hella_ginger_bitters, bitters_rack_bottom
 fee_bros_lemon, bitters_rack_bottom
@@ -208,7 +215,7 @@ grapefruit_juice, bowl
 grapefruit_twist, bowl
 grapefruit_zest, bowl
 
-mint_leaves, plant
+mint, plant
 rosemary, plant
 rosemary_twig, plant
 rosemary_sprig, plant
@@ -225,6 +232,7 @@ lemon_sparkling_water, soda
 lime_sparkling_water, soda
 grapefruit_soda, none
 tonic, soda
+club_soda, none
 
 white_sugar, kitchen
 sugar, kitchen
@@ -235,4 +243,4 @@ cinnamon_stick, kitchen
 pink_peppercorn_gin,C8
 
 test,A3
-
+

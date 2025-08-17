@@ -52,7 +52,7 @@ Boomer Sour:
     Angostura Bitters:
       amount: '1'
       units: dash
-    Elderflower liqueur:
+    Elderflower Liqueur:
       amount: '0.5'
       units: oz
     Lemon Juice:
@@ -159,13 +159,10 @@ Licorice Fern Margarita:
     Licorice Fern Bitters:
       amount: '5'
       units: dashes
-    Licorice Fern Tincture:
-      amount: '5'
-      units: dashes
     Tequila Blanco:
       amount: '2'
       units: oz
-    Triple sec:
+    Triple Sec:
       amount: '0.25'
       units: oz
   notes: The specific licorice fern bitters called for is Licc++ 1.0
@@ -225,7 +222,7 @@ Max's Mojito:
     Lime Juice:
       amount: '0.5'
       units: oz
-    Mint Leaves:
+    Mint:
       amount: '10'
       units: leaves
     Seltzer:
@@ -264,7 +261,7 @@ Oil Spill:
     Dark Rum:
       amount: '1'
       units: oz
-    Dark creme de cacao:
+    Dark Creme de Cacao:
       amount: '0.75'
       units: oz
     Islay Scotch:
@@ -362,7 +359,7 @@ Saskatoon Slammer:
     Elderflower Liqueur:
       amount: '0.5'
       units: oz
-    Grapefruit bitters:
+    Grapefruit Bitters:
       amount: '1'
       units: dash
     Meyer lemon juice:
@@ -402,7 +399,7 @@ Sloe Loris:
 Smoke Signal:
   collection: '2201'
   ingredients:
-    Apperol:
+    Aperol:
       amount: '0.75'
       units: oz
     Green Chartreuse:
@@ -437,7 +434,7 @@ Smoky Quartz:
 The Division Bell:
   collection: '5057'
   ingredients:
-    Apperol:
+    Aperol:
       amount: '0.75'
       units: oz
     Lime juice:
@@ -539,7 +536,7 @@ The Spanish Graft:
 White Rose:
   collection: '2201'
   ingredients:
-    Elderflower liqueur:
+    Elderflower Liqueur:
       amount: '1'
       units: oz
     Gin:

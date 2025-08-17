@@ -119,11 +119,11 @@ def load_all_ingredients():
     """
     all_ingredients = pd.read_csv(os.path.join(dir_path, "config/ingredients.csv"), names=["ingredients", "locations"])
     all_ingredients_list =  list(all_ingredients["ingredients"])
-    all_ingredients_formatted = [ingredient.replace("_", " ").title() for ingredient in all_ingredients_list]
+    # all_ingredients_formatted = [ingredient.replace("_", " ").title() for ingredient in all_ingredients_list]
     locations = list(all_ingredients["locations"])
-    location_dict = {ingredient:location for ingredient, location in zip(all_ingredients_formatted, locations)}
+    location_dict = {ingredient:location for ingredient, location in zip(all_ingredients_list, locations)}
 
-    return all_ingredients_formatted, location_dict
+    return all_ingredients_list, location_dict
 
 # -------------------- FUZZY STRINGS -------------------- #
 def get_closest_match(x, list_random, verbose=False):
@@ -143,27 +143,6 @@ def get_closest_match(x, list_random, verbose=False):
                 print(f"Watch out: {x} is close to {close_to}. Choosing {best_match}")
 
     return best_match, highest_jaro
-                
-def check_alias(ingredient, alias_dict:dict):
-        
-    names_to_check = [ingredient]
-    ingredient = ingredient.lower()
-
-    # print(ingredient)
-    # if it's a key, add its values
-    if ingredient in alias_dict.keys():
-        values = alias_dict[ingredient]
-        [names_to_check.append(value) for value in values]
-
-    # if it's a value, add its keys
-    for key in alias_dict:
-        aliases = alias_dict[key]
-        if ingredient in aliases:
-            names_to_check.append(key)
-
-    # print(f"given {ingredient}, should check {names_to_check} against the ingredients list")
-
-    return names_to_check
 
 def check_match(given_input, valid_names, match_threshold=0.875):
     # checks to see if a given tag is close to a key in tags_dict. If it is, it replaces the given tag with the key
@@ -195,7 +174,7 @@ def get_closest_match_list(x_list, list_random):
     
     return best_match, best_score
 
-# -------------------- TAGS -------------------- #
+# -------------------- TAGS & ALIASES -------------------- #
 def expand_tag(given_tag, tags_dict):
     tag_names = load_tags(tags_dict)
     parents = [given_tag]
@@ -235,6 +214,36 @@ def expand_tag(given_tag, tags_dict):
         return children
     else:
         return False
+
+def check_alias(ingredient, alias_dict:dict):
+    """_summary_
+
+    Args:
+        ingredient (str): _description_
+        alias_dict (dict): _description_
+
+    Returns:
+        list: aliases (if no aliases found, returns [ingredient])
+    """
+        
+    names_to_check = [ingredient]
+    ingredient = ingredient.lower()
+
+    # print(ingredient)
+    # if it's a key, add its values
+    if ingredient in alias_dict.keys():
+        values = alias_dict[ingredient]
+        [names_to_check.append(value) for value in values]
+
+    # if it's a value, add its keys
+    for key in alias_dict:
+        aliases = alias_dict[key]
+        if ingredient in aliases:
+            names_to_check.append(key)
+
+    # print(f"given {ingredient}, should check {names_to_check} against the ingredients list")
+
+    return names_to_check
 
 # -------------------- CHECKING INVENTORY FOR RECIPES -------------------- #
 def validate_ingredient(ingredient:str, all_ingredients, recipe_name, tags_dict, alias_dict, verbose):
@@ -366,6 +375,7 @@ def add_spirit(spirit:str, coord:str):
     else:
         print(f"Invalid coordinate {coord}")
 
+# BAD. SHOULD NOT REMOVE, SHOULD CHANGE LOC TO 'none' !!! #
 def remove_spirit(spirit:str):
     """Removes the given spirit from ingredients.csv.
 
@@ -390,27 +400,72 @@ def remove_spirit(spirit:str):
                 print(e)
 
 # -------------------- FLAGGING OUR MISTAKES -------------------- #
-def check_recipe_against_csv(menu_dict:dict, all_ingredients, tags_dict, alias_dict):
-    validated_menu = copy.deepcopy(menu_dict)
-    tag_names = load_tags(tags_dict)
+def get_all_used_ingredients(menu_dict, tags_dict, verbose=False):
+    """_summary_
 
+    Args:
+        menu_dict (dict): big menu dictionary, created by read_main_menu()
+        tags_dict (dict): big tags dictionary, created by read_main_menu()
+        verbose (bool, optional): Set True to print during the loop. Defaults to False.
+
+    Returns:
+        list: names of all ingredients used in recipes
+    """
+    # Load all the tag names
+    tag_names = load_tags(tags_dict)
+    # Initialize lists for the loops
+    all_ingredience_once = set([])
+    printed_tags = []
+    # Now loop --
+    # Pull out the ingredient from each recipe, avoiding duplicates
     for key in menu_dict:
         # Pull out the recipe and its ingredients
         recipe = menu_dict[key]["ingredients"]
         recipe_ingredients = list(recipe.keys())
-        # Check and see if there's an alias for our ingredient (e.g "meletti" and "amaro meletti")
         for ingredient in recipe_ingredients:
-            aliases = check_alias(ingredient, alias_dict)
-        
+            # If we've found a tag, add all its children
+            if ingredient in tag_names:
+                children = expand_tag(ingredient, tags_dict)
+                [all_ingredience_once.add(child) for child in children]
+                # Optional printout of every tag identified (only once per tag)
+                if verbose:
+                    if ingredient not in printed_tags:
+                        printed_tags.append(ingredient)
+                        print(f"Tag identified: {ingredient}. \n Children: {children}")
+            # Otherwise, just add the ingredient
+            else:
+                all_ingredience_once.add(ingredient)
 
-    # for each recipe
-        # get each ingredient
-        # ingredient.replace(" ", "_").lower()
-        # check if it exists in the csv
-        # if yes, profit
-        # if no, flag
+    if verbose:
+        print("\n All ingredients identified:")
+        print(all_ingredience_once)
 
+    return all_ingredience_once
 
+def check_recipe_against_csv(menu_dict:dict, all_ingredients, tags_dict, alias_dict, verbose=False):
+    """Checks each used ingredient against our master CSV, and throws a flag if it can't find a match. Used
+    only for internal system checks.
+
+    Formatting note -- We use Title Case in recipes (public facing) and snake_case in the ingredients list (internal). E.g
+    Amaro Nonino in The Spanish Graft and amaro_nonino in ingredients.csv.
+
+    Args:
+        menu_dict (dict): _description_
+        all_ingredients (_type_): _description_
+        tags_dict (_type_): _description_
+        alias_dict (_type_): _description_
+    """
+    # Identify all the ingredients we use throughout every recipe
+    all_ingredience_once = get_all_used_ingredients(menu_dict, tags_dict, verbose)
+
+    # Now do the flagging
+    for ingredient in all_ingredience_once:
+        # Check for any aliases, and reformat to match ingredients.csv
+        aliases = check_alias(ingredient, alias_dict)
+        aliases = [alias.replace(" ", "_").lower() for alias in aliases]
+        # If we couldn't find any aliases in our master ingredients list, throw a flag
+        if not any((True for x in aliases if x in all_ingredients)):
+            print(f"Could not find {ingredient} in ingredients list: looking for {aliases}")
 
 if __name__ == "__main__":
     menu_dict, tags_dict, alias_dict = read_main_menu()
@@ -419,10 +474,13 @@ if __name__ == "__main__":
     # print(tags_dict)
 
     ingredients, locs = load_all_ingredients()
+    # print(ingredients)
 
-    menu_val = validate_all_recipes(menu_dict, ingredients, tags_dict, alias_dict, verbose=False)
+    # menu_val = validate_all_recipes(menu_dict, ingredients, tags_dict, alias_dict, verbose=False)
 
-    print(menu_val)
+    # print(menu_val)
+
+    check_recipe_against_csv(menu_dict, ingredients, tags_dict, alias_dict)
 
 
     # recipe_names = load_recipe_names(menu_dict)

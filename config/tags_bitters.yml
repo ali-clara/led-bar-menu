@@ -19,7 +19,7 @@ Bitters:
     scrappy_lavender_bitters: {}
     fee_bros_peach: {}
     fee_bros_black_walnut: {}
-    scrappy_grapefruit: {}
+    scrappy_grapefruit_bitters: {}
     scrappy_lavender_bitters: {}
     fee_bros_cranberry: {}
     hella_ginger_bitters: {}
@@ -28,20 +28,43 @@ Bitters:
 Orange Bitters:
     collection: Tags
     ingredients:
-      orange_bitters: {}
       angostura_orange_bitters: {}
       Angostura Orange: {}
       Hella Bitters Orange: {}
 
-Angostura Orange:
+Lemon Bitters:
     collection: Tags
     ingredients:
-      angostura_orange_bitters: {}
+      scrappy_black_lemon_bitters: {}
+    notes:
+
+Grapefruit Bitters:
+    collection: Tags
+    ingredients:
+      scrappy_grapefruit_bitters: {}
+
+Angostura Orange:
+  collection: Tags
+  ingredients:
+    angostura_orange_bitters: {}
+  notes:
 
 Hella Bitters Orange:
   collection: Tags
   ingredients:
       hella_orange_bitters: {}
+  notes: Alias
+
+Black Lemon Bitters:
+  collection: Tags
+  ingredients: 
+    scrappy_black_lemon_bitters: {}
+  notes: Alias
+
+Black Walnut Bitters:
+  collection: Tags
+  ingredients:
+    fee_bros_black_walnut: {}
   notes: Alias
 
 Chocolate Bitters:

@@ -403,7 +403,7 @@ Old Fashioned:
 Paloma:
   collection: Classics
   ingredients:
-    Grapefuit Soda:
+    Grapefruit Soda:
       amount: null
       units: to top
     Lime Juice:
@@ -416,7 +416,7 @@ Paloma:
 Penicillin:
   collection: Classics
   ingredients:
-    Honey-Ginger Syrup:
+    Honey Ginger Syrup:
       amount: '0.75'
       units: oz
     Islay Scotch:
@@ -463,7 +463,7 @@ Ramos Gin Fizz:
     Orange Flower Water:
       amount: 2-3
       units: dashes
-    Soda:
+    Club Soda:
       amount: null
       units: to top
   notes: Shake everything except the foam.
@@ -476,7 +476,7 @@ Sazerac:
     Peychauds Bitters:
       amount: '4'
       units: dashes
-    Rye:
+    Rye Whiskey:
       amount: '2.5'
       units: oz
     Sugar:
@@ -522,7 +522,7 @@ Tom Collins:
     Simple Syrup:
       amount: '0.5'
       units: oz
-    Soda:
+    Club Soda:
       amount: null
       units: to top
   notes: Garnish with a lemon slice and a cherry. Should technically use Old Tom Gin
