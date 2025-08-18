@@ -129,6 +129,8 @@ def load_all_ingredients():
     locations = list(all_ingredients["locations"])
     location_dict = {ingredient:location for ingredient, location in zip(all_ingredients_list, locations)}
 
+    # print(location_dict)
+
     return all_ingredients_list, location_dict
 
 # -------------------- FUZZY STRINGS -------------------- #
@@ -252,7 +254,7 @@ def expand_alias(ingredient, alias_dict:dict):
     return names_to_check
 
 # -------------------- CHECKING INVENTORY -------------------- #
-def is_in_stock(ingredient:str, ingredients_dict:dict, recipe_name:str, verbose=False):
+def is_in_stock(ingredient:str, ingredients_dict:dict, recipe_name:str, verbose=False, quiet=False):
     """Checks a given ingredient against our inventory (which has the location "none" if out of stock).
 
     Args:
@@ -266,15 +268,17 @@ def is_in_stock(ingredient:str, ingredients_dict:dict, recipe_name:str, verbose=
     """
     loc = ingredients_dict[ingredient].strip()
     if loc == "none":
-        ingredient = "\033[1m"+ingredient+"\033[0m"
-        print(f"Could not validate {recipe_name}, {ingredient} out of stock")
+        if not quiet:
+            # print(quiet)
+            ingredient = "\033[1m"+ingredient+"\033[0m"
+            print(f"Could not validate {recipe_name}, {ingredient} out of stock")
         return False
     else:
         if verbose:
             print(f"Found {ingredient} in inventory list, location {loc}")
         return True
 
-def validate_one_recipe(recipe:dict, all_ingredients:list, ingredients_dict:dict, recipe_name:str, tags_dict, alias_dict, verbose=False):
+def validate_one_recipe(recipe:dict, all_ingredients:list, ingredients_dict:dict, recipe_name:str, tags_dict, alias_dict, verbose=False, quiet=False):
     # if all the ingredients of the recipe are good, recipe is good
     # otherwise, false
     if verbose:
@@ -294,7 +298,7 @@ def validate_one_recipe(recipe:dict, all_ingredients:list, ingredients_dict:dict
         for alias in ing_aliases:
             if alias in all_ingredients:
                 ingredient_exists = True
-                if not is_in_stock(alias, ingredients_dict, recipe_name, verbose):
+                if not is_in_stock(alias, ingredients_dict, recipe_name, verbose, quiet):
                     return False
                 else:
                     ingredient_in_stock = True
@@ -319,12 +323,13 @@ def validate_one_recipe(recipe:dict, all_ingredients:list, ingredients_dict:dict
                     break
                     
         if not ingredient_exists:
-            print(f"Could not validate {recipe_name}, {ingredient} not found in inventory or tags")
+            if not quiet:
+                print(f"Could not validate {recipe_name}, {ingredient} not found in inventory or tags")
             return False
                 
     return True
 
-def validate_all_recipes(menu_dict:dict, all_ingredients_list, all_ingredients_dict, tags_dict, alias_dict, verbose=False):
+def validate_all_recipes(menu_dict:dict, all_ingredients_list, all_ingredients_dict, tags_dict, alias_dict, verbose=False, quiet=False):
     # should: make sure we have the ingredients to make a recipe
     # currently: makes too many of its own decisions
 
@@ -333,7 +338,7 @@ def validate_all_recipes(menu_dict:dict, all_ingredients_list, all_ingredients_d
     validated_menu = copy.deepcopy(menu_dict)
     for key in menu_dict:
         recipe = menu_dict[key]["ingredients"]
-        if not validate_one_recipe(recipe, all_ingredients_list, all_ingredients_dict, key, tags_dict, alias_dict, verbose):
+        if not validate_one_recipe(recipe, all_ingredients_list, all_ingredients_dict, key, tags_dict, alias_dict, verbose, quiet):
             validated_menu.pop(key)
     
     return validated_menu
