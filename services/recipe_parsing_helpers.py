@@ -11,6 +11,12 @@ import csv
 dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
 similarity_threshold = 0.75
 
+def format_as_inventory(input_str:str):
+    return input_str.replace(" ", "_").lower().strip()
+
+def format_as_recipe(input_str:str):
+    return input_str.replace("_", " ").title().strip()
+
 # -------------------- LOADING & READING -------------------- #
 def read_main_menu():
     recipes_dict = {}
@@ -44,8 +50,8 @@ def read_main_menu():
         for key in alias_dict:
             aliases = list(alias_dict[key]["ingredients"].keys())
 
-            aliases = [alias.lower() for alias in aliases]
-            key = key.lower()
+            aliases = [format_as_inventory(alias) for alias in aliases]
+            key = format_as_inventory(key)
 
             alias_dict_restructured.update({key:aliases})
 
@@ -215,8 +221,8 @@ def expand_tag(given_tag, tags_dict):
     else:
         return False
 
-def check_alias(ingredient, alias_dict:dict):
-    """_summary_
+def expand_alias(ingredient, alias_dict:dict):
+    """Gets any aliases of the given ingredient. Does some string format control
 
     Args:
         ingredient (str): _description_
@@ -226,8 +232,8 @@ def check_alias(ingredient, alias_dict:dict):
         list: aliases (if no aliases found, returns [ingredient])
     """
         
+    ingredient = format_as_inventory(ingredient)
     names_to_check = [ingredient]
-    ingredient = ingredient.lower()
 
     # print(ingredient)
     # if it's a key, add its values
@@ -245,63 +251,80 @@ def check_alias(ingredient, alias_dict:dict):
 
     return names_to_check
 
-# -------------------- CHECKING INVENTORY FOR RECIPES -------------------- #
-def validate_ingredient(ingredient:str, all_ingredients, recipe_name, tags_dict, alias_dict, verbose):
-    # if score is over threshold, ingredient is good. Replace with name in 'ingredients.csv' master doc
-    # otherwise, check if it's a tag. If so, check if we have ~any~ acceptable 
-    # otherwise, false
-    # Check and see if there's an alias for our ingredient (e.g "meletti" and "amaro meletti")
-    aliases = check_alias(ingredient, alias_dict)
-    # Use string comparison to get the closest match between the ingredient we're looking at (from a recipe)
-    # and our master list of ingredients
-    best_match, match_score = get_closest_match_list(aliases, all_ingredients)
-    # Check and see if we're dealing with a tag instead of a single ingredient
-    # children = expand_tag(ingredient, tags_dict)
-    tag_names = load_tags(tags_dict)
-    tag, tag_name, tag_score = check_match(ingredient, tag_names)
+# -------------------- CHECKING INVENTORY -------------------- #
+def is_in_stock(ingredient:str, ingredients_dict:dict, recipe_name:str, verbose=False):
+    """Checks a given ingredient against our inventory (which has the location "none" if out of stock).
 
-    # If we've identified a tag, check a match for each child
-    if tag:
-        children = expand_tag(tag_name, tags_dict)
-        children_scores = []
-        children_matches = []
-        for child in children:
-            child = child.replace("_", " ").title()
-            match, child_score = get_closest_match(child, all_ingredients)
-            children_scores.append(child_score)
-            children_matches.append(match)
-        # If we've found a match, return the tag
-        if any(np.array(children_scores) > similarity_threshold):
-            if verbose:
-                print(f"tag - {ingredient} -> {tag_name}, {tag_score}")
-            return tag_name
-        else:
-            return False
-    # Otherwise, if we've gotten a match, return it
-    elif match_score > similarity_threshold:
-        if verbose:
-            print(f"match - {ingredient} -> {best_match}, {match_score}")
-        return best_match
-    
-    # Otherwise, no can do chief. Return False
-    else:
-        print(f"Warning: Could not validate {recipe_name}, {ingredient} is below the similarity threshold.")
+    Args:
+        ingredient (str): _description_
+        ingredients_dict (dict): _description_
+        recipe_name (str): _description_
+        verbose (bool, optional): _description_. Defaults to False.
+
+    Returns:
+        _type_: _description_
+    """
+    loc = ingredients_dict[ingredient].strip()
+    if loc == "none":
+        ingredient = "\033[1m"+ingredient+"\033[0m"
+        print(f"Could not validate {recipe_name}, {ingredient} out of stock")
         return False
+    else:
+        if verbose:
+            print(f"Found {ingredient} in inventory list, location {loc}")
+        return True
 
-def validate_one_recipe(recipe:dict, all_ingredients:list, recipe_name:str, tags_dict, alias_dict, verbose):
+def validate_one_recipe(recipe:dict, all_ingredients:list, ingredients_dict:dict, recipe_name:str, tags_dict, alias_dict, verbose=False):
     # if all the ingredients of the recipe are good, recipe is good
     # otherwise, false
+    if verbose:
+        print(f"Checking {recipe_name}")
+
+    tag_names = load_tags(tags_dict)
     recipe_ingredients = list(recipe.keys())
+    ingredient_exists = False
+    ingredient_in_stock = False
+
     for ingredient in recipe_ingredients:
-        validated = validate_ingredient(ingredient, all_ingredients, recipe_name, tags_dict, alias_dict, verbose)
-        if not validated:
+        # First, check the ingredient name and any aliases it might be under
+        ing_aliases = expand_alias(ingredient, alias_dict)
+        if verbose:
+            print(f"Checking {ingredient} (aliases {ing_aliases[1:]})")
+        # For each alias: if we can find it, check if it's in stock. If not, break here
+        for alias in ing_aliases:
+            if alias in all_ingredients:
+                ingredient_exists = True
+                if not is_in_stock(alias, ingredients_dict, recipe_name, verbose):
+                    return False
+                else:
+                    ingredient_in_stock = True
+            # If we've found an ingredient that works, we can stop here
+            if ingredient_in_stock:
+                break
+        # Then check if it's a tag, and repeat the process for any children
+        if ingredient in tag_names:
+            children = expand_tag(ingredient, tags_dict)
+            # Get any aliases of each child and check them against the inventory list
+            for child in children:
+                tag_aliases = expand_alias(child, alias_dict)
+                if verbose:
+                    print(f"Found {child} (aliases {tag_aliases[1:]}) in the {ingredient} tag")
+                for alias in tag_aliases:
+                    if alias in all_ingredients:
+                        ingredient_exists = True
+                        if not is_in_stock(alias, ingredients_dict, recipe_name, verbose):
+                            return False
+                # If we've found an ingredient that works, we can stop here
+                if ingredient_in_stock:
+                    break
+                    
+        if not ingredient_exists:
+            print(f"Could not validate {recipe_name}, {ingredient} not found in inventory or tags")
             return False
-        else:
-            recipe[validated] = recipe.pop(ingredient)
+                
+    return True
 
-    return recipe
-
-def validate_all_recipes(menu_dict:dict, all_ingredients, tags_dict, alias_dict, verbose=False):
+def validate_all_recipes(menu_dict:dict, all_ingredients_list, all_ingredients_dict, tags_dict, alias_dict, verbose=False):
     # should: make sure we have the ingredients to make a recipe
     # currently: makes too many of its own decisions
 
@@ -310,11 +333,8 @@ def validate_all_recipes(menu_dict:dict, all_ingredients, tags_dict, alias_dict,
     validated_menu = copy.deepcopy(menu_dict)
     for key in menu_dict:
         recipe = menu_dict[key]["ingredients"]
-        validated = validate_one_recipe(recipe, all_ingredients, key, tags_dict, alias_dict, verbose)
-        if not validated:
+        if not validate_one_recipe(recipe, all_ingredients_list, all_ingredients_dict, key, tags_dict, alias_dict, verbose):
             validated_menu.pop(key)
-        else:
-            validated_menu[key].update({"ingredients": validated})
     
     return validated_menu
 
@@ -375,27 +395,32 @@ def add_spirit(spirit:str, coord:str):
     else:
         print(f"Invalid coordinate {coord}")
 
-# BAD. SHOULD NOT REMOVE, SHOULD CHANGE LOC TO 'none' !!! #
 def remove_spirit(spirit:str):
     """Removes the given spirit from ingredients.csv.
 
     Args:
         spirit (str): _description_
     """
+    # Update the spirit inventory in preparation for csv writing
+    new_row = [spirit, "none"]
+    # Grab the old rows of the csv
     with open(os.path.join(dir_path, "config/ingredients.csv"), 'r') as orig:
         orig_rows = [row for row in csv.reader(orig)]
-
+    # Make a new one with this one row changed
     with open(os.path.join(dir_path, "config/ingredients.csv"), 'w', newline='') as file:
         writer = csv.writer(file)
         for row in orig_rows:
-            print(row)
             # Try-except block in case we've done anything funny with the csv
             try:
                 # Jack likes having spaces in the csv for organization, so preserve that here
                 if len(row) == 0:
                     writer.writerow([])
+                # Write all other rows as they were
                 elif row[0] != spirit:
-                        writer.writerow(row)
+                    writer.writerow(row)
+                # Replace the one to "remove" with the new row: spirit_name, "none"
+                else:
+                    writer.writerow(new_row)
             except Exception as e:
                 print(e)
 
@@ -461,26 +486,33 @@ def check_recipe_against_csv(menu_dict:dict, all_ingredients, tags_dict, alias_d
     # Now do the flagging
     for ingredient in all_ingredience_once:
         # Check for any aliases, and reformat to match ingredients.csv
-        aliases = check_alias(ingredient, alias_dict)
-        aliases = [alias.replace(" ", "_").lower() for alias in aliases]
+        aliases = expand_alias(ingredient, alias_dict)
+        if verbose:
+            print(f"Given {ingredient}, checking {aliases}")
+        aliases = [format_as_inventory(alias) for alias in aliases]
         # If we couldn't find any aliases in our master ingredients list, throw a flag
         if not any((True for x in aliases if x in all_ingredients)):
+            print("---")
             print(f"Could not find {ingredient} in ingredients list: looking for {aliases}")
+            print()
 
 if __name__ == "__main__":
     menu_dict, tags_dict, alias_dict = read_main_menu()
     # print(menu_dict)
     # print("---")
     # print(tags_dict)
+    # print(alias_dict)
 
-    ingredients, locs = load_all_ingredients()
+    ingredients_list, ingredients_dict = load_all_ingredients()
     # print(ingredients)
 
-    # menu_val = validate_all_recipes(menu_dict, ingredients, tags_dict, alias_dict, verbose=False)
+    # menu_val = validate_all_recipes(menu_dict, ingredients_list, ingredients_dict, tags_dict, alias_dict, verbose=False)
+
+    remove_spirit("test")
 
     # print(menu_val)
 
-    check_recipe_against_csv(menu_dict, ingredients, tags_dict, alias_dict)
+    # check_recipe_against_csv(menu_dict, ingredients, tags_dict, alias_dict, verbose=False)
 
 
     # recipe_names = load_recipe_names(menu_dict)
