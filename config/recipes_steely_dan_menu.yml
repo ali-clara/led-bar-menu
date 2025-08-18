@@ -117,7 +117,7 @@ Don't Take Me Alive:
 FM:
   collection: Steely Dan
   ingredients:
-    Grapefruit bitters:
+    Grapefruit Bitters:
       amount: '2'
       units: dashes
     Pear Brandy:
@@ -126,7 +126,7 @@ FM:
     Sweet Vermouth:
       amount: '0.5'
       units: oz
-    Triple sec:
+    Triple Sec:
       amount: '0.5'
       units: oz
     Velvet falernum:
@@ -174,7 +174,7 @@ Green Flower Street:
     Blue Curacao:
       amount: until the lime turns green
       units: ''
-    Elderflower liqueur:
+    Elderflower Liqueur:
       amount: '0.5'
       units: oz
     Gin:
@@ -213,7 +213,7 @@ Hey Nineteen:
 Home at Last:
   collection: Steely Dan
   ingredients:
-    Apperol:
+    Aperol:
       amount: '0.5'
       units: oz
     Prosecco:
@@ -251,13 +251,13 @@ Josie:
     Calvados:
       amount: '1.5'
       units: oz
-    Cinnamon Whiskey:
+    Cinnamon Infused Whiskey:
       amount: '0.25'
       units: tsp
     Falernum:
       amount: '0.75'
       units: oz
-    Overproof rum:
+    Overproof Rum:
       amount: float
       units: float
   notes: Set rum float aflame
@@ -296,13 +296,13 @@ Parker's Band:
     Amaretto:
       amount: '0.5'
       units: oz
-    Black walnut bitters:
+    Black Walnut Bitters:
       amount: '4'
       units: drops
     Bourbon:
       amount: '1'
       units: oz
-    Elderflower liqueur:
+    Elderflower Liqueur:
       amount: '0.5'
       units: oz
     Rye Whiskey:
@@ -315,13 +315,13 @@ Pearl of the Quarter:
     Brandy:
       amount: '1'
       units: oz
-    Grapefruit bitters:
+    Grapefruit Bitters:
       amount: '3'
       units: dashes
     Lemon:
       amount: '1'
       units: squeeze
-    Triple sec:
+    Triple Sec:
       amount: '0.5'
       units: oz
   notes: Countdown to Ecstasy. Do NOT add Maraschino
@@ -331,7 +331,7 @@ Peg:
     Absinthe:
       amount: '1'
       units: Spritz
-    Dark creme de cacao:
+    Dark Creme de Cacao:
       amount: '0.75'
       units: oz
     Lapsang Whiskey:
@@ -394,7 +394,7 @@ Third World Man:
     Smoky Scotch:
       amount: '0.25'
       units: oz
-    Tanqueray:
+    Gin:
       amount: '1.5'
       units: oz
   notes: Gaucho

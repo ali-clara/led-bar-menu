@@ -155,3 +155,8 @@ Macadamia Liqueur:
   ingredients:
     Macadamia Nut Liqueur: {}
   notes: 
+Coconut Liqueur:
+  collection: Tags
+  ingredients:
+    placeholder_coconut_rum: {}
+  notes:
