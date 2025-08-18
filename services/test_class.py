@@ -15,6 +15,7 @@ except ImportError:
     from services import recipe_parsing_helpers as recipe
     from services.randomizer import Randomizer as rands
 
+
 def format_for_web(string:str):
     return string.replace("_", " ").title()
 
@@ -319,10 +320,14 @@ class TestView(FlaskView):
 
             if is_ingredient and ingredient_score > tag_score:
                 self.lit_up_ingredients.append(ingredient_match)
-                self.lights.illuminate_spirit(self.lit_up_ingredients)
+                # self.lights.illuminate_spirit(self.lit_up_ingredients)
+
                 # Update the website display
                 ingredient_selected = ingredient_match
                 location_selected = self.location_dict[ingredient_match].title()
+
+                self.lights.illuminate_location(location_selected)
+
             # elif is_tag and tag_score > ingredient_score or tag_score == ingredient_score:
             #     if tag_score != 0:
             #         # If it's a tag, we need to get all the spirits it describes
