@@ -30,14 +30,15 @@ class TestView(FlaskView):
         self.lit_up_ingredients = []
         self.random_ten = []
 
-    def _load_menu(self):
+    def _load_menu(self, verbose=True):
         # Read in the main menu and validate it against our master list of ingredients
         menu_dict_raw, self.tags_dict, alias_dict = recipe.read_main_menu() # fine
         self.all_ingredients, self.location_dict = recipe.load_all_ingredients()
         self.menu_dict = recipe.validate_all_recipes(menu_dict_raw, self.all_ingredients, self.location_dict, self.tags_dict, alias_dict)
 
-        print("--")
-        print(f"Validated recipes: {list(self.menu_dict.keys())}")
+        if verbose:
+            print("--")
+            print(f"Validated recipes: {list(self.menu_dict.keys())}")
 
         # Pull out collection and cocktail names
         self.collection_names = recipe.load_collection_names(self.menu_dict)
@@ -369,7 +370,6 @@ class TestView(FlaskView):
             # self.lit_up_ingredients = []
 
             print(self.lit_up_ingredients)
-
             print(request.form)
             print(request.form.keys())
 
@@ -390,6 +390,7 @@ class TestView(FlaskView):
                 # Update the external yaml file with our new info
                 recipe.update_recipe_yaml(recipe_name, recipe_collection, recipe_notes,
                                           ingredients, amounts, units)
+                self._load_menu()
 
             elif "input_add_spirit" in request.form.keys():
                 # "Preview" mode
@@ -419,6 +420,7 @@ class TestView(FlaskView):
                     # directly update the csv.
                     # HTML todo -- disable the "Add" button whenever we type in the input form
                     recipe.add_spirit(spirit_to_add, coord_to_add)
+                    self._load_menu()
                     # Update the html display
                     input_spirit = ""
                     input_coord = ""
@@ -431,10 +433,11 @@ class TestView(FlaskView):
                 # spirit leds flash
                 spirit_to_remove = spirit_to_remove.replace(" ", "_").lower()
                 recipe.remove_spirit(spirit_to_remove)
+                self._load_menu(verbose=False)
 
 
         return render_template('modify_spirits.html', addSpiritsDisabled=add_spirits_disabled, collections=self.collection_names,
-                               inputSpirit=input_spirit, inputCoord=input_coord)
+                               inputSpirit=input_spirit, inputCoord=input_coord, spiritList=self.all_ingredients)
 
 
 if __name__ == "__main__":

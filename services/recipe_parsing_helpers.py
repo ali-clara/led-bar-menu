@@ -376,22 +376,48 @@ def update_recipe_yaml(recipe_name:str, collection:str, notes:str, ingredients:l
                 yaml.dump(menu_dict, outfile, default_flow_style=False)
 
 def add_spirit(spirit:str, coord:str):
-    """Appends the given (spirit, coord) pair to ingredients.csv
+    """Updates or adds the given (spirit, coord) pair to ingredients.csv
 
     Args:
         spirit (str): _description_
         coord (str): _description_
     """
+    # Check if the given coordinate is valid. If so...
     all_cabinet_locs = load_cabinet_locs()
     if coord in all_cabinet_locs.keys():
-        spirit = spirit.replace(" ", "_").lower()
-        new_entry = [spirit, coord]
-        try:
+        # Format a new entry with the given location
+        spirit = format_as_inventory(spirit)
+        new_row = [spirit, coord]
+        spirit_exists = False
+        # Grab the old rows of the csv
+        with open(os.path.join(dir_path, "config/ingredients.csv"), 'r') as orig:
+            orig_rows = [row for row in csv.reader(orig)]
+
+        # We want to avoid duplicate entries here, so first look through all existing rows of the csv.
+        # If we find a match, update its position
+        with open(os.path.join(dir_path, "config/ingredients.csv"), 'w', newline='') as file:
+            writer = csv.writer(file)
+            for row in orig_rows:
+                # Try-except block in case we've done anything funny with the csv
+                try:
+                    # Jack likes having spaces in the csv for organization, so preserve that here
+                    if len(row) == 0:
+                        writer.writerow([])
+                    # Write all other rows as they were
+                    elif row[0] != spirit:
+                        writer.writerow(row)
+                    # Replace the one to "remove" with the new row: spirit_name, "none"
+                    else:
+                        writer.writerow(new_row)
+                        spirit_exists = True
+                except Exception as e:
+                    print(e)
+
+        # If we don't find a match, add the new spirit to the end
+        if not spirit_exists:
             with open(os.path.join(dir_path, "config/ingredients.csv"), 'a') as csvfile:
                 writer = csv.writer(csvfile, delimiter=',', lineterminator='\n\r')
-                writer.writerow(new_entry)
-        except FileNotFoundError as e:
-            print(e)
+                writer.writerow(new_row)
     else:
         print(f"Invalid coordinate {coord}")
 
@@ -503,12 +529,10 @@ if __name__ == "__main__":
     # print(tags_dict)
     # print(alias_dict)
 
-    ingredients_list, ingredients_dict = load_all_ingredients()
+    # ingredients_list, ingredients_dict = load_all_ingredients()
     # print(ingredients)
 
     # menu_val = validate_all_recipes(menu_dict, ingredients_list, ingredients_dict, tags_dict, alias_dict, verbose=False)
-
-    remove_spirit("test")
 
     # print(menu_val)
 

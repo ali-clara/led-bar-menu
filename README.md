@@ -6,6 +6,7 @@ Getting lit (hah)
 ### Works! Notes:
 - Publish the logs to the 
 - Should refresh its internal dictionaries when ingredients.csv is updated. Not hard
+- check for duplicates when adding and prioritize replacing it there
 
 
 ### Docs
