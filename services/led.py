@@ -120,8 +120,12 @@ class LED:
         # self.pixels_on(pixels)
 
     def illuminate_location(self, location:str, flash=False):
-        neopixel_range = self.led_loc_dict[location.strip()]
         pixels = []
+        try:
+            neopixel_range = self.led_loc_dict[location.strip()]
+        except KeyError as e:
+            print(f"Not a valid location: {e}")
+            return
         try:
             color = self.unused_colors.pop(0)
         # When we run out of rainbow, pop() will return an IndexError. Reset the rainbow and continue
