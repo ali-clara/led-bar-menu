@@ -129,6 +129,8 @@ def load_all_ingredients():
     locations = list(all_ingredients["locations"])
     location_dict = {ingredient:location for ingredient, location in zip(all_ingredients_list, locations)}
 
+    # print(location_dict)
+
     return all_ingredients_list, location_dict
 
 # -------------------- FUZZY STRINGS -------------------- #
@@ -252,7 +254,7 @@ def expand_alias(ingredient, alias_dict:dict):
     return names_to_check
 
 # -------------------- CHECKING INVENTORY -------------------- #
-def is_in_stock(ingredient:str, ingredients_dict:dict, recipe_name:str, verbose=False):
+def is_in_stock(ingredient:str, ingredients_dict:dict, recipe_name:str, verbose=False, quiet=False):
     """Checks a given ingredient against our inventory (which has the location "none" if out of stock).
 
     Args:
@@ -266,15 +268,17 @@ def is_in_stock(ingredient:str, ingredients_dict:dict, recipe_name:str, verbose=
     """
     loc = ingredients_dict[ingredient].strip()
     if loc == "none":
-        ingredient = "\033[1m"+ingredient+"\033[0m"
-        print(f"Could not validate {recipe_name}, {ingredient} out of stock")
+        if not quiet:
+            # print(quiet)
+            ingredient = "\033[1m"+ingredient+"\033[0m"
+            print(f"Could not validate {recipe_name}, {ingredient} out of stock")
         return False
     else:
         if verbose:
             print(f"Found {ingredient} in inventory list, location {loc}")
         return True
 
-def validate_one_recipe(recipe:dict, all_ingredients:list, ingredients_dict:dict, recipe_name:str, tags_dict, alias_dict, verbose=False):
+def validate_one_recipe(recipe:dict, all_ingredients:list, ingredients_dict:dict, recipe_name:str, tags_dict, alias_dict, verbose=False, quiet=False):
     # if all the ingredients of the recipe are good, recipe is good
     # otherwise, false
     if verbose:
@@ -294,7 +298,7 @@ def validate_one_recipe(recipe:dict, all_ingredients:list, ingredients_dict:dict
         for alias in ing_aliases:
             if alias in all_ingredients:
                 ingredient_exists = True
-                if not is_in_stock(alias, ingredients_dict, recipe_name, verbose):
+                if not is_in_stock(alias, ingredients_dict, recipe_name, verbose, quiet):
                     return False
                 else:
                     ingredient_in_stock = True
@@ -319,12 +323,13 @@ def validate_one_recipe(recipe:dict, all_ingredients:list, ingredients_dict:dict
                     break
                     
         if not ingredient_exists:
-            print(f"Could not validate {recipe_name}, {ingredient} not found in inventory or tags")
+            if not quiet:
+                print(f"Could not validate {recipe_name}, {ingredient} not found in inventory or tags")
             return False
                 
     return True
 
-def validate_all_recipes(menu_dict:dict, all_ingredients_list, all_ingredients_dict, tags_dict, alias_dict, verbose=False):
+def validate_all_recipes(menu_dict:dict, all_ingredients_list, all_ingredients_dict, tags_dict, alias_dict, verbose=False, quiet=False):
     # should: make sure we have the ingredients to make a recipe
     # currently: makes too many of its own decisions
 
@@ -333,7 +338,7 @@ def validate_all_recipes(menu_dict:dict, all_ingredients_list, all_ingredients_d
     validated_menu = copy.deepcopy(menu_dict)
     for key in menu_dict:
         recipe = menu_dict[key]["ingredients"]
-        if not validate_one_recipe(recipe, all_ingredients_list, all_ingredients_dict, key, tags_dict, alias_dict, verbose):
+        if not validate_one_recipe(recipe, all_ingredients_list, all_ingredients_dict, key, tags_dict, alias_dict, verbose, quiet):
             validated_menu.pop(key)
     
     return validated_menu
@@ -376,22 +381,48 @@ def update_recipe_yaml(recipe_name:str, collection:str, notes:str, ingredients:l
                 yaml.dump(menu_dict, outfile, default_flow_style=False)
 
 def add_spirit(spirit:str, coord:str):
-    """Appends the given (spirit, coord) pair to ingredients.csv
+    """Updates or adds the given (spirit, coord) pair to ingredients.csv
 
     Args:
         spirit (str): _description_
         coord (str): _description_
     """
+    # Check if the given coordinate is valid. If so...
     all_cabinet_locs = load_cabinet_locs()
     if coord in all_cabinet_locs.keys():
-        spirit = spirit.replace(" ", "_").lower()
-        new_entry = [spirit, coord]
-        try:
+        # Format a new entry with the given location
+        spirit = format_as_inventory(spirit)
+        new_row = [spirit, coord]
+        spirit_exists = False
+        # Grab the old rows of the csv
+        with open(os.path.join(dir_path, "config/ingredients.csv"), 'r') as orig:
+            orig_rows = [row for row in csv.reader(orig)]
+
+        # We want to avoid duplicate entries here, so first look through all existing rows of the csv.
+        # If we find a match, update its position
+        with open(os.path.join(dir_path, "config/ingredients.csv"), 'w', newline='') as file:
+            writer = csv.writer(file)
+            for row in orig_rows:
+                # Try-except block in case we've done anything funny with the csv
+                try:
+                    # Jack likes having spaces in the csv for organization, so preserve that here
+                    if len(row) == 0:
+                        writer.writerow([])
+                    # Write all other rows as they were
+                    elif row[0] != spirit:
+                        writer.writerow(row)
+                    # Replace the one to "remove" with the new row: spirit_name, "none"
+                    else:
+                        writer.writerow(new_row)
+                        spirit_exists = True
+                except Exception as e:
+                    print(e)
+
+        # If we don't find a match, add the new spirit to the end
+        if not spirit_exists:
             with open(os.path.join(dir_path, "config/ingredients.csv"), 'a') as csvfile:
                 writer = csv.writer(csvfile, delimiter=',', lineterminator='\n\r')
-                writer.writerow(new_entry)
-        except FileNotFoundError as e:
-            print(e)
+                writer.writerow(new_row)
     else:
         print(f"Invalid coordinate {coord}")
 
@@ -503,12 +534,10 @@ if __name__ == "__main__":
     # print(tags_dict)
     # print(alias_dict)
 
-    ingredients_list, ingredients_dict = load_all_ingredients()
+    # ingredients_list, ingredients_dict = load_all_ingredients()
     # print(ingredients)
 
     # menu_val = validate_all_recipes(menu_dict, ingredients_list, ingredients_dict, tags_dict, alias_dict, verbose=False)
-
-    remove_spirit("test")
 
     # print(menu_val)
 

@@ -30,14 +30,16 @@ class TestView(FlaskView):
         self.lit_up_ingredients = []
         self.random_ten = []
 
-    def _load_menu(self):
+
+    def _load_menu(self, verbose=True):
         # Read in the main menu and validate it against our master list of ingredients
-        menu_dict_raw, self.tags_dict, alias_dict = recipe.read_main_menu() # fine
+        menu_dict_raw, self.tags_dict, alias_dict = recipe.read_main_menu()
         self.all_ingredients, self.location_dict = recipe.load_all_ingredients()
         self.menu_dict = recipe.validate_all_recipes(menu_dict_raw, self.all_ingredients, self.location_dict, self.tags_dict, alias_dict)
 
-        print("--")
-        print(f"Validated recipes: {list(self.menu_dict.keys())}")
+        if verbose:
+            print("--")
+            print(f"Validated recipes: {list(self.menu_dict.keys())}")
 
         # Pull out collection and cocktail names
         self.collection_names = recipe.load_collection_names(self.menu_dict)
@@ -47,14 +49,19 @@ class TestView(FlaskView):
 
         # Build a dictionary that sorts the cocktail names by collection
         #   e.g {'5057 main menu': ['Anthracite Prospector'], '2201 main menu': ['The Highland Locust'], 'lord of the rings': ['Pippin']}
-        self.collection_dict = recipe.sort_collections(self.menu_dict, self.collection_names)
+        self.collection_dict = recipe.sort_collections(self.menu_dict, self.collection_names)    
 
-        # print(f"Cocktail names: {self.cocktail_names}")
-        # print(f"Collections: {self.collection_names}")
-        # print(f"Sorted collection dict: {self.collection_dict}")
-
+    def _quick_update(self):
+        menu_dict_raw, self.tags_dict, alias_dict = recipe.read_main_menu()
+        self.all_ingredients, self.location_dict = recipe.load_all_ingredients()
+        # "quiet" mode isn't working and im tearing out my hair
+        self.menu_dict = recipe.validate_all_recipes(menu_dict_raw, self.all_ingredients, self.location_dict, self.tags_dict, alias_dict, quiet=True)
+        self.cocktail_names = recipe.load_recipe_names(self.menu_dict)
+        LED.update_loc_dict(self.location_dict)
     
-
+    def _full_update(self):
+        pass
+    
     def index(self):
         """The main page. Redirects to the menu
         This lives at http://localhost:5000/ or http://10.0.0.120:5000
@@ -68,6 +75,8 @@ class TestView(FlaskView):
     @method("GET")
     def menu(self):
         """http://localhost:5000/menu"""
+
+        self._quick_update()
 
         # print(f"available cocktails: {self.cocktail_names}")
         # print(f"collections: {self.collection_names}")
@@ -83,22 +92,15 @@ class TestView(FlaskView):
             self.lights.all_off()
             self.lit_up_ingredients = []
 
-            print(f"request.form -> {request.form}")
-
             # When "post" is triggered, take a look at what happened in the HTML form. The value "request.form" is
             # a dictionary with key-value pairs "element-name" "element-entry". We use "element-name" to determine which
             # button was selected, and "element-entry" to determine the input info
             element_name = list(request.form.keys())[0]
             form_entry = request.form.get(element_name)
 
-            print(element_name)
-
             # If the form has returned a cocktail, process that
             if element_name == "cocktail input":
-                if element_name == "Third World Man":
-                    print(form_entry)
 
-                print(form_entry)
                 is_recipe, recipe_match, recipe_score = recipe.check_match(form_entry, self.cocktail_names, match_threshold=0.705)
                 print(is_recipe, recipe_match, recipe_score)
                 is_ingredient, ingredient_match, ingredient_score = recipe.check_match(form_entry, self.all_ingredients, match_threshold=0.75)
@@ -142,13 +144,7 @@ class TestView(FlaskView):
         self.lights.all_off()
         self.lit_up_ingredients = []
 
-        print("lit up ingredients:")
-        print(self.lit_up_ingredients)
-
-
         chosen_ingredients = list(self.menu_dict[arg]['ingredients'].keys())
-        print("chosen ingredients:")
-        print(chosen_ingredients)
 
         # Part 1 - the LEDS. Expand any children and call the LED class
         for ingredient in chosen_ingredients:
@@ -159,9 +155,6 @@ class TestView(FlaskView):
                 self.lit_up_ingredients.append(ingredient)
 
         self.lights.illuminate_spirit(self.lit_up_ingredients)
-
-        print("lit up ingredients:")
-        print(self.lit_up_ingredients)
 
         # Part 2 - the website. For each ingredient
         rendered_ingredients = []
@@ -201,7 +194,6 @@ class TestView(FlaskView):
                                ingredients=ingredients_list,
                                notes=notes_list)
 
-    # @route("collections")
     def collections_main_page(self):
         self.collection_names.sort()
 
@@ -216,6 +208,7 @@ class TestView(FlaskView):
     @method("POST")
     @method("GET")
     def random_cocktail_generator(self):
+        self._quick_update()
         random_recipe_options = rands.get_random_recipe_options()
 
         # What we want displayed on the website
@@ -232,7 +225,6 @@ class TestView(FlaskView):
             element_name = list(request.form.keys())[0]
             # form_entry = request.form.get(element_name)
 
-            print(element_name)
             # If we've hit one of the broader "Random X" buttons, we want to generate 10 random cocktails of that
             # formula. E.g Random Negroni, Random Last Word, Random Random
             if element_name in random_recipe_options or element_name == "Random Random":
@@ -265,16 +257,10 @@ class TestView(FlaskView):
             elif element_name.isnumeric():
                 try:
                     index = int(element_name)
-                    # ingredients, quantity = self.random_ten[index//numcols][index%numcols]
-                    print(self.random_ten)
-                    print(index)
-
                     flattened_ten = []
                     for i in range(numrows):
                         [flattened_ten.append(rand) for rand in self.random_ten[i]]
-                    
-                    print(flattened_ten)
-
+                
                     ingredients, quantity = flattened_ten[index]
                 except ValueError as e:
                     print(f"Could not convert {element_name} to integer: {e}")
@@ -285,7 +271,6 @@ class TestView(FlaskView):
                     self.lights.illuminate_spirit(ingredients)
             # If we've hit the "I'm feeling lucky" button
             elif element_name == "random existing":
-                print("random existing")
                 random_cocktail = rands.select_random_recipe()
                 return redirect(url_for('TestView:resippy', arg=random_cocktail))
 
@@ -300,6 +285,7 @@ class TestView(FlaskView):
     @method("GET")
     @method("POST")
     def put_away_ingredient(self):
+        self._quick_update()
 
         ingredient_selected = ""
         location_selected = ""
@@ -309,24 +295,25 @@ class TestView(FlaskView):
             self.lights.all_off()
             self.lit_up_ingredients = []
 
-            print(request.form)
             ingredient_input = request.form["ingredient_input"]
 
             # Check to see if the input matches an ingredient or tag in our database
             is_ingredient, ingredient_match, ingredient_score = recipe.check_match(ingredient_input, self.all_ingredients, match_threshold=0.75)
-            print(is_ingredient, ingredient_match, ingredient_score)
+            # print(is_ingredient, ingredient_match, ingredient_score)
             is_tag, tag_match, tag_score = recipe.check_match(ingredient_input, self.tags, match_threshold=0.75)
-            print(is_tag, tag_match, tag_score)
+            # print(is_tag, tag_match, tag_score)
 
             if is_ingredient and ingredient_score > tag_score:
                 self.lit_up_ingredients.append(ingredient_match)
-                # self.lights.illuminate_spirit(self.lit_up_ingredients)
+                print("from put_away:")
+                print(self.location_dict)
+                self.lights.illuminate_spirit(self.lit_up_ingredients)
 
                 # Update the website display
                 ingredient_selected = ingredient_match
                 location_selected = self.location_dict[ingredient_match].title()
 
-                self.lights.illuminate_location(location_selected)
+                # self.lights.illuminate_location(location_selected)
 
             # elif is_tag and tag_score > ingredient_score or tag_score == ingredient_score:
             #     if tag_score != 0:
@@ -358,6 +345,8 @@ class TestView(FlaskView):
     @method("POST")
     def modify_spirits(self):
         """Developer mode babey"""
+        self._quick_update()
+
         # Set some initial parameters to pass to html
         add_spirits_disabled = "true"
         input_spirit = ""
@@ -366,12 +355,6 @@ class TestView(FlaskView):
         if request.method == "POST":
             # Clear the LEDS, if they're on
             self.lights.all_off()
-            # self.lit_up_ingredients = []
-
-            print(self.lit_up_ingredients)
-
-            print(request.form)
-            print(request.form.keys())
 
             if "input_recipe_name" in request.form.keys():
                 print("add recipe mode")
@@ -386,7 +369,6 @@ class TestView(FlaskView):
                 ingredients = cocktail_makeup[0::3]
                 amounts = cocktail_makeup[1::3]
                 units = cocktail_makeup[2::3]
-                print(ingredients, amounts, units)
                 # Update the external yaml file with our new info
                 recipe.update_recipe_yaml(recipe_name, recipe_collection, recipe_notes,
                                           ingredients, amounts, units)
@@ -419,6 +401,7 @@ class TestView(FlaskView):
                     # directly update the csv.
                     # HTML todo -- disable the "Add" button whenever we type in the input form
                     recipe.add_spirit(spirit_to_add, coord_to_add)
+
                     # Update the html display
                     input_spirit = ""
                     input_coord = ""
@@ -432,9 +415,8 @@ class TestView(FlaskView):
                 spirit_to_remove = spirit_to_remove.replace(" ", "_").lower()
                 recipe.remove_spirit(spirit_to_remove)
 
-
         return render_template('modify_spirits.html', addSpiritsDisabled=add_spirits_disabled, collections=self.collection_names,
-                               inputSpirit=input_spirit, inputCoord=input_coord)
+                               inputSpirit=input_spirit, inputCoord=input_coord, spiritList=self.all_ingredients)
 
 
 if __name__ == "__main__":

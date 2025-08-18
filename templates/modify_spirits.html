@@ -176,7 +176,13 @@
                     </tr>
                     <tr>
                         <td>Name: </td>
-                        <td><input id="inputRemoveSpirit" name="input_remove_spirit"></td>
+                        <!-- <td><input id="inputRemoveSpirit" name="input_remove_spirit"></td> -->
+                        <td><input list="spiritList" id="inputRemoveSpirit" name="input_remove_spirit"></td>
+                        <td><datalist id="spiritList">
+                            {% for spirit in spiritList %}
+                            <option value="{{ spirit }}">{{ spirit }}</option>
+                            {% endfor %}
+                        </datalist></td>
                     </tr>
                     <tr>
                         <td><button form="remove spirit" type="submit" id="btnRemoveSpirit">Remove</button></td>

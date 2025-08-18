@@ -47,12 +47,15 @@ class LED:
         
         self.unused_colors = list(self.rainbow_dict.values())
 
+    def update_loc_dict(self, new_dict):
+        self.spirit_loc_dict = new_dict
+    
     def _spirit_to_pixel(self, spirit_list):
         # Todo - simplify this w the new illumiate_location method, below
         pixels = []
         for spirit in spirit_list:
             print(spirit)
-            spirit = spirit.replace("_", " ").title()
+            # spirit = spirit.replace("_", " ").title()
             try:
                 color = self.unused_colors.pop(0)
             # When we run out of rainbow, pop() will return an IndexError. Reset the rainbow and continue
