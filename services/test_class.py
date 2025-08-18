@@ -390,7 +390,7 @@ class TestView(FlaskView):
                 # Update the external yaml file with our new info
                 recipe.update_recipe_yaml(recipe_name, recipe_collection, recipe_notes,
                                           ingredients, amounts, units)
-                self._load_menu()
+                self._load_menu(verbose=False)
 
             elif "input_add_spirit" in request.form.keys():
                 # "Preview" mode
@@ -420,7 +420,7 @@ class TestView(FlaskView):
                     # directly update the csv.
                     # HTML todo -- disable the "Add" button whenever we type in the input form
                     recipe.add_spirit(spirit_to_add, coord_to_add)
-                    self._load_menu()
+                    self._load_menu(verbose=False)
                     # Update the html display
                     input_spirit = ""
                     input_coord = ""
