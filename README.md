@@ -3,11 +3,9 @@ Getting lit (hah)
 
 **highly recommend installing Code Spell Checker on VSCode, I've made a workspace dictionary that will hopefully help us avoid any yaml key errors when we edit the cocktail menu. Also it's just slick**
 
-### Notes
-- Should display the recipe on the website
-
 ### Works! Notes:
-- Publish the logs to the website
+- Publish the logs to the 
+- Should refresh its internal dictionaries when ingredients.csv is updated. Not hard
 
 
 ### Docs
