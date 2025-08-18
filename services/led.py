@@ -142,13 +142,12 @@ class LED:
         else:
             print(f"pixels {neopixel_range}")
             [pixels.append(neo) for neo in neopixel_range]
-            if flash:
-                pass
+            # if flash:
+            #     pass
                 # spin up a separate thread so this can go flash as long as it likes without stalling things here
                 # don't wanna right now
-            else:
-                for start, stop in neopixel_range:
-                    self.range_on(start, stop, color, brightness)
+            for start, stop in neopixel_range:
+                self.range_on(start, stop, color, brightness)
 
 
     def all_on(self, color=(255, 255, 0)):
