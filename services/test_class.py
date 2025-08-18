@@ -57,7 +57,7 @@ class TestView(FlaskView):
         # "quiet" mode isn't working and im tearing out my hair
         self.menu_dict = recipe.validate_all_recipes(menu_dict_raw, self.all_ingredients, self.location_dict, self.tags_dict, alias_dict, quiet=True)
         self.cocktail_names = recipe.load_recipe_names(self.menu_dict)
-        LED.update_loc_dict(self.location_dict)
+        self.lights.update_loc_dict(self.location_dict)
     
     def _full_update(self):
         pass
