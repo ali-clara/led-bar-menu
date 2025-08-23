@@ -27,7 +27,7 @@ def read_main_menu():
             with open(file) as stream:
                     recipes_dict.update(yaml.safe_load(stream))
     except TypeError as e:
-        print(f"Failed in reading {file}: {e}")
+        print(f"Failed to read {file}: {e}")
     except FileNotFoundError as e:
         print(e)
         recipes_dict = {}
@@ -37,7 +37,7 @@ def read_main_menu():
             with open(file) as stream:
                 tags_dict.update(yaml.safe_load(stream))
     except TypeError as e:
-            print(f"Failed in reading {file}: {e}")
+            print(f"Failed to read {file}: {e}")
     except FileNotFoundError as e:
         print(e)
         tags_dict = {}
@@ -47,7 +47,7 @@ def read_main_menu():
         with open(file) as stream:
             alias_dict = yaml.safe_load(stream)
     except TypeError as e:
-                    print(f"Failed in reading {file}: {e}")
+                    print(f"Failed to read {file}: {e}")
     except FileNotFoundError as e:
         print(e)
         alias_dict = {}
@@ -131,11 +131,8 @@ def load_all_ingredients():
     """
     all_ingredients = pd.read_csv(os.path.join(dir_path, "config/ingredients.csv"), names=["ingredients", "locations"])
     all_ingredients_list =  list(all_ingredients["ingredients"])
-    # all_ingredients_formatted = [ingredient.replace("_", " ").title() for ingredient in all_ingredients_list]
     locations = list(all_ingredients["locations"])
     location_dict = {ingredient:location for ingredient, location in zip(all_ingredients_list, locations)}
-
-    # print(location_dict)
 
     return all_ingredients_list, location_dict
 
@@ -354,12 +351,15 @@ def format_new_recipe_yaml(recipe_name:str, collection:str, notes:str, ingredien
     # First build the ingredients dictionary. Loop through the list of strings and append accordingly
     ingredients_dict = {}
     for ingredient, amount, unit in zip(ingredients, amounts, units):
-        ingredient = ingredient.replace("_", " ").title().strip()
+        ingredient = format_as_recipe(ingredient)
+        if ingredient == "":
+            continue
         ingredients_dict.update({ingredient: {'amount': amount, 'units': unit}})
     # Then use the ingredients dict along with the other recipe info to build out the rest of the yaml
+    recipe_name = recipe_name.title()
     new_recipe = {recipe_name: {'collection': collection, 'ingredients': ingredients_dict, 'notes': notes}}
     # Yay
-    return new_recipe
+    return new_recipe, recipe_name
 
 def update_recipe_yaml(recipe_name:str, collection:str, notes:str, ingredients:list, amounts:list, units:list):
     recipe_path = os.path.join(dir_path, "config")
@@ -392,7 +392,7 @@ def update_recipe_yaml(recipe_name:str, collection:str, notes:str, ingredients:l
         except FileNotFoundError as e:
             print(e)
         else:
-            new_recipe = format_new_recipe_yaml(recipe_name, collection, notes, ingredients, amounts, units)
+            new_recipe, recipe_name = format_new_recipe_yaml(recipe_name, collection, notes, ingredients, amounts, units)
             if type(menu_dict) == dict:
                 menu_dict.update(new_recipe)
             else:
@@ -400,6 +400,9 @@ def update_recipe_yaml(recipe_name:str, collection:str, notes:str, ingredients:l
                 print("Expected dictionary, did not find one. Replacing file contents with new recipe")
             with open(file, 'w') as outfile:
                 yaml.dump(menu_dict, outfile, default_flow_style=False)
+            return True, recipe_name
+        
+    return False, recipe_name
 
 def add_spirit(spirit:str, coord:str):
     """Updates or adds the given (spirit, coord) pair to ingredients.csv
@@ -436,6 +439,7 @@ def add_spirit(spirit:str, coord:str):
                     else:
                         writer.writerow(new_row)
                         spirit_exists = True
+                        return True
                 except Exception as e:
                     print(e)
 
@@ -444,8 +448,10 @@ def add_spirit(spirit:str, coord:str):
             with open(os.path.join(dir_path, "config/ingredients.csv"), 'a') as csvfile:
                 writer = csv.writer(csvfile, delimiter=',', lineterminator='\n\r')
                 writer.writerow(new_row)
+                return True
     else:
         print(f"Invalid coordinate {coord}")
+    return False
 
 def remove_spirit(spirit:str):
     """Removes the given spirit from ingredients.csv.
@@ -454,6 +460,7 @@ def remove_spirit(spirit:str):
         spirit (str): _description_
     """
     # Update the spirit inventory in preparation for csv writing
+    spirit = format_as_inventory(spirit)
     new_row = [spirit, "none"]
     # Grab the old rows of the csv
     with open(os.path.join(dir_path, "config/ingredients.csv"), 'r') as orig:
@@ -473,8 +480,10 @@ def remove_spirit(spirit:str):
                 # Replace the one to "remove" with the new row: spirit_name, "none"
                 else:
                     writer.writerow(new_row)
+                    return True
             except Exception as e:
                 print(e)
+    return False
 
 # -------------------- FLAGGING OUR MISTAKES -------------------- #
 def get_all_used_ingredients(menu_dict, tags_dict, verbose=False):
@@ -564,7 +573,7 @@ if __name__ == "__main__":
 
     # check_recipe_against_csv(menu_dict, ingredients, tags_dict, alias_dict, verbose=False)
 
-    update_recipe_yaml("test", "blah", "notes", ["one"], ['1'], ['oz'])
+    update_recipe_yaml("test2", "blah", "notes", ["", "two"], ["", "2"], ["", "oz"])
 
 
     # recipe_names = load_recipe_names(menu_dict)

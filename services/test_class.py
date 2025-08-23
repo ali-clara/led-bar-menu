@@ -30,13 +30,14 @@ class TestView(FlaskView):
         self.lit_up_ingredients = []
         self.random_ten = []
 
-
     def _load_menu(self, verbose=True):
         # Read in the main menu and validate it against our master list of ingredients
         menu_dict_raw, self.tags_dict, alias_dict = recipe.read_main_menu()
         self.all_ingredients, self.location_dict = recipe.load_all_ingredients()
         self.menu_dict = recipe.validate_all_recipes(menu_dict_raw, self.all_ingredients, self.location_dict, self.tags_dict, alias_dict)
-
+        self.all_ingredients_user_facing = [ingredient.replace("_", " ").title() for ingredient in self.all_ingredients]
+        
+        
         if verbose:
             print("--")
             print(f"Validated recipes: {list(self.menu_dict.keys())}")
@@ -351,6 +352,9 @@ class TestView(FlaskView):
         add_spirits_disabled = "true"
         input_spirit = ""
         input_coord = ""
+        recipe_result = ""
+        remove_result = ""
+        add_result = ""
 
         if request.method == "POST":
             # Clear the LEDS, if they're on
@@ -370,8 +374,12 @@ class TestView(FlaskView):
                 amounts = cocktail_makeup[1::3]
                 units = cocktail_makeup[2::3]
                 # Update the external yaml file with our new info
-                recipe.update_recipe_yaml(recipe_name, recipe_collection, recipe_notes,
+                result, updated_name = recipe.update_recipe_yaml(recipe_name, recipe_collection, recipe_notes,
                                           ingredients, amounts, units)
+                if result:
+                    recipe_result = f"Successfully added {updated_name}!"
+                else:
+                    recipe_result = f"Failed to add {updated_name}. Sure would be great if we had logs published to the website"
 
             elif "input_add_spirit" in request.form.keys():
                 # "Preview" mode
@@ -400,7 +408,11 @@ class TestView(FlaskView):
                     # We've already checked that the coord is valid and we're happy with the location, so we can
                     # directly update the csv.
                     # HTML todo -- disable the "Add" button whenever we type in the input form
-                    recipe.add_spirit(spirit_to_add, coord_to_add)
+                    result = recipe.add_spirit(spirit_to_add, coord_to_add)
+                    if result:
+                        add_result = f"Successfully added {spirit_to_add} to inventory"
+                    else:
+                        add_result = f"Failed to add {spirit_to_add}. Is your coordinate valid?"
 
                     # Update the html display
                     input_spirit = ""
@@ -413,10 +425,16 @@ class TestView(FlaskView):
                 # Have a popup window here that asks if you're sure. While the window is up, have the 
                 # spirit leds flash
                 spirit_to_remove = spirit_to_remove.replace(" ", "_").lower()
-                recipe.remove_spirit(spirit_to_remove)
+                result = recipe.remove_spirit(spirit_to_remove)
+                if result:
+                    remove_result = f"Successfully removed {spirit_to_remove} from inventory"
+                else:
+                    remove_result = f"Failed to remove {spirit_to_remove}. Does that spirit exist?"
+
 
         return render_template('modify_spirits.html', addSpiritsDisabled=add_spirits_disabled, collections=self.collection_names,
-                               inputSpirit=input_spirit, inputCoord=input_coord, spiritList=self.all_ingredients)
+                               inputSpirit=input_spirit, inputCoord=input_coord, spiritList=self.all_ingredients_user_facing, 
+                               recipeResultString=recipe_result, removeResultString=remove_result, )
 
 
 if __name__ == "__main__":
