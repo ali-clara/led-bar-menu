@@ -1,0 +1,7 @@
+Test_With_Output:
+  collection: debug
+  ingredients:
+    Gin:
+      amount: '1'
+      units: oz
+  notes: ''

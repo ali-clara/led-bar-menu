@@ -129,6 +129,10 @@
                         which sets the disabled flag to "true" or "false". It's not actually an error, my ide just thinks it is -->
                         <script>document.getElementById("btnAddSpirit").disabled = {{addSpiritsDisabled}};</script>
                     </tr>
+                    <tr>
+                        <td></td>
+                        <td>{{addResultString}}</td>
+                    </tr>
                 </form>
                 <tr><td><br><br></td></tr>
             
@@ -157,7 +161,12 @@
                     </tr>
                     <tr>
                         <td>Ingredient, Amount, Units: &emsp;</td>
-                        <td><input id="inputIngName" name="input_recipe_ingredient_0"> , 
+                        <td><input list="allIngredients" id="inputIngName" name="input_recipe_ingredient_0"> , 
+                            <datalist id="allIngredients">
+                                {% for spirit in spiritList %}
+                                <option value="{{spirit}}">{{spirit}}</option>
+                                {% endfor %}
+                            </datalist>
                             <input id="inputIngAmount" name="input_recipe_amount_0"> , 
                             <input id="inputIngUnit" name="input_recipe_unit_0"></td>
                         <td><button form="add recipe" type="button" id="btnAddIng" onclick="AddField('tbl', 'btnAddIng')">Add ingredient</button></td>
@@ -166,6 +175,10 @@
                     <!-- Button to add the recipe to the appropriate yaml-->
                     <tr>
                         <td><button form="add recipe" type="submit">Add</button></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>{{recipeResultString}}</td>
                     </tr>
                 </form>
                 <tr><td><br><br></td></tr>
@@ -180,12 +193,16 @@
                         <td><input list="spiritList" id="inputRemoveSpirit" name="input_remove_spirit"></td>
                         <td><datalist id="spiritList">
                             {% for spirit in spiritList %}
-                            <option value="{{ spirit }}">{{ spirit }}</option>
+                            <option value="{{spirit}}">{{spirit}}</option>
                             {% endfor %}
                         </datalist></td>
                     </tr>
                     <tr>
                         <td><button form="remove spirit" type="submit" id="btnRemoveSpirit">Remove</button></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>{{removeResultString}}</td>
                     </tr>
                 </form>
             </table>
