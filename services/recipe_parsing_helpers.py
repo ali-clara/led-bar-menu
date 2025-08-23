@@ -25,7 +25,9 @@ def read_main_menu():
     try:
         for file in glob.glob(recipe_path+"/recipes*.yml"):
             with open(file) as stream:
-                recipes_dict.update(yaml.safe_load(stream))
+                    recipes_dict.update(yaml.safe_load(stream))
+    except TypeError as e:
+        print(f"Failed in reading {file}: {e}")
     except FileNotFoundError as e:
         print(e)
         recipes_dict = {}
@@ -34,6 +36,8 @@ def read_main_menu():
         for file in glob.glob(recipe_path+"/tags*.yml"):
             with open(file) as stream:
                 tags_dict.update(yaml.safe_load(stream))
+    except TypeError as e:
+            print(f"Failed in reading {file}: {e}")
     except FileNotFoundError as e:
         print(e)
         tags_dict = {}
@@ -42,6 +46,8 @@ def read_main_menu():
         file = dir_path+"/config/aliases.yml"
         with open(file) as stream:
             alias_dict = yaml.safe_load(stream)
+    except TypeError as e:
+                    print(f"Failed in reading {file}: {e}")
     except FileNotFoundError as e:
         print(e)
         alias_dict = {}
@@ -348,6 +354,7 @@ def format_new_recipe_yaml(recipe_name:str, collection:str, notes:str, ingredien
     # First build the ingredients dictionary. Loop through the list of strings and append accordingly
     ingredients_dict = {}
     for ingredient, amount, unit in zip(ingredients, amounts, units):
+        ingredient = ingredient.replace("_", " ").title().strip()
         ingredients_dict.update({ingredient: {'amount': amount, 'units': unit}})
     # Then use the ingredients dict along with the other recipe info to build out the rest of the yaml
     new_recipe = {recipe_name: {'collection': collection, 'ingredients': ingredients_dict, 'notes': notes}}
@@ -357,17 +364,27 @@ def format_new_recipe_yaml(recipe_name:str, collection:str, notes:str, ingredien
 def update_recipe_yaml(recipe_name:str, collection:str, notes:str, ingredients:list, amounts:list, units:list):
     recipe_path = os.path.join(dir_path, "config")
 
+    # If we weren't given a collection, deal with that
+    if collection.strip() == "":
+        collection = "uncategorized"
+    
     # Look for any recipe file that has the collection name. Should only be one file
     num_files = 0
     for file in glob.glob(f"{recipe_path}/recipes_*{collection.lower()}*.yml"):
-        if file is None:
-            print(f"No file found for the {collection} collection. We should make one")
-        else:
-            print(file)
-            num_files += 1
+        print(file)
+        num_files += 1
+    # If we haven't found any files, make a new one
+    if num_files == 0:
+        print(f"No file found for the {collection} collection. Making one")
+        file = f"{recipe_path}/recipes_{collection.lower()}.yml"
+        print(file)
+        with open(file, 'x'):
+            pass
     
+    # If we've found too many, throw an error
     if num_files > 1:
         print(f"Found more than one recipe yaml with '{collection}' in the name. Is that intentional?")
+    # Otherwise, open and update
     else:
         try:
             with open(file) as stream:
@@ -376,7 +393,11 @@ def update_recipe_yaml(recipe_name:str, collection:str, notes:str, ingredients:l
             print(e)
         else:
             new_recipe = format_new_recipe_yaml(recipe_name, collection, notes, ingredients, amounts, units)
-            menu_dict.update(new_recipe)
+            if type(menu_dict) == dict:
+                menu_dict.update(new_recipe)
+            else:
+                menu_dict = new_recipe
+                print("Expected dictionary, did not find one. Replacing file contents with new recipe")
             with open(file, 'w') as outfile:
                 yaml.dump(menu_dict, outfile, default_flow_style=False)
 
@@ -542,6 +563,8 @@ if __name__ == "__main__":
     # print(menu_val)
 
     # check_recipe_against_csv(menu_dict, ingredients, tags_dict, alias_dict, verbose=False)
+
+    update_recipe_yaml("test", "blah", "notes", ["one"], ['1'], ['oz'])
 
 
     # recipe_names = load_recipe_names(menu_dict)

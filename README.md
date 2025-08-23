@@ -4,10 +4,9 @@ Getting lit (hah)
 **highly recommend installing Code Spell Checker on VSCode, I've made a workspace dictionary that will hopefully help us avoid any yaml key errors when we edit the cocktail menu. Also it's just slick**
 
 ### Works! Notes:
-- Publish the logs to the 
-- Should refresh its internal dictionaries when ingredients.csv is updated. Not hard
-- check for duplicates when adding and prioritize replacing it there
-
+- Publish the logs to the website
+- shutdown pi button on website
+- "did you mean" feature in lots of places (adding recipe/ingredient, searching, really anywhere there's user input)
 
 ### Docs
 - https://docs.circuitpython.org/projects/neopixel/en/latest/index.html
