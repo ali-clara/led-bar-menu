@@ -355,6 +355,8 @@ def format_new_recipe_yaml(recipe_name:str, collection:str, notes:str, ingredien
     ingredients_dict = {}
     for ingredient, amount, unit in zip(ingredients, amounts, units):
         ingredient = ingredient.replace("_", " ").title().strip()
+        if ingredient == "":
+            continue
         ingredients_dict.update({ingredient: {'amount': amount, 'units': unit}})
     # Then use the ingredients dict along with the other recipe info to build out the rest of the yaml
     new_recipe = {recipe_name: {'collection': collection, 'ingredients': ingredients_dict, 'notes': notes}}
@@ -564,7 +566,7 @@ if __name__ == "__main__":
 
     # check_recipe_against_csv(menu_dict, ingredients, tags_dict, alias_dict, verbose=False)
 
-    update_recipe_yaml("test", "blah", "notes", ["one"], ['1'], ['oz'])
+    update_recipe_yaml("test2", "blah", "notes", ["", "two"], ["", "2"], ["", "oz"])
 
 
     # recipe_names = load_recipe_names(menu_dict)
