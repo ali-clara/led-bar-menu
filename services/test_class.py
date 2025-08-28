@@ -392,12 +392,12 @@ class TestView(FlaskView):
                     # Check that the given coord is valid
                     cabinet_locs = recipe.load_cabinet_locs()
                     if coord_to_add in cabinet_locs.keys():
-                        # If it's valid, light up the pixels. Todo -- need to make this flash
-                        self.lights.illuminate_location(coord_to_add, flash=True)
                         # Update the html display
                         input_spirit = spirit_to_add
                         input_coord = coord_to_add
                         add_spirits_disabled = "false"
+                        # If it's valid, light up the pixels. Todo -- need to make this flash
+                        self.lights.illuminate_location(coord_to_add, flash=True)
                     else:
                         print("Invalid coordinate given")
                 # "Add" mode
