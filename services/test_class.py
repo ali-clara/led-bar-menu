@@ -151,9 +151,9 @@ class TestView(FlaskView):
         for ingredient in chosen_ingredients:
             children = recipe.expand_tag(ingredient, self.tags_dict)
             if children:
-                [self.lit_up_ingredients.append(child) for child in children]
+                [self.lit_up_ingredients.append(recipe.format_as_inventory(child)) for child in children]
             else:
-                self.lit_up_ingredients.append(ingredient)
+                self.lit_up_ingredients.append(recipe.format_as_inventory(ingredient))
 
         self.lights.illuminate_spirit(self.lit_up_ingredients)
 
