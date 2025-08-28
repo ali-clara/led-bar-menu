@@ -187,9 +187,7 @@ class LED:
                 self.pixels[i] = int_scaled_color
             except IndexError:
                 pass
-
-            # spin up a separate thread so this can go flash as long as it likes without stalling things here
-            # don't wanna right now
+            
         self.pixels.show()
 
     def range_off(self, start_pix: int, stop_pix: int):
