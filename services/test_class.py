@@ -26,7 +26,7 @@ class TestView(FlaskView):
     def __init__(self) -> None:
         super().__init__()
         self._load_menu()
-        self.lights = LED(self.location_dict)
+        self.lights = LED()
         self.lit_up_ingredients = []
         self.random_ten = []
 
@@ -358,6 +358,7 @@ class TestView(FlaskView):
 
         if request.method == "POST":
             # Clear the LEDS, if they're on
+            # self.lights.forbid_flashing() # this is in all_off()
             self.lights.all_off()
 
             if "input_recipe_name" in request.form.keys():

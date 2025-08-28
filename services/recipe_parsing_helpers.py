@@ -131,7 +131,8 @@ def load_all_ingredients():
     """
     all_ingredients = pd.read_csv(os.path.join(dir_path, "config/ingredients.csv"), names=["ingredients", "locations"])
     all_ingredients_list =  list(all_ingredients["ingredients"])
-    locations = list(all_ingredients["locations"])
+    # locations = list(all_ingredients["locations"])
+    locations = [loc.strip() for loc in all_ingredients["locations"]]
     location_dict = {ingredient:location for ingredient, location in zip(all_ingredients_list, locations)}
 
     return all_ingredients_list, location_dict
