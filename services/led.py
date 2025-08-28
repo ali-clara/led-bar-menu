@@ -8,8 +8,9 @@ import concurrent.futures
 try: # real hardware
     import board
     import neopixel
-    import recipe_parsing_helpers as recipe
+    from services import recipe_parsing_helpers as recipe
 except ImportError: # simulated hardware
+    print("Could not detect neopixel hardware. Running in shadow environment")
     try: # run from this script
         import simulated_neopixel as neopixel
         from simulated_neopixel import board
