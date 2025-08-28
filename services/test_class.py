@@ -394,15 +394,23 @@ class TestView(FlaskView):
                     cabinet_locs = recipe.load_cabinet_locs()
                     if coord_to_add in cabinet_locs.keys():
                         # If it's valid, light up the pixels. Todo -- need to make this flash
+
+                        def update_website():
+                            # Update the html display
+                            input_spirit = spirit_to_add
+                            input_coord = coord_to_add
+                            add_spirits_disabled = "false"
+                            return render_template('modify_spirits.html', addSpiritsDisabled=add_spirits_disabled, collections=self.collection_names,
+                               inputSpirit=input_spirit, inputCoord=input_coord, spiritList=self.all_ingredients_user_facing, 
+                               recipeResultString=recipe_result, removeResultString=remove_result, )
+
                         with concurrent.futures.ThreadPoolExecutor() as executor:
                             executor.submit(self.lights.illuminate_location, coord_to_add, True, False)
+                            executor.submit(update_website)
 
                         # self.lights.illuminate_location(coord_to_add, flash=True)
 
-                        # Update the html display
-                        input_spirit = spirit_to_add
-                        input_coord = coord_to_add
-                        add_spirits_disabled = "false"
+                        
                     else:
                         print("Invalid coordinate given")
                 # "Add" mode
