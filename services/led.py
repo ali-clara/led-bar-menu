@@ -142,6 +142,7 @@ class LED:
 
         if verbose:
             print(f"location: {location.strip()}")
+            print(f"color: {color}")
             print(f"brightness: {brightness}")
             print(f"pixels: {neopixel_range}")
 
@@ -156,7 +157,6 @@ class LED:
                 if verbose:
                     print(f"lit up {start} through {stop}")
                 # self.pixels.show()
-
 
     def all_on(self, color=(255, 255, 0)):
         self.pixels.fill(color)
@@ -180,15 +180,16 @@ class LED:
                 pass
     
     def range_on(self, start_pix: int, stop_pix: int, color=(255,255,0), brightness=0.1):
-        # print(f"lighting up pixels {start_pix, stop_pix}")
+        print(f"lighting up pixels {start_pix, stop_pix}")
         scaled_color = brightness*np.array(color)
         int_scaled_color = scaled_color.astype(int)
+        print(int_scaled_color)
         for i in range(start_pix, stop_pix+1):
             try:
                 self.pixels[i] = int_scaled_color
-            except IndexError:
-                pass
-            
+            except IndexError as e:
+                print(e)
+
         self.pixels.show()
 
     def range_off(self, start_pix: int, stop_pix: int):
