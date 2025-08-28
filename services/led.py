@@ -146,7 +146,8 @@ class LED:
             print(f"pixels {neopixel_range}")
             [pixels.append(neo) for neo in neopixel_range]
             for start, stop in neopixel_range:
-                self.range_on(start, stop, color, brightness)
+                self.set_pixels_from_range(start, stop, color, brightness)
+            self.pixels.show()
 
 
     def all_on(self, color=(255, 255, 0)):
@@ -161,6 +162,18 @@ class LED:
         for pixel in pixels:
             self.pixels[pixel] = color
         self.pixels.show()
+
+    def set_pixels_from_range(self, start_pix: int, stop_pix: int, color=(255,255,0), brightness=0.1):
+        # Replaces range_on (or should)
+        # Doesn't turn anything on, just updates the self.pixels variable with the right color
+        # Must call self.pixels.show() afterward
+        scaled_color = brightness*np.array(color)
+        int_scaled_color = scaled_color.astype(int)
+        for i in range(start_pix, stop_pix+1):
+            try:
+                self.pixels[i] = int_scaled_color
+            except IndexError:
+                pass
     
     def range_on(self, start_pix: int, stop_pix: int, color=(255,255,0), brightness=0.1):
         # print(f"lighting up pixels {start_pix, stop_pix}")
