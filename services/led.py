@@ -5,6 +5,7 @@ import os
 import numpy as np
 import concurrent.futures
 
+# FIX THIS BLOCK #
 try: # real hardware
     import board
     import neopixel
@@ -153,11 +154,11 @@ class LED:
             self.range_flash(neopixel_range, color, brightness)
         else:
             for start, stop in neopixel_range:
-                # self.set_pixels_from_range(start, stop, color, brightness)
-                self.range_on(start, stop, color, brightness)
+                self.set_pixels_from_range(start, stop, color, brightness)
+                # self.range_on(start, stop, color, brightness)
                 if verbose:
                     print(f"lit up {start} through {stop}")
-                # self.pixels.show()
+                self.pixels.show()
 
     def all_on(self, color=(255, 255, 0)):
         self.pixels.fill(color)
