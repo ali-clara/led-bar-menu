@@ -110,7 +110,7 @@ class LED:
             print("Not a standard led location")
             return 0.4
 
-    def illuminate_spirit(self, spirit_input, flash=False, verbose=False):
+    def illuminate_spirit(self, spirit_input, flash=False, verbose=True):
         if type(spirit_input) == list:
             for spirit in spirit_input:
                 print("---")
@@ -151,10 +151,11 @@ class LED:
             self.range_flash(neopixel_range, color, brightness)
         else:
             for start, stop in neopixel_range:
-                self.set_pixels_from_range(start, stop, color, brightness)
+                # self.set_pixels_from_range(start, stop, color, brightness)
+                self.range_on(start, stop, color, brightness)
                 if verbose:
                     print(f"lit up {start} through {stop}")
-            self.pixels.show()
+                # self.pixels.show()
 
 
     def all_on(self, color=(255, 255, 0)):
