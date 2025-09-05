@@ -9,10 +9,10 @@ except ImportError:
 import yaml
 import concurrent.futures
 
-try:
+try: # run from this script
     import recipe_parsing_helpers as recipe
     from randomizer import Randomizer as rands
-except ImportError:
+except ImportError: # run from the main script
     from services import recipe_parsing_helpers as recipe
     from services.randomizer import Randomizer as rands
 
@@ -394,23 +394,14 @@ class TestView(FlaskView):
                     cabinet_locs = recipe.load_cabinet_locs()
                     if coord_to_add in cabinet_locs.keys():
                         # If it's valid, light up the pixels. Todo -- need to make this flash
+                        # Not currently threading, I just thought it was
+                        # THink about multiprocessing?
+                        self.lights.illuminate_location(coord_to_add, flash=True)
 
-                        def update_website():
-                            # Update the html display
-                            input_spirit = spirit_to_add
-                            input_coord = coord_to_add
-                            add_spirits_disabled = "false"
-                            return render_template('modify_spirits.html', addSpiritsDisabled=add_spirits_disabled, collections=self.collection_names,
-                               inputSpirit=input_spirit, inputCoord=input_coord, spiritList=self.all_ingredients_user_facing, 
-                               recipeResultString=recipe_result, removeResultString=remove_result, )
-
-                        with concurrent.futures.ThreadPoolExecutor() as executor:
-                            executor.submit(self.lights.illuminate_location, coord_to_add, True, False)
-                            executor.submit(update_website)
-
-                        # self.lights.illuminate_location(coord_to_add, flash=True)
-
-                        
+                        # Update the html display
+                        input_spirit = spirit_to_add
+                        input_coord = coord_to_add
+                        add_spirits_disabled = "false"
                     else:
                         print("Invalid coordinate given")
                 # "Add" mode

@@ -4,19 +4,27 @@ import yaml
 import os
 import numpy as np
 import concurrent.futures
+import platform
 
-# FIX THIS BLOCK #
-try: # real hardware
+# We're on the pi
+if platform.system() == "Linux" and platform.uname()[1] == "raspberrypi":
+    print("Running on real hardware")
     import board
     import neopixel
-    from services import recipe_parsing_helpers as recipe
-except ImportError: # simulated hardware
-    print("Could not detect neopixel hardware. Running in shadow environment")
+    # Run from this script
+    try:
+        import recipe_parsing_helpers as recipe
+    # Run from the main script
+    except ImportError:
+        from services import recipe_parsing_helpers as recipe
+# We're on the laptop or other
+else:
+    print(f"Could not detect neopixel hardware. Running in shadow environment on {platform.system()}")
     try: # run from this script
         import simulated_neopixel as neopixel
         from simulated_neopixel import board
         import recipe_parsing_helpers as recipe
-    except: # run from the main script
+    except ImportError: # run from the main script
         import services.simulated_neopixel as neopixel
         from services.simulated_neopixel import board
         from services import recipe_parsing_helpers as recipe
@@ -258,10 +266,9 @@ class LED:
 
 if __name__ == "__main__":
 
-
     myled = LED()
 
-    myled.illuminate_location("L2", verbose=True, flash=True)
+    # myled.illuminate_location("L2", verbose=True, flash=True)
     # myled.illuminate_location(None)
 
     # Test: B22, fridge, K4, A2
