@@ -29,6 +29,7 @@ else:
         from services.simulated_neopixel import board
         from services import recipe_parsing_helpers as recipe
     
+# Find the 'global' directory path
 dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
 
 class LED:
@@ -71,13 +72,6 @@ class LED:
         
         self.unused_colors = list(self.rainbow_dict.values())
 
-        self.flashing = False
-
-    def forbid_flashing(self):
-        self.flashing = False
-
-    def allow_flashing(self):
-        self.flashing = True
     
     def update_loc_dict(self, new_dict):
         self.spirit_loc_dict = new_dict
@@ -137,7 +131,8 @@ class LED:
         else:
             print("Tried to illuminate something that wasn't a spirit name or a list of spirit names. Hmm.")
 
-    def illuminate_location(self, location:str, flash=False, verbose=False):        
+    def illuminate_location(self, location:str, flash=False, verbose=False):  
+        print(location)      
         # Check if our location is valid. If it's not, flag and return
         if location not in self.all_cabinet_locations:
             print(f"'{location}' is not a valid cabinet location. Should be a string of the form 'A7', etc.")
@@ -158,7 +153,6 @@ class LED:
 
         # Light em up
         if flash:
-            self.allow_flashing()
             self.range_flash(neopixel_range, color, brightness)
         else:
             for start, stop in neopixel_range:
@@ -210,9 +204,12 @@ class LED:
     def _flash_threaded(self, neopixel_range, color, brightness):
         starttime = time.time()
 
-        while self.flashing:
+        with open(dir_path+"/config/params.yml") as stream:
+            params_dict = yaml.safe_load(stream)
+
+        while params_dict["flashing"]:
             # Safety measure so my thread doesn't run forever
-            if (time.time() - starttime) >= 60:
+            if (time.time() - starttime) >= 20:
                 break
             
             for start, stop in neopixel_range:

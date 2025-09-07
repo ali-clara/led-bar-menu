@@ -8,6 +8,9 @@ except ImportError:
 
 import yaml
 import concurrent.futures
+import multiprocessing
+import os
+import psutil
 
 try: # run from this script
     import recipe_parsing_helpers as recipe
@@ -20,7 +23,8 @@ except ImportError: # run from the main script
 def format_for_web(string:str):
     return string.replace("_", " ").title()
 
-# app = Flask(__name__, template_folder="templates")
+dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
+# app = Flask(__name__, template_folder=dir_path+"/templates")
 
 class TestView(FlaskView):
 
@@ -30,6 +34,7 @@ class TestView(FlaskView):
         self.lights = LED()
         self.lit_up_ingredients = []
         self.random_ten = []
+        self.multiprocess = multiprocessing.Process()
 
     def _load_menu(self, verbose=True):
         # Read in the main menu and validate it against our master list of ingredients
@@ -54,12 +59,14 @@ class TestView(FlaskView):
         self.collection_dict = recipe.sort_collections(self.menu_dict, self.collection_names)    
 
     def _quick_update(self):
+        self._stop_flash()
         menu_dict_raw, self.tags_dict, alias_dict = recipe.read_main_menu()
         self.all_ingredients, self.location_dict = recipe.load_all_ingredients()
         # "quiet" mode isn't working and im tearing out my hair
         self.menu_dict = recipe.validate_all_recipes(menu_dict_raw, self.all_ingredients, self.location_dict, self.tags_dict, alias_dict, quiet=True)
         self.cocktail_names = recipe.load_recipe_names(self.menu_dict)
         self.lights.update_loc_dict(self.location_dict)
+        
     
     def _full_update(self):
         pass
@@ -68,7 +75,7 @@ class TestView(FlaskView):
         """The main page. Redirects to the menu
         This lives at http://localhost:5000/ or http://10.0.0.120:5000
         """
-        return redirect(url_for('TestView:menu'))
+        return redirect(url_for('TestView:menu'), code=301)
 
     def not_found(self):
         return render_template("error404.html")
@@ -113,7 +120,7 @@ class TestView(FlaskView):
                 if is_recipe and recipe_score > ingredient_score:
                     # Once we know the name of the cocktail, we can grab its ingredients
                     # self.resippy(recipe_match)
-                    return redirect(url_for('TestView:resippy', arg=recipe_match))
+                    return redirect(url_for('TestView:resippy', arg=recipe_match), code=308)
 
                 elif is_tag:
                     children = recipe.expand_tag(tag_match, self.tags_dict)
@@ -132,13 +139,13 @@ class TestView(FlaskView):
                     #   do some string formatting
                     chosen_collection = form_entry.replace(" ", "_").lower()
                     # Redirect us to the "collections" page with the given collection
-                    return redirect(url_for('TestView:collection', arg=chosen_collection))
+                    return redirect(url_for('TestView:collection', arg=chosen_collection), code=308)
 
             # The else will eventually be deleted, but it's here while there's the LED proxy on the website
-            else:
-                chosen_ingredients = []
+            # else:
+            #     chosen_ingredients = []
 
-        return render_template('main_menu.html', options=self.cocktail_names, ingredients=self.used_ingredients, chosen_ingredients=chosen_ingredients, collections=self.collection_names)
+        return render_template('main_menu.html', options=self.cocktail_names, ingredients=self.used_ingredients, collections=self.collection_names)        
 
     def resippy(self, arg:str):
         """http://localhost:5000/recipe/arg"""
@@ -342,6 +349,61 @@ class TestView(FlaskView):
 
         return render_template('put_away_ingredient.html', ingredients=self.all_ingredients,
                                ingredientSelected=ingredient_selected, locationSelected=location_selected)
+      
+    def _stop_flash(self):
+        # routine_name = routine_select.currentText()
+        # logger.info(f"Stopping autonomous routine: {routine_name}")
+
+        # If our process is alive, kill it
+        if self.multiprocess.is_alive():
+            self.p.kill()
+            self.multiprocess.terminate()
+            self.multiprocess.join()
+
+    def _start_flash(self, location):
+        # routine_name = routine_select.currentText()
+        # logger.info(f"Starting autonomous routine: {routine_name}")
+        
+        # try to get our process status
+        try:
+            status = self.p.status()
+        # we have not yet started - self.p doesn't exist
+        except:
+            pid = os.getpid()
+            # arduino = self.sensor.arduino
+            self.multiprocess = multiprocessing.Process(target=self.lights.illuminate_location,
+                                            # kwargs={"logger": logger, "arduino": arduino}
+                                            kwargs={"location": location, "flash": True, "verbose": False}
+                                            # args={location, True, True}
+                                            )
+            self.multiprocess.start()
+            self.p = psutil.Process(self.multiprocess.pid)
+        # we have started - self.p does exist
+        else:
+            if status == "stopped": # we're suspended
+                self.p.resume()
+            elif status == "sleeping" or status == "running": # we're running
+                pass 
+            else: # something has gone Wrong
+                print(f"Unknown process status: {status}")
+    
+    def _allow_flashing(self):
+        with open(dir_path+"/config/params.yml") as stream:
+            params_dict = yaml.safe_load(stream)
+
+        params_dict.update({"flashing": True})
+
+        with open(dir_path+"/config/params.yml", 'w') as outfile:
+            yaml.dump(params_dict, outfile, default_flow_style=False)
+
+    def _forbid_flashing(self):
+        with open(dir_path+"/config/params.yml") as stream:
+            params_dict = yaml.safe_load(stream)
+
+        params_dict.update({"flashing": False})
+
+        with open(dir_path+"/config/params.yml", 'w') as outfile:
+            yaml.dump(params_dict, outfile, default_flow_style=False)
     
     @method("GET")
     @method("POST")
@@ -396,7 +458,9 @@ class TestView(FlaskView):
                         # If it's valid, light up the pixels. Todo -- need to make this flash
                         # Not currently threading, I just thought it was
                         # THink about multiprocessing?
-                        self.lights.illuminate_location(coord_to_add, flash=True)
+                        # self.lights.illuminate_location(coord_to_add, flash=True)
+
+                        self._start_flash(coord_to_add)
 
                         # Update the html display
                         input_spirit = spirit_to_add
@@ -442,9 +506,18 @@ class TestView(FlaskView):
                                recipeResultString=recipe_result, removeResultString=remove_result, )
 
 
+
+# TestView.register(app, route_base = '/')
+
 if __name__ == "__main__":
 #     TestView.register(app, route_base = '/')
 #     app.register_error_handler(404, TestView.not_found)
 #     app.run(host='0.0.0.0', port=5000, debug=True)
-
+    import time
     test = TestView()
+    # test._start_flash("A7")
+    # time.sleep(5)
+    # test._stop_flash()
+
+    test._forbid_flashing()
+
