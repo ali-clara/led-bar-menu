@@ -105,35 +105,41 @@
   
         <div class="middle">
             <table id="tbl">
-                <form id="add spirit" method="POST">
+                <form id="preview spirit" method="POST">
                     <tr>
                         <td><strong>Add Spirit</strong></td>
                     </tr>
                     <tr>
                         <td>Name: </td>
-                        <td><input list="spirits" id="inputAddSpirit" name="input_add_spirit" value="{{inputSpirit}}"></td>
+                        <td><input list="spirits" id="inputPrevSpirit" name="input_prev_spirit" value="{{inputSpirit}}"></td>
                     </tr>
                     <tr>
                         <td>Coordinate: </td>
-                        <td><input list="coordinates" id="inputCoord" name="input_add_coord" value={{inputCoord}}></td>
+                        <td><input list="coordinates" id="inputPrevCoord" name="input_prev_coord" value={{inputCoord}}></td>
                     </tr>
                     <tr>
                         <td>
                         <!-- Button to preview the spirit location - lights up the leds but doesn't change the csv -->
-                        <button form="add spirit" type="submit" name="btn_preview">Preview</button>
+                        <button form="preview spirit" type="submit" name="btn_preview">Preview</button>
+                </form>
                         <!-- Button to add the spirit to our master list. We want "Add" to be disabled until you preview the location -->
+                <form id="add spirit" method="POST">
+                    <!-- <input type="hidden" id="hiddenAddSpirit" name="hidden_add_spirit" value={{inputSpirit}}>
+                    <input type="hidden" id="hiddenAddCoord" name="hidden_add_coord" value={{inputCoord}}> -->
                         <button form="add spirit" id="btnAddSpirit" type="submit" name="btn_add">Add</button>
                         </td>
                         <!-- Since sending a "post" resets the page, I need to disable the button manually/in Python instead of 
                         letting the Preview Spirit button handle it in html. I pass in add_spirits_disabled from the flask method,
                         which sets the disabled flag to "true" or "false". It's not actually an error, my ide just thinks it is -->
-                        <script>document.getElementById("btnAddSpirit").disabled = {{addSpiritsDisabled}};</script>
+                        <!-- Might come back to this if I get threading to work, so leaving it here -->
+                        <!-- <script>document.getElementById("btnAddSpirit").disabled = {{addSpiritsDisabled}};</script> -->
                     </tr>
                     <tr>
                         <td></td>
                         <td>{{addResultString}}</td>
                     </tr>
                 </form>
+                
                 <tr><td><br><br></td></tr>
             
                 <form id="add recipe" method="POST">

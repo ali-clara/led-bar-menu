@@ -8,11 +8,14 @@ except ImportError:
 
 import yaml
 import concurrent.futures
+import multiprocessing
+import os
+import psutil
 
-try:
+try: # run from this script
     import recipe_parsing_helpers as recipe
     from randomizer import Randomizer as rands
-except ImportError:
+except ImportError: # run from the main script
     from services import recipe_parsing_helpers as recipe
     from services.randomizer import Randomizer as rands
 
@@ -20,16 +23,23 @@ except ImportError:
 def format_for_web(string:str):
     return string.replace("_", " ").title()
 
-# app = Flask(__name__, template_folder="templates")
+dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
+# app = Flask(__name__, template_folder=dir_path+"/templates")
 
 class TestView(FlaskView):
 
     def __init__(self) -> None:
+        print("init")
         super().__init__()
         self._load_menu()
         self.lights = LED()
         self.lit_up_ingredients = []
         self.random_ten = []
+        # self.multiprocess = multiprocessing.Process()
+
+
+        self.input_spirit = ""
+        self.input_coord = ""
 
     def _load_menu(self, verbose=True):
         # Read in the main menu and validate it against our master list of ingredients
@@ -37,7 +47,7 @@ class TestView(FlaskView):
         self.all_ingredients, self.location_dict = recipe.load_all_ingredients()
         self.menu_dict = recipe.validate_all_recipes(menu_dict_raw, self.all_ingredients, self.location_dict, self.tags_dict, alias_dict)
         self.all_ingredients_user_facing = [ingredient.replace("_", " ").title() for ingredient in self.all_ingredients]
-        
+        self.cabinet_locs = recipe.load_cabinet_locs().keys()
         
         if verbose:
             print("--")
@@ -54,12 +64,14 @@ class TestView(FlaskView):
         self.collection_dict = recipe.sort_collections(self.menu_dict, self.collection_names)    
 
     def _quick_update(self):
+        self.lights._forbid_flashing()
         menu_dict_raw, self.tags_dict, alias_dict = recipe.read_main_menu()
         self.all_ingredients, self.location_dict = recipe.load_all_ingredients()
         # "quiet" mode isn't working and im tearing out my hair
         self.menu_dict = recipe.validate_all_recipes(menu_dict_raw, self.all_ingredients, self.location_dict, self.tags_dict, alias_dict, quiet=True)
         self.cocktail_names = recipe.load_recipe_names(self.menu_dict)
         self.lights.update_loc_dict(self.location_dict)
+        
     
     def _full_update(self):
         pass
@@ -68,7 +80,7 @@ class TestView(FlaskView):
         """The main page. Redirects to the menu
         This lives at http://localhost:5000/ or http://10.0.0.120:5000
         """
-        return redirect(url_for('TestView:menu'))
+        return redirect(url_for('TestView:menu'), code=301)
 
     def not_found(self):
         return render_template("error404.html")
@@ -113,7 +125,7 @@ class TestView(FlaskView):
                 if is_recipe and recipe_score > ingredient_score:
                     # Once we know the name of the cocktail, we can grab its ingredients
                     # self.resippy(recipe_match)
-                    return redirect(url_for('TestView:resippy', arg=recipe_match))
+                    return redirect(url_for('TestView:resippy', arg=recipe_match), code=308)
 
                 elif is_tag:
                     children = recipe.expand_tag(tag_match, self.tags_dict)
@@ -132,13 +144,13 @@ class TestView(FlaskView):
                     #   do some string formatting
                     chosen_collection = form_entry.replace(" ", "_").lower()
                     # Redirect us to the "collections" page with the given collection
-                    return redirect(url_for('TestView:collection', arg=chosen_collection))
+                    return redirect(url_for('TestView:collection', arg=chosen_collection), code=308)
 
             # The else will eventually be deleted, but it's here while there's the LED proxy on the website
-            else:
-                chosen_ingredients = []
+            # else:
+            #     chosen_ingredients = []
 
-        return render_template('main_menu.html', options=self.cocktail_names, ingredients=self.used_ingredients, chosen_ingredients=chosen_ingredients, collections=self.collection_names)
+        return render_template('main_menu.html', options=self.cocktail_names, ingredients=self.used_ingredients, collections=self.collection_names)        
 
     def resippy(self, arg:str):
         """http://localhost:5000/recipe/arg"""
@@ -197,6 +209,7 @@ class TestView(FlaskView):
                                notes=notes_list)
 
     def collections_main_page(self):
+        self._quick_update()
         self.collection_names.sort()
 
         collection_descriptions = ["The creations of Jack and Dane from their time in the 2201 N 106th st apartment",
@@ -342,7 +355,8 @@ class TestView(FlaskView):
 
         return render_template('put_away_ingredient.html', ingredients=self.all_ingredients,
                                ingredientSelected=ingredient_selected, locationSelected=location_selected)
-    
+      
+ 
     @method("GET")
     @method("POST")
     def modify_spirits(self):
@@ -350,16 +364,12 @@ class TestView(FlaskView):
         self._quick_update()
 
         # Set some initial parameters to pass to html
-        add_spirits_disabled = "true"
-        input_spirit = ""
-        input_coord = ""
         recipe_result = ""
         remove_result = ""
         add_result = ""
 
         if request.method == "POST":
             # Clear the LEDS, if they're on
-            # self.lights.forbid_flashing() # this is in all_off()
             self.lights.all_off()
 
             if "input_recipe_name" in request.form.keys():
@@ -383,56 +393,44 @@ class TestView(FlaskView):
                 else:
                     recipe_result = f"Failed to add {updated_name}. Sure would be great if we had logs published to the website"
 
-            elif "input_add_spirit" in request.form.keys():
-                # "Preview" mode
-                if "btn_preview" in request.form.keys():
-                    print("preview spirit mode")
-                    # Get the values of the html input elements
-                    spirit_to_add = request.form["input_add_spirit"]
-                    coord_to_add = request.form["input_add_coord"].upper()
-                    # Check that the given coord is valid
-                    cabinet_locs = recipe.load_cabinet_locs()
-                    if coord_to_add in cabinet_locs.keys():
-                        # If it's valid, light up the pixels. Todo -- need to make this flash
-
-                        def update_website():
-                            # Update the html display
-                            input_spirit = spirit_to_add
-                            input_coord = coord_to_add
-                            add_spirits_disabled = "false"
-                            return render_template('modify_spirits.html', addSpiritsDisabled=add_spirits_disabled, collections=self.collection_names,
-                               inputSpirit=input_spirit, inputCoord=input_coord, spiritList=self.all_ingredients_user_facing, 
-                               recipeResultString=recipe_result, removeResultString=remove_result, )
-
-                        with concurrent.futures.ThreadPoolExecutor() as executor:
-                            executor.submit(self.lights.illuminate_location, coord_to_add, True, False)
-                            executor.submit(update_website)
-
-                        # self.lights.illuminate_location(coord_to_add, flash=True)
-
-                        
-                    else:
-                        print("Invalid coordinate given")
-                # "Add" mode
-                elif "btn_add" in request.form.keys():
-                    print("add spirit mode")
-                    # Get the values of the html input elements
-                    spirit_to_add = request.form["input_add_spirit"]
-                    coord_to_add = request.form["input_add_coord"]
-                    # We've already checked that the coord is valid and we're happy with the location, so we can
-                    # directly update the csv.
-                    # HTML todo -- disable the "Add" button whenever we type in the input form
-                    result = recipe.add_spirit(spirit_to_add, coord_to_add)
+            # "Preview" mode
+            elif "btn_preview" in request.form.keys():
+                print("preview spirit mode")
+                print(request.form)
+                # Get the values of the html input elements
+                self.input_spirit = request.form["input_prev_spirit"]
+                self.input_coord = request.form["input_prev_coord"].upper()
+                # Check that the given coord is valid
+                if self.input_coord in self.cabinet_locs:
+                    # If it's valid, light up the pixels.
+                    # Not currently threading, I just thought it was
+                    # Multiprocessing breaks things
+                    # Add thread from here?
+                    self.lights._allow_flashing()
+                    self.lights.illuminate_location(self.input_coord, flash=True)
+                    add_result = f'Lighting up coordinate {self.input_coord}' # Doesn't currently update (threading problem)
+                else:
+                    add_result = f'Invalid coordinate "{self.input_coord}"'
+            # "Add" mode
+            elif "btn_add" in request.form.keys():
+                print("add spirit mode")
+                print(self.input_spirit)
+                # Since the 'Add' button is always active (because my threading isn't working, that's a todo), do another
+                # coordinate validity check
+                if self.input_coord in self.cabinet_locs:
+                    # If we're good, try to update the CSV
+                    result = recipe.add_spirit(self.input_spirit, self.input_coord)
                     if result:
-                        add_result = f"Successfully added {spirit_to_add} to inventory"
+                        add_result = f"Successfully added {self.input_spirit} to inventory"
                     else:
-                        add_result = f"Failed to add {spirit_to_add}. Is your coordinate valid?"
+                        add_result = f"Failed to add {self.input_spirit} despite a valid coordinate. Hmm."
+                else:
+                    add_result = f'Invalid coordinate "{self.input_coord}"'
 
-                    # Update the html display
-                    input_spirit = ""
-                    input_coord = ""
-                    add_spirits_disabled = "true"
-
+                # Update the html display
+                self.input_spirit = ""
+                self.input_coord = ""
+            # "Remove" mode
             elif "input_remove_spirit" in request.form.keys():
                 print("remove spirit mode")
                 spirit_to_remove = request.form["input_remove_spirit"]
@@ -446,14 +444,23 @@ class TestView(FlaskView):
                     remove_result = f"Failed to remove {spirit_to_remove}. Does that spirit exist?"
 
 
-        return render_template('modify_spirits.html', addSpiritsDisabled=add_spirits_disabled, collections=self.collection_names,
-                               inputSpirit=input_spirit, inputCoord=input_coord, spiritList=self.all_ingredients_user_facing, 
-                               recipeResultString=recipe_result, removeResultString=remove_result, )
+        return render_template('modify_spirits.html', collections=self.collection_names,
+                               inputSpirit=self.input_spirit, inputCoord=self.input_coord, spiritList=self.all_ingredients_user_facing, 
+                               recipeResultString=recipe_result, removeResultString=remove_result, addResultString=add_result)
 
+
+
+# TestView.register(app, route_base = '/')
 
 if __name__ == "__main__":
 #     TestView.register(app, route_base = '/')
 #     app.register_error_handler(404, TestView.not_found)
 #     app.run(host='0.0.0.0', port=5000, debug=True)
-
+    import time
     test = TestView()
+    # test._start_flash("A7")
+    # time.sleep(5)
+    # test._stop_flash()
+
+    test._forbid_flashing()
+

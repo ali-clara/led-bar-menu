@@ -4,23 +4,36 @@ import yaml
 import os
 import numpy as np
 import concurrent.futures
+import platform
 
-# FIX THIS BLOCK #
-try: # real hardware
+# We're on the pi
+if platform.system() == "Linux" and platform.uname()[1] == "raspberrypi":
+    print("Running on real hardware")
     import board
     import neopixel
-    from services import recipe_parsing_helpers as recipe
-except ImportError: # simulated hardware
-    print("Could not detect neopixel hardware. Running in shadow environment")
+    # Run from this script
+    try:
+        import recipe_parsing_helpers as recipe
+        import parameter_helpers as params
+    # Run from the main script
+    except ImportError:
+        from services import recipe_parsing_helpers as recipe
+        from services import parameter_helpers as params
+# We're on the laptop or other
+else:
+    print(f"Could not detect neopixel hardware. Running in shadow environment on {platform.system()}")
     try: # run from this script
         import simulated_neopixel as neopixel
         from simulated_neopixel import board
         import recipe_parsing_helpers as recipe
-    except: # run from the main script
+        import parameter_helpers as params
+    except ImportError: # run from the main script
         import services.simulated_neopixel as neopixel
         from services.simulated_neopixel import board
         from services import recipe_parsing_helpers as recipe
+        from services import parameter_helpers as params
     
+# Find the 'global' directory path
 dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
 
 class LED:
@@ -63,13 +76,6 @@ class LED:
         
         self.unused_colors = list(self.rainbow_dict.values())
 
-        self.flashing = False
-
-    def forbid_flashing(self):
-        self.flashing = False
-
-    def allow_flashing(self):
-        self.flashing = True
     
     def update_loc_dict(self, new_dict):
         self.spirit_loc_dict = new_dict
@@ -111,7 +117,21 @@ class LED:
         else:
             print("Not a standard led location")
             return 0.4
+    
+    def _allow_flashing(self):
+        """Updates the parameters file to allow LED flashing
+        """
+        params_dict = params.read()
+        params_dict.update({"flashing": True})
+        params.write(params_dict)
 
+    def _forbid_flashing(self):
+        """Updates the parameters file to forbid LED flashing
+        """
+        params_dict = params.read()
+        params_dict.update({"flashing": False})
+        params.write(params_dict)
+    
     def illuminate_spirit(self, spirit_input, flash=False, verbose=True):
         if type(spirit_input) == list:
             for spirit in spirit_input:
@@ -129,7 +149,8 @@ class LED:
         else:
             print("Tried to illuminate something that wasn't a spirit name or a list of spirit names. Hmm.")
 
-    def illuminate_location(self, location:str, flash=False, verbose=False):        
+    def illuminate_location(self, location:str, flash=False, verbose=False):  
+        print(location)      
         # Check if our location is valid. If it's not, flag and return
         if location not in self.all_cabinet_locations:
             print(f"'{location}' is not a valid cabinet location. Should be a string of the form 'A7', etc.")
@@ -150,7 +171,6 @@ class LED:
 
         # Light em up
         if flash:
-            self.allow_flashing()
             self.range_flash(neopixel_range, color, brightness)
         else:
             for start, stop in neopixel_range:
@@ -165,7 +185,7 @@ class LED:
         self.pixels.show()
 
     def all_off(self):
-        self.forbid_flashing()
+        # self.forbid_flashing()
         self.pixels.fill((0,0,0))
         self.pixels.show()
     
@@ -202,9 +222,16 @@ class LED:
     def _flash_threaded(self, neopixel_range, color, brightness):
         starttime = time.time()
 
-        while self.flashing:
+        with open(dir_path+"/config/params.yml") as stream:
+            params_dict = yaml.safe_load(stream)
+
+        while params_dict["flashing"]:
+
+            with open(dir_path+"/config/params.yml") as stream:
+                params_dict = yaml.safe_load(stream)
+
             # Safety measure so my thread doesn't run forever
-            if (time.time() - starttime) >= 60:
+            if (time.time() - starttime) >= 20:
                 break
             
             for start, stop in neopixel_range:
@@ -258,10 +285,9 @@ class LED:
 
 if __name__ == "__main__":
 
-
     myled = LED()
 
-    myled.illuminate_location("L2", verbose=True, flash=True)
+    # myled.illuminate_location("L2", verbose=True, flash=True)
     # myled.illuminate_location(None)
 
     # Test: B22, fridge, K4, A2
