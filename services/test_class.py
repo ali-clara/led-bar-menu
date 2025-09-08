@@ -8,9 +8,7 @@ except ImportError:
 
 import yaml
 import concurrent.futures
-import multiprocessing
 import os
-import psutil
 
 try: # run from this script
     import recipe_parsing_helpers as recipe
