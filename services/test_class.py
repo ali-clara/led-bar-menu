@@ -460,5 +460,3 @@ if __name__ == "__main__":
     # time.sleep(5)
     # test._stop_flash()
 
-    test._forbid_flashing()
-
