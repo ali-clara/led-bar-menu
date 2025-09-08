@@ -29,6 +29,7 @@ dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
 class TestView(FlaskView):
 
     def __init__(self) -> None:
+        print("init")
         super().__init__()
         self._load_menu()
         self.lights = LED()
@@ -59,7 +60,7 @@ class TestView(FlaskView):
         self.collection_dict = recipe.sort_collections(self.menu_dict, self.collection_names)    
 
     def _quick_update(self):
-        self._stop_flash()
+        self.lights._forbid_flashing()
         menu_dict_raw, self.tags_dict, alias_dict = recipe.read_main_menu()
         self.all_ingredients, self.location_dict = recipe.load_all_ingredients()
         # "quiet" mode isn't working and im tearing out my hair
@@ -204,6 +205,7 @@ class TestView(FlaskView):
                                notes=notes_list)
 
     def collections_main_page(self):
+        self._quick_update()
         self.collection_names.sort()
 
         collection_descriptions = ["The creations of Jack and Dane from their time in the 2201 N 106th st apartment",
@@ -350,60 +352,7 @@ class TestView(FlaskView):
         return render_template('put_away_ingredient.html', ingredients=self.all_ingredients,
                                ingredientSelected=ingredient_selected, locationSelected=location_selected)
       
-    def _stop_flash(self):
-        # routine_name = routine_select.currentText()
-        # logger.info(f"Stopping autonomous routine: {routine_name}")
 
-        # If our process is alive, kill it
-        if self.multiprocess.is_alive():
-            self.p.kill()
-            self.multiprocess.terminate()
-            self.multiprocess.join()
-
-    def _start_flash(self, location):
-        # routine_name = routine_select.currentText()
-        # logger.info(f"Starting autonomous routine: {routine_name}")
-        
-        # try to get our process status
-        try:
-            status = self.p.status()
-        # we have not yet started - self.p doesn't exist
-        except:
-            pid = os.getpid()
-            # arduino = self.sensor.arduino
-            self.multiprocess = multiprocessing.Process(target=self.lights.illuminate_location,
-                                            # kwargs={"logger": logger, "arduino": arduino}
-                                            kwargs={"location": location, "flash": True, "verbose": False}
-                                            # args={location, True, True}
-                                            )
-            self.multiprocess.start()
-            self.p = psutil.Process(self.multiprocess.pid)
-        # we have started - self.p does exist
-        else:
-            if status == "stopped": # we're suspended
-                self.p.resume()
-            elif status == "sleeping" or status == "running": # we're running
-                pass 
-            else: # something has gone Wrong
-                print(f"Unknown process status: {status}")
-    
-    def _allow_flashing(self):
-        with open(dir_path+"/config/params.yml") as stream:
-            params_dict = yaml.safe_load(stream)
-
-        params_dict.update({"flashing": True})
-
-        with open(dir_path+"/config/params.yml", 'w') as outfile:
-            yaml.dump(params_dict, outfile, default_flow_style=False)
-
-    def _forbid_flashing(self):
-        with open(dir_path+"/config/params.yml") as stream:
-            params_dict = yaml.safe_load(stream)
-
-        params_dict.update({"flashing": False})
-
-        with open(dir_path+"/config/params.yml", 'w') as outfile:
-            yaml.dump(params_dict, outfile, default_flow_style=False)
     
     @method("GET")
     @method("POST")
@@ -460,7 +409,9 @@ class TestView(FlaskView):
                         # THink about multiprocessing?
                         # self.lights.illuminate_location(coord_to_add, flash=True)
 
-                        self._start_flash(coord_to_add)
+                        # self._start_flash(coord_to_add)
+                        self.lights._allow_flashing()
+                        self.lights.illuminate_location(coord_to_add, flash=True)
 
                         # Update the html display
                         input_spirit = spirit_to_add

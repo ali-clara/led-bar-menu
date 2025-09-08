@@ -114,6 +114,24 @@ class LED:
             print("Not a standard led location")
             return 0.4
 
+    def _allow_flashing(self):
+        with open(dir_path+"/config/params.yml") as stream:
+            params_dict = yaml.safe_load(stream)
+
+        params_dict.update({"flashing": True})
+
+        with open(dir_path+"/config/params.yml", 'w') as outfile:
+            yaml.dump(params_dict, outfile, default_flow_style=False)
+
+    def _forbid_flashing(self):
+        with open(dir_path+"/config/params.yml") as stream:
+            params_dict = yaml.safe_load(stream)
+
+        params_dict.update({"flashing": False})
+
+        with open(dir_path+"/config/params.yml", 'w') as outfile:
+            yaml.dump(params_dict, outfile, default_flow_style=False)
+    
     def illuminate_spirit(self, spirit_input, flash=False, verbose=True):
         if type(spirit_input) == list:
             for spirit in spirit_input:
@@ -167,7 +185,7 @@ class LED:
         self.pixels.show()
 
     def all_off(self):
-        self.forbid_flashing()
+        # self.forbid_flashing()
         self.pixels.fill((0,0,0))
         self.pixels.show()
     
@@ -208,6 +226,10 @@ class LED:
             params_dict = yaml.safe_load(stream)
 
         while params_dict["flashing"]:
+
+            with open(dir_path+"/config/params.yml") as stream:
+                params_dict = yaml.safe_load(stream)
+
             # Safety measure so my thread doesn't run forever
             if (time.time() - starttime) >= 20:
                 break
