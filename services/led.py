@@ -14,9 +14,11 @@ if platform.system() == "Linux" and platform.uname()[1] == "raspberrypi":
     # Run from this script
     try:
         import recipe_parsing_helpers as recipe
+        import parameter_helpers as params
     # Run from the main script
     except ImportError:
         from services import recipe_parsing_helpers as recipe
+        from services import parameter_helpers as params
 # We're on the laptop or other
 else:
     print(f"Could not detect neopixel hardware. Running in shadow environment on {platform.system()}")
@@ -24,10 +26,12 @@ else:
         import simulated_neopixel as neopixel
         from simulated_neopixel import board
         import recipe_parsing_helpers as recipe
+        import parameter_helpers as params
     except ImportError: # run from the main script
         import services.simulated_neopixel as neopixel
         from services.simulated_neopixel import board
         from services import recipe_parsing_helpers as recipe
+        from services import parameter_helpers as params
     
 # Find the 'global' directory path
 dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
@@ -113,24 +117,20 @@ class LED:
         else:
             print("Not a standard led location")
             return 0.4
-
+    
     def _allow_flashing(self):
-        with open(dir_path+"/config/params.yml") as stream:
-            params_dict = yaml.safe_load(stream)
-
+        """Updates the parameters file to allow LED flashing
+        """
+        params_dict = params.read()
         params_dict.update({"flashing": True})
-
-        with open(dir_path+"/config/params.yml", 'w') as outfile:
-            yaml.dump(params_dict, outfile, default_flow_style=False)
+        params.write(params_dict)
 
     def _forbid_flashing(self):
-        with open(dir_path+"/config/params.yml") as stream:
-            params_dict = yaml.safe_load(stream)
-
+        """Updates the parameters file to forbid LED flashing
+        """
+        params_dict = params.read()
         params_dict.update({"flashing": False})
-
-        with open(dir_path+"/config/params.yml", 'w') as outfile:
-            yaml.dump(params_dict, outfile, default_flow_style=False)
+        params.write(params_dict)
     
     def illuminate_spirit(self, spirit_input, flash=False, verbose=True):
         if type(spirit_input) == list:
