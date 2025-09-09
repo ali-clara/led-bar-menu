@@ -357,6 +357,11 @@ class TestView(FlaskView):
  
     @method("GET")
     @method("POST")
+    def test_dropdown(self):
+        return render_template("test_dropdown.html")
+    
+    @method("GET")
+    @method("POST")
     def modify_spirits(self):
         """Developer mode babey"""
         self._quick_update()
@@ -370,6 +375,7 @@ class TestView(FlaskView):
             # Clear the LEDS, if they're on
             self.lights.all_off()
 
+            # Add recipe
             if "input_recipe_name" in request.form.keys():
                 print("add recipe mode")
                 # Pull out the name, collection, and notes directly with their keys.
@@ -390,9 +396,11 @@ class TestView(FlaskView):
                     recipe_result = f"Successfully added {updated_name}!"
                 else:
                     recipe_result = f"Failed to add {updated_name}. Sure would be great if we had logs published to the website"
-
-            # "Preview" mode
-            elif "btn_preview" in request.form.keys():
+            # Cancel adding recipe
+            elif "btn_cancel_spirit" in request.form.keys():
+                pass
+            # Preview spirit location
+            elif "btn_preview_spirit" in request.form.keys():
                 print("preview spirit mode")
                 print(request.form)
                 # Get the values of the html input elements
@@ -410,7 +418,7 @@ class TestView(FlaskView):
                 else:
                     add_result = f'Invalid coordinate "{self.input_coord}"'
             # "Add" mode
-            elif "btn_add" in request.form.keys():
+            elif "btn_add_spirit" in request.form.keys():
                 print("add spirit mode")
                 print(self.input_spirit)
                 # Since the 'Add' button is always active (because my threading isn't working, that's a todo), do another
@@ -424,7 +432,10 @@ class TestView(FlaskView):
                         add_result = f"Failed to add {self.input_spirit} despite a valid coordinate. Hmm."
                 else:
                     add_result = f'Invalid coordinate "{self.input_coord}"'
-
+                # Update the html display
+                self.input_spirit = ""
+                self.input_coord = ""
+            elif "btn_cancel_spirit" in request.form.keys():
                 # Update the html display
                 self.input_spirit = ""
                 self.input_coord = ""

@@ -1,3 +1,7 @@
+:root {
+  --main-bg-color: #bbb;
+}
+
 /* Set up highlighted font for dummy leds, get rid of this eventually*/
 .highlighted {
     background-color: rgb(204, 0, 255);
@@ -49,7 +53,7 @@ grid-template-rows: auto auto auto;
 grid-column: 2 / end;
 grid-row: 2 / span 1;
 padding: 10px;
-background-color: #bbb;
+background-color: var(--main-bg-color);
 width: end;
 }
 
@@ -117,4 +121,89 @@ button {
 
 table, th, td {
   border: 1px solid #bbb;
+}
+
+
+nav ul{overflow:hidden; overflow-y:scroll;}
+
+/* ------ Dropdown checklist ------ */
+.dropdown-check-list {
+  display: inline-block;
+}
+
+.dropdown-check-list .anchor {
+  position: relative;
+  /* cursor: pointer; */
+  display: inline-block;
+  /* padding: 5px 50px 5px 10px; */
+  /* border: 1px solid #ccc; */
+}
+
+.dropdown-check-list ul.items {
+  padding: 2px;
+  display: none;
+  margin: 0;
+  border: 1px solid #ccc;
+  border-top: none;
+  max-height:50px;
+  max-height:auto;
+  overflow:hidden; 
+  overflow-y:scroll;
+}
+
+.dropdown-check-list ul.items li {
+  list-style: none;
+}
+
+/* .dropdown-check-list.visible .anchor {
+  color: #0094ff;
+} */
+
+.dropdown-check-list.visible .items {
+  display: block;
+}
+
+/* toggles */
+.arrow {
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  /* margin-left: 10px; */
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+.rotate-up {
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+}
+
+.dropdown-button {
+  /* border: 2px solid black; */
+  border: none;
+  /* background-color: var(--main-bg-color); */
+  background-color: white;
+  color: black;
+  /* padding-right: 40px; */
+  width: max-content;
+  max-height: fit-content;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  /* box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); */
+}
+
+.dropdown-button.pressed {
+    background-color:white;
+}   
+
+#tagsDropdown {
+    font-size:16px;
+    /* margin: 20px 20px 10px 10px; */
+    padding: 5px;
+    background-color: white;
+    max-height: fit-content;
 }

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/mainstyle.css') }}">
+    <title>Title</title>
+
+    <script>
+        
+        // function myToggle(){
+        //     document.getElementById('btn-my-toggle').addEventListener('click', (e) => e.target.closest('button').classList.toggle('pressed'))
+        // }
+
+        function myToggle(toggle){
+            var arrow = document.getElementById('dropdownArrow');
+
+            toggle.classList.toggle("pressed");
+            arrow.classList.toggle("rotate-up");
+
+            
+            // if (toggle.classList.contains('pressed')) {
+            //     toggle.classList.remove("pressed");
+            //     arrow.classList.remove("rotate-up");
+            // } else {
+            //     toggle.classList.add("pressed");
+            //     arrow.classList.add("rotate-up");
+            // }
+        }
+        
+        function dropDown(){
+            var arrow = document.getElementById('dropdownArrow');
+            var checkList = document.getElementById('tagsDropdown');
+            if (!checkList.classList.contains("visible")){
+                checkList.classList.toggle("visible");
+                arrow.classList.toggle("rotate-up")
+            }
+        }
+        
+        function toggleDropdown() {
+            
+            var checkList = document.getElementById('tagsDropdown');
+            var button = document.getElementById('dropdownButton');
+            var arrow = document.getElementById('dropdownArrow');
+            
+            button.classList.toggle("pressed");
+            arrow.classList.toggle("rotate-up");
+            checkList.classList.toggle("visible");
+
+            // If checklist isn't visible, make it visible
+            // if (checkList.classList.contains('visible')){
+            //     checkList.classList.remove('visible');
+            // } else {
+            //     checkList.classList.add('visible');
+            // }
+        
+            // Add an event listener to make it invisible when the focus is on another element
+            // Not disability accessible, per this stack overflow page -- 
+            // https://stackoverflow.com/questions/19206919/how-to-create-checkbox-inside-dropdown
+            // Would love to fix later when I know more about JS
+            // checkList.addEventListener('blur', function(e) { 
+            //     if(!e.relatedTarget || !e.relatedTarget.classList.contains('anchor') || !e.relatedTarget.classlist.contains('items')) { 
+            //         // checkList.setAttribute("class", "dropdown-check-list"); 
+            //         checkList.classList.remove('visible');
+            //         } 
+            //     });
+        }
+        
+        /* When the user clicks on the button, toggle between hiding and showing the dropdown content */
+        function myFunction() {
+            document.getElementById("tagsDropdown").classList.toggle("show");
+        }
+
+        function filterFunction() {
+            var input, filter, ul, li, a, i;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            div = document.getElementById("tagsDropdown");
+            a = div.getElementsByTagName("li");
+            for (i = 0; i < a.length; i++) {
+                txtValue = a[i].textContent || a[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                a[i].style.display = "";
+                } else {
+                a[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="grid-container">
+        <div class="header">
+        </div>
+    
+        <div class="left">
+          <!-- Navbar! We're not on any menu page, so don't set any of them active -->
+          <div class="vertical-menu">
+            <a href="/menu">Home</a>
+            <a href="/collections_main_page">Collections</a>
+            <a href="/random_cocktail_generator">Random Cocktail Generator</a>
+            <a href="/credits">Credits</a>
+          </div>
+        </div>
+  
+        <div class="middle">
+            <div id="tagsDropdown" class="dropdown-check-list" tabindex="100">
+            <span class="anchor">
+                <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()" onclick="dropDown()">
+                <button class="dropdown-button" type="button" id="dropdownButton" onclick="toggleDropdown()">
+                    <i class="arrow" id="dropdownArrow"></i>
+                </button>
+            </span>
+            <ul class="items">
+                <li><input type="checkbox" />Apple </li>
+                <li><input type="checkbox" />Orange</li>
+                <li><input type="checkbox" />Grapes </li>
+                <li><input type="checkbox" />Berry </li>
+                <li><input type="checkbox" />Mango </li>
+                <li><input type="checkbox" />Banana </li>
+                <li><input type="checkbox" />Tomato</li>
+            </ul>
+            </div>
+
+
+        </div>  
+    
+      <div class="footer">
+        <a href="/put_away_ingredient">♫♪♪ Clean up, clean up ♫♪♪</a> <br>
+        <a href="/modify_spirits">Add a new spirit</a>
+      </div>
+  
+    </div>
+  </body>
+
+  </html>
