@@ -12,9 +12,11 @@
             // back and forth, so here's a one-way ticket
             var arrow = document.getElementById('dropdownArrow');
             var checkList = document.getElementById('tagsDropdown');
+            var button = document.getElementById('dropdownButton');
             if (!checkList.classList.contains("visible")){
                 checkList.classList.toggle("visible");
-                arrow.classList.toggle("rotate-up")
+                arrow.classList.toggle("rotate-up");
+                button.classList.toggle("pressed");
             }
         }
         
@@ -78,7 +80,6 @@
                 </span>
                 <ul class="items">
                     <li><input type="checkbox" id="apple" name="apple"/><label for="apple">Apple</label></li>
-
                     <li><input type="checkbox" />Orange</li>
                     <li><input type="checkbox" />Grapes </li>
                     <li><input type="checkbox" />Berry </li>

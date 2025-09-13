@@ -145,7 +145,7 @@ nav ul{overflow:hidden; overflow-y:scroll;}
   margin: 0;
   border: 1px solid #ccc;
   border-top: none;
-  max-height:50px;
+  max-height:70px;
   max-height:auto;
   overflow:hidden; 
   overflow-y:scroll;
@@ -182,8 +182,8 @@ nav ul{overflow:hidden; overflow-y:scroll;}
 .dropdown-button {
   /* border: 2px solid black; */
   border: none;
-  /* background-color: var(--main-bg-color); */
-  background-color: white;
+  background-color: var(--main-bg-color);
+  /* background-color: white; */
   color: black;
   /* padding-right: 40px; */
   width: max-content;
@@ -200,10 +200,15 @@ nav ul{overflow:hidden; overflow-y:scroll;}
     background-color:white;
 }   
 
+.dropdown-button.vivid {
+    background-color:green;
+}   
+
 #tagsDropdown {
     font-size:16px;
     /* margin: 20px 20px 10px 10px; */
-    padding: 5px;
-    background-color: white;
+    /* padding: 5px 5px 5px 0px; */
+    /* background-color: white; */
+    background-color: var(--main-bg-color);
     max-height: fit-content;
 }

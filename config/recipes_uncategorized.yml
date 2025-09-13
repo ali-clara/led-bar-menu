@@ -1,3 +1,18 @@
+? ''
+: collection: uncategorized
+  ingredients:
+    Tag:
+      amount: tag
+      units: ''
+  notes: ''
+Test:
+  collection: uncategorized
+  ingredients: {}
+  notes: ''
+Test2:
+  collection: uncategorized
+  ingredients: {}
+  notes: ''
 test website:
   collection: uncategorized
   ingredients:

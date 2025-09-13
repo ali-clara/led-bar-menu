@@ -405,13 +405,14 @@ def update_recipe_yaml(recipe_name:str, collection:str, notes:str, ingredients:l
         
     return False, recipe_name
 
-def add_spirit(spirit:str, coord:str):
+def add_spirit(spirit:str, coord:str, tags:list):
     """Updates or adds the given (spirit, coord) pair to ingredients.csv
 
     Args:
         spirit (str): _description_
         coord (str): _description_
     """
+    print(f"TODO: build backend that will eventually add '{spirit}' to {tags}")
     # Check if the given coordinate is valid. If so...
     all_cabinet_locs = load_cabinet_locs()
     if coord in all_cabinet_locs.keys():

@@ -38,6 +38,7 @@ class TestView(FlaskView):
 
         self.input_spirit = ""
         self.input_coord = ""
+        self.input_tags = []
 
     def _load_menu(self, verbose=True):
         # Read in the main menu and validate it against our master list of ingredients
@@ -378,13 +379,14 @@ class TestView(FlaskView):
             # Add recipe
             if "input_recipe_name" in request.form.keys():
                 print("add recipe mode")
+                print(request.form.keys())
                 # Pull out the name, collection, and notes directly with their keys.
                 recipe_name = request.form["input_recipe_name"]
                 recipe_collection = request.form["input_recipe_collection"]
                 recipe_notes = request.form["input_recipe_notes"]
                 # Since we can have an arbitrary number of ingredients, extracting them is slightly different.
-                # The cocktail ingredients, amounts, and units start at the third, fourth, and fifth index of request.form, 
-                # in that order. To get them organized nicely, we start at the appropriate index and grab every third dictionary value.
+                # The cocktail ingredients, amounts, and units - respectively - start after "input_recipe_notes"
+                # To get them organized nicely, we start at the appropriate index and grab every third dictionary value.
                 cocktail_makeup = list(request.form.values())[3:]
                 ingredients = cocktail_makeup[0::3]
                 amounts = cocktail_makeup[1::3]
@@ -397,7 +399,7 @@ class TestView(FlaskView):
                 else:
                     recipe_result = f"Failed to add {updated_name}. Sure would be great if we had logs published to the website"
             # Cancel adding recipe
-            elif "btn_cancel_spirit" in request.form.keys():
+            elif "btn_cancel_recipe" in request.form.keys():
                 pass
             # Preview spirit location
             elif "btn_preview_spirit" in request.form.keys():
@@ -406,6 +408,10 @@ class TestView(FlaskView):
                 # Get the values of the html input elements
                 self.input_spirit = request.form["input_prev_spirit"]
                 self.input_coord = request.form["input_prev_coord"].upper()
+                # Tags come through as dictionary keys, for some goddamn reason. Tried to make it be any different and could not
+                # Find tags through the intersection of the dict keys with our list of tag names
+                tags = set(request.form.keys()).intersection(self.tags)
+                self.input_tags = list(tags)
                 # Check that the given coord is valid
                 if self.input_coord in self.cabinet_locs:
                     # If it's valid, light up the pixels.
@@ -420,12 +426,11 @@ class TestView(FlaskView):
             # "Add" mode
             elif "btn_add_spirit" in request.form.keys():
                 print("add spirit mode")
-                print(self.input_spirit)
                 # Since the 'Add' button is always active (because my threading isn't working, that's a todo), do another
                 # coordinate validity check
                 if self.input_coord in self.cabinet_locs:
                     # If we're good, try to update the CSV
-                    result = recipe.add_spirit(self.input_spirit, self.input_coord)
+                    result = recipe.add_spirit(self.input_spirit, self.input_coord, self.input_tags)
                     if result:
                         add_result = f"Successfully added {self.input_spirit} to inventory"
                     else:
@@ -439,6 +444,7 @@ class TestView(FlaskView):
                 # Update the html display
                 self.input_spirit = ""
                 self.input_coord = ""
+                self.input_tags = []
             # "Remove" mode
             elif "input_remove_spirit" in request.form.keys():
                 print("remove spirit mode")
@@ -454,7 +460,8 @@ class TestView(FlaskView):
 
 
         return render_template('modify_spirits.html', collections=self.collection_names,
-                               inputSpirit=self.input_spirit, inputCoord=self.input_coord, spiritList=self.all_ingredients_user_facing, 
+                               inputSpirit=self.input_spirit, inputCoord=self.input_coord, spiritList=self.all_ingredients_user_facing,
+                               tagList=self.tags, tagResultList=self.input_tags,
                                recipeResultString=recipe_result, removeResultString=remove_result, addResultString=add_result)
 
 
