@@ -6,5 +6,7 @@
         "Genepy",
         "Meletti",
         "Peychaud's"
-    ]
+    ],
+    "python-envs.defaultEnvManager": "ms-python.python:system",
+    "python-envs.pythonProjects": []
 }

@@ -8,8 +8,8 @@ Getting lit (hah)
 - shutdown pi button on website
 - "did you mean" feature in lots of places (adding recipe/ingredient, searching, really anywhere there's user input)
 - pi isn't automatically updating from github
-- "cancel" button for adding spirit (you can just leave the page but it's a nice UI feature)
 - be able to add tags when you add a recipe
+- the "preview spirit" functionality is still wonky. Threading not working
 
 ### Docs
 - https://docs.circuitpython.org/projects/neopixel/en/latest/index.html

@@ -85,7 +85,7 @@
             document.getElementById("button2").disabled = true;
         }
     
-        function dropDown(temp){
+        function dropDown(){
             // Callback for dropdownInput.onClick
             // Opens the dropdown and keeps it there. We don't want clicking the input box to keep toggling the dropdown
             // back and forth, so here's a one-way ticket
@@ -154,17 +154,17 @@
         <div class="middle">
             <table id="tbl">
                 <!-- ------------------- PREVIEW & ADD SPIRITS ------------------- -->
-                <form id="preview spirit" method="POST">
+                <form id="addSpirit" method="POST">
                     <tr>
                         <td><strong>Add Spirit</strong></td>
                     </tr>
                     <tr>
                         <td>Name: </td>
-                        <td><input list="spirits" id="inputPrevSpirit" name="input_prev_spirit" value="{{inputSpirit}}"></td>
+                        <td><input list="spirits" id="inputAddSpirit" name="input_add_spirit" value="{{inputSpirit}}"></td>
                     </tr>
                     <tr>
                         <td>Coordinate: </td>
-                        <td><input list="coordinates" id="inputPrevCoord" name="input_prev_coord" value={{inputCoord}}></td>
+                        <td><input list="coordinates" id="inputAddCoord" name="input_add_coord" value={{inputCoord}}></td>
                     </tr>                
                     <tr>
                         <td>Tags: </td>
@@ -177,7 +177,7 @@
                             </datalist> -->
                             <div id="tagsDropdown" class="dropdown-check-list">
                                 <span class="anchor">
-                                    <input type="text" placeholder="Search..." id="dropdownInput" onkeyup="filterFunction()" onclick="dropDown('{{tagResultList}}')">
+                                    <input type="text" placeholder="Search..." id="dropdownInput" onkeyup="filterFunction()" onclick="dropDown()">
                                     <button class="dropdown-button" type="button" id="dropdownButton" onclick="toggleDropdown()">
                                         <i class="arrow" id="dropdownArrow"></i>
                                     </button>
@@ -191,22 +191,23 @@
 
                         </td>
                     </tr>
-                    </form>
-                    <form id="cancel spirit" method="POST"></form>
-                    <form id="add spirit" method="POST">
-                    </form>
+                    <!-- </form> -->
+                    <!-- <form id="cancel spirit" method="POST"></form>
+                    <form id="add spirit" method="POST"> -->
                     <tr>
                         <td> 
                     <tr>
                         <td>
                             <!-- Button to preview the spirit location - lights up the leds but doesn't change the csv -->
-                            <button form="preview spirit" type="submit" name="btn_preview_spirit">Preview</button>
+                            <button form="addSpirit" type="submit" name="btn_preview_spirit">Preview</button>
                             <!-- Button to add the spirit to our master list.-->
-                            <button form="add spirit" id="btnAddSpirit" type="submit" name="btn_add_spirit">Add</button>
+                            <button form="addSpirit" id="btnAddSpirit" type="submit" name="btn_add_spirit">Add</button>
                             <!-- Button to cancel the whole operation -->
-                            <button form="cancel spirit" id="btnCancelSpirit" type="submit" name="btn_cancel_spirit">Cancel</button>
+                            <button form="addSpirit" id="btnCancelSpirit" type="submit" name="btn_cancel_spirit">Cancel</button>
                         </td>
+                        <td>{{addResultString}}</td>
                     </tr>
+                    </form>
                         <!-- Since sending a "post" resets the page, I need to disable the button manually/in Python instead of 
                         letting the Preview Spirit button handle it in html. I pass in add_spirits_disabled from the flask method,
                         which sets the disabled flag to "true" or "false". It's not actually an error, my ide just thinks it is -->
