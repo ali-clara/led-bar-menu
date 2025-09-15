@@ -205,6 +205,7 @@
                             <!-- Button to cancel the whole operation -->
                             <button form="addSpirit" id="btnCancelSpirit" type="submit" name="btn_cancel_spirit">Cancel</button>
                         </td>
+                        <!-- Bit of result text for the user (e.g "successfully added X spirit to Y coordinate") -->
                         <td>{{addResultString}}</td>
                     </tr>
                     </form>
@@ -215,9 +216,7 @@
                         <!-- <script>document.getElementById("btnAddSpirit").disabled = {{addSpiritsDisabled}};</script> -->
                 
                     <tr>
-                        <!-- Bit of result text for the user (e.g "successfully added X spirit to Y coordinate") -->
                         <td></td>
-                        <td>{{addResultString}}</td>
                     </tr>
                 <!-- spaaaace -->
                 <tr><td><br><br></td></tr>
@@ -259,13 +258,12 @@
                         <!-- <td><button type="button" id="button1" value="button 1" onclick="enableButton2()">Test</button></td> -->
                     </tr>
                 </form>
-                <form id="cancel recipe" method="POST"></form>
                     <tr>
                         <td>
                             <!-- Button to add the recipe to the appropriate yaml-->
-                            <button form="add recipe" type="submit">Add</button>
+                            <button form="add recipe" name="btn_add_recipe" type="submit">Add</button>
                             <!-- Button to cancel (just sends a blank POST, could probably make it quicker with JS instead but. no.)-->
-                            <button form="cancel recipe" name="btn_cancel_recipe" type="submit">Cancel</button>
+                            <button form="add recipe" name="btn_cancel_recipe" type="submit">Cancel</button>
                         </td>
                     </tr>
                     <tr>
@@ -290,7 +288,7 @@
                         </datalist></td>
                     </tr>
                     <tr>
-                        <td><button form="remove spirit" type="submit" id="btnRemoveSpirit">Remove</button></td>
+                        <td><button form="remove spirit" type="submit" name="btn_remove_spirit" id="btnRemoveSpirit">Remove</button></td>
                     </tr>
                     <tr>
                         <!-- Bit of result text for the user (e.g "successfully removed X spirit") -->
