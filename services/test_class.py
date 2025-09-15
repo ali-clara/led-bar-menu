@@ -37,13 +37,13 @@ class TestView(FlaskView):
         # self.multiprocess = multiprocessing.Process()
 
 
-        self.input_spirit = ""
-        self.input_coord = ""
-        self.input_tags = []
+        # self.input_spirit = ""
+        # self.input_coord = ""
+        # self.input_tags = []
 
     def _load_menu(self, verbose=True):
         # Read in the main menu and validate it against our master list of ingredients
-        menu_dict_raw, self.tags_dict, alias_dict = recipe.read_main_menu()
+        menu_dict_raw, self.tags_dict, self.tags_organized, alias_dict = recipe.read_main_menu()
         self.all_ingredients, self.location_dict = recipe.load_all_ingredients()
         self.menu_dict = recipe.validate_all_recipes(menu_dict_raw, self.all_ingredients, self.location_dict, self.tags_dict, alias_dict)
         self.all_ingredients_user_facing = [ingredient.replace("_", " ").title() for ingredient in self.all_ingredients]
@@ -57,7 +57,7 @@ class TestView(FlaskView):
         self.collection_names = recipe.load_collection_names(self.menu_dict)
         self.cocktail_names = recipe.load_recipe_names(self.menu_dict)
         self.used_ingredients = recipe.load_used_ingredients(self.menu_dict)
-        self.tags = recipe.load_tags(self.tags_dict)
+        self.tag_names = recipe.load_tag_names(self.tags_dict)
 
         # Build a dictionary that sorts the cocktail names by collection
         #   e.g {'5057 main menu': ['Anthracite Prospector'], '2201 main menu': ['The Highland Locust'], 'lord of the rings': ['Pippin']}
@@ -65,7 +65,7 @@ class TestView(FlaskView):
 
     def _quick_update(self):
         self.lights._forbid_flashing()
-        menu_dict_raw, self.tags_dict, alias_dict = recipe.read_main_menu()
+        menu_dict_raw, self.tags_dict, self.tags_organized, alias_dict = recipe.read_main_menu()
         self.all_ingredients, self.location_dict = recipe.load_all_ingredients()
         # "quiet" mode isn't working and im tearing out my hair
         self.menu_dict = recipe.validate_all_recipes(menu_dict_raw, self.all_ingredients, self.location_dict, self.tags_dict, alias_dict, quiet=True)
@@ -119,7 +119,7 @@ class TestView(FlaskView):
                 print(is_recipe, recipe_match, recipe_score)
                 is_ingredient, ingredient_match, ingredient_score = recipe.check_match(form_entry, self.all_ingredients, match_threshold=0.75)
                 print(is_ingredient, ingredient_match, ingredient_score)
-                is_tag, tag_match, tag_score = recipe.check_match(form_entry, self.tags, match_threshold=0.75)
+                is_tag, tag_match, tag_score = recipe.check_match(form_entry, self.tag_names, match_threshold=0.75)
                 print(is_tag, tag_match, tag_score)
 
                 if is_recipe and recipe_score > ingredient_score:
@@ -315,7 +315,7 @@ class TestView(FlaskView):
             # Check to see if the input matches an ingredient or tag in our database
             is_ingredient, ingredient_match, ingredient_score = recipe.check_match(ingredient_input, self.all_ingredients, match_threshold=0.75)
             # print(is_ingredient, ingredient_match, ingredient_score)
-            is_tag, tag_match, tag_score = recipe.check_match(ingredient_input, self.tags, match_threshold=0.75)
+            is_tag, tag_match, tag_score = recipe.check_match(ingredient_input, self.tag_names, match_threshold=0.75)
             # print(is_tag, tag_match, tag_score)
 
             if is_ingredient and ingredient_score > tag_score:
@@ -369,7 +369,7 @@ class TestView(FlaskView):
                                # These are constants
                                collections=self.collection_names,
                                spiritList=self.all_ingredients_user_facing,
-                               tagList=self.tags, 
+                               tagList=self.tag_names, 
                                # These change as a result of user input
                                inputSpirit=self.input_spirit, 
                                inputCoord=self.input_coord, 
@@ -430,7 +430,7 @@ class TestView(FlaskView):
                 input_coord = request.form["input_add_coord"].upper()
                 # Tags come through as dictionary keys, for some goddamn reason. Tried to make it be any different and could not.
                 # Find tags through the intersection of the dict keys with our list of tag names
-                tags = set(request.form.keys()).intersection(self.tags)
+                tags = set(request.form.keys()).intersection(self.tag_names)
                 input_tags = list(tags)
                 # Check if the coordinate we've been given is valid. If it is, process either the "Preview" or "Add" action
                 if input_coord in self.cabinet_locs:
@@ -447,7 +447,7 @@ class TestView(FlaskView):
                     elif "btn_add_spirit" in request.form.keys():
                         print("add spirit mode")
                         # Try to update the CSV and return the result.
-                        result = recipe.add_spirit(input_spirit, input_coord, input_tags)
+                        result = recipe.add_spirit(input_spirit, input_coord, input_tags, self.tags_organized)
                         if result:
                             add_result = f"Successfully added {input_spirit} to inventory"
                         else:
@@ -476,7 +476,7 @@ class TestView(FlaskView):
                                # These are constants
                                collections=self.collection_names,
                                spiritList=self.all_ingredients_user_facing,
-                               tagList=self.tags, 
+                               tagList=self.tag_names, 
                                # These change as a result of user input
                                inputSpirit=input_spirit, 
                                inputCoord=input_coord, 
@@ -491,9 +491,6 @@ if __name__ == "__main__":
 #     TestView.register(app, route_base = '/')
 #     app.register_error_handler(404, TestView.not_found)
 #     app.run(host='0.0.0.0', port=5000, debug=True)
-    import time
+
     test = TestView()
-    # test._start_flash("A7")
-    # time.sleep(5)
-    # test._stop_flash()
 

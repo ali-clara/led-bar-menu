@@ -20,7 +20,6 @@ def format_as_recipe(input_str:str):
 # -------------------- LOADING & READING -------------------- #
 def read_main_menu():
     recipes_dict = {}
-    tags_dict = {}
     recipe_path = os.path.join(dir_path, "config")
     try:
         for file in glob.glob(recipe_path+"/recipes*.yml"):
@@ -32,22 +31,14 @@ def read_main_menu():
         print(e)
         recipes_dict = {}
 
-    try:
-        for file in glob.glob(recipe_path+"/tags*.yml"):
-            with open(file) as stream:
-                tags_dict.update(yaml.safe_load(stream))
-    except TypeError as e:
-            print(f"Failed to read {file}: {e}")
-    except FileNotFoundError as e:
-        print(e)
-        tags_dict = {}
+    tags_dict_all, tags_dict_organized = load_tags(recipe_path)
 
     try:
         file = dir_path+"/config/aliases.yml"
         with open(file) as stream:
             alias_dict = yaml.safe_load(stream)
     except TypeError as e:
-                    print(f"Failed to read {file}: {e}")
+            print(f"Failed to read {file}: {e}")
     except FileNotFoundError as e:
         print(e)
         alias_dict = {}
@@ -61,13 +52,35 @@ def read_main_menu():
 
             alias_dict_restructured.update({key:aliases})
 
-    return recipes_dict, tags_dict, alias_dict_restructured
+    return recipes_dict, tags_dict_all, tags_dict_organized, alias_dict_restructured
 
 def load_recipe_names(menu_dict):
     return list(menu_dict.keys())
 
-def load_tags(tags_dict):
+def load_tags(recipe_path):
+    tags_dict_all = {}
+    tags_dict_organized = {}
+    
+    try:
+        for file in glob.glob(recipe_path+"/tags*.yml"):
+            with open(file) as stream:
+                # All tags (tag: {ingredients: [spirit_1, spirit_2, ..., spirit_n], notes: , etc})
+                contents = yaml.safe_load(stream)
+                tags_dict_all.update(contents)
+                # Organized tags (parent_tag: [tag_1, tag_2, ..., tag_n])
+                filename = file.split("\\")[-1]
+                tag_names = list(contents.keys())
+                tags_dict_organized.update({filename: tag_names})
+    except TypeError as e:
+        print(f"Failed to read {file}: {e}")
+    except FileNotFoundError as e:
+        print(e)
+    else:
+        return tags_dict_all, tags_dict_organized
+
+def load_tag_names(tags_dict):
     return list(tags_dict.keys())
+
 
 def load_cabinet_locs() -> dict:
     """Loads all the cabinet locations and their corresponding led pixel indices. See the ReadMe for more details on the location
@@ -158,7 +171,6 @@ def get_closest_match(x, list_random, verbose=False):
 
 def check_match(given_input, valid_names, match_threshold=0.875):
     # checks to see if a given tag is close to a key in tags_dict. If it is, it replaces the given tag with the key
-    # tag_names = load_tags(tags_dict)
     best_match, score = get_closest_match(given_input, valid_names)
     # print(given_tag, best_match, score)
     if score > match_threshold:
@@ -188,7 +200,7 @@ def get_closest_match_list(x_list, list_random):
 
 # -------------------- TAGS & ALIASES -------------------- #
 def expand_tag(given_tag, tags_dict):
-    tag_names = load_tags(tags_dict)
+    tag_names = load_tag_names(tags_dict)
     parents = [given_tag]
     children = []
     timeout = 10
@@ -257,6 +269,13 @@ def expand_alias(ingredient, alias_dict:dict):
 
     return names_to_check
 
+def find_tag_parent(tag:str, tags_dict_organized:dict):
+    for parent_tag in tags_dict_organized:
+        if tag in tags_dict_organized[parent_tag]:
+            return parent_tag
+        
+    print(f"Could not find parent tag for {tag}")
+
 # -------------------- CHECKING INVENTORY -------------------- #
 def is_in_stock(ingredient:str, ingredients_dict:dict, recipe_name:str, verbose=False, quiet=False):
     """Checks a given ingredient against our inventory (which has the location "none" if out of stock).
@@ -288,7 +307,7 @@ def validate_one_recipe(recipe:dict, all_ingredients:list, ingredients_dict:dict
     if verbose:
         print(f"Checking {recipe_name}")
 
-    tag_names = load_tags(tags_dict)
+    tag_names = load_tag_names(tags_dict)
     recipe_ingredients = list(recipe.keys())
     ingredient_exists = False
     ingredient_in_stock = False
@@ -400,22 +419,28 @@ def update_recipe_yaml(recipe_name:str, collection:str, notes:str, ingredients:l
                 menu_dict = new_recipe
                 print("Expected dictionary, did not find one. Replacing file contents with new recipe")
             with open(file, 'w') as outfile:
-                yaml.dump(menu_dict, outfile, default_flow_style=False)
+                yaml.dump(menu_dict, outfile, sort_keys=False)
             return True, recipe_name
         
     return False, recipe_name
 
-def add_spirit(spirit:str, coord:str, tags:list):
+def add_spirit(spirit:str, coord:str, tags:list, tags_dict_organized:dict):
     """Updates or adds the given (spirit, coord) pair to ingredients.csv
 
     Args:
         spirit (str): _description_
         coord (str): _description_
     """
-    print(f"TODO: build backend that will eventually add '{spirit}' to {tags}")
     # Check if the given coordinate is valid. If so...
     all_cabinet_locs = load_cabinet_locs()
     if coord in all_cabinet_locs.keys():
+
+        # Add the spirit to the appropriate tags
+        print(f"adding {spirit} to {tags}")
+        result = add_spirit_to_tag_list(spirit, tags, tags_dict_organized)
+        if not result:
+            print(f"Failed adding {spirit} to tags. Not updating inventory.")
+
         # Format a new entry with the given location
         spirit = format_as_inventory(spirit)
         new_row = [spirit, coord]
@@ -451,6 +476,7 @@ def add_spirit(spirit:str, coord:str, tags:list):
                 writer = csv.writer(csvfile, delimiter=',', lineterminator='\n\r')
                 writer.writerow(new_row)
                 return True
+    
     else:
         print(f"Invalid coordinate {coord}")
     return False
@@ -487,6 +513,40 @@ def remove_spirit(spirit:str):
                 print(e)
     return False
 
+def add_spirit_to_tag(spirit:str, tag:str, tags_dict_organized:dict):
+    recipe_path = os.path.join(dir_path, "config")
+    parent = find_tag_parent(tag, tags_dict_organized)
+    if parent:
+        parent_file = os.path.join(recipe_path, parent)
+        with open(parent_file, 'r') as stream:
+            data_dict = yaml.safe_load(stream)
+        try:
+            # Update the "ingredients" key of the tag to include the new spirit
+            data_dict[tag]["ingredients"].update({spirit: {}})
+        except KeyError as e:
+            print(e)
+        else:
+            with open(parent_file, 'w') as outfile:
+                yaml.dump(data_dict, outfile, sort_keys=False)
+            return True
+    else:
+        print(f"Unable to add {spirit} to {tag} - no parent")
+        return False
+
+def add_spirit_to_tag_list(spirit:str, tags:list, tags_dict_organized:dict):
+    results = []
+    for tag in tags:
+        print(tag)
+        result = add_spirit_to_tag(spirit, tag, tags_dict_organized)
+        results.append(result)
+        if not result:
+            print(f"Failed to add {spirit} to {tag}")
+
+    if all(results):
+        return True
+    else:
+        return False
+
 # -------------------- FLAGGING OUR MISTAKES -------------------- #
 def get_all_used_ingredients(menu_dict, tags_dict, verbose=False):
     """_summary_
@@ -500,7 +560,7 @@ def get_all_used_ingredients(menu_dict, tags_dict, verbose=False):
         list: names of all ingredients used in recipes
     """
     # Load all the tag names
-    tag_names = load_tags(tags_dict)
+    tag_names = load_tag_names(tags_dict)
     # Initialize lists for the loops
     all_ingredience_once = set([])
     printed_tags = []
@@ -560,11 +620,12 @@ def check_recipe_against_csv(menu_dict:dict, all_ingredients, tags_dict, alias_d
             print()
 
 if __name__ == "__main__":
-    menu_dict, tags_dict, alias_dict = read_main_menu()
+    menu_dict, tags_dict_all, tags_dict_organized, alias_dict = read_main_menu()
     # print(menu_dict)
     # print("---")
-    # print(tags_dict)
     # print(alias_dict)
+
+    add_spirit_to_tag("test wine", "Vermouth", tags_dict_organized)
 
     # ingredients_list, ingredients_dict = load_all_ingredients()
     # print(ingredients)
@@ -575,11 +636,11 @@ if __name__ == "__main__":
 
     # check_recipe_against_csv(menu_dict, ingredients, tags_dict, alias_dict, verbose=False)
 
-    update_recipe_yaml("test2", "blah", "notes", ["", "two"], ["", "2"], ["", "oz"])
+    # update_recipe_yaml("test2", "blah", "notes", ["", "two"], ["", "2"], ["", "oz"])
 
 
     # recipe_names = load_recipe_names(menu_dict)
-    # tag_names = load_tags(tags_dict)
+    # tag_names = load_tag_names(tags_dict)
     # collections = load_collection_names(menu_dict)
 
     # print(f"Full menu: {menu_dict}")

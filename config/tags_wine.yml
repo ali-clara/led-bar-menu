@@ -1,9 +1,3 @@
-#Calvados:
-#  collection: Tags
-#  ingredients:
-#    boulard_calvados: {}
-#  notes: Calvados
-
 Vermouth:
   collection: Tags
   ingredients:
@@ -13,34 +7,33 @@ Vermouth:
     brovo_jammy: {}
     brovo_witty: {}
     brovo_pretty: {}
-
+    test wine: {}
 Sparkling Wine:
   collection: Tags
   ingredients:
     brut: {}
     prosecco: {}
-    
 Wine (Inclusive):
   collection: Tags
   ingredients:
     Vermouth: {}
     Wine: {}
-  notes: Should probably also include normal wines like a general red or white if they ever make their way onto an ingredients list, but as yet they are not.
-
+  notes: Should probably also include normal wines like a general red or white if
+    they ever make their way onto an ingredients list, but as yet they are not.
 Wine:
   collection: Tags
   ingredients:
     Red Wine: {}
     White Wine: {}
     Sparkling Wine: {}
-  notes: Someday we can add tags for types of red and white wines and blends and shit, but not this day. Also I guess this system isn't fortified against me buying a bottle of that sparkling Syrah
-
+  notes: Someday we can add tags for types of red and white wines and blends and shit,
+    but not this day. Also I guess this system isn't fortified against me buying a
+    bottle of that sparkling Syrah
 Red Wine:
   collection: Tags
   ingredients:
-    placeholder_red_wine: {}
+    red_blend_portugal: {}
   notes: Red, red wine
-
 White Wine:
   collection: Tags
   ingredients:

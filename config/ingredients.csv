@@ -109,10 +109,11 @@ placeholder_coconut_rum, none
 placeholder_honey_liqueur, none
 placeholder_anejo, none
 placeholder_yuzu_gin, none
-placeholder_red_wine, none
 placeholder_white_wine, none
 placeholder_fig_brandy, none
 placeholder_vodka, none
+
+red_blend_portugal, overflow
 
 mai_tai, L4
 
