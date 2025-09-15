@@ -9,6 +9,7 @@ except ImportError:
 import yaml
 import concurrent.futures
 import os
+import threading
 
 try: # run from this script
     import recipe_parsing_helpers as recipe
@@ -38,6 +39,7 @@ class TestView(FlaskView):
 
         self.input_spirit = ""
         self.input_coord = ""
+        self.input_tags = []
 
     def _load_menu(self, verbose=True):
         # Read in the main menu and validate it against our master list of ingredients
@@ -357,28 +359,56 @@ class TestView(FlaskView):
  
     @method("GET")
     @method("POST")
+    def test_dropdown(self):
+        return render_template("test_dropdown.html")
+    
+    
+    def _modify_spirits_return(self, add_result, remove_result, recipe_result):
+        print("hi")
+        return render_template('modify_spirits.html', 
+                               # These are constants
+                               collections=self.collection_names,
+                               spiritList=self.all_ingredients_user_facing,
+                               tagList=self.tags, 
+                               # These change as a result of user input
+                               inputSpirit=self.input_spirit, 
+                               inputCoord=self.input_coord, 
+                               recipeResultString=recipe_result, 
+                               removeResultString=remove_result, 
+                               addResultString=add_result)
+    
+    @method("GET")
+    @method("POST")
     def modify_spirits(self):
         """Developer mode babey"""
         self._quick_update()
 
-        # Set some initial parameters to pass to html
+        # Set some initial parameters. These get passed to the HTML as result strings for the user
+        # (e.g "Successfully added Roku Gin at coordinate A7" or "Failed to remove St Germain")
         recipe_result = ""
         remove_result = ""
         add_result = ""
+        input_spirit = ""
+        input_coord = ""
+        input_tags = []
 
         if request.method == "POST":
             # Clear the LEDS, if they're on
             self.lights.all_off()
-
-            if "input_recipe_name" in request.form.keys():
+            # Cancel adding recipe
+            if "btn_cancel_recipe" in request.form.keys():
+                pass
+            # Add recipe
+            elif "btn_add_recipe" in request.form.keys():
                 print("add recipe mode")
+                print(request.form.keys())
                 # Pull out the name, collection, and notes directly with their keys.
                 recipe_name = request.form["input_recipe_name"]
                 recipe_collection = request.form["input_recipe_collection"]
                 recipe_notes = request.form["input_recipe_notes"]
                 # Since we can have an arbitrary number of ingredients, extracting them is slightly different.
-                # The cocktail ingredients, amounts, and units start at the third, fourth, and fifth index of request.form, 
-                # in that order. To get them organized nicely, we start at the appropriate index and grab every third dictionary value.
+                # The cocktail ingredients, amounts, and units - respectively - start after "input_recipe_notes"
+                # To get them organized nicely, we start at the appropriate index and grab every third dictionary value.
                 cocktail_makeup = list(request.form.values())[3:]
                 ingredients = cocktail_makeup[0::3]
                 amounts = cocktail_makeup[1::3]
@@ -390,46 +420,47 @@ class TestView(FlaskView):
                     recipe_result = f"Successfully added {updated_name}!"
                 else:
                     recipe_result = f"Failed to add {updated_name}. Sure would be great if we had logs published to the website"
-
-            # "Preview" mode
-            elif "btn_preview" in request.form.keys():
-                print("preview spirit mode")
-                print(request.form)
+            # Cancel adding or previewing spirit
+            elif "btn_cancel_spirit" in request.form.keys():
+                print("cancel input spirit")
+            # Add or preview spirit
+            elif "input_add_spirit" in request.form.keys():
                 # Get the values of the html input elements
-                self.input_spirit = request.form["input_prev_spirit"]
-                self.input_coord = request.form["input_prev_coord"].upper()
-                # Check that the given coord is valid
-                if self.input_coord in self.cabinet_locs:
-                    # If it's valid, light up the pixels.
-                    # Not currently threading, I just thought it was
-                    # Multiprocessing breaks things
-                    # Add thread from here?
-                    self.lights._allow_flashing()
-                    self.lights.illuminate_location(self.input_coord, flash=True)
-                    add_result = f'Lighting up coordinate {self.input_coord}' # Doesn't currently update (threading problem)
+                input_spirit = request.form["input_add_spirit"]
+                input_coord = request.form["input_add_coord"].upper()
+                # Tags come through as dictionary keys, for some goddamn reason. Tried to make it be any different and could not.
+                # Find tags through the intersection of the dict keys with our list of tag names
+                tags = set(request.form.keys()).intersection(self.tags)
+                input_tags = list(tags)
+                # Check if the coordinate we've been given is valid. If it is, process either the "Preview" or "Add" action
+                if input_coord in self.cabinet_locs:
+                    # Preview mode
+                    if "btn_preview_spirit" in request.form.keys():
+                        print("preview spirit mode")
+                        # Spin up a thread to flash the LEDs in that location
+                        self.lights._allow_flashing()
+                        t = threading.Thread(target=self.lights.illuminate_location, args=(input_coord, True, False))
+                        t.start()
+                        # self.lights.illuminate_location(self.input_coord, flash=True)
+                        add_result = f'Lighting up coordinate {input_coord}'
+                    # Add mode
+                    elif "btn_add_spirit" in request.form.keys():
+                        print("add spirit mode")
+                        # Try to update the CSV and return the result.
+                        result = recipe.add_spirit(input_spirit, input_coord, input_tags)
+                        if result:
+                            add_result = f"Successfully added {input_spirit} to inventory"
+                        else:
+                            add_result = f"Failed to add {input_spirit} despite a valid coordinate. Hmm."
+                        # Update the html display
+                        input_spirit = ""
+                        input_coord = ""
+                        input_tags = []
+                # If it's not valid, let us know
                 else:
-                    add_result = f'Invalid coordinate "{self.input_coord}"'
-            # "Add" mode
-            elif "btn_add" in request.form.keys():
-                print("add spirit mode")
-                print(self.input_spirit)
-                # Since the 'Add' button is always active (because my threading isn't working, that's a todo), do another
-                # coordinate validity check
-                if self.input_coord in self.cabinet_locs:
-                    # If we're good, try to update the CSV
-                    result = recipe.add_spirit(self.input_spirit, self.input_coord)
-                    if result:
-                        add_result = f"Successfully added {self.input_spirit} to inventory"
-                    else:
-                        add_result = f"Failed to add {self.input_spirit} despite a valid coordinate. Hmm."
-                else:
-                    add_result = f'Invalid coordinate "{self.input_coord}"'
-
-                # Update the html display
-                self.input_spirit = ""
-                self.input_coord = ""
-            # "Remove" mode
-            elif "input_remove_spirit" in request.form.keys():
+                    add_result = f'Invalid coordinate "{input_coord}"'
+            # Remove spirit
+            elif "btn_remove_spirit" in request.form.keys():
                 print("remove spirit mode")
                 spirit_to_remove = request.form["input_remove_spirit"]
                 # Have a popup window here that asks if you're sure. While the window is up, have the 
@@ -441,11 +472,17 @@ class TestView(FlaskView):
                 else:
                     remove_result = f"Failed to remove {spirit_to_remove}. Does that spirit exist?"
 
-
-        return render_template('modify_spirits.html', collections=self.collection_names,
-                               inputSpirit=self.input_spirit, inputCoord=self.input_coord, spiritList=self.all_ingredients_user_facing, 
-                               recipeResultString=recipe_result, removeResultString=remove_result, addResultString=add_result)
-
+        return render_template('modify_spirits.html', 
+                               # These are constants
+                               collections=self.collection_names,
+                               spiritList=self.all_ingredients_user_facing,
+                               tagList=self.tags, 
+                               # These change as a result of user input
+                               inputSpirit=input_spirit, 
+                               inputCoord=input_coord, 
+                               recipeResultString=recipe_result, 
+                               removeResultString=remove_result, 
+                               addResultString=add_result)
 
 
 # TestView.register(app, route_base = '/')
@@ -459,6 +496,4 @@ if __name__ == "__main__":
     # test._start_flash("A7")
     # time.sleep(5)
     # test._stop_flash()
-
-    test._forbid_flashing()
 

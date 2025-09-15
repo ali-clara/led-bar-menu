@@ -84,6 +84,54 @@
         function disableButton2() {
             document.getElementById("button2").disabled = true;
         }
+    
+        function dropDown(){
+            // Callback for dropdownInput.onClick
+            // Opens the dropdown and keeps it there. We don't want clicking the input box to keep toggling the dropdown
+            // back and forth, so here's a one-way ticket
+            var arrow = document.getElementById('dropdownArrow');
+            var checkList = document.getElementById('tagsDropdown');
+            var button = document.getElementById('dropdownButton')
+            if (!checkList.classList.contains("visible")){
+                checkList.classList.toggle("visible");
+                arrow.classList.toggle("rotate-up");
+                button.classList.toggle("pressed");
+            }
+        }
+        
+        function toggleDropdown() {
+            // Callback for dropdownButton.onClick
+            // Opens and closes the dropdown menu
+            var checkList = document.getElementById('tagsDropdown');
+            var button = document.getElementById('dropdownButton');
+            var arrow = document.getElementById('dropdownArrow');
+            
+            // Ah, glorious 'toggle'. If it's on, turn it off. Etc etc
+            button.classList.toggle("pressed");
+            arrow.classList.toggle("rotate-up");
+            checkList.classList.toggle("visible");
+        }
+
+        function filterFunction() {
+            // Limits the visible dropdown options as you type in the "Search" input
+            const checkboxes = document.querySelectorAll("ul input");
+            var input, filter, li, a, i;
+            input = document.getElementById("dropdownInput");
+            filter = input.value.toUpperCase();
+            div = document.getElementById("tagsDropdown");
+            a = div.getElementsByTagName("li");
+            // Loop through the checkboxes. If they're selected or they match the search value, keep them visible
+            for (i = 0; i < a.length; i++) {
+                box = checkboxes[i];
+                txtValue = a[i].textContent || a[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1 || box.checked) {
+                a[i].style.display = "";
+                } else {
+                a[i].style.display = "none";
+                }
+            }
+        }
+    
     </script>
 </head>
 
@@ -105,43 +153,74 @@
   
         <div class="middle">
             <table id="tbl">
-                <form id="preview spirit" method="POST">
+                <!-- ------------------- PREVIEW & ADD SPIRITS ------------------- -->
+                <form id="addSpirit" method="POST">
                     <tr>
                         <td><strong>Add Spirit</strong></td>
                     </tr>
                     <tr>
                         <td>Name: </td>
-                        <td><input list="spirits" id="inputPrevSpirit" name="input_prev_spirit" value="{{inputSpirit}}"></td>
+                        <td><input list="spirits" id="inputAddSpirit" name="input_add_spirit" value="{{inputSpirit}}"></td>
                     </tr>
                     <tr>
                         <td>Coordinate: </td>
-                        <td><input list="coordinates" id="inputPrevCoord" name="input_prev_coord" value={{inputCoord}}></td>
+                        <td><input list="coordinates" id="inputAddCoord" name="input_add_coord" value={{inputCoord}}></td>
+                    </tr>                
+                    <tr>
+                        <td>Tags: </td>
+                        <td>
+                            <!-- <input list="tags" id="inputTags" name="input_recipe_tags">
+                            <datalist id="tags">
+                                {% for tag in tagList %}
+                                <option value="{{tag}}">{{tag}}</option>
+                                {% endfor %}
+                            </datalist> -->
+                            <div id="tagsDropdown" class="dropdown-check-list">
+                                <span class="anchor">
+                                    <input type="text" placeholder="Search..." id="dropdownInput" onkeyup="filterFunction()" onclick="dropDown()">
+                                    <button class="dropdown-button" type="button" id="dropdownButton" onclick="toggleDropdown()">
+                                        <i class="arrow" id="dropdownArrow"></i>
+                                    </button>
+                                </span>
+                                <ul class="items" name="dropdownItems">
+                                    {% for tag in tagList %}
+                                    <li><input type="checkbox" id="{{tag}}" name="{{tag}}"/><label for="{{tag}}">{{tag}}</label></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+
+                        </td>
                     </tr>
+                    <!-- </form> -->
+                    <!-- <form id="cancel spirit" method="POST"></form>
+                    <form id="add spirit" method="POST"> -->
+                    <tr>
+                        <td> 
                     <tr>
                         <td>
-                        <!-- Button to preview the spirit location - lights up the leds but doesn't change the csv -->
-                        <button form="preview spirit" type="submit" name="btn_preview">Preview</button>
-                </form>
-                        <!-- Button to add the spirit to our master list. We want "Add" to be disabled until you preview the location -->
-                <form id="add spirit" method="POST">
-                    <!-- <input type="hidden" id="hiddenAddSpirit" name="hidden_add_spirit" value={{inputSpirit}}>
-                    <input type="hidden" id="hiddenAddCoord" name="hidden_add_coord" value={{inputCoord}}> -->
-                        <button form="add spirit" id="btnAddSpirit" type="submit" name="btn_add">Add</button>
+                            <!-- Button to preview the spirit location - lights up the leds but doesn't change the csv -->
+                            <button form="addSpirit" type="submit" name="btn_preview_spirit">Preview</button>
+                            <!-- Button to add the spirit to our master list.-->
+                            <button form="addSpirit" id="btnAddSpirit" type="submit" name="btn_add_spirit">Add</button>
+                            <!-- Button to cancel the whole operation -->
+                            <button form="addSpirit" id="btnCancelSpirit" type="submit" name="btn_cancel_spirit">Cancel</button>
                         </td>
+                        <!-- Bit of result text for the user (e.g "successfully added X spirit to Y coordinate") -->
+                        <td>{{addResultString}}</td>
+                    </tr>
+                    </form>
                         <!-- Since sending a "post" resets the page, I need to disable the button manually/in Python instead of 
                         letting the Preview Spirit button handle it in html. I pass in add_spirits_disabled from the flask method,
                         which sets the disabled flag to "true" or "false". It's not actually an error, my ide just thinks it is -->
                         <!-- Might come back to this if I get threading to work, so leaving it here -->
                         <!-- <script>document.getElementById("btnAddSpirit").disabled = {{addSpiritsDisabled}};</script> -->
-                    </tr>
+                
                     <tr>
                         <td></td>
-                        <td>{{addResultString}}</td>
                     </tr>
-                </form>
-                
+                <!-- spaaaace -->
                 <tr><td><br><br></td></tr>
-            
+                <!-- ------------------- ADD RECIPE ------------------- -->
                 <form id="add recipe" method="POST">
                     <tr>
                         <td><strong>Add Recipe</strong></td>
@@ -178,24 +257,29 @@
                         <td><button form="add recipe" type="button" id="btnAddIng" onclick="AddField('tbl', 'btnAddIng')">Add ingredient</button></td>
                         <!-- <td><button type="button" id="button1" value="button 1" onclick="enableButton2()">Test</button></td> -->
                     </tr>
-                    <!-- Button to add the recipe to the appropriate yaml-->
+                </form>
                     <tr>
-                        <td><button form="add recipe" type="submit">Add</button></td>
+                        <td>
+                            <!-- Button to add the recipe to the appropriate yaml-->
+                            <button form="add recipe" name="btn_add_recipe" type="submit">Add</button>
+                            <!-- Button to cancel (just sends a blank POST, could probably make it quicker with JS instead but. no.)-->
+                            <button form="add recipe" name="btn_cancel_recipe" type="submit">Cancel</button>
+                        </td>
                     </tr>
                     <tr>
+                        <!-- Bit of result text for the user (e.g "successfully added X recipe") -->
                         <td></td>
                         <td>{{recipeResultString}}</td>
                     </tr>
-                </form>
+                <!-- spaaaace -->
                 <tr><td><br><br></td></tr>
-
+                <!-- ------------------- REMOVE SPIRIT ------------------- -->
                 <form id="remove spirit" method="POST">
                     <tr>
                         <td><strong>Remove Spirit</strong></td>
                     </tr>
                     <tr>
                         <td>Name: </td>
-                        <!-- <td><input id="inputRemoveSpirit" name="input_remove_spirit"></td> -->
                         <td><input list="spiritList" id="inputRemoveSpirit" name="input_remove_spirit"></td>
                         <td><datalist id="spiritList">
                             {% for spirit in spiritList %}
@@ -204,9 +288,10 @@
                         </datalist></td>
                     </tr>
                     <tr>
-                        <td><button form="remove spirit" type="submit" id="btnRemoveSpirit">Remove</button></td>
+                        <td><button form="remove spirit" type="submit" name="btn_remove_spirit" id="btnRemoveSpirit">Remove</button></td>
                     </tr>
                     <tr>
+                        <!-- Bit of result text for the user (e.g "successfully removed X spirit") -->
                         <td></td>
                         <td>{{removeResultString}}</td>
                     </tr>

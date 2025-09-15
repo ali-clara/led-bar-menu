@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/mainstyle.css') }}">
+    <title>Title</title>
+
+    <script>
+        function dropDown(){
+            // Callback for dropdownInput.onClick
+            // Opens the dropdown and keeps it there. We don't want clicking the input box to keep toggling the dropdown
+            // back and forth, so here's a one-way ticket
+            var arrow = document.getElementById('dropdownArrow');
+            var checkList = document.getElementById('tagsDropdown');
+            var button = document.getElementById('dropdownButton');
+            if (!checkList.classList.contains("visible")){
+                checkList.classList.toggle("visible");
+                arrow.classList.toggle("rotate-up");
+                button.classList.toggle("pressed");
+            }
+        }
+        
+        function toggleDropdown() {
+            // Callback for dropdownButton.onClick
+            // Opens and closes the dropdown menu
+            var checkList = document.getElementById('tagsDropdown');
+            var button = document.getElementById('dropdownButton');
+            var arrow = document.getElementById('dropdownArrow');
+            
+            // Ah, glorious 'toggle'. If it's on, turn it off. Etc etc
+            button.classList.toggle("pressed");
+            arrow.classList.toggle("rotate-up");
+            checkList.classList.toggle("visible");
+        }
+
+        function filterFunction() {
+            // Limits the visible dropdown options as you type in the "Search" input
+            const checkboxes = document.querySelectorAll("ul input");
+            var input, filter, li, a, i;
+            input = document.getElementById("dropdownInput");
+            filter = input.value.toUpperCase();
+            div = document.getElementById("tagsDropdown");
+            a = div.getElementsByTagName("li");
+            // Loop through the checkboxes. If they're selected or they match the search value, keep them visible
+            for (i = 0; i < a.length; i++) {
+                box = checkboxes[i];
+                txtValue = a[i].textContent || a[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1 || box.checked) {
+                a[i].style.display = "";
+                } else {
+                a[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="grid-container">
+        <div class="header">
+        </div>
+    
+        <div class="left">
+          <!-- Navbar! We're not on any menu page, so don't set any of them active -->
+          <div class="vertical-menu">
+            <a href="/menu">Home</a>
+            <a href="/collections_main_page">Collections</a>
+            <a href="/random_cocktail_generator">Random Cocktail Generator</a>
+            <a href="/credits">Credits</a>
+          </div>
+        </div>
+  
+        <div class="middle">
+            <div id="tagsDropdown" class="dropdown-check-list" tabindex="100">
+                <span class="anchor">
+                    <input type="text" placeholder="Search..." id="dropdownInput" onkeyup="filterFunction()" onclick="dropDown()">
+                    <button class="dropdown-button" type="button" id="dropdownButton" onclick="toggleDropdown()">
+                        <i class="arrow" id="dropdownArrow"></i>
+                    </button>
+                </span>
+                <ul class="items">
+                    <li><input type="checkbox" id="apple" name="apple"/><label for="apple">Apple</label></li>
+                    <li><input type="checkbox" />Orange</li>
+                    <li><input type="checkbox" />Grapes </li>
+                    <li><input type="checkbox" />Berry </li>
+                    <li><input type="checkbox" />Mango </li>
+                    <li><input type="checkbox" />Banana </li>
+                    <li><input type="checkbox" />Tomato</li>
+                </ul>
+            </div>
+
+
+        </div>  
+    
+      <div class="footer">
+        <a href="/put_away_ingredient">♫♪♪ Clean up, clean up ♫♪♪</a> <br>
+        <a href="/modify_spirits">Add a new spirit</a>
+      </div>
+  
+    </div>
+  </body>
+
+  </html>
