@@ -432,53 +432,62 @@ def add_spirit(spirit:str, coord:str, tags:list, tags_dict_organized:dict):
         coord (str): _description_
     """
     # Check if the given coordinate is valid. If so...
-    all_cabinet_locs = load_cabinet_locs()
-    if coord in all_cabinet_locs.keys():
+    # all_cabinet_locs = load_cabinet_locs()
+    # if coord in all_cabinet_locs.keys():
 
-        # Add the spirit to the appropriate tags
-        print(f"adding {spirit} to {tags}")
-        result = add_spirit_to_tag_list(spirit, tags, tags_dict_organized)
-        if not result:
-            print(f"Failed adding {spirit} to tags. Not updating inventory.")
-
-        # Format a new entry with the given location
-        spirit = format_as_inventory(spirit)
-        new_row = [spirit, coord]
-        spirit_exists = False
-        # Grab the old rows of the csv
-        with open(os.path.join(dir_path, "config/ingredients.csv"), 'r') as orig:
-            orig_rows = [row for row in csv.reader(orig)]
-
-        # We want to avoid duplicate entries here, so first look through all existing rows of the csv.
-        # If we find a match, update its position
-        with open(os.path.join(dir_path, "config/ingredients.csv"), 'w', newline='') as file:
-            writer = csv.writer(file)
-            for row in orig_rows:
-                # Try-except block in case we've done anything funny with the csv
-                try:
-                    # Jack likes having spaces in the csv for organization, so preserve that here
-                    if len(row) == 0:
-                        writer.writerow([])
-                    # Write all other rows as they were
-                    elif row[0] != spirit:
-                        writer.writerow(row)
-                    # Replace the one to "remove" with the new row: spirit_name, "none"
-                    else:
-                        writer.writerow(new_row)
-                        spirit_exists = True
-                        return True
-                except Exception as e:
-                    print(e)
-
-        # If we don't find a match, add the new spirit to the end
-        if not spirit_exists:
-            with open(os.path.join(dir_path, "config/ingredients.csv"), 'a') as csvfile:
-                writer = csv.writer(csvfile, delimiter=',', lineterminator='\n\r')
-                writer.writerow(new_row)
-                return True
-    
+    # String formatting
+    spirit = format_as_inventory(spirit)
+    # If it's a coordinate (has a number), format as such (uppercase). Otherwise, make it lowercase
+    if any(char.isnumeric() for char in coord):
+        coord = coord.upper()
     else:
-        print(f"Invalid coordinate {coord}")
+        coord = format_as_inventory(coord)
+
+    # Add the spirit to the appropriate tags
+    print(f"adding {spirit} to {tags}")
+    result = add_spirit_to_tag_list(spirit, tags, tags_dict_organized)
+    if not result:
+        print(f"Failed to add {spirit} to tags. Not updating inventory.")
+        return False
+
+    # Format a new entry with the given location
+    new_row = [spirit, coord]
+    spirit_exists = False
+    # Grab the old rows of the csv
+    with open(os.path.join(dir_path, "config/ingredients.csv"), 'r') as orig:
+        orig_rows = [row for row in csv.reader(orig)]
+
+    # We want to avoid duplicate entries here, so first look through all existing rows of the csv.
+    # If we find a match, update its position
+    with open(os.path.join(dir_path, "config/ingredients.csv"), 'w', newline='') as file:
+        writer = csv.writer(file)
+        for row in orig_rows:
+            # Try-except block in case we've done anything funny with the csv
+            try:
+                # Jack likes having spaces in the csv for organization, so preserve that here
+                if len(row) == 0:
+                    writer.writerow([])
+                # Write all other rows as they were
+                elif row[0] != spirit:
+                    writer.writerow(row)
+                # Replace the one to "remove" with the new row: spirit_name, "none"
+                else:
+                    writer.writerow(new_row)
+                    spirit_exists = True
+            except Exception as e:
+                print(e)
+
+    # If we don't find a match, add the new spirit to the end
+    
+    if spirit_exists:
+        return True
+    else:
+        with open(os.path.join(dir_path, "config/ingredients.csv"), 'a') as csvfile:
+            writer = csv.writer(csvfile, delimiter=',', lineterminator='\n\r')
+            writer.writerow(new_row)
+            return True
+    
+    
     return False
 
 def remove_spirit(spirit:str):

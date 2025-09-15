@@ -39,7 +39,7 @@ class TestView(FlaskView):
 
         # self.input_spirit = ""
         # self.input_coord = ""
-        # self.input_tags = []
+        self.input_tags = []
 
     def _load_menu(self, verbose=True):
         # Read in the main menu and validate it against our master list of ingredients
@@ -363,20 +363,6 @@ class TestView(FlaskView):
         return render_template("test_dropdown.html")
     
     
-    def _modify_spirits_return(self, add_result, remove_result, recipe_result):
-        print("hi")
-        return render_template('modify_spirits.html', 
-                               # These are constants
-                               collections=self.collection_names,
-                               spiritList=self.all_ingredients_user_facing,
-                               tagList=self.tag_names, 
-                               # These change as a result of user input
-                               inputSpirit=self.input_spirit, 
-                               inputCoord=self.input_coord, 
-                               recipeResultString=recipe_result, 
-                               removeResultString=remove_result, 
-                               addResultString=add_result)
-    
     @method("GET")
     @method("POST")
     def modify_spirits(self):
@@ -428,37 +414,40 @@ class TestView(FlaskView):
                 # Get the values of the html input elements
                 input_spirit = request.form["input_add_spirit"]
                 input_coord = request.form["input_add_coord"].upper()
+
                 # Tags come through as dictionary keys, for some goddamn reason. Tried to make it be any different and could not.
                 # Find tags through the intersection of the dict keys with our list of tag names
                 tags = set(request.form.keys()).intersection(self.tag_names)
-                input_tags = list(tags)
-                # Check if the coordinate we've been given is valid. If it is, process either the "Preview" or "Add" action
-                if input_coord in self.cabinet_locs:
-                    # Preview mode
-                    if "btn_preview_spirit" in request.form.keys():
-                        print("preview spirit mode")
+                # If we have new tags or haven't updated init tags, update our stored value. 
+                # Otherwise, the preview -> add progression clears memory
+                if len(tags) > 0 or len(self.input_tags) == 0:
+                    self.input_tags = list(tags) # should figure out how to do this in JS and not w a class var
+                # Preview mode
+                if "btn_preview_spirit" in request.form.keys():
+                    print("preview spirit mode")
+                    if input_coord in self.cabinet_locs:
                         # Spin up a thread to flash the LEDs in that location
                         self.lights._allow_flashing()
                         t = threading.Thread(target=self.lights.illuminate_location, args=(input_coord, True, False))
                         t.start()
                         # self.lights.illuminate_location(self.input_coord, flash=True)
                         add_result = f'Lighting up coordinate {input_coord}'
+                    else:
+                        add_result = f'Warning - {input_coord} is not a cabinet coordinate. If that was intentional, carry on.'
                     # Add mode
-                    elif "btn_add_spirit" in request.form.keys():
-                        print("add spirit mode")
-                        # Try to update the CSV and return the result.
-                        result = recipe.add_spirit(input_spirit, input_coord, input_tags, self.tags_organized)
-                        if result:
-                            add_result = f"Successfully added {input_spirit} to inventory"
-                        else:
-                            add_result = f"Failed to add {input_spirit} despite a valid coordinate. Hmm."
-                        # Update the html display
-                        input_spirit = ""
-                        input_coord = ""
-                        input_tags = []
-                # If it's not valid, let us know
-                else:
-                    add_result = f'Invalid coordinate "{input_coord}"'
+                elif "btn_add_spirit" in request.form.keys():
+                    print("add spirit mode")
+                    # Try to update the CSV and return the result.
+                    print(self.input_tags)
+                    result = recipe.add_spirit(input_spirit, input_coord, self.input_tags, self.tags_organized)
+                    if result:
+                        add_result = f"Successfully added {input_spirit} to inventory"
+                    else:
+                        add_result = f"Failed to add {input_spirit}. Hmm."
+                    # Update the html display
+                    input_spirit = ""
+                    input_coord = ""
+                    self.input_tags = []
             # Remove spirit
             elif "btn_remove_spirit" in request.form.keys():
                 print("remove spirit mode")
