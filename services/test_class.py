@@ -360,7 +360,8 @@ class TestView(FlaskView):
     @method("GET")
     @method("POST")
     def test_dropdown(self):
-        return render_template("test_dropdown.html")
+        fruits = ["Apple", "Orange", "Grapes", "Berry", "Mango", "Banana"]
+        return render_template("test_dropdown.html", testList=fruits)
     
     
     @method("GET")
@@ -377,6 +378,8 @@ class TestView(FlaskView):
         input_spirit = ""
         input_coord = ""
         input_tags = []
+
+        print(input_spirit, input_coord, input_tags)
 
         if request.method == "POST":
             # Clear the LEDS, if they're on
@@ -409,22 +412,27 @@ class TestView(FlaskView):
             # Cancel adding or previewing spirit
             elif "btn_cancel_spirit" in request.form.keys():
                 print("cancel input spirit")
+                input_spirit = ""
+                input_coord = ""
+                input_tags = ""
             # Add or preview spirit
             elif "input_add_spirit" in request.form.keys():
+                print(request.form.keys())
                 # Get the values of the html input elements
                 input_spirit = request.form["input_add_spirit"]
                 input_coord = request.form["input_add_coord"].upper()
-
                 # Tags come through as dictionary keys, for some goddamn reason. Tried to make it be any different and could not.
                 # Find tags through the intersection of the dict keys with our list of tag names
                 tags = set(request.form.keys()).intersection(self.tag_names)
                 # If we have new tags or haven't updated init tags, update our stored value. 
                 # Otherwise, the preview -> add progression clears memory
-                if len(tags) > 0 or len(self.input_tags) == 0:
-                    self.input_tags = list(tags) # should figure out how to do this in JS and not w a class var
+                # if len(tags) > 0 or len(self.input_tags) == 0:
+                input_tags = list(tags) # should figure out how to do this in JS and not w a class var
+                print(input_tags)
                 # Preview mode
                 if "btn_preview_spirit" in request.form.keys():
                     print("preview spirit mode")
+                    print(input_tags)
                     if input_coord in self.cabinet_locs:
                         # Spin up a thread to flash the LEDs in that location
                         self.lights._allow_flashing()
@@ -434,12 +442,12 @@ class TestView(FlaskView):
                         add_result = f'Lighting up coordinate {input_coord}'
                     else:
                         add_result = f'Warning - {input_coord} is not a cabinet coordinate. If that was intentional, carry on.'
-                    # Add mode
+                # Add mode
                 elif "btn_add_spirit" in request.form.keys():
                     print("add spirit mode")
+                    print(input_tags)
                     # Try to update the CSV and return the result.
-                    print(self.input_tags)
-                    result = recipe.add_spirit(input_spirit, input_coord, self.input_tags, self.tags_organized)
+                    result = recipe.add_spirit(input_spirit, input_coord, input_tags, self.tags_organized)
                     if result:
                         add_result = f"Successfully added {input_spirit} to inventory"
                     else:
@@ -447,7 +455,7 @@ class TestView(FlaskView):
                     # Update the html display
                     input_spirit = ""
                     input_coord = ""
-                    self.input_tags = []
+                    input_tags = []
             # Remove spirit
             elif "btn_remove_spirit" in request.form.keys():
                 print("remove spirit mode")
@@ -468,7 +476,8 @@ class TestView(FlaskView):
                                tagList=self.tag_names, 
                                # These change as a result of user input
                                inputSpirit=input_spirit, 
-                               inputCoord=input_coord, 
+                               inputCoord=input_coord,
+                               inputTags=input_tags, 
                                recipeResultString=recipe_result, 
                                removeResultString=remove_result, 
                                addResultString=add_result)
