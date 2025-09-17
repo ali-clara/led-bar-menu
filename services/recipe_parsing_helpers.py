@@ -8,8 +8,7 @@ import glob
 import numpy as np
 import csv
 
-dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
-similarity_threshold = 0.75
+# similarity_threshold = 0.75
 
 def format_as_inventory(input_str:str):
     return input_str.replace(" ", "_").lower().strip()
@@ -17,106 +16,153 @@ def format_as_inventory(input_str:str):
 def format_as_recipe(input_str:str):
     return input_str.replace("_", " ").title().strip()
 
-# -------------------- LOADING & READING -------------------- #
-def read_main_menu():
-    recipe_path = os.path.join(dir_path, "config")
-    
-    recipes_dict = load_recipes(recipe_path)
-    tags_dict_all, tags_dict_organized = load_tags(recipe_path)
+class Menu:
+    def __init__(self):
+        self.dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
+        self.recipe_path = os.path.join(self.dir_path, "config")
+        
+        # Big menu, matches the layout of the yamls
+        self.menu_dict = self.load_recipes()
+        # Dictionary of all tags {tag: {ingredients: [spirit_1, spirit_2, ..., spirit_n], notes: , etc}}, dictionary of organized tags {parent_tag: [tag_1, tag_2, ..., tag_n]}
+        self.tags_dict_all, self.tags_dict_organized = self.load_tags()
+        self.alias_dict = self.load_aliases()
+        # Dictionary of {coordinate:led pixels}, list of coordinates
+        self.led_dict, self.cabinet_locations = self.load_cabinet_locs()
+        # Pull info from ingredients.csv: 
+        # List of spirits (& other), dictionary of {spirit:location}, set of locations
+        self.inventory, self.spirit_dict, self.used_locations = self.load_all_ingredients()
+        # List of used locations not in the cabinet (e.g "fridge")
+        self.non_cabinet_locations = self.used_locations.difference(self.cabinet_locations)
 
-    try:
-        file = dir_path+"/config/aliases.yml"
-        with open(file) as stream:
-            alias_dict = yaml.safe_load(stream)
-    except TypeError as e:
-            print(f"Failed to read {file}: {e}")
-    except FileNotFoundError as e:
-        print(e)
-        alias_dict = {}
-    else:
-        alias_dict_restructured = {}
-        for key in alias_dict:
-            aliases = list(alias_dict[key]["ingredients"].keys())
+        self.similarity_threshold = 0.75
 
-            aliases = [format_as_inventory(alias) for alias in aliases]
-            key = format_as_inventory(key)
-
-            alias_dict_restructured.update({key:aliases})
-
-    return recipes_dict, tags_dict_all, tags_dict_organized, alias_dict_restructured
-
-def load_recipes(recipe_path):
-    recipes_dict = {}
-    try:
-        for file in glob.glob(recipe_path+"/recipes*.yml"):
-            with open(file) as stream:
-                    recipes_dict.update(yaml.safe_load(stream))
-    except TypeError as e:
-        print(f"Failed to read {file}: {e}")
-    except FileNotFoundError as e:
-        print(e)
+    def load_recipes(self):
         recipes_dict = {}
-    return recipes_dict
-
-
-def load_recipe_names(menu_dict):
-    return list(menu_dict.keys())
-
-def load_tags(recipe_path):
-    tags_dict_all = {}
-    tags_dict_organized = {}
-    
-    try:
-        for file in glob.glob(recipe_path+"/tags*.yml"):
-            with open(file) as stream:
-                # All tags (tag: {ingredients: [spirit_1, spirit_2, ..., spirit_n], notes: , etc})
-                contents = yaml.safe_load(stream)
-                tags_dict_all.update(contents)
-                # Organized tags (parent_tag: [tag_1, tag_2, ..., tag_n])
-                filename = file.split("\\")[-1]
-                tag_names = list(contents.keys())
-                tags_dict_organized.update({filename: tag_names})
-    except TypeError as e:
-        print(f"Failed to read {file}: {e}")
-    except FileNotFoundError as e:
-        print(e)
-    else:
-        return tags_dict_all, tags_dict_organized
-
-def load_tag_names(tags_dict):
-    return list(tags_dict.keys())
-
-
-def load_cabinet_locs() -> dict:
-    """Loads all the cabinet locations and their corresponding led pixel indices. See the ReadMe for more details on the location
-    setup - briefly, rows are letters (A-N) and 'columns' are numbers (1-7)(I think).
-
-    Returns:
-        dict: Location: [[start pix 1, stop pix 1], ... [start pix n, stop pix n]]
-    """
-    try:
-        file = dir_path+"/config/led_locs_final.yml"
-        with open(file) as stream:
-            all_locations_dict = yaml.safe_load(stream)
-    except FileNotFoundError as e:
-        print(e)
-        all_locations_dict = {}
-
-    return all_locations_dict
-
-def load_collection_names(menu_dict):
-    collections = []
-    for cocktail in menu_dict:
-        # Grab what collection it belongs to, correcting for capitalization just in case.
         try:
-            collection = menu_dict[cocktail]['collection'].title()
-        except KeyError as e:
-                print(f"Loading collections raised key error -- {cocktail} does not have {e} field.")
-        # Check if its in our list of collections. If it's not, add it.
+            for file in glob.glob(self.recipe_path+"/recipes*.yml"):
+                with open(file) as stream:
+                        recipes_dict.update(yaml.safe_load(stream))
+        except TypeError as e:
+            print(f"Failed to read {file}: {e}")
+        except FileNotFoundError as e:
+            print(e)
         else:
-            if collection not in collections:
-                collections.append(collection)
-    return collections
+            return recipes_dict
+        
+    def load_tags(self):
+        tags_dict_all = {}
+        tags_dict_organized = {}
+        
+        try:
+            for file in glob.glob(self.recipe_path+"/tags*.yml"):
+                with open(file) as stream:
+                    # All tags (tag: {ingredients: [spirit_1, spirit_2, ..., spirit_n], notes: , etc})
+                    contents = yaml.safe_load(stream)
+                    tags_dict_all.update(contents)
+                    # Organized tags (parent_tag: [tag_1, tag_2, ..., tag_n])
+                    filename = file.split(os.path.sep)[-1]
+                    tag_names = list(contents.keys())
+                    tags_dict_organized.update({filename: tag_names})
+        except TypeError as e:
+            print(f"Failed to read {file}: {e}")
+        except FileNotFoundError as e:
+            print(e)
+        else:
+            return tags_dict_all, tags_dict_organized
+        
+    def load_aliases(self):
+        try:
+            file = os.path.join(self.recipe_path, "aliases.yml")
+            with open(file) as stream:
+                alias_dict = yaml.safe_load(stream)
+        except TypeError as e:
+            print(f"Failed to read {file}: {e}")
+        except FileNotFoundError as e:
+            print(e)
+        else:
+            alias_dict_restructured = {}
+            for key in alias_dict:
+                aliases = list(alias_dict[key]["ingredients"].keys())
+
+                aliases = [format_as_inventory(alias) for alias in aliases]
+                key = format_as_inventory(key)
+
+                alias_dict_restructured.update({key:aliases})
+            return alias_dict_restructured
+        
+    def load_cabinet_locs(self) -> dict:
+        """Loads all the cabinet locations and their corresponding led pixel indices. See the ReadMe for more details on the location
+        setup - briefly, rows are letters (A-N) and 'columns' are numbers (1-7)(I think).
+
+        Returns:
+            dict: Location: [[start pix 1, stop pix 1], ... [start pix n, stop pix n]]
+        """
+        try:
+            file = os.path.join(self.recipe_path, "led_locs_final.yml")
+            with open(file) as stream:
+                led_locations_dict = yaml.safe_load(stream)
+        except FileNotFoundError as e:
+            print(e)
+        else:
+            cabinet_locations = list(led_locations_dict.keys())
+            cabinet_locations.sort()
+            return led_locations_dict, cabinet_locations
+    
+    def load_all_ingredients(self):
+        """_summary_
+
+        Returns:
+            list, dict: list of text-formatted ingredients, dictionary of ingredient:location
+        """
+        all_ingredients = pd.read_csv(os.path.join(self.recipe_path, "ingredients.csv"), names=["ingredients", "locations"])
+        all_ingredients_list =  list(all_ingredients["ingredients"])
+        locations = [loc.strip() for loc in all_ingredients["locations"]]
+        location_dict = {ingredient:location for ingredient, location in zip(all_ingredients_list, locations)}
+        # Pull a list of all used locations from the values of that dictionary
+        used_locations = set(location_dict.values())
+
+        return all_ingredients_list, location_dict, used_locations
+        
+    def get_recipe_names(self):
+        return list(self.menu_dict.keys())
+    
+    def get_tag_names(self):
+        return list(self.tags_dict_all.keys())
+    
+    def get_used_ingredients(self):
+        ingredient_list = set([])
+        for cocktail in self.menu_dict:
+            try:
+                # temp_ingredients = list(self.menu_dict[cocktail]["ingredients"].keys())
+                [ingredient_list.add(ing) for ing in self.menu_dict[cocktail]["ingredients"].keys()]
+                # for ingredient in temp_ingredients:
+                #     if ingredient not in ingredient_list:
+                #         ingredient_list.append(ingredient)
+            except KeyError as e:
+                print(f"Parsing ingredients raised key error -- {cocktail} does not have {e} field.")
+
+        return ingredient_list
+    
+    def get_collection_names(self):
+        collections = []
+        for cocktail in self.menu_dict:
+            # Grab what collection it belongs to, correcting for capitalization just in case.
+            try:
+                collection = self.menu_dict[cocktail]['collection'].title()
+            except KeyError as e:
+                    print(f"Parsing collections raised key error -- {cocktail} does not have {e} field.")
+            # Check if its in our list of collections. If it's not, add it.
+            else:
+                if collection not in collections:
+                    collections.append(collection)
+        return collections
+    
+    
+
+
+# -------------------- LOADING & READING -------------------- #
+
+
 
 def sort_collections(menu_dict, collections):
     collection_dict = {collection_name:[] for collection_name in collections}
@@ -131,29 +177,11 @@ def sort_collections(menu_dict, collections):
     
     return collection_dict
 
-def load_used_ingredients(menu_dict):
-    ingredient_list = []
-    for cocktail in menu_dict:
-        temp_ingredients = list(menu_dict[cocktail]["ingredients"].keys())
-        for ingredient in temp_ingredients:
-            if ingredient not in ingredient_list:
-                ingredient_list.append(ingredient)
 
-    return ingredient_list
-
-def load_all_ingredients():
-    """_summary_
-
-    Returns:
-        list, dict: list of text-formatted ingredients, dictionary of ingredient:location
-    """
-    all_ingredients = pd.read_csv(os.path.join(dir_path, "config/ingredients.csv"), names=["ingredients", "locations"])
-    all_ingredients_list =  list(all_ingredients["ingredients"])
-    # locations = list(all_ingredients["locations"])
-    locations = [loc.strip() for loc in all_ingredients["locations"]]
-    location_dict = {ingredient:location for ingredient, location in zip(all_ingredients_list, locations)}
-
-    return all_ingredients_list, location_dict
+myMenu = Menu()
+dir_path = myMenu.dir_path
+load_tag_names = myMenu.get_tag_names
+similarity_threshold = myMenu.similarity_threshold
 
 # -------------------- FUZZY STRINGS -------------------- #
 def get_closest_match(x, list_random, verbose=False):
@@ -634,12 +662,17 @@ def check_recipe_against_csv(menu_dict:dict, all_ingredients, tags_dict, alias_d
             print()
 
 if __name__ == "__main__":
-    menu_dict, tags_dict_all, tags_dict_organized, alias_dict = read_main_menu()
+
+
+    print(myMenu.tags_dict_organized)
+
+
+    # menu_dict, tags_dict_all, tags_dict_organized, alias_dict = read_main_menu()
     # print(menu_dict)
     # print("---")
     # print(alias_dict)
 
-    add_spirit_to_tag("test wine", "Vermouth", tags_dict_organized)
+    # add_spirit_to_tag("test wine", "Vermouth", tags_dict_organized)
 
     # ingredients_list, ingredients_dict = load_all_ingredients()
     # print(ingredients)
