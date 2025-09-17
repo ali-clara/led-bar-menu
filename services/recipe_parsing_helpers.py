@@ -19,10 +19,9 @@ def format_as_recipe(input_str:str):
 
 # -------------------- LOADING & READING -------------------- #
 def read_main_menu():
-    recipes_dict = {}
     recipe_path = os.path.join(dir_path, "config")
     
-    recipe_dict = load_recipes(recipe_path)
+    recipes_dict = load_recipes(recipe_path)
     tags_dict_all, tags_dict_organized = load_tags(recipe_path)
 
     try:
@@ -47,6 +46,7 @@ def read_main_menu():
     return recipes_dict, tags_dict_all, tags_dict_organized, alias_dict_restructured
 
 def load_recipes(recipe_path):
+    recipes_dict = {}
     try:
         for file in glob.glob(recipe_path+"/recipes*.yml"):
             with open(file) as stream:
