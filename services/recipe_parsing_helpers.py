@@ -21,16 +21,8 @@ def format_as_recipe(input_str:str):
 def read_main_menu():
     recipes_dict = {}
     recipe_path = os.path.join(dir_path, "config")
-    try:
-        for file in glob.glob(recipe_path+"/recipes*.yml"):
-            with open(file) as stream:
-                    recipes_dict.update(yaml.safe_load(stream))
-    except TypeError as e:
-        print(f"Failed to read {file}: {e}")
-    except FileNotFoundError as e:
-        print(e)
-        recipes_dict = {}
-
+    
+    recipe_dict = load_recipes(recipe_path)
     tags_dict_all, tags_dict_organized = load_tags(recipe_path)
 
     try:
@@ -53,6 +45,19 @@ def read_main_menu():
             alias_dict_restructured.update({key:aliases})
 
     return recipes_dict, tags_dict_all, tags_dict_organized, alias_dict_restructured
+
+def load_recipes(recipe_path):
+    try:
+        for file in glob.glob(recipe_path+"/recipes*.yml"):
+            with open(file) as stream:
+                    recipes_dict.update(yaml.safe_load(stream))
+    except TypeError as e:
+        print(f"Failed to read {file}: {e}")
+    except FileNotFoundError as e:
+        print(e)
+        recipes_dict = {}
+    return recipes_dict
+
 
 def load_recipe_names(menu_dict):
     return list(menu_dict.keys())

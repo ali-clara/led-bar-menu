@@ -379,8 +379,6 @@ class TestView(FlaskView):
         input_coord = ""
         input_tags = []
 
-        print(input_spirit, input_coord, input_tags)
-
         if request.method == "POST":
             # Clear the LEDS, if they're on
             self.lights.all_off()
@@ -414,7 +412,7 @@ class TestView(FlaskView):
                 print("cancel input spirit")
                 input_spirit = ""
                 input_coord = ""
-                input_tags = ""
+                input_tags = []
             # Add or preview spirit
             elif "input_add_spirit" in request.form.keys():
                 print(request.form.keys())
@@ -424,15 +422,10 @@ class TestView(FlaskView):
                 # Tags come through as dictionary keys, for some goddamn reason. Tried to make it be any different and could not.
                 # Find tags through the intersection of the dict keys with our list of tag names
                 tags = set(request.form.keys()).intersection(self.tag_names)
-                # If we have new tags or haven't updated init tags, update our stored value. 
-                # Otherwise, the preview -> add progression clears memory
-                # if len(tags) > 0 or len(self.input_tags) == 0:
-                input_tags = list(tags) # should figure out how to do this in JS and not w a class var
-                print(input_tags)
+                input_tags = list(tags)
                 # Preview mode
                 if "btn_preview_spirit" in request.form.keys():
                     print("preview spirit mode")
-                    print(input_tags)
                     if input_coord in self.cabinet_locs:
                         # Spin up a thread to flash the LEDs in that location
                         self.lights._allow_flashing()
@@ -445,7 +438,6 @@ class TestView(FlaskView):
                 # Add mode
                 elif "btn_add_spirit" in request.form.keys():
                     print("add spirit mode")
-                    print(input_tags)
                     # Try to update the CSV and return the result.
                     result = recipe.add_spirit(input_spirit, input_coord, input_tags, self.tags_organized)
                     if result:
