@@ -33,9 +33,14 @@ class Menu:
         self.inventory, self.spirit_dict, self.used_locations = self.load_all_ingredients()
         # List of used locations not in the cabinet (e.g "fridge")
         self.non_cabinet_locations = self.used_locations.difference(self.cabinet_locations)
+        # List of collection names
+        self.hidden_collections = ["Debug"]
+        self.collections = self.get_collection_names()
 
         self.similarity_threshold = 0.75
 
+    
+    # -------------------- LOADING & READING -------------------- #
     def load_recipes(self):
         recipes_dict = {}
         try:
@@ -153,29 +158,207 @@ class Menu:
                     print(f"Parsing collections raised key error -- {cocktail} does not have {e} field.")
             # Check if its in our list of collections. If it's not, add it.
             else:
-                if collection not in collections:
+                if collection not in collections and collection not in self.hidden_collections:
                     collections.append(collection)
+
         return collections
     
+    def sort_by_collections(self):
+        collection_dict = {collection_name:[] for collection_name in self.collections}
+        for collection in collection_dict:
+            for cocktail in self.menu_dict:
+                try:
+                    if self.menu_dict[cocktail]["collection"].title() == collection:
+                        collection_dict[collection].append(cocktail)
+                except KeyError as e:
+                    print(f"Sorting collections raised key error {e} -- {cocktail} does not have 'collection' field.")
+        
+        return collection_dict
     
+    # -------------------- TAGS & ALIASES -------------------- #
+    def expand_tag(self, given_tag:str):
+        """Fully expands a tag into all its children. 'Brandy (inclusive) becomes ['boulard_calvados', 'pear_williams', 
+        'christian_brothers_vs', 'christian_brothers_vsop', 'placeholder_fig_brandy', 'fidelitas_kirsch']
 
+        Args:
+            given_tag (str): Tag name
 
-# -------------------- LOADING & READING -------------------- #
+        Returns:
+            list: children
 
+            OR
+            
+            False: input has no children
+        """
+        tag_names = self.get_tag_names()
+        parents = [given_tag]
+        children = []
+        timeout = 10
 
+        # Stops after 10 iterations as a failsafe -- If we accidentally put in circular tags, it'll spin and spin
+        i = 0
+        while len(parents) > 0:
+            if i > timeout:
+                print(f"Error: circular tags detected: {parents}")
+                return False
+            
+            for parent in parents:
+                # Remove the expanded tag
+                parents.remove(parent)
 
-def sort_collections(menu_dict, collections):
-    collection_dict = {collection_name:[] for collection_name in collections}
-    for collection in collection_dict:
-        for cocktail in menu_dict:
-            try:
-                if menu_dict[cocktail]["collection"].title() == collection:
-                    collection_dict[collection].append(cocktail)
-            except KeyError as e:
-                pass
-                # print(f"Sorting collections raised key error {e} -- {cocktail} does not have 'collection' field.")
+                # If our parent is a tag, expand it into kids
+                tag, parent, _ = check_match(parent, tag_names)
+                if tag:
+                    kids = list(self.tags_dict_all[parent]["ingredients"].keys())
+                    # For each of those kids...
+                    for kid in kids:
+                        # If it's a tag, put it in parents
+                        tag, kid, _ = check_match(kid, tag_names)
+                        if tag:
+                            parents.append(kid)
+                        # Otherwise, put it in children
+                        else:
+                            children.append(kid)
+            i += 1
+        # print(f"{given_tag} expanded to {children}")
+        if len(children) > 0:
+            return children
+        else:
+            return False
+
+    def expand_alias(self, ingredient:str):
+        """Gets any aliases of the given ingredient. Does some string format control
+
+        Args:
+            ingredient (str): _description_
+            alias_dict (dict): _description_
+
+        Returns:
+            list: aliases (if no aliases found, returns [ingredient])
+        """
+            
+        ingredient = format_as_inventory(ingredient)
+        names_to_check = [ingredient]
+
+        # print(ingredient)
+        # if it's a key, add its values
+        if ingredient in self.alias_dict.keys():
+            values = self.alias_dict[ingredient]
+            [names_to_check.append(value) for value in values]
+
+        # if it's a value, add its keys
+        for key in self.alias_dict:
+            aliases = self.alias_dict[key]
+            if ingredient in aliases:
+                names_to_check.append(key)
+
+        # print(f"given {ingredient}, should check {names_to_check} against the ingredients list")
+
+        return names_to_check
+
+    def find_tag_parent(self, tag:str):
+        """Finds the "parent" of a tag. "tags_rum.yml" is the parent of Cachaca, Planteray Light Rum, etc
+
+        Args:
+            tag (str): _description_
+
+        Returns:
+            str: Parent tag, if it exists. Otherwise returns None
+        """
+        for parent_tag in self.tags_dict_organized:
+            if tag in self.tags_dict_organized[parent_tag]:
+                return parent_tag
+            
+        print(f"Could not find parent tag for {tag}")
+
+    # -------------------- CHECKING INVENTORY -------------------- #
+    def is_in_stock(self, ingredient:str, recipe_name:str, verbose=False, quiet=False):
+        """Checks a given ingredient against our inventory (which has the location "none" if out of stock).
+
+        Args:
+            ingredient (str): _description_
+            recipe_name (str): _description_
+            verbose (bool, optional): _description_. Defaults to False.
+
+        Returns:
+            _type_: _description_
+        """
+        loc = self.spirit_dict[ingredient].strip()
+        if loc == "none":
+            if not quiet:
+                ingredient = "\033[1m"+ingredient+"\033[0m"
+                print(f"Could not validate {recipe_name}, {ingredient} out of stock")
+            return False
+        else:
+            if verbose:
+                print(f"Found {ingredient} in inventory list, location {loc}")
+            return True
     
-    return collection_dict
+    def validate_one_recipe(self, recipe:dict, recipe_name:str, verbose=False, quiet=False):
+        # if all the ingredients of the recipe are good, recipe is good
+        # otherwise, false
+        if verbose:
+            print(f"Checking {recipe_name}")
+
+        tag_names = self.get_tag_names()
+        recipe_ingredients = list(recipe.keys())
+        ingredient_exists = False
+        ingredient_in_stock = False
+
+        for ingredient in recipe_ingredients:
+            # First, check the ingredient name and any aliases it might be under
+            ing_aliases = self.expand_alias(ingredient)
+            if verbose:
+                print(f"Checking {ingredient} (aliases {ing_aliases[1:]})")
+            # For each alias: if we can find it, check if it's in stock. If not, break here
+            for alias in ing_aliases:
+                if alias in self.inventory:
+                    ingredient_exists = True
+                    if not self.is_in_stock(alias, recipe_name, verbose, quiet):
+                        return False
+                    else:
+                        ingredient_in_stock = True
+                # If we've found an ingredient that works, we can stop here
+                if ingredient_in_stock:
+                    break
+            # Then check if it's a tag, and repeat the process for any children
+            if ingredient in tag_names:
+                children = self.expand_tag(ingredient)
+                # Get any aliases of each child and check them against the inventory list
+                for child in children:
+                    tag_aliases = self.expand_alias(child)
+                    if verbose:
+                        print(f"Found {child} (aliases {tag_aliases[1:]}) in the {ingredient} tag")
+                    for alias in tag_aliases:
+                        if alias in self.inventory:
+                            ingredient_exists = True
+                            if not self.is_in_stock(alias, recipe_name, verbose):
+                                return False
+                            else:
+                                ingredient_in_stock = True
+                    # If we've found an ingredient that works, we can stop here
+                    if ingredient_in_stock:
+                        break
+                        
+            if not ingredient_exists:
+                if not quiet:
+                    print(f"Could not validate {recipe_name}, {ingredient} not found in inventory or tags")
+                return False
+                    
+        return True
+
+    def validate_all_recipes(self, verbose=False, quiet=False):
+        # Makes sure we have the ingredients to make a recipe
+
+        # for each recipe, validate it. If it's good, keep it.
+        # Otherwise, throw out the recipe and flag it (let us know)
+        validated_menu = copy.deepcopy(self.menu_dict)
+        for key in self.menu_dict:
+            recipe = self.menu_dict[key]["ingredients"]
+            if not self.validate_one_recipe(recipe, key, verbose, quiet):
+                validated_menu.pop(key)
+        
+        return validated_menu
 
 
 myMenu = Menu()
@@ -184,11 +367,11 @@ load_tag_names = myMenu.get_tag_names
 similarity_threshold = myMenu.similarity_threshold
 
 # -------------------- FUZZY STRINGS -------------------- #
-def get_closest_match(x, list_random, verbose=False):
+def get_closest_match(x, to_check_against, verbose=False):
     best_match = None
     highest_jaro = 0
     close_to = []
-    for current_string in list_random:
+    for current_string in to_check_against:
         current_score = jf.jaro_similarity(x, current_string)
         if current_score > similarity_threshold:
             close_to.append(current_string)
@@ -211,193 +394,11 @@ def check_match(given_input, valid_names, match_threshold=0.875):
     else:
         return False, given_input, score
 
-def test_similarity(used_ingredients, all_ingredients):
-    for used in used_ingredients:
-        result, score = get_closest_match(used, all_ingredients, verbose=True)
+def test_similarity(list_to_match:list, to_check_against:list):
+    for used in list_to_match:
+        result, score = get_closest_match(used, to_check_against, verbose=True)
         print(used, "|", result, "|", score)
 
-def get_closest_match_list(x_list, list_random):
-    best_match = None
-    best_score = 0
-    for x in x_list:
-        result, score = get_closest_match(x, list_random)
-        if score > best_score:
-            best_match = result
-            best_score = score
-
-    # print(x_list)
-    # print(best_match, best_score)
-    # print("---")
-    
-    return best_match, best_score
-
-# -------------------- TAGS & ALIASES -------------------- #
-def expand_tag(given_tag, tags_dict):
-    tag_names = load_tag_names(tags_dict)
-    parents = [given_tag]
-    children = []
-    timeout = 10
-
-    # Stops after 10 iterations as a failsafe -- . If we accidentally put in circular tags, it'll spin and spin
-    i = 0
-    while len(parents) > 0:
-        if i > timeout:
-            print(f"Error: circular tags detected: {parents}")
-            return False
-        
-        for parent in parents:
-            # Remove the expanded tag
-            parents.remove(parent)
-
-            # If our parent is a tag, expand it into kids
-            tag, parent, _ = check_match(parent, tag_names)
-            if tag:
-                kids = list(tags_dict[parent]["ingredients"].keys())
-                # For each of those kids...
-                for kid in kids:
-                    # If it's a tag, put it in parents
-                    tag, kid, _ = check_match(kid, tag_names)
-                    if tag:
-                        parents.append(kid)
-                    # Otherwise, put it in children
-                    else:
-                        children.append(kid)
-            
-        i += 1
-
-    # print(f"{given_tag} expanded to {children}")
-
-    if len(children) > 0:
-        return children
-    else:
-        return False
-
-def expand_alias(ingredient, alias_dict:dict):
-    """Gets any aliases of the given ingredient. Does some string format control
-
-    Args:
-        ingredient (str): _description_
-        alias_dict (dict): _description_
-
-    Returns:
-        list: aliases (if no aliases found, returns [ingredient])
-    """
-        
-    ingredient = format_as_inventory(ingredient)
-    names_to_check = [ingredient]
-
-    # print(ingredient)
-    # if it's a key, add its values
-    if ingredient in alias_dict.keys():
-        values = alias_dict[ingredient]
-        [names_to_check.append(value) for value in values]
-
-    # if it's a value, add its keys
-    for key in alias_dict:
-        aliases = alias_dict[key]
-        if ingredient in aliases:
-            names_to_check.append(key)
-
-    # print(f"given {ingredient}, should check {names_to_check} against the ingredients list")
-
-    return names_to_check
-
-def find_tag_parent(tag:str, tags_dict_organized:dict):
-    for parent_tag in tags_dict_organized:
-        if tag in tags_dict_organized[parent_tag]:
-            return parent_tag
-        
-    print(f"Could not find parent tag for {tag}")
-
-# -------------------- CHECKING INVENTORY -------------------- #
-def is_in_stock(ingredient:str, ingredients_dict:dict, recipe_name:str, verbose=False, quiet=False):
-    """Checks a given ingredient against our inventory (which has the location "none" if out of stock).
-
-    Args:
-        ingredient (str): _description_
-        ingredients_dict (dict): _description_
-        recipe_name (str): _description_
-        verbose (bool, optional): _description_. Defaults to False.
-
-    Returns:
-        _type_: _description_
-    """
-    loc = ingredients_dict[ingredient].strip()
-    if loc == "none":
-        if not quiet:
-            # print(quiet)
-            ingredient = "\033[1m"+ingredient+"\033[0m"
-            print(f"Could not validate {recipe_name}, {ingredient} out of stock")
-        return False
-    else:
-        if verbose:
-            print(f"Found {ingredient} in inventory list, location {loc}")
-        return True
-
-def validate_one_recipe(recipe:dict, all_ingredients:list, ingredients_dict:dict, recipe_name:str, tags_dict, alias_dict, verbose=False, quiet=False):
-    # if all the ingredients of the recipe are good, recipe is good
-    # otherwise, false
-    if verbose:
-        print(f"Checking {recipe_name}")
-
-    tag_names = load_tag_names(tags_dict)
-    recipe_ingredients = list(recipe.keys())
-    ingredient_exists = False
-    ingredient_in_stock = False
-
-    for ingredient in recipe_ingredients:
-        # First, check the ingredient name and any aliases it might be under
-        ing_aliases = expand_alias(ingredient, alias_dict)
-        if verbose:
-            print(f"Checking {ingredient} (aliases {ing_aliases[1:]})")
-        # For each alias: if we can find it, check if it's in stock. If not, break here
-        for alias in ing_aliases:
-            if alias in all_ingredients:
-                ingredient_exists = True
-                if not is_in_stock(alias, ingredients_dict, recipe_name, verbose, quiet):
-                    return False
-                else:
-                    ingredient_in_stock = True
-            # If we've found an ingredient that works, we can stop here
-            if ingredient_in_stock:
-                break
-        # Then check if it's a tag, and repeat the process for any children
-        if ingredient in tag_names:
-            children = expand_tag(ingredient, tags_dict)
-            # Get any aliases of each child and check them against the inventory list
-            for child in children:
-                tag_aliases = expand_alias(child, alias_dict)
-                if verbose:
-                    print(f"Found {child} (aliases {tag_aliases[1:]}) in the {ingredient} tag")
-                for alias in tag_aliases:
-                    if alias in all_ingredients:
-                        ingredient_exists = True
-                        if not is_in_stock(alias, ingredients_dict, recipe_name, verbose):
-                            return False
-                # If we've found an ingredient that works, we can stop here
-                if ingredient_in_stock:
-                    break
-                    
-        if not ingredient_exists:
-            if not quiet:
-                print(f"Could not validate {recipe_name}, {ingredient} not found in inventory or tags")
-            return False
-                
-    return True
-
-def validate_all_recipes(menu_dict:dict, all_ingredients_list, all_ingredients_dict, tags_dict, alias_dict, verbose=False, quiet=False):
-    # should: make sure we have the ingredients to make a recipe
-    # currently: makes too many of its own decisions
-
-    # for each recipe, validate it. If it's good, keep it.
-    # Otherwise, throw out the recipe and flag it (let us know)
-    validated_menu = copy.deepcopy(menu_dict)
-    for key in menu_dict:
-        recipe = menu_dict[key]["ingredients"]
-        if not validate_one_recipe(recipe, all_ingredients_list, all_ingredients_dict, key, tags_dict, alias_dict, verbose, quiet):
-            validated_menu.pop(key)
-    
-    return validated_menu
 
 # -------------------- ADDING THINGS VIA WEBSITE -------------------- #
 def format_new_recipe_yaml(recipe_name:str, collection:str, notes:str, ingredients:list, amounts:list, units:list):
@@ -664,7 +665,11 @@ def check_recipe_against_csv(menu_dict:dict, all_ingredients, tags_dict, alias_d
 if __name__ == "__main__":
 
 
-    print(myMenu.tags_dict_organized)
+    # print(myMenu.expand_tag("Brandy (inclusive)"))
+    # print(myMenu.expand_alias("Amaro 04"))
+    # print(myMenu.find_tag_parent("Planteray Light Rum"))
+
+    print(myMenu.validate_all_recipes())
 
 
     # menu_dict, tags_dict_all, tags_dict_organized, alias_dict = read_main_menu()
