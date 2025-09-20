@@ -41,7 +41,7 @@ class TestView(FlaskView):
 
         # self.input_spirit = ""
         # self.input_coord = ""
-        self.input_tags = []
+        # self.input_tags = []
 
     def _quick_update(self):
         self.lights._forbid_flashing()
