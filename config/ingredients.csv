@@ -232,7 +232,7 @@ lemon_sparkling_water, soda
 lime_sparkling_water, soda
 grapefruit_soda, none
 tonic, soda
-club_soda, none
+club_soda, soda
 
 white_sugar, kitchen
 sugar, kitchen
@@ -240,4 +240,3 @@ vanilla_extract, kitchen
 vanilla, kitchen
 cinnamon, kitchen
 cinnamon_stick, kitchen
-

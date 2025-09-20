@@ -67,9 +67,12 @@ class Menu:
         self.recipe_path = os.path.join(self.dir_path, "config")
         self.update()
 
-    def update(self):
+    def update(self, verbose=False, quiet=True):
+        if not quiet:
+            print("Updating main menu")
+        # Load everything
         # Big menu, matches the layout of the yamls
-        self.menu_dict = self.load_recipes()
+        menu_dict_raw = self.load_recipes()
         # Dictionary of all tags {tag: {ingredients: [spirit_1, spirit_2, ..., spirit_n], notes: , etc}}, dictionary of organized tags {parent_tag: [tag_1, tag_2, ..., tag_n]}
         self.tags_dict_all, self.tags_dict_organized = self.load_tags()
         self.alias_dict = self.load_aliases()
@@ -78,6 +81,11 @@ class Menu:
         # Pull info from ingredients.csv: 
         # List of spirits (& other), dictionary of {spirit:location}, set of locations
         self.inventory, self.spirit_dict, self.used_locations = self.load_all_ingredients()
+
+        # Sort, validate, and modify anything that needs modifying
+        # Menu of everything in stock
+        self.menu_dict = self.validate_all_recipes(menu_dict_raw, verbose, quiet)
+        # Inventory formatted for the website
         self.inventory_user_facing = [format_as_recipe(spirit) for spirit in self.inventory]
         # List of used locations not in the cabinet (e.g "fridge")
         self.non_cabinet_locations = self.used_locations.difference(self.cabinet_locations)
@@ -393,7 +401,7 @@ class Menu:
         print(f"Could not find parent tag for {tag}")
 
     # -------------------- CHECKING INVENTORY -------------------- #
-    def is_in_stock(self, ingredient:str, recipe_name:str, verbose=False, quiet=False):
+    def is_in_stock(self, ingredient:str, recipe_name:str, verbose, quiet):
         """Checks a given ingredient against our inventory (which has the location "none" if out of stock).
 
         Args:
@@ -415,7 +423,7 @@ class Menu:
                 print(f"Found {ingredient} in inventory list, location {loc}")
             return True
     
-    def validate_one_recipe(self, recipe:dict, recipe_name:str, verbose=False, quiet=False):
+    def validate_one_recipe(self, recipe:dict, recipe_name:str, verbose, quiet):
         # if all the ingredients of the recipe are good, recipe is good
         # otherwise, false
         if verbose:
@@ -453,7 +461,7 @@ class Menu:
                     for alias in tag_aliases:
                         if alias in self.inventory:
                             ingredient_exists = True
-                            if not self.is_in_stock(alias, recipe_name, verbose):
+                            if not self.is_in_stock(alias, recipe_name, verbose, quiet):
                                 return False
                             else:
                                 ingredient_in_stock = True
@@ -468,14 +476,14 @@ class Menu:
                     
         return True
 
-    def validate_all_recipes(self, verbose=False, quiet=False):
+    def validate_all_recipes(self, menu_to_validate, verbose=False, quiet=True):
         # Makes sure we have the ingredients to make a recipe
 
         # for each recipe, validate it. If it's good, keep it.
         # Otherwise, throw out the recipe and flag it (let us know)
-        validated_menu = copy.deepcopy(self.menu_dict)
-        for key in self.menu_dict:
-            recipe = self.menu_dict[key]["ingredients"]
+        validated_menu = copy.deepcopy(menu_to_validate)
+        for key in menu_to_validate:
+            recipe = menu_to_validate[key]["ingredients"]
             if not self.validate_one_recipe(recipe, key, verbose, quiet):
                 validated_menu.pop(key)
         
@@ -696,7 +704,7 @@ if __name__ == "__main__":
     def check_collections():
         print("Collections: ", myMenu.collections)
     
-    # check_recipe_against_csv()
+    check_recipe_against_csv()
     # check_tags_and_aliases()
     # check_inventory()
     check_collections()

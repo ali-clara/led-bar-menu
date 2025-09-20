@@ -5,3 +5,13 @@ Test_With_Output:
       amount: '1'
       units: oz
   notes: ''
+Test Refactored:
+  collection: debug
+  ingredients:
+    Rum:
+      amount: '1'
+      units: oz
+    Falernum:
+      amount: '0.5'
+      units: oz
+  notes: from pc

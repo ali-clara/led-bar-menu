@@ -36,8 +36,8 @@ class TestView(FlaskView):
         self.lights = LED()
         self.lit_up_ingredients = []
         self.random_ten = []
-        # self.multiprocess = multiprocessing.Process()
 
+        self._quick_update()
 
         # self.input_spirit = ""
         # self.input_coord = ""
@@ -45,7 +45,7 @@ class TestView(FlaskView):
 
     def _quick_update(self):
         self.lights._forbid_flashing()
-        self.main_menu.update()
+        self.main_menu.update(quiet=False)
         self.lights.update()
         
     

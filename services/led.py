@@ -84,7 +84,8 @@ class LED:
         # should just turn this into "reload everything pls" now that this file reads config independently
         
     def update(self):
-        self.main_menu.update()
+        print("Updating LED coordinates")
+        self.main_menu.update(verbose=False, quiet=True)
     
     def get_rainbow_color(self):
         # When we run out of colors, reset the rainbow and continue
