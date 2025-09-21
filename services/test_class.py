@@ -6,51 +6,62 @@ try:
 except ImportError:
     from services.led import LED
 
-import yaml
-import concurrent.futures
 import os
 import threading
 
 try: # run from this script
     import recipe_parsing_helpers as recipe
     from randomizer import Randomizer as rands
+    import parameter_helpers as params
 except ImportError: # run from the main script
     from services import recipe_parsing_helpers as recipe
     from services.randomizer import Randomizer as rands
-
+    from services import parameter_helpers as params
 
 def format_for_web(string:str):
     return string.replace("_", " ").title()
 
+print("Starting")
 dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
+params.add_or_update_param("menu_update_pending", True)
+
 # app = Flask(__name__, template_folder=dir_path+"/templates")
 
 class TestView(FlaskView):
 
     def __init__(self) -> None:
 
+        # Initialize the other classes
         self.main_menu = recipe.Menu()
-
-        print("init")
         super().__init__()
-        self.lights = LED()
+        self.lights = LED() # note here that I've created another instance of Menu(), make sure their updates stay in sync
+
+        # Initialize a few class variables
+        # Due to HTML wizardry and ghosts, class vars can be fucky if you try to use them in between website pages. For vars
+        # that need more breadth, use params.yml
         self.lit_up_ingredients = []
         self.random_ten = []
-        # self.multiprocess = multiprocessing.Process()
 
-
-        # self.input_spirit = ""
-        # self.input_coord = ""
-        self.input_tags = []
-
-    def _quick_update(self):
-        self.lights._forbid_flashing()
-        self.main_menu.update()
-        self.lights.update()
+        self._quick_update()
         
+    def _quick_update(self):
+        """Checks if we need to update the menu dictionary, and updates if so. Always disables lights flashing.
+        """
+        self.lights._forbid_flashing()
+
+        need_menu_update = params.get_param("menu_update_pending")
+        if need_menu_update:
+            self.main_menu.update(quiet=False)
+            self.lights.update()
+
+        params.add_or_update_param("menu_update_pending", False)
     
     def _full_update(self):
-        pass
+        """Doesn't check if we need an update first, just does it anyway. Still disables lights flashing."""
+        self.lights._forbid_flashing()
+        self.main_menu.update(quiet=False)
+        self.lights.update()
+        params.add_or_update_param("menu_update_pending", False)
     
     def index(self):
         """The main page. Redirects to the menu
@@ -71,8 +82,7 @@ class TestView(FlaskView):
         # print(f"available cocktails: {self.cocktail_names}")
         # print(f"collections: {self.collection_names}")
 
-        # These may become class vars eventually
-        chosen_ingredients = [] # proxy for led lights
+        # Initialize HTML args
         chosen_collection = None
 
         # If we've gotten a change of state on the server (in this case, due to user entry),
@@ -90,7 +100,7 @@ class TestView(FlaskView):
 
             # If the form has returned a cocktail, process that
             if element_name == "cocktail input":
-
+                # Fuzzy string checking!
                 is_recipe, recipe_match, recipe_score = recipe.check_match(form_entry, self.main_menu.get_recipe_names(), match_threshold=0.705)
                 print(is_recipe, recipe_match, recipe_score)
                 is_ingredient, ingredient_match, ingredient_score = recipe.check_match(form_entry, self.main_menu.get_inventory(), match_threshold=0.75)
@@ -100,7 +110,6 @@ class TestView(FlaskView):
 
                 if is_recipe and recipe_score > ingredient_score:
                     # Once we know the name of the cocktail, we can grab its ingredients
-                    # self.resippy(recipe_match)
                     return redirect(url_for('TestView:resippy', arg=recipe_match), code=308)
 
                 elif is_tag:
@@ -121,10 +130,6 @@ class TestView(FlaskView):
                     chosen_collection = form_entry.replace(" ", "_").lower()
                     # Redirect us to the "collections" page with the given collection
                     return redirect(url_for('TestView:collection', arg=chosen_collection), code=308)
-
-            # The else will eventually be deleted, but it's here while there's the LED proxy on the website
-            # else:
-            #     chosen_ingredients = []
 
         return render_template('main_menu.html', options=self.main_menu.get_recipe_names(), ingredients=self.main_menu.get_inventory(), collections=self.main_menu.get_collection_names())        
 
@@ -270,7 +275,7 @@ class TestView(FlaskView):
                     self.lights.illuminate_spirit(ingredients)
             # If we've hit the "I'm feeling lucky" button
             elif element_name == "random existing":
-                random_cocktail = rands.select_random_recipe()
+                random_cocktail = rands.select_random_recipe(self.main_menu.sort_by_collections())
                 return redirect(url_for('TestView:resippy', arg=random_cocktail))
 
 
@@ -278,14 +283,14 @@ class TestView(FlaskView):
                                rows=numrows, cols=numcols, button_color=button_color)
 
     def credits(self):
-        mytext = "test credits"
-        return render_template('empty_template.html', text=mytext)
+        return render_template('credits.html')
 
     @method("GET")
     @method("POST")
     def put_away_ingredient(self):
         self._quick_update()
 
+        # HTML args
         ingredient_selected = ""
         location_selected = ""
 
@@ -308,7 +313,7 @@ class TestView(FlaskView):
                 self.lights.illuminate_spirit(self.lit_up_ingredients)
 
                 # Update the website display
-                ingredient_selected = ingredient_match
+                ingredient_selected = recipe.format_as_recipe(ingredient_match)
                 # location_selected = self.main_menu.spirit_dict[ingredient_match].title()
                 location_selected = self.main_menu.get_spirit_location(ingredient_match)
 
@@ -444,6 +449,9 @@ class TestView(FlaskView):
                     remove_result = f"Successfully removed {spirit_to_remove} from inventory"
                 else:
                     remove_result = f"Failed to remove {spirit_to_remove}. Does that spirit exist?"
+
+        
+        params.add_or_update_param("menu_update_pending", True)
 
         return render_template('modify_spirits.html', 
                                # These are constants

@@ -10,6 +10,7 @@ import numpy as np
 dir_path = os.path.dirname( __file__ )
 serv_path = os.path.join(dir_path, "..")
 config_path = os.path.join(serv_path, '../config')
+
 #What I need to do now is load everything into the document
 
 eighty_six = []
@@ -21,8 +22,6 @@ with open(os.path.join(config_path, "ingredients.csv"), 'r') as file:
         if len(''.join(entry))>0:
             if entry[1].strip() == 'none':
                 eighty_six.append(entry[0])
-
-
 
 
 #This holds in the data of all of the tag files.
@@ -96,13 +95,19 @@ def get_random_recipe_options():
     recipes = load_random_recipes()
     return list(recipes.keys())
 
-def select_random_recipe(classic=False):
-    options = []
-    with open(os.path.join(config_path, "recipes_classics.yml"), 'r') as file:
-        options = list(yaml.safe_load(file).keys())
+def select_random_recipe(recipes_by_collection:dict, classic=False):
+    # Edited by Ali 9/21/25 to only pick a recipe that's in stock
+    # Most of the time we want to show off our custom recipes, so get rid of all those basic bitch ones here
     if not classic:
-        with open(os.path.join(config_path, "recipes_2201_and_5057_menus.yml"), 'r') as file:
-            options = options + list(yaml.safe_load(file).keys())
+        recipes_by_collection.pop("Classics")
+
+    # recipes_by_collection has the form {"collection1":["cocktail1", "cocktail2"]... etc}
+    # Unpack it into a list of all cocktails
+    options = []
+    for recipe_list in recipes_by_collection.values():
+        [options.append(r) for r in recipe_list]
+    
+    # Pick a random one and return it
     return options[int(np.random.rand() * len(options))]
 
 def resolve_random_recipe(rand_recipe):
@@ -124,5 +129,11 @@ if __name__ == "__main__":
     #         print("Uh-oh spaghettios")
     #     if i%100 == 0:
     #         print(i//100)
-
-    print(select_random_recipe())
+    collections = {'2201': ['Agares', 'Crossing the Delaware', 'Jockstrap', 'Quartz', 'Sloe Loris', 'Smoke Signal', 'Smoky Quartz', 'The Great Wall', 'White Rose'], 
+                   '5057': ['Anthracite Prospector', 'Anthracite Prospector (Whiskey)', 'Boomer Sour', 'Crossing the Rubicon', 'Forget the Name #1', 'Mai Tai (Mac Nut)', "Max's Mojito", 'Pear Flower Spritz', 'Prospector Cocktail', 'The Division Bell', 'The Great Molasses Flood'], 
+                   'Classics': ["Mai Tai (Trader Vic's)", 'Aperol Spritz', 'Boulevardier', 'Corn and Oil', 'Corpse Reviver No. 1', 'Daquiri', 'Dark and Stormy', 'Dublin Mule', 'Gimlet', 'Gin and Tonic', 'Greyhound', 'Improved Whiskey Cocktail', 'Last Word', 'Manhattan', 'Margarita', 'Martinez', 'Mint Julep', 'Mojito', 'Negroni', 'Old Fashioned', 'Sazerac', 'Sidecar', 'Tom Collins', 'Trinidad Sour', 'Whiskey Sour'], 
+                   'Steely Dan': ['Black Cow', 'Brooklyn', 'Deacon Blues', "Don't Take Me Alive", 'FM', 'Gaucho', 'Glamour Profession', 'Green Flower Street', 'Hey Nineteen', 'Home at Last', "I've Got the News", 'Josie', 'Lunch With Gina', 'My Rival', "Parker's Band", 'Pearl of the Quarter', 'Peg', 'Pretzel Logic', "Rikki Don't Lose that Number", 'Time Out of Mind'], 
+                   'Uncategorized': [], 
+                   'Zig Zag Clones': ['Monet']}
+    
+    print(select_random_recipe(collections))
