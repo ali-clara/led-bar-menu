@@ -7,7 +7,8 @@
 
     <script>
         var rowIdx = 0;
-        var numBtns = 1;     
+        var numBtns = 1; 
+        var madeList = false    
 
         function AddField(tableId, elementId) {
             // Grab the table references and update the rowIdx if we need to
@@ -60,7 +61,7 @@
             numBtns = numBtns + 1;
 
             // verification that we got to the end of this method
-            enableButton2()
+            // enableButton2()
         }
 
         function removeField(tableId, id) {
@@ -85,10 +86,17 @@
             document.getElementById("button2").disabled = true;
         }
     
-        function dropDown(){
+        function dropDown(listItems, checkedItems){
             // Callback for dropdownInput.onClick
             // Opens the dropdown and keeps it there. We don't want clicking the input box to keep toggling the dropdown
             // back and forth, so here's a one-way ticket
+
+            // The first time we drop down, dynamically make the checklist
+            if (!madeList){
+            makeList(listItems, checkedItems);
+                madeList = true;
+            }
+            // Format the dropdown to be visible and the button to point in the right direction
             var arrow = document.getElementById('dropdownArrow');
             var checkList = document.getElementById('tagsDropdown');
             var button = document.getElementById('dropdownButton')
@@ -99,9 +107,16 @@
             }
         }
         
-        function toggleDropdown() {
+        function toggleDropdown(listItems, checkedItems) {
             // Callback for dropdownButton.onClick
             // Opens and closes the dropdown menu
+
+            // The first time we drop down, dynamically make the checklist
+            if (!madeList){
+            makeList(listItems, checkedItems);
+                madeList = true;
+            }
+
             var checkList = document.getElementById('tagsDropdown');
             var button = document.getElementById('dropdownButton');
             var arrow = document.getElementById('dropdownArrow');
@@ -114,21 +129,58 @@
 
         function filterFunction() {
             // Limits the visible dropdown options as you type in the "Search" input
-            const checkboxes = document.querySelectorAll("ul input");
             var input, filter, li, a, i;
             input = document.getElementById("dropdownInput");
             filter = input.value.toUpperCase();
             div = document.getElementById("tagsDropdown");
-            a = div.getElementsByTagName("li");
+            const checkboxes = div.querySelectorAll("ul input");
+            const labels = div.querySelectorAll("ul label");
             // Loop through the checkboxes. If they're selected or they match the search value, keep them visible
-            for (i = 0; i < a.length; i++) {
+            for (i = 0; i < checkboxes.length; i++) {
                 box = checkboxes[i];
-                txtValue = a[i].textContent || a[i].innerText;
+                lab = labels[i];
+                txtValue = lab.textContent || lab.innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1 || box.checked) {
-                a[i].style.display = "";
+                    box.style.display = "";
+                    lab.style.display = "";
                 } else {
-                a[i].style.display = "none";
+                    box.style.display = "none";
+                    lab.style.display = "none";
                 }
+            }
+        }
+    
+        function makeList(listItems, checkedItems){
+            // Dynamically makes the checklist that lives in dropdownItems so I can pre-check the appropriate boxes
+            // Recreates:
+            //      {% for tag in tagList %}
+            //      <li><input type="checkbox" id="{{tag}}" name="{{tag}}"/><label for="{{tag}}">{{tag}}</label></li>
+            //      {% endfor %}
+            
+            var dropdown = document.getElementById('dropdownItems');
+
+            for (fruit of listItems){
+                // <li>
+                var listElement = document.createElement('li');
+                listElement.setAttribute("form", "addSpirit");
+                // <input>
+                var checkElement = document.createElement('input');
+                checkElement.type = "checkbox";
+                checkElement.id = fruit;
+                checkElement.name = fruit;
+                checkElement.setAttribute("form", "addSpirit");
+                if (checkedItems.includes(fruit)){
+                    checkElement.checked = true;
+                }
+                // <label>
+                var labelElement = document.createElement('label');
+                labelElement.htmlFor = fruit;
+                labelElement.innerText = fruit;
+                labelElement.setAttribute("form", "addSpirit");
+                // Add to page
+                dropdown.appendChild(listElement);
+                dropdown.appendChild(checkElement);
+                dropdown.appendChild(labelElement);
             }
         }
     
@@ -154,7 +206,7 @@
         <div class="middle">
             <table id="tbl">
                 <!-- ------------------- PREVIEW & ADD SPIRITS ------------------- -->
-                <form id="addSpirit" method="POST">
+                <form id="addSpirit" name="addSpirit" method="POST">
                     <tr>
                         <td><strong>Add Spirit</strong></td>
                     </tr>
@@ -169,33 +221,23 @@
                     <tr>
                         <td>Tags: </td>
                         <td>
-                            <!-- <input list="tags" id="inputTags" name="input_recipe_tags">
-                            <datalist id="tags">
-                                {% for tag in tagList %}
-                                <option value="{{tag}}">{{tag}}</option>
-                                {% endfor %}
-                            </datalist> -->
                             <div id="tagsDropdown" class="dropdown-check-list">
                                 <span class="anchor">
-                                    <input type="text" placeholder="Search..." id="dropdownInput" onkeyup="filterFunction()" onclick="dropDown()">
-                                    <button class="dropdown-button" type="button" id="dropdownButton" onclick="toggleDropdown()">
+                                    <input type="text" placeholder="Search..." id="dropdownInput" 
+                                        onkeyup="filterFunction()" 
+                                        onclick="dropDown({{tagList}}, {{inputTags}})">
+                                    <button class="dropdown-button" type="button" id="dropdownButton" onclick="toggleDropdown({{tagList}}, {{inputTags}})">
                                         <i class="arrow" id="dropdownArrow"></i>
                                     </button>
                                 </span>
-                                <ul class="items" name="dropdownItems">
-                                    {% for tag in tagList %}
-                                    <li><input type="checkbox" id="{{tag}}" name="{{tag}}"/><label for="{{tag}}">{{tag}}</label></li>
-                                    {% endfor %}
+                                <ul class="items" id="dropdownItems" name="dropdownItems">
+                                    <!-- The items in this dropdown are dynamically created in makeList() -->
                                 </ul>
                             </div>
 
                         </td>
                     </tr>
-                    <!-- </form> -->
-                    <!-- <form id="cancel spirit" method="POST"></form>
-                    <form id="add spirit" method="POST"> -->
                     <tr>
-                        <td> 
                     <tr>
                         <td>
                             <!-- Button to preview the spirit location - lights up the leds but doesn't change the csv -->

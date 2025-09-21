@@ -211,4 +211,5 @@ nav ul{overflow:hidden; overflow-y:scroll;}
     /* background-color: white; */
     background-color: var(--main-bg-color);
     max-height: fit-content;
+    /* max-width: 200px; */
 }

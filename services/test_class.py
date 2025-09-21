@@ -28,9 +28,11 @@ dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
 class TestView(FlaskView):
 
     def __init__(self) -> None:
+
+        self.main_menu = recipe.Menu()
+
         print("init")
         super().__init__()
-        self._load_menu()
         self.lights = LED()
         self.lit_up_ingredients = []
         self.random_ten = []
@@ -41,36 +43,10 @@ class TestView(FlaskView):
         # self.input_coord = ""
         self.input_tags = []
 
-    def _load_menu(self, verbose=True):
-        # Read in the main menu and validate it against our master list of ingredients
-        menu_dict_raw, self.tags_dict, self.tags_organized, alias_dict = recipe.read_main_menu()
-        self.all_ingredients, self.location_dict = recipe.load_all_ingredients()
-        self.menu_dict = recipe.validate_all_recipes(menu_dict_raw, self.all_ingredients, self.location_dict, self.tags_dict, alias_dict)
-        self.all_ingredients_user_facing = [ingredient.replace("_", " ").title() for ingredient in self.all_ingredients]
-        self.cabinet_locs = recipe.load_cabinet_locs().keys()
-        
-        if verbose:
-            print("--")
-            print(f"Validated recipes: {list(self.menu_dict.keys())}")
-
-        # Pull out collection and cocktail names
-        self.collection_names = recipe.load_collection_names(self.menu_dict)
-        self.cocktail_names = recipe.load_recipe_names(self.menu_dict)
-        self.used_ingredients = recipe.load_used_ingredients(self.menu_dict)
-        self.tag_names = recipe.load_tag_names(self.tags_dict)
-
-        # Build a dictionary that sorts the cocktail names by collection
-        #   e.g {'5057 main menu': ['Anthracite Prospector'], '2201 main menu': ['The Highland Locust'], 'lord of the rings': ['Pippin']}
-        self.collection_dict = recipe.sort_collections(self.menu_dict, self.collection_names)    
-
     def _quick_update(self):
         self.lights._forbid_flashing()
-        menu_dict_raw, self.tags_dict, self.tags_organized, alias_dict = recipe.read_main_menu()
-        self.all_ingredients, self.location_dict = recipe.load_all_ingredients()
-        # "quiet" mode isn't working and im tearing out my hair
-        self.menu_dict = recipe.validate_all_recipes(menu_dict_raw, self.all_ingredients, self.location_dict, self.tags_dict, alias_dict, quiet=True)
-        self.cocktail_names = recipe.load_recipe_names(self.menu_dict)
-        self.lights.update_loc_dict(self.location_dict)
+        self.main_menu.update()
+        self.lights.update()
         
     
     def _full_update(self):
@@ -115,11 +91,11 @@ class TestView(FlaskView):
             # If the form has returned a cocktail, process that
             if element_name == "cocktail input":
 
-                is_recipe, recipe_match, recipe_score = recipe.check_match(form_entry, self.cocktail_names, match_threshold=0.705)
+                is_recipe, recipe_match, recipe_score = recipe.check_match(form_entry, self.main_menu.get_recipe_names(), match_threshold=0.705)
                 print(is_recipe, recipe_match, recipe_score)
-                is_ingredient, ingredient_match, ingredient_score = recipe.check_match(form_entry, self.all_ingredients, match_threshold=0.75)
+                is_ingredient, ingredient_match, ingredient_score = recipe.check_match(form_entry, self.main_menu.get_inventory(), match_threshold=0.75)
                 print(is_ingredient, ingredient_match, ingredient_score)
-                is_tag, tag_match, tag_score = recipe.check_match(form_entry, self.tag_names, match_threshold=0.75)
+                is_tag, tag_match, tag_score = recipe.check_match(form_entry, self.main_menu.get_tag_names(), match_threshold=0.75)
                 print(is_tag, tag_match, tag_score)
 
                 if is_recipe and recipe_score > ingredient_score:
@@ -128,7 +104,7 @@ class TestView(FlaskView):
                     return redirect(url_for('TestView:resippy', arg=recipe_match), code=308)
 
                 elif is_tag:
-                    children = recipe.expand_tag(tag_match, self.tags_dict)
+                    children = self.main_menu.expand_tag(tag_match)
                     [self.lit_up_ingredients.append(child) for child in children]
                     print(f"lighting up tag: {tag_match}")
                     self.lights.illuminate_spirit(self.lit_up_ingredients)
@@ -139,7 +115,7 @@ class TestView(FlaskView):
 
             # Otherwise, if the form has returned a collection, process ~that~
             elif element_name == "collection dropdown":
-                if form_entry in self.collection_names:
+                if form_entry in self.main_menu.get_collection_names():
                     # This line isn't strictly necessary, but I think title case with spaces looks dumb in a URL, so I
                     #   do some string formatting
                     chosen_collection = form_entry.replace(" ", "_").lower()
@@ -150,19 +126,22 @@ class TestView(FlaskView):
             # else:
             #     chosen_ingredients = []
 
-        return render_template('main_menu.html', options=self.cocktail_names, ingredients=self.used_ingredients, collections=self.collection_names)        
+        return render_template('main_menu.html', options=self.main_menu.get_recipe_names(), ingredients=self.main_menu.get_inventory(), collections=self.main_menu.get_collection_names())        
 
+    @method("GET")
+    @method("POST")
     def resippy(self, arg:str):
         """http://localhost:5000/recipe/arg"""
 
         self.lights.all_off()
         self.lit_up_ingredients = []
 
-        chosen_ingredients = list(self.menu_dict[arg]['ingredients'].keys())
+        # chosen_ingredients = list(self.main_menu.menu_dict[arg]['ingredients'].keys())
+        chosen_ingredients = self.main_menu.get_ingredients(arg)
 
         # Part 1 - the LEDS. Expand any children and call the LED class
         for ingredient in chosen_ingredients:
-            children = recipe.expand_tag(ingredient, self.tags_dict)
+            children = self.main_menu.expand_tag(ingredient)
             if children:
                 [self.lit_up_ingredients.append(recipe.format_as_inventory(child)) for child in children]
             else:
@@ -177,12 +156,14 @@ class TestView(FlaskView):
         for ing in chosen_ingredients:
             # Format the ingredients nicely
             rendered_ingredients.append(format_for_web(ing))
-            units.append(self.menu_dict[arg]['ingredients'][ing]["units"])
-            amounts.append(self.menu_dict[arg]['ingredients'][ing]["amount"])
-        notes = self.menu_dict[arg]["notes"]
+            units.append(self.main_menu.menu_dict[arg]['ingredients'][ing]["units"])
+            amounts.append(self.main_menu.menu_dict[arg]['ingredients'][ing]["amount"])
+        notes = self.main_menu.menu_dict[arg]["notes"]
         # Then render the html page
         return render_template('recipe.html', header=arg.title(), cocktail=arg, ingredients=rendered_ingredients, units=units, amounts=amounts, notes=notes)
 
+    @method("POST")
+    @method("GET")
     def collection(self, arg:str):
         """http://localhost:5000/collection/arg"""
         # Do some string processing to match our collection title formatting -
@@ -195,13 +176,14 @@ class TestView(FlaskView):
             title = arg.title()
 
         # Check if it's a valid collection name. If not, stop here and let us know
-        if title not in self.collection_names:
+        if title not in self.main_menu.get_collection_names():
             return "<p> not a valid cocktail menu collection :3 </p>"
 
         # If we're good, then load the available cocktails as dropdowns
-        cocktails_in_collection = self.collection_dict[title]
-        ingredients_list = [list(self.menu_dict[cocktail]["ingredients"].keys()) for cocktail in cocktails_in_collection]
-        notes_list = [self.menu_dict[cocktail]["notes"] for cocktail in cocktails_in_collection]
+        collections_dict = self.main_menu.sort_by_collections()
+        cocktails_in_collection = collections_dict[title]
+        ingredients_list = [list(self.main_menu.menu_dict[cocktail]["ingredients"].keys()) for cocktail in cocktails_in_collection]
+        notes_list = [self.main_menu.menu_dict[cocktail]["notes"] for cocktail in cocktails_in_collection]
 
         return render_template('collection.html', header=title.title()+" Collection",
                                cocktails=cocktails_in_collection,
@@ -210,15 +192,17 @@ class TestView(FlaskView):
 
     def collections_main_page(self):
         self._quick_update()
-        self.collection_names.sort()
+        collection_names = self.main_menu.get_collection_names()
+        collection_names.sort()
 
         collection_descriptions = ["The creations of Jack and Dane from their time in the 2201 N 106th st apartment",
                                    "Cocktails from our undergrad days at Ali's uncle's house",
                                    "Classic drinks! You could order these in public and people will probably know what you mean",
                                     "Drinks inspired by Steely Dan songs and albums. Ask for a physical menu for extra ~zing~",
+                                    "Miscellaneous!",
                                     "Plagiarized from our favorite cocktail bar, The Zig Zag Cafe in Pike Place",
                                     ]
-        return render_template('collections_main.html', collections=self.collection_names, notes=collection_descriptions)
+        return render_template('collections_main.html', collections=self.main_menu.get_collection_names(), notes=collection_descriptions)
 
     @method("POST")
     @method("GET")
@@ -313,20 +297,20 @@ class TestView(FlaskView):
             ingredient_input = request.form["ingredient_input"]
 
             # Check to see if the input matches an ingredient or tag in our database
-            is_ingredient, ingredient_match, ingredient_score = recipe.check_match(ingredient_input, self.all_ingredients, match_threshold=0.75)
+            is_ingredient, ingredient_match, ingredient_score = recipe.check_match(ingredient_input, self.main_menu.get_inventory(), match_threshold=0.75)
             # print(is_ingredient, ingredient_match, ingredient_score)
-            is_tag, tag_match, tag_score = recipe.check_match(ingredient_input, self.tag_names, match_threshold=0.75)
+            is_tag, tag_match, tag_score = recipe.check_match(ingredient_input, self.main_menu.get_tag_names(), match_threshold=0.75)
             # print(is_tag, tag_match, tag_score)
 
             if is_ingredient and ingredient_score > tag_score:
                 self.lit_up_ingredients.append(ingredient_match)
                 print("from put_away:")
-                print(self.location_dict)
                 self.lights.illuminate_spirit(self.lit_up_ingredients)
 
                 # Update the website display
                 ingredient_selected = ingredient_match
-                location_selected = self.location_dict[ingredient_match].title()
+                # location_selected = self.main_menu.spirit_dict[ingredient_match].title()
+                location_selected = self.main_menu.get_spirit_location(ingredient_match)
 
                 # self.lights.illuminate_location(location_selected)
 
@@ -353,14 +337,15 @@ class TestView(FlaskView):
             #         location_selected = locations[0:-2] # Trim off the last two characters (comma and space)
             #         ingredient_selected = ingredients[0:-2]
 
-        return render_template('put_away_ingredient.html', ingredients=self.all_ingredients,
+        return render_template('put_away_ingredient.html', ingredients=self.main_menu.inventory,
                                ingredientSelected=ingredient_selected, locationSelected=location_selected)
       
  
     @method("GET")
     @method("POST")
     def test_dropdown(self):
-        return render_template("test_dropdown.html")
+        fruits = ["Apple", "Orange", "Grapes", "Berry", "Mango", "Banana"]
+        return render_template("test_dropdown.html", testList=fruits)
     
     
     @method("GET")
@@ -400,7 +385,7 @@ class TestView(FlaskView):
                 amounts = cocktail_makeup[1::3]
                 units = cocktail_makeup[2::3]
                 # Update the external yaml file with our new info
-                result, updated_name = recipe.update_recipe_yaml(recipe_name, recipe_collection, recipe_notes,
+                result, updated_name = self.main_menu.update_recipe_yaml(recipe_name, recipe_collection, recipe_notes,
                                           ingredients, amounts, units)
                 if result:
                     recipe_result = f"Successfully added {updated_name}!"
@@ -409,23 +394,23 @@ class TestView(FlaskView):
             # Cancel adding or previewing spirit
             elif "btn_cancel_spirit" in request.form.keys():
                 print("cancel input spirit")
+                input_spirit = ""
+                input_coord = ""
+                input_tags = []
             # Add or preview spirit
             elif "input_add_spirit" in request.form.keys():
+                print(request.form.keys())
                 # Get the values of the html input elements
                 input_spirit = request.form["input_add_spirit"]
                 input_coord = request.form["input_add_coord"].upper()
-
                 # Tags come through as dictionary keys, for some goddamn reason. Tried to make it be any different and could not.
                 # Find tags through the intersection of the dict keys with our list of tag names
-                tags = set(request.form.keys()).intersection(self.tag_names)
-                # If we have new tags or haven't updated init tags, update our stored value. 
-                # Otherwise, the preview -> add progression clears memory
-                if len(tags) > 0 or len(self.input_tags) == 0:
-                    self.input_tags = list(tags) # should figure out how to do this in JS and not w a class var
+                tags = set(request.form.keys()).intersection(self.main_menu.get_tag_names())
+                input_tags = list(tags)
                 # Preview mode
                 if "btn_preview_spirit" in request.form.keys():
                     print("preview spirit mode")
-                    if input_coord in self.cabinet_locs:
+                    if input_coord in self.main_menu.cabinet_locations:
                         # Spin up a thread to flash the LEDs in that location
                         self.lights._allow_flashing()
                         t = threading.Thread(target=self.lights.illuminate_location, args=(input_coord, True, False))
@@ -434,12 +419,11 @@ class TestView(FlaskView):
                         add_result = f'Lighting up coordinate {input_coord}'
                     else:
                         add_result = f'Warning - {input_coord} is not a cabinet coordinate. If that was intentional, carry on.'
-                    # Add mode
+                # Add mode
                 elif "btn_add_spirit" in request.form.keys():
                     print("add spirit mode")
                     # Try to update the CSV and return the result.
-                    print(self.input_tags)
-                    result = recipe.add_spirit(input_spirit, input_coord, self.input_tags, self.tags_organized)
+                    result = self.main_menu.add_spirit(input_spirit, input_coord, input_tags)
                     if result:
                         add_result = f"Successfully added {input_spirit} to inventory"
                     else:
@@ -447,7 +431,7 @@ class TestView(FlaskView):
                     # Update the html display
                     input_spirit = ""
                     input_coord = ""
-                    self.input_tags = []
+                    input_tags = []
             # Remove spirit
             elif "btn_remove_spirit" in request.form.keys():
                 print("remove spirit mode")
@@ -455,7 +439,7 @@ class TestView(FlaskView):
                 # Have a popup window here that asks if you're sure. While the window is up, have the 
                 # spirit leds flash
                 spirit_to_remove = spirit_to_remove.replace(" ", "_").lower()
-                result = recipe.remove_spirit(spirit_to_remove)
+                result = self.main_menu.remove_spirit(spirit_to_remove)
                 if result:
                     remove_result = f"Successfully removed {spirit_to_remove} from inventory"
                 else:
@@ -463,12 +447,13 @@ class TestView(FlaskView):
 
         return render_template('modify_spirits.html', 
                                # These are constants
-                               collections=self.collection_names,
-                               spiritList=self.all_ingredients_user_facing,
-                               tagList=self.tag_names, 
+                               collections=self.main_menu.get_collection_names(),
+                               spiritList=self.main_menu.inventory_user_facing,
+                               tagList=self.main_menu.get_tag_names(), 
                                # These change as a result of user input
                                inputSpirit=input_spirit, 
-                               inputCoord=input_coord, 
+                               inputCoord=input_coord,
+                               inputTags=input_tags, 
                                recipeResultString=recipe_result, 
                                removeResultString=remove_result, 
                                addResultString=add_result)

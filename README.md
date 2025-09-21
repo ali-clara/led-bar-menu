@@ -12,8 +12,7 @@ Getting lit (hah)
 - make "debug" and "uncategorized" hidden recipe files
 - think about refactoring recipe_parsing_helpers into its own class, it's getting pretty complex by now and would be good to isolate where data/dictionaries/big lists live.
 - external param for "does the system need updating" (set to Yes upon init)
-- bug: if I preview a spirit with tags, then without cancelling or previewing again, add a different spirit with no tags, the first sprit's tags are preserved. Solution: figure out how to carry over the tags list into JS and get rid of the class variable
-- add tag option to modify spirits pae
+- "add tag" option to modify spirits page
 
 ### Docs
 - https://docs.circuitpython.org/projects/neopixel/en/latest/index.html

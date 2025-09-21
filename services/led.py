@@ -45,10 +45,12 @@ class LED:
         self.pixels.fill((0,0,0))
         self.pixels.show()
 
+        self.main_menu = recipe.Menu()
+
         # Dictionary of spirit:location, where 'location' is a coordinate not a neopixel address (e.g A7 not 150)
-        all_ingredients, self.spirit_loc_dict = recipe.load_all_ingredients()
+        # all_ingredients, self.spirit_loc_dict = self.main_menu.load_all_ingredients()
         # Pull a list of all used locations from the values of that dictionary
-        used_locations = set(self.spirit_loc_dict.values())
+        used_locations = set(self.main_menu.spirit_dict.values())
 
         # Dictionary of coordinate:[neopixel start, neopixel stop]
         with open(dir_path+"/config/led_locs_final.yml") as stream:
@@ -77,10 +79,13 @@ class LED:
         self.unused_colors = list(self.rainbow_dict.values())
 
     
-    def update_loc_dict(self, new_dict):
-        self.spirit_loc_dict = new_dict
+    # def update_loc_dict(self, new_dict):
+    #     self.spirit_loc_dict = new_dict
         # should just turn this into "reload everything pls" now that this file reads config independently
         
+    def update(self):
+        self.main_menu.update()
+    
     def get_rainbow_color(self):
         # When we run out of colors, reset the rainbow and continue
         if len(self.unused_colors) == 0:
@@ -92,7 +97,7 @@ class LED:
         # Read in the location of the given spirit. 
         # This is in a try-except block because god knows I can't predict everything we might accidentally do to the yamls
         try:
-            cabinet_location = self.spirit_loc_dict[spirit].strip()
+            cabinet_location = self.main_menu.spirit_dict[spirit].strip()
         # If it's not in the cabinet, let us know and light up the area near the pi
         except KeyError as e:
             print(f"Key error in accessing cabinet locations: {e}")
