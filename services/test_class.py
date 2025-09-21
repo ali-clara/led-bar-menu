@@ -23,6 +23,8 @@ def format_for_web(string:str):
 
 print("Starting")
 dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
+params.add_or_update_param("menu_update_pending", True)
+
 # app = Flask(__name__, template_folder=dir_path+"/templates")
 
 class TestView(FlaskView):
@@ -40,8 +42,7 @@ class TestView(FlaskView):
         self.lit_up_ingredients = []
         self.random_ten = []
 
-        # Full update to start us off synced and happy
-        self._full_update()
+        self._quick_update()
         
     def _quick_update(self):
         """Checks if we need to update the menu dictionary, and updates if so. Always disables lights flashing.
@@ -274,7 +275,7 @@ class TestView(FlaskView):
                     self.lights.illuminate_spirit(ingredients)
             # If we've hit the "I'm feeling lucky" button
             elif element_name == "random existing":
-                random_cocktail = rands.select_random_recipe()
+                random_cocktail = rands.select_random_recipe(self.main_menu.sort_by_collections())
                 return redirect(url_for('TestView:resippy', arg=random_cocktail))
 
 

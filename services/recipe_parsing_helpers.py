@@ -72,7 +72,7 @@ class Menu:
             print("Updating main menu")
         # Load everything
         # Big menu, matches the layout of the yamls
-        menu_dict_raw = self.load_recipes()
+        # menu_dict_raw = self.load_recipes()
         # Dictionary of all tags {tag: {ingredients: [spirit_1, spirit_2, ..., spirit_n], notes: , etc}}, dictionary of organized tags {parent_tag: [tag_1, tag_2, ..., tag_n]}
         self.tags_dict_all, self.tags_dict_organized = self.load_tags()
         self.alias_dict = self.load_aliases()
@@ -81,10 +81,11 @@ class Menu:
         # Pull info from ingredients.csv: 
         # List of spirits (& other), dictionary of {spirit:location}, set of locations
         self.inventory, self.spirit_dict, self.used_locations = self.load_all_ingredients()
+        # Menu of everything in stock
+        self.menu_dict = self.validate_all_recipes(verbose, quiet)
 
         # Sort, validate, and modify anything that needs modifying
-        # Menu of everything in stock
-        self.menu_dict = self.validate_all_recipes(menu_dict_raw, verbose, quiet)
+
         # Inventory formatted for the website
         self.inventory_user_facing = [format_as_recipe(spirit) for spirit in self.inventory]
         # List of used locations not in the cabinet (e.g "fridge")
@@ -476,8 +477,9 @@ class Menu:
                     
         return True
 
-    def validate_all_recipes(self, menu_to_validate, verbose=False, quiet=True):
+    def validate_all_recipes(self, verbose=False, quiet=True):
         # Makes sure we have the ingredients to make a recipe
+        menu_to_validate = self.load_recipes()
 
         # for each recipe, validate it. If it's good, keep it.
         # Otherwise, throw out the recipe and flag it (let us know)
@@ -696,23 +698,25 @@ if __name__ == "__main__":
         print("Parent tag of Planteray Light Rum: ", myMenu.find_tag_parent("Planteray Light Rum"))
 
     def check_inventory():
-        print("\nBig menu: \n", myMenu.menu_dict)
-        print("----")
-        myMenu.validate_all_recipes()
+        # print("\nBig menu: \n", myMenu.menu_dict)
+        # print("----")
+        myMenu.validate_all_recipes(quiet=False)
         print(myMenu.inventory_user_facing)
 
     def check_collections():
         print("Collections: ", myMenu.collections)
     
-    check_recipe_against_csv()
+    # check_recipe_against_csv()
     # check_tags_and_aliases()
-    # check_inventory()
-    check_collections()
+    check_inventory()
+    # check_collections()
 
     # Test the similarity metric and the validation
-    print("\n")
-    test_similarity(["Brandy (inclusive)"], myMenu.get_tag_names())
+    # print("\n")
+    # test_similarity(["Brandy (inclusive)"], myMenu.get_tag_names())
 
     # update_recipe_yaml("test2", "blah", "notes", ["", "two"], ["", "2"], ["", "oz"])
 
-    print(myMenu.get_ingredients("Don't Take Me Alive"))
+    print(myMenu.sort_by_collections())
+
+    # print(myMenu.get_ingredients("Don't Take Me Alive"))
