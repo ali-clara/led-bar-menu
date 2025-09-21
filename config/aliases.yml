@@ -3,6 +3,7 @@
   collection: Tags
   ingredients:
     amaro_04: {}
+    # brovo_amaro_#4: {}
   notes: ''
 'BroVo Amaro #1':
   collection: Tags
@@ -58,4 +59,9 @@ Orange Flower Water:
   collection: Tags
   ingredients:
     Orange Blossom Water: {}
+  notes: ''
+Tanqueray Sevilla Orange:
+  collection: Tags
+  ingredients:
+    Tanqueray Sevilla: {}
   notes: ''
