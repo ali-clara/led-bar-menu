@@ -35,3 +35,18 @@ def write(new_params:dict):
     with lock.gen_wlock():
         with open(dir_path+"/config/params.yml", 'w') as outfile:
             yaml.dump(new_params, outfile, default_flow_style=False)
+
+def add_or_update_param(param_key:str, param_value):
+    params_dict = read()
+    param_key = param_key.lower()
+    params_dict.update({param_key:param_value})
+    write(params_dict)
+
+def get_param(param_key:str):
+    params_dict = read()
+    try:
+        param_value = params_dict[param_key]
+    except KeyError as e:
+        print(f"Error in reading params dict: no key {param_key}. \nFull dict {params_dict}")
+    else:
+        return param_value

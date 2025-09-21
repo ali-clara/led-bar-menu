@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/mainstyle.css') }}">
+    <title>Title</title>
+</head>
+
+<body>
+    <div class="grid-container">
+        <div class="header">
+        </div>
+    
+        <div class="left">
+          <!-- Navbar! We're not on any menu page, so don't set any of them active -->
+          <div class="vertical-menu">
+            <a href="/menu">Home</a>
+            <a href="/collections_main_page">Collections</a>
+            <a href="/random_cocktail_generator">Random Cocktail Generator</a>
+            <a href="/credits">Credits</a>
+          </div>
+        </div>
+  
+        <div class="middle">
+            <p>This project first entered the imagination in 2024. Jack and Dane, prior cohabitants of 2201, had amassed a substantial liquor collection with their own curated cocktail recipes. But in the fall, the graduate math 
+                department of UIC called Dane away to a PhD in the wilds of Chicago, and his share of the collection moved with him. Ali then moved to the apartment, unemployed and recently graduated with a M.S. in robotics. 
+                Thus was born the perfect storm: a liquor cabinet in need of restocking, two engineers sharing an apartment, and extra time on their hands.</p>
+
+                <p>It took about 6 months to get the first working prototype. First, the cabinet was remodeled - we built tiered shelves for the main compartment and checkerboard wine racks for the lower sections. On the first
+                    nice weekend in the spring, we carried everything outside and painted it. As shelves came together, we rigged up the RaspberryPi with AdaFruit LEDs, soldered wires in place, and indexed the cabinet. Jack began
+                    the arduous process of inventory, digitizing cocktail recipes and tagging spirits to create a comprehensive archive. Meanwhile, Ali got to work building the website and Python backend to interface the LEDs, 
+                    spirit library, and users (like you!). It's been about a year of work so far, and we're super jazzed to share this cool thing we made with you. Thanks for reading!
+                </p>
+
+            <p>The LED liquor cabinet in its fully glory could not have happened without much collaboration.
+            <li>Jack Witecki: ideas-man, mixologist extraordinaire, built so many wine racks, made sure we always had a plan to get us to cabinet rev 1</li>
+            <li>Ali Jones: tech-master, planned and wired up the hardware, cut wood to size, and wrote the codebase. Also built a lot of wine racks</li>
+            <li>Dane Meade: instrumental during brainstorming and bouncing around ideas, and created the Random Cocktail Generator</li>
+            <li>Ben Anderson: knows about esoteric python libraries and graciously provided both his soldering setup for the LEDs and backyard for cabinet mods</li>
+            <li>The North Seattle Tool Library! An awesome, collaborative space that had the tools we needed for cabinet mods.</li>
+            </p>
+        </div>  
+    
+      <div class="footer">
+        <a href="/put_away_ingredient">♫♪♪ Clean up, clean up ♫♪♪</a> <br>
+        <a href="/modify_spirits">Add a new spirit</a>
+      </div>
+  
+    </div>
+  </body>
+
+  </html>

@@ -62,6 +62,10 @@ class LED:
         # Find the difference between "used locations" and "cabinet locations" to get "non cabinet locations"
         # E.g "fridge" "bowl" "cart" etc
         self.non_cabinet_locations = used_locations.difference(self.all_cabinet_locations)
+        try:
+            self.non_cabinet_locations.remove("none")
+        except KeyError as e:
+            print(e)
 
         # Initialize colors
         self.rainbow_dict = {"yellow": (255, 237, 0),
@@ -127,16 +131,18 @@ class LED:
     def _allow_flashing(self):
         """Updates the parameters file to allow LED flashing
         """
-        params_dict = params.read()
-        params_dict.update({"flashing": True})
-        params.write(params_dict)
+        # params_dict = params.read()
+        # params_dict.update({"flashing": True})
+        # params.write(params_dict)
+        params.add_or_update_param("flashing", True)
 
     def _forbid_flashing(self):
         """Updates the parameters file to forbid LED flashing
         """
-        params_dict = params.read()
-        params_dict.update({"flashing": False})
-        params.write(params_dict)
+        # params_dict = params.read()
+        # params_dict.update({"flashing": False})
+        # params.write(params_dict)
+        params.add_or_update_param("flashing", False)
     
     def illuminate_spirit(self, spirit_input, flash=False, verbose=True):
         if type(spirit_input) == list:
@@ -159,7 +165,10 @@ class LED:
         print(location)      
         # Check if our location is valid. If it's not, flag and return
         if location not in self.all_cabinet_locations:
-            print(f"'{location}' is not a valid cabinet location. Should be a string of the form 'A7', etc.")
+            if location == "none":
+                print(f"Spirit out of stock, inventory location ''{location}''")
+            else:
+                print(f"'{location}' is not a valid cabinet location. Should be a string of the form 'A7', etc.")
             return
         # If we're good, get the neopixel range that corresponds to the cabinet location
         neopixel_range = self.led_loc_dict[location]
@@ -292,6 +301,8 @@ class LED:
 if __name__ == "__main__":
 
     myled = LED()
+    print(myled.non_cabinet_locations)
+    myled.illuminate_spirit("test_param")
 
     # myled.illuminate_location("L2", verbose=True, flash=True)
     # myled.illuminate_location(None)
