@@ -6,13 +6,14 @@ import jellyfish as jf
 import glob
 import numpy as np
 import csv
+from titlecase import titlecase
 
 # -------------------- FORMATTING -------------------- #
 def format_as_inventory(input_str:str):
     return input_str.replace(" ", "_").lower().strip()
 
 def format_as_recipe(input_str:str):
-    return input_str.replace("_", " ").title().strip()
+    return titlecase(input_str.replace("_", " ").strip())
 
 def format_new_recipe_yaml(recipe_name:str, collection:str, notes:str, ingredients:list, amounts:list, units:list):
     # First build the ingredients dictionary. Loop through the list of strings and append accordingly
@@ -23,7 +24,7 @@ def format_new_recipe_yaml(recipe_name:str, collection:str, notes:str, ingredien
             continue
         ingredients_dict.update({ingredient: {'amount': amount, 'units': unit}})
     # Then use the ingredients dict along with the other recipe info to build out the rest of the yaml
-    recipe_name = recipe_name.title()
+    recipe_name = format_as_recipe(recipe_name)
     new_recipe = {recipe_name: {'collection': collection, 'ingredients': ingredients_dict, 'notes': notes}}
     # Yay
     return new_recipe, recipe_name
@@ -250,7 +251,7 @@ class Menu:
         for cocktail in self.menu_dict:
             # Grab what collection it belongs to, correcting for capitalization just in case.
             try:
-                collection = self.menu_dict[cocktail]['collection'].title()
+                collection = format_as_recipe(self.menu_dict[cocktail]['collection'])
             except KeyError as e:
                     print(f"Parsing collections raised key error -- {cocktail} does not have {e} field.")
             # Check if its in our list of collections. If it's not, add it.
@@ -272,7 +273,7 @@ class Menu:
         for collection in collection_dict:
             for cocktail in self.menu_dict:
                 try:
-                    if self.menu_dict[cocktail]["collection"].title() == collection:
+                    if format_as_recipe(self.menu_dict[cocktail]["collection"]) == collection:
                         collection_dict[collection].append(cocktail)
                 except KeyError as e:
                     print(f"Sorting collections raised key error {e} -- {cocktail} does not have 'collection' field.")

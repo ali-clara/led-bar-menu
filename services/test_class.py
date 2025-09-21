@@ -1,6 +1,7 @@
 # The imports
 from flask import Flask, render_template, redirect, url_for
 from flask_classful import FlaskView, method, route, request
+from titlecase import titlecase
 try:
     from led import LED
 except ImportError:
@@ -17,9 +18,6 @@ except ImportError: # run from the main script
     from services import recipe_parsing_helpers as recipe
     from services.randomizer import Randomizer as rands
     from services import parameter_helpers as params
-
-def format_for_web(string:str):
-    return string.replace("_", " ").title()
 
 print("Starting")
 dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
@@ -127,7 +125,7 @@ class TestView(FlaskView):
                 if form_entry in self.main_menu.get_collection_names():
                     # This line isn't strictly necessary, but I think title case with spaces looks dumb in a URL, so I
                     #   do some string formatting
-                    chosen_collection = form_entry.replace(" ", "_").lower()
+                    chosen_collection = recipe.format_as_inventory(form_entry)
                     # Redirect us to the "collections" page with the given collection
                     return redirect(url_for('TestView:collection', arg=chosen_collection), code=308)
 
@@ -168,12 +166,12 @@ class TestView(FlaskView):
         amounts = []
         for ing in chosen_ingredients:
             # Format the ingredients nicely
-            rendered_ingredients.append(format_for_web(ing))
+            rendered_ingredients.append(recipe.format_as_recipe(ing))
             units.append(self.main_menu.menu_dict[arg]['ingredients'][ing]["units"])
             amounts.append(self.main_menu.menu_dict[arg]['ingredients'][ing]["amount"])
         notes = self.main_menu.menu_dict[arg]["notes"]
         # Then render the html page
-        return render_template('recipe.html', header=arg.title(), cocktail=arg, ingredients=rendered_ingredients, units=units, amounts=amounts, notes=notes)
+        return render_template('recipe.html', header=recipe.format_as_recipe(arg), cocktail=arg, ingredients=rendered_ingredients, units=units, amounts=amounts, notes=notes)
 
     @method("POST")
     @method("GET")
@@ -181,12 +179,10 @@ class TestView(FlaskView):
         """http://localhost:5000/collection/arg"""
         # Do some string processing to match our collection title formatting -
         #   replace any underscores or hyphens with spaces, and make it title case
-        if "_" in arg:
-            title = format_for_web(arg)
-        elif "-" in arg:
-            title = arg.replace("-", " ").title()
+        if "-" in arg:
+            title = titlecase(arg.replace("-", " "))
         else:
-            title = arg.title()
+            title = recipe.format_as_recipe(arg)
 
         # Check if it's a valid collection name. If not, stop here and let us know
         if title not in self.main_menu.get_collection_names():
@@ -198,7 +194,7 @@ class TestView(FlaskView):
         ingredients_list = [list(self.main_menu.menu_dict[cocktail]["ingredients"].keys()) for cocktail in cocktails_in_collection]
         notes_list = [self.main_menu.menu_dict[cocktail]["notes"] for cocktail in cocktails_in_collection]
 
-        return render_template('collection.html', header=title.title()+" Collection",
+        return render_template('collection.html', header=title+" Collection",
                                cocktails=cocktails_in_collection,
                                ingredients=ingredients_list,
                                notes=notes_list)
@@ -255,7 +251,7 @@ class TestView(FlaskView):
                         ) for i in ingredients) + "\n\n"
 
                         for i in random_dict:
-                            ingredient = format_for_web(i)
+                            ingredient = recipe.format_as_recipe(i)
                             amount = random_dict[i]["amount"]
                             unit = random_dict[i]["units"]
                             if amount.lower() == "taste":
@@ -341,8 +337,8 @@ class TestView(FlaskView):
             #         for child in children:
             #             print(child)
             #             try:
-            #                 locations = locations + format_for_web(self.location_dict[format_for_web(child)]) + ", "
-            #                 ingredients = ingredients + format_for_web(child) + ", "
+            #                 locations = locations + recipe.format_as_recipe(self.location_dict[recipe.format_as_recipe(child)]) + ", "
+            #                 ingredients = ingredients + recipe.format_as_recipe(child) + ", "
             #             except KeyError as e:
             #                 print(f"Could not find {e} in the dictionary of cabinet locations.")
 
@@ -451,7 +447,7 @@ class TestView(FlaskView):
                 spirit_to_remove = request.form["input_remove_spirit"]
                 # Have a popup window here that asks if you're sure. While the window is up, have the 
                 # spirit leds flash
-                spirit_to_remove = spirit_to_remove.replace(" ", "_").lower()
+                spirit_to_remove = recipe.format_as_inventory(spirit_to_remove)
                 result = self.main_menu.remove_spirit(spirit_to_remove)
                 if result:
                     remove_result = f"Successfully removed {spirit_to_remove} from inventory"
