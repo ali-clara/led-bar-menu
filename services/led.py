@@ -145,8 +145,11 @@ class LED:
         params.add_or_update_param("flashing", False)
     
     def illuminate_spirit(self, spirit_input, flash=False, verbose=True):
+        ## should return success/failure
+        
         if type(spirit_input) == list:
             for spirit in spirit_input:
+                spirit = recipe.format_as_inventory(spirit)
                 print("---")
                 print(spirit)
                 # Read our external config files to determine the location and pixel range of the spirit
@@ -154,6 +157,7 @@ class LED:
                 # Get the pixel range that corresponds to the cabinet location.
                 self.illuminate_location(cabinet_location, flash, verbose)
         elif type(spirit_input) == str:
+            spirit_input = recipe.format_as_inventory(spirit_input)
             print("---")
             print(spirit_input)
             cabinet_location = self.get_cabinet_location(spirit_input)
