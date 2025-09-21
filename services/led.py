@@ -147,7 +147,7 @@ class LED:
     def illuminate_spirit(self, spirit_input, flash=False, verbose=True):
         ## should return success/failure
         
-        if type(spirit_input) == list:
+        if type(spirit_input) == list or type(spirit_input) == set:
             for spirit in spirit_input:
                 spirit = recipe.format_as_inventory(spirit)
                 print("---")

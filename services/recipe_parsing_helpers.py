@@ -708,7 +708,7 @@ if __name__ == "__main__":
     
     # check_recipe_against_csv()
     # check_tags_and_aliases()
-    check_inventory()
+    # check_inventory()
     # check_collections()
 
     # Test the similarity metric and the validation
@@ -717,6 +717,6 @@ if __name__ == "__main__":
 
     # update_recipe_yaml("test2", "blah", "notes", ["", "two"], ["", "2"], ["", "oz"])
 
-    print(myMenu.sort_by_collections())
+    print(myMenu.get_tag_names())
 
     # print(myMenu.get_ingredients("Don't Take Me Alive"))

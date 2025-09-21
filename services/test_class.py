@@ -39,7 +39,7 @@ class TestView(FlaskView):
         # Initialize a few class variables
         # Due to HTML wizardry and ghosts, class vars can be fucky if you try to use them in between website pages. For vars
         # that need more breadth, use params.yml
-        self.lit_up_ingredients = []
+        self.lit_up_ingredients = set([""])
         self.random_ten = []
 
         self._quick_update()
@@ -90,7 +90,7 @@ class TestView(FlaskView):
         if request.method == "POST":
             # Clear the LEDS, if they're on
             self.lights.all_off()
-            self.lit_up_ingredients = []
+            self.lit_up_ingredients.clear()
 
             # When "post" is triggered, take a look at what happened in the HTML form. The value "request.form" is
             # a dictionary with key-value pairs "element-name" "element-entry". We use "element-name" to determine which
@@ -114,7 +114,7 @@ class TestView(FlaskView):
 
                 elif is_tag:
                     children = self.main_menu.expand_tag(tag_match)
-                    [self.lit_up_ingredients.append(child) for child in children]
+                    [self.lit_up_ingredients.add(child) for child in children]
                     print(f"lighting up tag: {tag_match}")
                     self.lights.illuminate_spirit(self.lit_up_ingredients)
 
@@ -139,19 +139,27 @@ class TestView(FlaskView):
         """http://localhost:5000/recipe/arg"""
 
         self.lights.all_off()
-        self.lit_up_ingredients = []
+        self.lit_up_ingredients.clear()
 
         # chosen_ingredients = list(self.main_menu.menu_dict[arg]['ingredients'].keys())
         chosen_ingredients = self.main_menu.get_ingredients(arg)
 
         # Part 1 - the LEDS. Expand any children and call the LED class
         for ingredient in chosen_ingredients:
-            children = self.main_menu.expand_tag(ingredient)
-            if children:
-                [self.lit_up_ingredients.append(recipe.format_as_inventory(child)) for child in children]
+            # If it's a tag, expand it, check aliases for any children, and pass all that to LEDs
+            # I'm being cavalier with what I chuck to the led class because it will only light up things it has a location for
+            tag_name = recipe.format_as_recipe(ingredient)
+            if tag_name in self.main_menu.get_tag_names():
+                children = self.main_menu.expand_tag(tag_name)
+                for child in children:
+                    aliases = self.main_menu.expand_alias(child)
+                    [self.lit_up_ingredients.add(alias) for alias in aliases]
+            # Otherwise it's not a tag, so just get any aliases and pass them to the LEDs
             else:
-                self.lit_up_ingredients.append(recipe.format_as_inventory(ingredient))
-
+                aliases = self.main_menu.expand_alias(ingredient)
+                for alias in aliases:
+                    self.lit_up_ingredients.add(alias)
+                
         self.lights.illuminate_spirit(self.lit_up_ingredients)
 
         # Part 2 - the website. For each ingredient
@@ -297,7 +305,7 @@ class TestView(FlaskView):
         if request.method == "POST":
             # Clear the LEDS, if they're on
             self.lights.all_off()
-            self.lit_up_ingredients = []
+            self.lit_up_ingredients.clear()
 
             ingredient_input = request.form["ingredient_input"]
 
@@ -308,7 +316,7 @@ class TestView(FlaskView):
             # print(is_tag, tag_match, tag_score)
 
             if is_ingredient and ingredient_score > tag_score:
-                self.lit_up_ingredients.append(ingredient_match)
+                self.lit_up_ingredients.add(ingredient_match)
                 print("from put_away:")
                 self.lights.illuminate_spirit(self.lit_up_ingredients)
 
@@ -324,7 +332,7 @@ class TestView(FlaskView):
             #         # If it's a tag, we need to get all the spirits it describes
             #         children = recipe.expand_tag(tag_match, self.tags_dict)
             #         # Turn on those LEDs
-            #         [self.lit_up_ingredients.append(child) for child in children]
+            #         [self.lit_up_ingredients.add(child) for child in children]
             #         self.lights.illuminate_spirit(self.lit_up_ingredients)
             #         # Get and format the cabinet locations of each child spirit
             #         locations = ""
