@@ -83,6 +83,8 @@ class TestView(FlaskView):
         # Initialize HTML args
         chosen_collection = None
 
+        collection_names, collection_notes = self._get_collection_info()
+
         # If we've gotten a change of state on the server (in this case, due to user entry),
         #   take a look at it.
         if request.method == "POST":
@@ -96,7 +98,7 @@ class TestView(FlaskView):
             element_name = list(request.form.keys())[0]
             form_entry = request.form.get(element_name)
 
-            # If the form has returned a cocktail, process that
+            # If the form has returned a cocktail, process it
             if element_name == "cocktail input":
                 # Fuzzy string checking!
                 is_recipe, recipe_match, recipe_score = recipe.check_match(form_entry, self.main_menu.get_recipe_names(), match_threshold=0.705)
@@ -121,15 +123,19 @@ class TestView(FlaskView):
                     self.lights.illuminate_spirit([ingredient_match])
 
             # Otherwise, if the form has returned a collection, process ~that~
-            elif element_name == "collection dropdown":
-                if form_entry in self.main_menu.get_collection_names():
-                    # This line isn't strictly necessary, but I think title case with spaces looks dumb in a URL, so I
-                    #   do some string formatting
-                    chosen_collection = recipe.format_as_inventory(form_entry)
-                    # Redirect us to the "collections" page with the given collection
-                    return redirect(url_for('TestView:collection', arg=chosen_collection), code=308)
+            # elif element_name == "collection dropdown":
+            #     if form_entry in self.main_menu.get_collection_names():
+            #         # This line isn't strictly necessary, but I think title case with spaces looks dumb in a URL, so I
+            #         #   do some string formatting
+            #         chosen_collection = recipe.format_as_inventory(form_entry)
+            #         # Redirect us to the "collections" page with the given collection
+            #         return redirect(url_for('TestView:collection', arg=chosen_collection), code=308)
 
-        return render_template('main_menu.html', options=self.main_menu.get_recipe_names(), ingredients=self.main_menu.get_inventory(), collections=self.main_menu.get_collection_names())        
+        return render_template('main_menu.html', 
+                               options=self.main_menu.get_recipe_names(), 
+                               ingredients=self.main_menu.get_inventory(), 
+                               collections=collection_names,
+                               notes=collection_notes)        
 
     @method("GET")
     @method("POST")
@@ -170,6 +176,7 @@ class TestView(FlaskView):
             units.append(self.main_menu.menu_dict[arg]['ingredients'][ing]["units"])
             amounts.append(self.main_menu.menu_dict[arg]['ingredients'][ing]["amount"])
         notes = self.main_menu.menu_dict[arg]["notes"]
+        
         # Then render the html page
         return render_template('recipe.html', header=recipe.format_as_recipe(arg), cocktail=arg, ingredients=rendered_ingredients, units=units, amounts=amounts, notes=notes)
 
@@ -198,6 +205,22 @@ class TestView(FlaskView):
                                cocktails=cocktails_in_collection,
                                ingredients=ingredients_list,
                                notes=notes_list)
+
+    
+    def _get_collection_info(self):
+        collection_names = self.main_menu.get_collection_names()
+        collection_names.sort()
+
+        collection_descriptions = ["The creations of Jack and Dane from their time in the 2201 N 106th st apartment",
+                                   "Cocktails from our undergrad days at Ali's uncle's house",
+                                   "Classic drinks! You could order these in public and people will probably know what you mean",
+                                    "Drinks inspired by Steely Dan songs and albums. Ask for a physical menu for extra ~zing~",
+                                    "Miscellaneous!",
+                                    "Plagiarized from our favorite cocktail bar, The Zig Zag Cafe in Pike Place",
+                                    ]
+        
+        return collection_names, collection_descriptions
+
 
     def collections_main_page(self):
         self._quick_update()
@@ -275,7 +298,7 @@ class TestView(FlaskView):
                 except IndexError as e:
                     print(f"Could not index cocktails: '{e}' not found in {self.random_ten}")
                 else:
-                    button_color[index] = "#cf6275"
+                    button_color[index] = "#657694"
                     self.lights.illuminate_spirit(ingredients)
             # If we've hit the "I'm feeling lucky" button
             elif element_name == "random existing":

@@ -9,7 +9,7 @@
 <body>
     <div class="grid-container">
         <div class="header">
-            <h2>Welcome to the Main Menu!</h2>
+            <h2>Welcome to the Main Menu</h2>
         </div>
   
         <div class="left">
@@ -24,23 +24,32 @@
 
     <div class="middle">
 
+        <h3>How this works</h3>
+        <p>You've reached the LED liquor cabinet web interface, our bar at your fingertips! Select a cocktail recipe to light up the spirits needed to make that drink. Enter a
+            category of alcohol - Whisky, Amaro, Tequila, etc etc - to see our availability. And while you're here, don't miss browsing our house-made recipes or experimenting
+            with the <a href="/random_cocktail_generator">random cocktail generator</a>. 
+        </p>
+
+        <hr>
+
+        <!-- Cocktail input -->
+        <h3>Light up a <strong>Cocktail</strong> or <strong>Category</strong> </h3>
         <!-- Anything in the "name" field gets sent as a dictionary key in POST -->
-        <p>Know the name of the drink you want?</p>
         <form id="cocktail" method="POST">
-            <label for="cocktail-input">Cocktail Name</label><br>
-            <input list="cocktails" id="cocktail-input" name="cocktail input">
+            &emsp;<input list="cocktails" id="cocktail-input" name="cocktail input">
             <datalist id="cocktails">
                 {% for option in options %}
                 <option value="{{ option }}">{{ option }}</option>
                 {% endfor %}
             </datalist>
-            <button form="cocktail" type="submit">Light em up</button>
+            <button form="cocktail" id="cocktailSubmit" type="submit">Light em up</button>
         </form>
 
         <hr>
     
-        <p>Prefer to browse the options instead?</p>
-        <form method="POST">
+        <!-- <p>Prefer to browse the options instead?</p> -->
+        <h3>Prefer to browse? Take a look through our various collections</h3>
+        <!-- <form method="POST">
             <label for="collection-select">Sort by</label><br>
             <select id="collection-select" name="collection dropdown">
                 {% for collection in collections %}
@@ -48,31 +57,23 @@
                 {% endfor %}
             </select>
             <button type="submit">Go</button>
-        </form>
+        </form> -->
+        <div class="middle">
+            {% for i in range(collections|length)%}
+              <a href="/collection/{{collections[i]}}">{{collections[i]}}</a><br>
+              &emsp;-&ensp;{{notes[i]}}
+              <br><br>
+            {% endfor %}
+        </div>  
 
         <br><br>
-
-        <!-- <hr>
-        <p>Recipe</p>
-
-        <hr>
-        <p>This is a proxy for the LED setup</p>
-        <ul>
-            {% for ingredient in ingredients %}
-            {% if ingredient in chosen_ingredients %} 
-            <li class="highlighted">{{ingredient}}</li>
-            {% else %}
-            <li>{{ingredient}}</li>
-            {% endif %}
-            {% endfor%}
-        </ul> -->
 
     </div>  
   
   <div class="footer">
     <a href="/put_away_ingredient">♫♪♪ Clean up, clean up ♫♪♪</a> <br>
     <a href="/modify_spirits">Add a new spirit</a>
-    </div>
+  </div>
 </div>
 
 </body>

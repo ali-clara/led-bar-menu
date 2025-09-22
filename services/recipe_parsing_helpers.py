@@ -98,16 +98,17 @@ class Menu:
     # -------------------- LOADING & READING -------------------- #
     def load_recipes(self):
         recipes_dict = {}
-        try:
-            for file in glob.glob(self.recipe_path+"/recipes*.yml"):
+        
+        for file in glob.glob(self.recipe_path+"/recipes*.yml"):
+            try:
                 with open(file) as stream:
-                        recipes_dict.update(yaml.safe_load(stream))
-        except TypeError as e:
-            print(f"Failed to read {file}: {e}")
-        except FileNotFoundError as e:
-            print(e)
-        else:
-            return recipes_dict
+                    recipes_dict.update(yaml.safe_load(stream))
+            except TypeError as e:
+                print(f"Failed to read {file}: {e}")
+            except FileNotFoundError as e:
+                print(e)
+            
+        return recipes_dict
         
     def load_tags(self):
         tags_dict_all = {}
@@ -718,6 +719,7 @@ if __name__ == "__main__":
 
     # update_recipe_yaml("test2", "blah", "notes", ["", "two"], ["", "2"], ["", "oz"])
 
-    print(myMenu.get_tag_names())
+    # print(myMenu.get_tag_names())
+    myMenu.validate_all_recipes(quiet=False)
 
     # print(myMenu.get_ingredients("Don't Take Me Alive"))

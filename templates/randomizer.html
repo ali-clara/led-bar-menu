@@ -26,17 +26,19 @@
             
             <form id="random" method="POST">
             
-            <p>Feeling the decision paralysis? Pick a random recipe from our menu</p>
+            <p>Decision paralysis? Pick a random recipe from our menu</p>
             &emsp;<button form="random" type="submit" name="random existing">I'm feeling lucky</button>
-            
+            <br><br>
+
             <p>Or choose a flavor profile to generate 10 random cocktails</p>
-                {% for i in range(rand_options|length) %}
+            {% for i in range(rand_options|length) %}
                 &emsp; <button type="submit" name="{{rand_options[i]}}">{{rand_options[i]}}</button>
-                {% endfor %}
-                &emsp; <button form="random" type="submit" name="Random Random">Random Random</button><br>
+            {% endfor %}
+            &emsp; <button form="random" type="submit" name="Random Random">Random Random</button><br>
 
             <br>
-            <p style="text-align: center;">Random recipes</p>
+            <hr style="width:50%">
+            <!-- <p style="text-align: center;">Random recipes</p> -->
 
             <!-- it's fixed but CURSED -->             
              {% for row in range(rows)%}
@@ -72,9 +74,9 @@
         </div>  
     
       <div class="footer">
-        <p>Footer? I hardly know her</p>
         <a href="/put_away_ingredient">♫♪♪ Clean up, clean up ♫♪♪</a> <br>
         <a href="/modify_spirits">Add a new spirit</a>
+        <p>Footer? I hardly know her</p>
       </div>
   
     </div>
