@@ -9,9 +9,6 @@ Getting lit (hah)
 - "did you mean" feature in lots of places (adding recipe/ingredient, searching, really anywhere there's user input)
 - pi isn't automatically updating from github
 - comments on recipes
-- make "debug" and "uncategorized" hidden recipe files
-- think about refactoring recipe_parsing_helpers into its own class, it's getting pretty complex by now and would be good to isolate where data/dictionaries/big lists live.
-- external param for "does the system need updating" (set to Yes upon init)
 - "add tag" option to modify spirits page
 
 ### Docs
