@@ -231,7 +231,7 @@ class TestView(FlaskView):
                                    "Cocktails from our undergrad days at Ali's uncle's house",
                                    "Classic drinks! You could order these in public and people will probably know what you mean",
                                     "Drinks inspired by Steely Dan songs and albums. Ask for a physical menu for extra ~zing~",
-                                    "Miscellaneous!",
+                                    # "Miscellaneous!",
                                     "Plagiarized from our favorite cocktail bar, The Zig Zag Cafe in Pike Place",
                                     ]
         return render_template('collections_main.html', collections=self.main_menu.get_collection_names(), notes=collection_descriptions)
