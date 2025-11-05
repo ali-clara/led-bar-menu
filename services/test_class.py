@@ -171,8 +171,13 @@ class TestView(FlaskView):
         units = []
         amounts = []
         for ing in chosen_ingredients:
-            # Format the ingredients nicely
-            rendered_ingredients.append(recipe.format_as_recipe(ing))
+            # Check stock and format the ingredients
+            if self.main_menu.menu_dict[arg]['ingredients'][ing]['stocked'] == False:
+                ingredient_display = recipe.format_as_recipe(ing) + " -- out of stock"
+            else:
+                ingredient_display = recipe.format_as_recipe(ing)
+            rendered_ingredients.append(ingredient_display)
+            # Grab units and amounts
             units.append(self.main_menu.menu_dict[arg]['ingredients'][ing]["units"])
             amounts.append(self.main_menu.menu_dict[arg]['ingredients'][ing]["amount"])
         notes = self.main_menu.menu_dict[arg]["notes"]
