@@ -440,23 +440,21 @@ class Menu:
             return True
     
     def validate_one_recipe(self, recipe:dict, recipe_name:str, verbose, quiet):
-        # if all the ingredients of the recipe are good, recipe is good
+        # if all the ingredients of the recipe are good, recipe is good. return recipe
         # otherwise, false
-        # 11/5 doesn't flag false for out of stock
         if verbose:
             print(f"Checking {recipe_name}")
 
         tag_names = self.get_tag_names()
         recipe_ingredients = list(recipe.keys())
         ingredient_exists = False
-        ingredient_in_stock = False
 
         for ingredient in recipe_ingredients:
             # First, check the ingredient name and any aliases it might be under
             ing_aliases = self.expand_alias(ingredient)
             if verbose:
                 print(f"Checking {ingredient} (aliases {ing_aliases[1:]})")
-            # For each alias: if we can find it, check if it's in stock. If not, break here
+            # For each alias: if we can find it, check if it's in stock.
             for alias in ing_aliases:
                 if alias in self.inventory:
                     ingredient_exists = True
@@ -464,12 +462,6 @@ class Menu:
                         recipe[ingredient].update({'stocked': True})
                     else:
                         recipe[ingredient].update({'stocked': False})
-                    #     return False
-                    # else:
-                    #     ingredient_in_stock = True
-                # If we've found an ingredient that works, we can stop here
-                # if ingredient_in_stock:
-                #     break
             # Then check if it's a tag, and repeat the process for any children
             if ingredient in tag_names:
                 children = self.expand_tag(ingredient)
@@ -485,13 +477,6 @@ class Menu:
                                 recipe[ingredient].update({'stocked': True})
                             else:
                                 recipe[ingredient].update({'stocked': False})
-                            # if not self.is_in_stock(alias, recipe_name, verbose, quiet):
-                            #     return False
-                            # else:
-                            #     ingredient_in_stock = True
-                    # If we've found an ingredient that works, we can stop here
-                    # if ingredient_in_stock:
-                    #     break
                         
             if not ingredient_exists:
                 if not quiet:
@@ -509,15 +494,12 @@ class Menu:
         for key in menu_to_validate:
             recipe = menu_to_validate[key]["ingredients"]
             validated_recipe = self.validate_one_recipe(recipe, key, verbose, quiet)
-
+            # If valid, update its ingredients with the checked stock
             if validated_recipe:
                 validated_menu[key]["ingredients"].update(recipe)
+            # If it's not, remove it
             else:
                 validated_menu.pop(key)
-
-            # If it's not valid, remove it
-            # if not self.validate_one_recipe(recipe, key, verbose, quiet):
-            #     validated_menu.pop(key)
         
         return validated_menu
 
