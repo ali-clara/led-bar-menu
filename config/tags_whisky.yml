@@ -9,6 +9,7 @@ Canadian Whisky:
   collection: Tags
   ingredients:
     black_velvet: {}
+    509_canadian_whisky: {}
   notes: Should include all whisky from Canada
 Irish Whiskey:
   collection: Tags
@@ -78,11 +79,13 @@ Smoky Scotch Whisky:
   collection: Tags
   ingredients:
     famous_grouse_smoky_black: {}
+    islay_scotch: {}
   notes: Anything that is a little smokier than usual
 Smoky Scotch:
   collection: Tags
   ingredients:
     Smoky Scotch Whisky: {}
+    islay_scotch: {}
   notes: Alias
 Scotch:
   collection: Tags

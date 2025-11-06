@@ -14,15 +14,15 @@ sipsmith_sloe_gin, D2
 fidelitas_kirsch, F8
 pear_williams, F10
 tanqueray_london_dry, F2
-zignum_reposado, D17
-famous_grouse, none
+zignum_reposado,D15
+famous_grouse,F18
 famous_grouse_smoky_black, none
-del_maguey_classico, D15
-del_maguey_puebla, D12
-cuervo_gold, F15
+del_maguey_classico,D13
+del_maguey_puebla,D11
+cuervo_gold,H3
 largo_bay_151, C4
 yuzu_curacao, B17
-boulard_calvados, D9
+boulard_calvados,D8
 dryfly_gin, F5
 christian_brothers_vsop, D5
 christian_brothers_vs, E9
@@ -75,7 +75,7 @@ gen-p, A1
 dry_curacao, none
 kahana_mac_nut, L7
 360_huckleberry, I6
-yellowstone_bourbon, F17
+yellowstone_bourbon,J2
 falernum, N7
 cristiani_maraschino, K7
 martini_rosso, N1
@@ -240,3 +240,7 @@ vanilla_extract, kitchen
 vanilla, kitchen
 cinnamon, kitchen
 cinnamon_stick, kitchen
+brovo_ginger_liqueur,K5
+
+509_canadian_whisky,D18
+

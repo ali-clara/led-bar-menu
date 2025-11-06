@@ -73,6 +73,7 @@ Herbal Liqueur:
     galliano: {}
     sambuca_di_amore: {}
     zirbenz: {}
+    brovo_ginger_liqueur: {}
   notes: ''
 Macadamia Nut Liqueur:
   collection: Tags
@@ -139,24 +140,24 @@ Pistachio Liqueur:
   ingredients:
     pistacchio_mk_i: {}
     pistacchio_mk_ii: {}
-  notes: 'We should really dump these out instead of making them a tag'
+  notes: We should really dump these out instead of making them a tag
 Amaretto:
   collection: Tags
   ingredients:
     cristiani_amaretto: {}
-  notes: 
+  notes: null
 Honey Liqueur:
   collection: Tags
   ingredients:
     placeholder_honey_liqueur: {}
-  notes: 
+  notes: null
 Macadamia Liqueur:
   collection: Tags
   ingredients:
     Macadamia Nut Liqueur: {}
-  notes: 
+  notes: null
 Coconut Liqueur:
   collection: Tags
   ingredients:
     placeholder_coconut_rum: {}
-  notes:
+  notes: null
