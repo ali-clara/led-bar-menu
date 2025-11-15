@@ -1,0 +1,13 @@
+The Fez:
+  collection: Steely Dan
+  ingredients:
+    Famous Grouse:
+      amount: '1.5'
+      units: oz
+    Nixta:
+      amount: '0.75'
+      units: oz
+    Orange Bitters:
+      amount: '2'
+      units: dashes
+  notes: ''
