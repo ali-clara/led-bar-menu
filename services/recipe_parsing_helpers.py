@@ -7,6 +7,10 @@ import glob
 import numpy as np
 import csv
 from titlecase import titlecase
+try:
+    import parameter_helpers as params
+except ImportError:
+    from services import parameter_helpers as params
 
 # -------------------- FORMATTING -------------------- #
 def format_as_inventory(input_str:str):
@@ -505,6 +509,9 @@ class Menu:
 
     # -------------------- ADDING THINGS VIA WEBSITE -------------------- #
     def update_recipe_yaml(self, recipe_name:str, collection:str, notes:str, ingredients:list, amounts:list, units:list):
+        # Trigger the update flag before any other shenanigans happen
+        params.add_or_update_param("menu_update_pending", True)
+
         # If we weren't given a collection, deal with that
         if collection.strip() == "":
             collection = "uncategorized"
@@ -555,6 +562,9 @@ class Menu:
         # Check if the given coordinate is valid. If so...
         # all_cabinet_locs = load_cabinet_locs()
         # if coord in all_cabinet_locs.keys():
+
+        # Trigger the update flag before any other shenanigans happen
+        params.add_or_update_param("menu_update_pending", True)
 
         # String formatting
         spirit = format_as_inventory(spirit)
@@ -615,6 +625,9 @@ class Menu:
         Args:
             spirit (str): _description_
         """
+        # Trigger the update flag before any other shenanigans happen
+        params.add_or_update_param("menu_update_pending", True)
+        
         # Update the spirit inventory in preparation for csv writing
         spirit = format_as_inventory(spirit)
         new_row = [spirit, "none"]
