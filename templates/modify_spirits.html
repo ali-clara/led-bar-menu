@@ -10,7 +10,7 @@
         var numBtns = 1; 
         var madeList = false    
 
-        function AddField(tableId, elementId) {
+        function AddField(tableId, elementId, ingList) {
             // Grab the table references and update the rowIdx if we need to
             var tableRef = document.getElementById(tableId);
             if (rowIdx == 0) {
@@ -26,6 +26,7 @@
             
             // Create a bunch of elements to put in those cells
             var ingElement = document.createElement('input');
+            var ingDatalist = document.createElement('datalist');
             var amountElement = document.createElement('input');
             var unitElement = document.createElement('input');
             var comma1Node = document.createTextNode(" , ");
@@ -35,6 +36,24 @@
             // Assign attributes to those elements
             ingElement.setAttribute("form", "add recipe");
             ingElement.setAttribute("name", `input_recipe_ingredient_${numBtns}`);
+            ingElement.setAttribute("list", "dlIngredients");
+            ingDatalist.setAttribute("id", "dlIngredients");
+
+            var len = ingList.length;
+            for (var i=0; i < len; i+= 1) {
+                var option = document.createElement("option");
+                option.value = ingList[i];
+                ingDatalist.appendChild(option);
+            }
+
+            ingElement.appendChild(ingDatalist);
+
+            // <input list="allIngredients" id="inputIngName" name="input_recipe_ingredient_0"> , 
+            // <datalist id="allIngredients">
+            //     {% for spirit in spiritList %}
+            //     <option value="{{spirit}}">{{spirit}}</option>
+            //     {% endfor %}
+            // </datalist>
 
             amountElement.setAttribute("form", "add recipe");
             amountElement.setAttribute("name", `input_recipe_amount_${numBtns}`);
@@ -50,6 +69,7 @@
 
             // Append the elements to the appropriate cell
             cell1.appendChild(ingElement);
+            cell1.appendChild(ingDatalist);
             cell1.appendChild(comma1Node);
             cell1.appendChild(amountElement);
             cell1.appendChild(comma2Node);
@@ -225,7 +245,7 @@
                                 <span class="anchor">
                                     <input type="text" placeholder="Search..." id="dropdownInput" 
                                         onkeyup="filterFunction()" 
-                                        onclick="dropDown({{tagList}}, {{inputTags}})">
+                                        onclick="dropDown({{testList}}, {{inputTags}})">
                                     <button class="dropdown-button" type="button" id="dropdownButton" onclick="toggleDropdown({{tagList}}, {{inputTags}})">
                                         <i class="arrow" id="dropdownArrow"></i>
                                     </button>
@@ -296,7 +316,7 @@
                             </datalist>
                             <input id="inputIngAmount" name="input_recipe_amount_0"> , 
                             <input id="inputIngUnit" name="input_recipe_unit_0"></td>
-                        <td><button form="add recipe" type="button" id="btnAddIng" onclick="AddField('tbl', 'btnAddIng')">Add ingredient</button></td>
+                        <td><button form="add recipe" type="button" id="btnAddIng" onclick="AddField('tbl', 'btnAddIng', {{spiritList}})">Add ingredient</button></td>
                         <!-- <td><button type="button" id="button1" value="button 1" onclick="enableButton2()">Test</button></td> -->
                     </tr>
                 </form>

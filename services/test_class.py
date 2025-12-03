@@ -387,6 +387,12 @@ class TestView(FlaskView):
     
     @method("GET")
     @method("POST")
+    def test_datalist(self):
+        fruits = ["Apple", "Orange", "Grapes", "Berry", "Mango", "Banana"]
+        return render_template("test_datalist.html", testList=fruits)
+    
+    @method("GET")
+    @method("POST")
     def modify_spirits(self):
         """Developer mode babey"""
         self._quick_update()
