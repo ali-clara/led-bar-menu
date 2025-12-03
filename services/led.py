@@ -190,8 +190,8 @@ class LED:
 
         # Light em up
         if flash:
-            # self.range_flash(neopixel_range, color, brightness)
-            self._flash_threaded(neopixel_range, color, brightness)
+            self.range_flash(neopixel_range, color, brightness)
+            # self._flash_threaded(neopixel_range, color, brightness)
         else:
             for start, stop in neopixel_range:
                 self.set_pixels_from_range(start, stop, color, brightness)
