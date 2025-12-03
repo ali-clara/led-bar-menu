@@ -190,7 +190,8 @@ class LED:
 
         # Light em up
         if flash:
-            self.range_flash(neopixel_range, color, brightness)
+            # self.range_flash(neopixel_range, color, brightness)
+            self._flash_threaded(neopixel_range, color, brightness)
         else:
             for start, stop in neopixel_range:
                 self.set_pixels_from_range(start, stop, color, brightness)
@@ -250,8 +251,8 @@ class LED:
                 params_dict = yaml.safe_load(stream)
 
             # Safety measure so my thread doesn't run forever
-            if (time.time() - starttime) >= 20:
-                break
+            # if (time.time() - starttime) >= 20:
+            #     break
             
             for start, stop in neopixel_range:
                 self.set_pixels_from_range(start, stop, color, brightness)
