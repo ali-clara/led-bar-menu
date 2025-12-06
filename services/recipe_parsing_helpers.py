@@ -101,7 +101,7 @@ class Menu:
         self.collections = self.get_collection_names()
     
     # -------------------- LOADING & READING -------------------- #
-    def load_recipes(self):
+    def load_recipes(self, quiet):
         recipes_dict = {}
         
         for file in glob.glob(self.recipe_path+"/recipes*.yml"):
@@ -109,9 +109,11 @@ class Menu:
                 with open(file) as stream:
                     recipes_dict.update(yaml.safe_load(stream))
             except TypeError as e:
-                print(f"Failed to read {file}: {e}")
+                if not quiet:
+                    print(f"Failed to read {file}: {e}")
             except FileNotFoundError as e:
-                print(e)
+                if not quiet:
+                    print(e)
             
         return recipes_dict
         
@@ -491,7 +493,7 @@ class Menu:
 
     def validate_all_recipes(self, verbose=False, quiet=True):
         # Makes sure we have the ingredients to make a recipe
-        menu_to_validate = self.load_recipes()
+        menu_to_validate = self.load_recipes(quiet)
         # for each recipe, validate it. If it's good, keep it.
         # Otherwise, throw out the recipe and flag it (let us know)
         validated_menu = copy.deepcopy(menu_to_validate)
@@ -548,6 +550,7 @@ class Menu:
                     print("Expected dictionary, did not find one. Replacing file contents with new recipe")
                 with open(file, 'w') as outfile:
                     yaml.dump(menu_dict, outfile, sort_keys=False)
+                self.update()
                 return True, recipe_name
             
         return False, recipe_name
@@ -610,13 +613,16 @@ class Menu:
 
         # If we don't find a match, add the new spirit to the end
         if spirit_exists:
+            self.update()
             return True
         else:
             with open(os.path.join(self.recipe_path, "ingredients.csv"), 'a') as csvfile:
                 writer = csv.writer(csvfile, delimiter=',', lineterminator='\n\r')
                 writer.writerow(new_row)
+                self.update()
                 return True
         
+        print(f"Failed to add {spirit} to inventory")
         return False
 
     def remove_spirit(self, spirit:str):
@@ -649,10 +655,14 @@ class Menu:
                     # Replace the one to "remove" with the new row: spirit_name, "none"
                     else:
                         writer.writerow(new_row)
-                        return True
                 except Exception as e:
                     print(e)
-        return False
+
+        self.update()
+        if spirit in self.get_out_of_stock():
+            return True
+        else:
+            return False
 
     def add_spirit_to_tag(self, spirit:str, tag:str):
         parent = self.find_tag_parent(tag)
@@ -681,6 +691,8 @@ class Menu:
             results.append(result)
             if not result:
                 print(f"Failed to add {spirit} to {tag}")
+
+        self.update()
 
         if all(results):
             return True
@@ -727,15 +739,20 @@ if __name__ == "__main__":
         # print("----")
         myMenu.validate_all_recipes(quiet=False)
         # print(myMenu.inventory_user_facing)
-        # print("--")
-        print(myMenu.menu_dict)
+        print("--")
+        # print(myMenu.menu_dict)
+        print("Out of stock:")
+        print(myMenu.get_out_of_stock())
 
     def check_collections():
         print("Collections: ", myMenu.collections)
     
     # check_recipe_against_csv()
     # check_tags_and_aliases()
-    # check_inventory()
+    check_inventory()
+    myMenu.remove_spirit("pistacchio_mk_i")
+    check_inventory()
+
     # check_collections()
 
     # Test the similarity metric and the validation

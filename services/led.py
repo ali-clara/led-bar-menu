@@ -37,7 +37,7 @@ else:
 dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
 
 class LED:
-    def __init__(self):
+    def __init__(self, main_menu):
         # Initialize the NeoPixel strip with GPIO pin 10 (needed for not running this with SUDO privileges),
         # 150 lights, and 20% brightness. Auto_write means we're going to need to call pixels.show() whenever we want them lit up
         self.pixels = neopixel.NeoPixel(board.D10, 255, brightness=0.2, auto_write=False)
@@ -45,7 +45,7 @@ class LED:
         self.pixels.fill((0,0,0))
         self.pixels.show()
 
-        self.main_menu = recipe.Menu()
+        self.main_menu = main_menu
 
         # Dictionary of spirit:location, where 'location' is a coordinate not a neopixel address (e.g A7 not 150)
         # all_ingredients, self.spirit_loc_dict = self.main_menu.load_all_ingredients()

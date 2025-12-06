@@ -10,6 +10,8 @@ Getting lit (hah)
 - pi isn't automatically updating from github
 - comments on recipes
 - "add tag" option to modify spirits page
+- inventory page, with out of stock
+- 'sort by' pages - sweet drinks, boozy drinks, herbal drinks, etc. Could have a tool that checks each ingredient and makes an educated guess
 
 ### Docs
 - https://docs.circuitpython.org/projects/neopixel/en/latest/index.html

@@ -32,7 +32,7 @@ class TestView(FlaskView):
         # Initialize the other classes
         self.main_menu = recipe.Menu()
         super().__init__()
-        self.lights = LED() # note here that I've created another instance of Menu(), make sure their updates stay in sync
+        self.lights = LED(self.main_menu) # note here that I've created another instance of Menu(), make sure their updates stay in sync
 
         # Initialize a few class variables
         # Due to HTML wizardry and ghosts, class vars can be fucky if you try to use them in between website pages. For vars
