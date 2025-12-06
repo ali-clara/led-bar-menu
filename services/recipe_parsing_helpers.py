@@ -17,7 +17,9 @@ def format_as_inventory(input_str:str):
     return input_str.replace(" ", "_").lower().strip()
 
 def format_as_recipe(input_str:str):
-    return titlecase(input_str.replace("_", " ").strip())
+    output_str = titlecase(input_str.replace("_", " ").strip())
+    output_str = output_str.replace(" De ", " de ") # Fix for Creme de Cacao
+    return output_str
 
 def format_new_recipe_yaml(recipe_name:str, collection:str, notes:str, ingredients:list, amounts:list, units:list):
     # First build the ingredients dictionary. Loop through the list of strings and append accordingly

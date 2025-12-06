@@ -32,7 +32,7 @@ class TestView(FlaskView):
         # Initialize the other classes
         self.main_menu = recipe.Menu()
         super().__init__()
-        self.lights = LED(self.main_menu) # note here that I've created another instance of Menu(), make sure their updates stay in sync
+        self.lights = LED(self.main_menu)
 
         # Initialize a few class variables
         # Due to HTML wizardry and ghosts, class vars can be fucky if you try to use them in between website pages. For vars
@@ -153,7 +153,9 @@ class TestView(FlaskView):
             # If it's a tag, expand it, check aliases for any children, and pass all that to LEDs
             # I'm being cavalier with what I chuck to the led class because it will only light up things it has a location for
             tag_name = recipe.format_as_recipe(ingredient)
+            print(tag_name)
             if tag_name in self.main_menu.get_tag_names():
+                print(f"found {tag_name} in tags")
                 children = self.main_menu.expand_tag(tag_name)
                 for child in children:
                     aliases = self.main_menu.expand_alias(child)
