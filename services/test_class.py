@@ -213,8 +213,8 @@ class TestView(FlaskView):
                                ingredients=ingredients_list,
                                notes=notes_list)
 
-    
     def _get_collection_info(self):
+        # should make this be an external yaml probably
         collection_names = self.main_menu.get_collection_names()
         collection_names.sort()
 
@@ -227,7 +227,6 @@ class TestView(FlaskView):
                                     ]
         
         return collection_names, collection_descriptions
-
 
     def collections_main_page(self):
         self._quick_update()
@@ -242,6 +241,13 @@ class TestView(FlaskView):
                                     "Plagiarized from our favorite cocktail bar, The Zig Zag Cafe in Pike Place",
                                     ]
         return render_template('collections_main.html', collections=self.main_menu.get_collection_names(), notes=collection_descriptions)
+
+    @method("POST")
+    @method("GET")
+    def inventory(self):
+        categories = self.main_menu.load_categories(user_facing=True)
+
+        return render_template('inventory.html', allIngredients=self.main_menu.inventory_user_facing, categories=categories)
 
     @method("POST")
     @method("GET")

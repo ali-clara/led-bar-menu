@@ -90,19 +90,19 @@ sesame_whiskey, K1
 lapsang_whiskey, L2
 mystery1, O1
 mystery2, O2
-blue_curacao, M2
+blue_curacao_jar, M2
 absinthe, A15
 creme_de_violette, none
-peach_schnapps, none
+peachtree, none
 kahlua, none
 lillet_blanc, none
 st_germain, none
 islay_scotch,C8
 creme_de_cassis, none
-creme_de_violette, none
 champagne, none
 black_velvet, none
 amaro_nonino, none
+de_kuyper_creme_de_menthe, none
 
 placeholder_japanese_whisky, none
 placeholder_coconut_rum, none
@@ -158,7 +158,7 @@ three_teabags, bitters_rack_middle
 szechuan_ii, bitters_rack_middle
 onionless_pho_bitters, bitters_rack_middle
 kumquat_bitters, bitters_rack_middle
-1_20_23, bitters_rack_middle
+1_20_23_unlabeled, bitters_rack_middle
 habanero_tincture, bitters_rack_middle
 orange_blossom_water, bitters_rack_middle
 brisngr_flower, bitters_rack_middle
@@ -198,6 +198,7 @@ lime, bowl
 lime_juice, bowl
 lime_twist, bowl
 lime_zest, bowl
+key_lime_juice, none
 lemon, bowl
 lemon_juice, bowl
 lemon_twist, bowl

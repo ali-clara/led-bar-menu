@@ -7,7 +7,6 @@ Vermouth:
     brovo_jammy: {}
     brovo_witty: {}
     brovo_pretty: {}
-    test wine: {}
 Sparkling Wine:
   collection: Tags
   ingredients:

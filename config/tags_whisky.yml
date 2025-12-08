@@ -25,7 +25,7 @@ Japanese Whisky:
 Peated Whisky:
   collection: Tags
   ingredients:
-    islay_single_malt: {}
+    islay_scotch: {}
     famous_grouse_smoky_black: {}
   notes: Should include all peated whiskies/whiskeys, regardless of peat level
 Rye Whiskey:
@@ -73,7 +73,7 @@ Whiskey (Inclusive):
   ingredients:
     Whiskey: {}
     Whiskey (Specific): {}
-    cinnamon_whiskey: {}
+    cinnamon_infused_whiskey: {}
   notes: Jack you might want to check this one, I did my best
 Smoky Scotch Whisky:
   collection: Tags

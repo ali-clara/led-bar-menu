@@ -202,7 +202,57 @@ class Menu:
 
         return out_of_stock
 
-        
+    def load_categories(self, user_facing=False):
+        """Loads tags_category.yml and sorts spirits accordingly
+
+        Returns:
+            _type_: _description_
+        """
+        categories_filepath = os.path.join(self.recipe_path, "tags_category.yml")
+        categories_organized = {}
+        # Open the yaml
+        try:
+            with open(categories_filepath) as stream:
+                # All categories (tag: {ingredients: [spirit_1, spirit_2, ..., spirit_n], notes: , etc})
+                contents = yaml.safe_load(stream)
+        except TypeError as e:
+            print(f"Failed to read {categories_filepath}: {e}")
+        except FileNotFoundError as e:
+            print(e)
+        # If we can do that, split the yaml into a dictionary of {category: [spirit1, spirit2]}
+        # This is tag-aware (expands every entry as much as possible) and doesn't include out of stock items
+        else:
+            for category in contents:
+                # I want to be a ~little~ more granular than base spirit, so catch this special case and split it
+                # into base spirit types
+                if category == "Base Spirits":
+                    base_spirits = contents[category]["ingredients"].keys()
+                    # By definition these will have children, so we don't have to check for that
+                    for spirit in base_spirits:
+                        children = self.expand_tag(spirit)
+                        if user_facing:
+                            children = [format_as_recipe(child) for child in children if self.is_in_stock(child)]
+                        else:
+                            children = [child for child in children if self.is_in_stock(child)]
+                        categories_organized.update({spirit: children})
+                # Otherwise, pull each category/keys combo
+                else:
+                    sorted = list(contents[category]["ingredients"].keys())
+                    sorted_expanded = []
+                    for s in sorted:
+                        children = self.expand_tag(s)
+                        if children:
+                            [sorted_expanded.append(child) for child in children if self.is_in_stock(child)]
+                        else:
+                            if self.is_in_stock(s):
+                                sorted_expanded.append(s)
+                    if user_facing:
+                        sorted_expanded = [format_as_recipe(sorted) for sorted in sorted_expanded if user_facing]
+                    
+                    categories_organized.update({category: sorted_expanded})
+
+            return categories_organized
+
     def get_recipe_names(self):
         return list(self.menu_dict.keys())
     
@@ -331,7 +381,7 @@ class Menu:
 
     # -------------------- TAGS & ALIASES -------------------- #
     def expand_tag(self, given_tag:str):
-        """Fully expands a tag into all its children. 'Brandy (inclusive) becomes ['boulard_calvados', 'pear_williams', 
+        """Fully expands a tag into all its children. 'Brandy (Inclusive) becomes ['boulard_calvados', 'pear_williams', 
         'christian_brothers_vs', 'christian_brothers_vsop', 'placeholder_fig_brandy', 'fidelitas_kirsch']
 
         Args:
@@ -376,7 +426,7 @@ class Menu:
             i += 1
         # print(f"{given_tag} expanded to {children}")
         if len(children) > 0:
-            return children
+            return set(children)
         else:
             return False
 
@@ -426,7 +476,7 @@ class Menu:
         print(f"Could not find parent tag for {tag}")
 
     # -------------------- CHECKING INVENTORY -------------------- #
-    def is_in_stock(self, ingredient:str, recipe_name:str, verbose, quiet):
+    def is_in_stock(self, ingredient:str, recipe_name:str="", verbose=False, quiet=True):
         """Checks a given ingredient against our inventory (which has the location "none" if out of stock).
 
         Args:
@@ -510,7 +560,7 @@ class Menu:
                 validated_menu.pop(key)
         
         return validated_menu
-
+                    
     # -------------------- ADDING THINGS VIA WEBSITE -------------------- #
     def update_recipe_yaml(self, recipe_name:str, collection:str, notes:str, ingredients:list, amounts:list, units:list):
         # Trigger the update flag before any other shenanigans happen
@@ -730,6 +780,22 @@ if __name__ == "__main__":
                 print(f"Could not find {ingredient} in ingredients list: looking for {aliases}")
                 print()
 
+    def check_tags_against_csv():
+        tags_dict = myMenu.tags_dict_all
+        for key in tags_dict:
+            ingredient_list = tags_dict[key]["ingredients"]
+            for ingredient in ingredient_list:
+                children = myMenu.expand_tag(ingredient)
+                if not children:
+                    children = [ingredient]
+                for child in children:
+                    aliases = myMenu.expand_alias(child)
+                    # If we couldn't find any aliases in our master ingredients list, throw a flag
+                    if not any((True for x in aliases if x in myMenu.inventory)):
+                        print("---")
+                        print(f"{key}: Could not find {ingredient} in ingredients list. Looking for {aliases}")
+                        print()
+                    
     def check_tags_and_aliases():
         print("\nTags: ", myMenu.get_tag_names())
         print("\nChildren of Brandy (Inclusive): ", myMenu.expand_tag("Brandy (Inclusive)"))
@@ -750,12 +816,15 @@ if __name__ == "__main__":
         print("Collections: ", myMenu.collections)
     
     # check_recipe_against_csv()
+    check_tags_against_csv()
     # check_tags_and_aliases()
-    check_inventory()
-    myMenu.remove_spirit("pistacchio_mk_i")
-    check_inventory()
-
+    # check_inventory()
     # check_collections()
+
+    # print(myMenu.load_categories(True))
+
+    # print(myMenu.expand_tag("Whiskey"))
+    
 
     # Test the similarity metric and the validation
     # print("\n")

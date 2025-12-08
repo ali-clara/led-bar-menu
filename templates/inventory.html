@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/mainstyle.css') }}">
+    <title>Title</title>
+</head>
+
+<body>
+    <div class="grid-container">
+        <div class="header">
+        </div>
+    
+        <div class="left">
+          <!-- Navbar! We're not on any menu page, so don't set any of them active -->
+          <div class="vertical-menu">
+            <a href="/menu">Home</a>
+            <a href="/collections_main_page">Collections</a>
+            <a href="/random_cocktail_generator">Random Cocktail Generator</a>
+            <a href="/credits">Credits</a>
+          </div>
+        </div>
+  
+        <div class="middle">
+            {% for key, value in categories.items() %}
+            <h1>Key: {{key}}</h1>
+            <h2>Value: {{value}}</h2>
+            {% endfor %}
+        </div>  
+    
+      <div class="footer">
+        <a href="/put_away_ingredient">♫♪♪ Clean up, clean up ♫♪♪</a> <br>
+        <a href="/modify_spirits">Add a new spirit</a>
+      </div>
+  
+    </div>
+  </body>
+
+  </html>
