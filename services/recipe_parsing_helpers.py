@@ -779,6 +779,7 @@ if __name__ == "__main__":
                 print("---")
                 print(f"Could not find {ingredient} in ingredients list: looking for {aliases}")
                 print()
+        print("Finished checking recipes")
 
     def check_tags_against_csv():
         tags_dict = myMenu.tags_dict_all
@@ -795,6 +796,7 @@ if __name__ == "__main__":
                         print("---")
                         print(f"{key}: Could not find {ingredient} in ingredients list. Looking for {aliases}")
                         print()
+        print("Finished checking tags")
                     
     def check_tags_and_aliases():
         print("\nTags: ", myMenu.get_tag_names())
@@ -816,7 +818,7 @@ if __name__ == "__main__":
         print("Collections: ", myMenu.collections)
     
     # check_recipe_against_csv()
-    check_tags_against_csv()
+    # check_tags_against_csv()
     # check_tags_and_aliases()
     # check_inventory()
     # check_collections()
