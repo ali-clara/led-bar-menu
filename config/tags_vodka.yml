@@ -6,7 +6,6 @@ Flavored Vodka:
 Vodka:
   collection: Tags
   ingredients:
-  - placeholder_vodka
   notes: Plain vodka
 Vodka (Inclusive):
   collection: Tags

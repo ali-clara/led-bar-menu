@@ -21,7 +21,6 @@ Tequila:
 Tequila Anejo:
   collection: Tags
   ingredients:
-  - placeholder_anejo
   notes: Can include anejo mezcals
 Tequila Blanco:
   collection: Tags

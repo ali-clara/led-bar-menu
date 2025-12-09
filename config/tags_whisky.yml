@@ -20,7 +20,6 @@ Irish Whiskey:
 Japanese Whisky:
   collection: Tags
   ingredients:
-  - placeholder_japanese_whisky
   notes: Should include all Japanese Whisky
 Peated Whisky:
   collection: Tags

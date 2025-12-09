@@ -6,7 +6,6 @@ Cachaca:
 Coconut Rum:
   collection: Tags
   ingredients:
-  - placeholder_coconut_rum
   notes: Should include all coconut rum
 Dark Rum:
   collection: Tags

@@ -147,7 +147,6 @@ Amaretto:
 Honey Liqueur:
   collection: Tags
   ingredients:
-  - placeholder_honey_liqueur
   notes: null
 Macadamia Liqueur:
   collection: Tags
@@ -157,5 +156,4 @@ Macadamia Liqueur:
 Coconut Liqueur:
   collection: Tags
   ingredients:
-  - placeholder_coconut_rum
   notes: null
