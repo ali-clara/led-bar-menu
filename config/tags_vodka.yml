@@ -1,16 +1,16 @@
 Flavored Vodka:
   collection: Tags
   ingredients:
-    red_huck_jar: {}
+  - red_huck_jar
   notes: ''
 Vodka:
   collection: Tags
   ingredients:
-    placeholder_vodka: {}
+  - placeholder_vodka
   notes: Plain vodka
 Vodka (Inclusive):
   collection: Tags
   ingredients:
-    Flavored Vodka: {}
-    Vodka: {}
+  - Vodka
+  - Flavored Vodka
   notes: ''

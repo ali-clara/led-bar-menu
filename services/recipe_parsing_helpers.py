@@ -138,6 +138,20 @@ class Menu:
         except FileNotFoundError as e:
             print(e)
         else:
+            # Remove any empty tags from both dictionaries, including as the values of other keys
+            tags_dict_copy = copy.copy(tags_dict_all)
+            for key in tags_dict_copy:
+                if tags_dict_all[key]["ingredients"] is None:
+                    # Remove it as a key
+                    tags_dict_all.pop(key)
+                    # Remove it as a value
+                    for tag in tags_dict_all:
+                        if key in tags_dict_all[tag]["ingredients"]:
+                            tags_dict_all[tag]["ingredients"].remove(key)
+                    for parent_tag in tags_dict_organized:
+                        if key in tags_dict_organized[parent_tag]:
+                            tags_dict_organized[parent_tag].remove(key)
+            
             return tags_dict_all, tags_dict_organized
         
     def load_aliases(self):
@@ -152,7 +166,7 @@ class Menu:
         else:
             alias_dict_restructured = {}
             for key in alias_dict:
-                aliases = list(alias_dict[key]["ingredients"].keys())
+                aliases = list(alias_dict[key])
 
                 aliases = [format_as_inventory(alias) for alias in aliases]
                 key = format_as_inventory(key)
@@ -203,7 +217,9 @@ class Menu:
         return out_of_stock
 
     def load_categories(self, user_facing=False):
-        """Loads tags_category.yml and sorts spirits accordingly
+        """Loads tags_category.yml and sorts spirits accordingly.
+
+        Very messy. Want to rewrite and flag out of stock items instead of getting rid of them entirely.
 
         Returns:
             _type_: _description_
@@ -226,28 +242,25 @@ class Menu:
                 # I want to be a ~little~ more granular than base spirit, so catch this special case and split it
                 # into base spirit types
                 if category == "Base Spirits":
-                    base_spirits = contents[category]["ingredients"].keys()
+                    base_spirits = contents[category]["ingredients"]
                     # By definition these will have children, so we don't have to check for that
                     for spirit in base_spirits:
                         children = self.expand_tag(spirit)
                         if user_facing:
-                            children = [format_as_recipe(child) for child in children if self.is_in_stock(child)]
-                        else:
-                            children = [child for child in children if self.is_in_stock(child)]
+                            children = [format_as_recipe(child) for child in children]
                         categories_organized.update({spirit: children})
                 # Otherwise, pull each category/keys combo
                 else:
-                    sorted = list(contents[category]["ingredients"].keys())
+                    sorted = contents[category]["ingredients"]
                     sorted_expanded = []
                     for s in sorted:
                         children = self.expand_tag(s)
                         if children:
-                            [sorted_expanded.append(child) for child in children if self.is_in_stock(child)]
+                            [sorted_expanded.append(child) for child in children]
                         else:
-                            if self.is_in_stock(s):
-                                sorted_expanded.append(s)
+                            sorted_expanded.append(s)
                     if user_facing:
-                        sorted_expanded = [format_as_recipe(sorted) for sorted in sorted_expanded if user_facing]
+                        sorted_expanded = [format_as_recipe(sorted) for sorted in sorted_expanded]
                     
                     categories_organized.update({category: sorted_expanded})
 
@@ -378,7 +391,7 @@ class Menu:
         print(recipe_name)
         if recipe_name in self.get_recipe_names():
             return list(self.menu_dict[recipe_name]['ingredients'].keys())
-
+    
     # -------------------- TAGS & ALIASES -------------------- #
     def expand_tag(self, given_tag:str):
         """Fully expands a tag into all its children. 'Brandy (Inclusive) becomes ['boulard_calvados', 'pear_williams', 
@@ -413,7 +426,7 @@ class Menu:
                 # If our parent is a tag, expand it into kids
                 # tag, parent, _ = check_match(parent, tag_names)
                 if parent in tag_names:
-                    kids = list(self.tags_dict_all[parent]["ingredients"].keys())
+                    kids = list(self.tags_dict_all[parent]["ingredients"])
                     # For each of those kids...
                     for kid in kids:
                         # If it's a tag, put it in parents
@@ -724,7 +737,9 @@ class Menu:
                 data_dict = yaml.safe_load(stream)
             try:
                 # Update the "ingredients" key of the tag to include the new spirit
-                data_dict[tag]["ingredients"].update({spirit: {}})
+                ingredients_set = set(data_dict[tag]["ingredients"])
+                ingredients_set.add(spirit)
+                data_dict[tag].update({"ingredients": list(ingredients_set)})
             except KeyError as e:
                 print(e)
             else:
@@ -797,10 +812,11 @@ if __name__ == "__main__":
                         print(f"{key}: Could not find {ingredient} in ingredients list. Looking for {aliases}")
                         print()
         print("Finished checking tags")
-                    
+    
     def check_tags_and_aliases():
         print("\nTags: ", myMenu.get_tag_names())
-        print("\nChildren of Brandy (Inclusive): ", myMenu.expand_tag("Brandy (Inclusive)"))
+        # print("\nChildren of Brandy (Inclusive): ", myMenu.expand_tag("Brandy (Inclusive)"))
+        print("\nChildren of Misc Liqueur: ", myMenu.expand_tag("Misc Liqueur"))
         print("Aliases of Amaro 04: ", myMenu.expand_alias("Amaro 04"))
         print("Parent tag of Planteray Light Rum: ", myMenu.find_tag_parent("Planteray Light Rum"))
 
@@ -817,11 +833,26 @@ if __name__ == "__main__":
     def check_collections():
         print("Collections: ", myMenu.collections)
     
+    # -------------------- OFFLINE REFORMATTING -------------------- #
+    def reformat_tag_yamls():
+        for file in glob.glob(myMenu.recipe_path+"/tags*.yml"):
+            with open(file) as stream:
+                # All tags (tag: {ingredients: [spirit_1, spirit_2, ..., spirit_n], notes: , etc})
+                contents = yaml.safe_load(stream)
+            for key in contents:
+                ingredients = contents[key]["ingredients"]
+                ingredients_list = list(ingredients.keys())
+                contents[key].update({"ingredients": ingredients_list})
+            with open(file, "w") as outfile:
+                yaml.dump(contents, outfile, sort_keys=False)
+        
+    
     # check_recipe_against_csv()
     # check_tags_against_csv()
-    # check_tags_and_aliases()
+    check_tags_and_aliases()
     # check_inventory()
     # check_collections()
+
 
     # print(myMenu.load_categories(True))
 

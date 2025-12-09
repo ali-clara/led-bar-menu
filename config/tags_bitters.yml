@@ -1,129 +1,109 @@
-#Calvados:
-#  collection: Tags
-#  ingredients:
-#    boulard_calvados: {}
-#  notes: Calvados
-
 Bitters:
   collection: Tags
   ingredients:
-    Chocolate Bitters: {}
-    rootbeer_bitters: {}
-    Aromatic Bitters: {}
-    Homemade Bitters: {}
-    Orange Bitters: {}
-    run_forest_run_maple_bitters: {}
-    scrappy_black_lemon_bitters: {}
-    fee_bros_rhubarb: {}
-    fee_bros_plum: {}
-    scrappy_lavender_bitters: {}
-    fee_bros_peach: {}
-    fee_bros_black_walnut: {}
-    scrappy_grapefruit_bitters: {}
-    scrappy_lavender_bitters: {}
-    fee_bros_cranberry: {}
-    hella_ginger_bitters: {}
-    fee_bros_lemon: {}
-
+  - Chocolate Bitters
+  - rootbeer_bitters
+  - Aromatic Bitters
+  - Homemade Bitters
+  - Orange Bitters
+  - run_forest_run_maple_bitters
+  - scrappy_black_lemon_bitters
+  - fee_bros_rhubarb
+  - fee_bros_plum
+  - scrappy_lavender_bitters
+  - fee_bros_peach
+  - fee_bros_black_walnut
+  - scrappy_grapefruit_bitters
+  - fee_bros_cranberry
+  - hella_ginger_bitters
+  - fee_bros_lemon
 Orange Bitters:
-    collection: Tags
-    ingredients:
-      angostura_orange_bitters: {}
-      Angostura Orange: {}
-      Hella Bitters Orange: {}
-
+  collection: Tags
+  ingredients:
+  - angostura_orange_bitters
+  - Angostura Orange
+  - Hella Bitters Orange
 Lemon Bitters:
-    collection: Tags
-    ingredients:
-      scrappy_black_lemon_bitters: {}
-    notes:
-
+  collection: Tags
+  ingredients:
+  - scrappy_black_lemon_bitters
+  notes: null
 Grapefruit Bitters:
-    collection: Tags
-    ingredients:
-      scrappy_grapefruit_bitters: {}
-
+  collection: Tags
+  ingredients:
+  - scrappy_grapefruit_bitters
 Angostura Orange:
   collection: Tags
   ingredients:
-    angostura_orange_bitters: {}
-  notes:
-
+  - angostura_orange_bitters
+  notes: null
 Hella Bitters Orange:
   collection: Tags
   ingredients:
-      hella_orange_bitters: {}
+  - hella_orange_bitters
   notes: Alias
-
 Black Lemon Bitters:
   collection: Tags
-  ingredients: 
-    scrappy_black_lemon_bitters: {}
+  ingredients:
+  - scrappy_black_lemon_bitters
   notes: Alias
-
 Black Walnut Bitters:
   collection: Tags
   ingredients:
-    fee_bros_black_walnut: {}
+  - fee_bros_black_walnut
   notes: Alias
-
 Chocolate Bitters:
   collection: Tags
   ingredients:
-      Aztec Chocolate Bitters: {}
-      Chocolate Bitters (Exclusive): {}
-
+  - Aztec Chocolate Bitters
+  - Chocolate Bitters (Exclusive)
 Aztec Chocolate Bitters:
   collection: Tags
   ingredients:
-      Hella Bitters Aztec Chocolate: {}
-      fee_bros_aztec_chocolate_bitters: {}
-
+  - Hella Bitters Aztec Chocolate
+  - fee_bros_aztec_chocolate_bitters
 Chocolate Bitters (Exclusive):
   collection: Tags
   ingredients:
-      angostura_cacao_bitters: {}
-
+  - angostura_cacao_bitters
 Hella Bitters Aztec Chocolate:
   collection: Tags
   ingredients:
-      hella_aztec_chocolate_bitters: {}
+  - hella_aztec_chocolate_bitters
   notes: Alias
-
 Homemade Bitters:
   collection: Tags
   ingredients:
-    licorice_fern_bitters: {}
-    kaffir_lime_bitters: {}
-    pho_bitters: {}
-    szechuan_bitters: {}
-    szechuan_tincture: {}
-    szechuan_ii: {}
-    cookie_monster_bitters: {}
-    noble_fir_juniper_tincture: {}
-    evergreen_forest_bitters: {}
-    that_bottle_of_devils_club_and_salmonberries_i_refuse_to_throw_out: {}
-    eucalyptus_bitters: {}
-    oregon_grape_tincture: {}
-    three_teabags: {}
-    onionless_pho_bitters: {}
-    kumquat_bitters: {}
-    1_20_23_unlabeled: {}
-    habanero_tincture: {}
-    brisngr_flower: {}
-    betel_leaf_bitters: {}
-    unofficial_kaffir: {}
-    2_20_boil: {}
-    a_vanilla_bean_and_some_sticks: {}
-    mystery_orange: {}
-    fiore: {}
-    pistachio_tincture: {}
-    homemade_rhubarb: {}
-    sakura_bitters: {}
-
+  - licorice_fern_bitters
+  - kaffir_lime_bitters
+  - pho_bitters
+  - szechuan_bitters
+  - szechuan_tincture
+  - szechuan_ii
+  - cookie_monster_bitters
+  - noble_fir_juniper_tincture
+  - evergreen_forest_bitters
+  - that_bottle_of_devils_club_and_salmonberries_i_refuse_to_throw_out
+  - eucalyptus_bitters
+  - oregon_grape_tincture
+  - three_teabags
+  - onionless_pho_bitters
+  - kumquat_bitters
+  - 1_20_23_unlabeled
+  - habanero_tincture
+  - brisngr_flower
+  - betel_leaf_bitters
+  - unofficial_kaffir
+  - 2_20_boil
+  - a_vanilla_bean_and_some_sticks
+  - mystery_orange
+  - fiore
+  - pistachio_tincture
+  - homemade_rhubarb
+  - sakura_bitters
 Aromatic Bitters:
   collection: Tags
   ingredients:
-    angostura_bitters: {}
-    reddit_aroma: {}
-    peychauds_bitters: {}
+  - angostura_bitters
+  - reddit_aroma
+  - peychauds_bitters

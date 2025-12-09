@@ -1,163 +1,161 @@
 Blue Curacao:
   collection: Tags
   ingredients:
-    blue_curacao_jar: {}
+  - blue_curacao_jar
   notes: ''
 Chartreuse:
   collection: Tags
   ingredients:
-    Green Chartreuse (Inclusive): {}
-    Yellow Chartreuse (Inclusive): {}
+  - Green Chartreuse (Inclusive)
+  - Yellow Chartreuse (Inclusive)
   notes: All chartreuse/copycats
 Coffee Liqueur:
   collection: Tags
   ingredients:
-    drip_coffee_liqueur: {}
-    kahlua: {}
+  - drip_coffee_liqueur
+  - kahlua
   notes: ''
 Creme de Cacao:
   collection: Tags
   ingredients:
-    Dark Creme de Cacao: {}
-    White Creme de Cacao: {}
+  - Dark Creme de Cacao
+  - White Creme de Cacao
   notes: ''
 Dark Creme de Cacao:
   collection: Tags
   ingredients:
-    giffard_cacao: {}
+  - giffard_cacao
   notes: ''
 Elderflower Liqueur:
   collection: Tags
   ingredients:
-    craft_cordials_elderflower: {}
-    drillaud_elderflower: {}
-    st_germain: {}
+  - craft_cordials_elderflower
+  - drillaud_elderflower
+  - st_germain
   notes: ''
 Fruit Liqueur:
   collection: Tags
   ingredients:
-    360_huckleberry: {}
-    Elderflower Liqueur: {}
-    Maraschino: {}
-    Orange Liqueur: {}
-    Yuzu Liqueur: {}
-    limoncello: {}
-    peachtree: {}
+  - 360_huckleberry
+  - Elderflower Liqueur
+  - Maraschino
+  - Orange Liqueur
+  - Yuzu Liqueur
+  - limoncello
+  - peachtree
   notes: ''
 Sweet Liqueur:
   collection: Tags
   ingredients:
-    Fruit Liqueur: {}
-    Coffee Liqueur: {}
-    Elderflower Liqueur: {}
+  - Fruit Liqueur
+  - Coffee Liqueur
+  - Elderflower Liqueur
 Green Chartreuse (Flammable):
   collection: Tags
   ingredients:
-    green_chartreuse: {}
-    uncharted_rhapsody: {}
+  - green_chartreuse
+  - uncharted_rhapsody
   notes: ''
 Green Chartreuse (Inclusive):
   collection: Tags
   ingredients:
-    brucato_chaparral: {}
-    genepy: {}
-    green_chartreuse: {}
-    uncharted_rhapsody: {}
+  - brucato_chaparral
+  - genepy
+  - green_chartreuse
+  - uncharted_rhapsody
   notes: ''
 Herbal Liqueur:
   collection: Tags
   ingredients:
-    Chartreuse: {}
-    de_kuyper_creme_de_menthe: {}
-    douglas_fir: {}
-    galliano: {}
-    sambuca_di_amore: {}
-    zirbenz: {}
-    brovo_ginger_liqueur: {}
+  - Chartreuse
+  - de_kuyper_creme_de_menthe
+  - douglas_fir
+  - galliano
+  - sambuca_di_amore
+  - zirbenz
+  - brovo_ginger_liqueur
   notes: ''
 Macadamia Nut Liqueur:
   collection: Tags
   ingredients:
-    kahana_mac_nut: {}
+  - kahana_mac_nut
   notes: ''
 Maraschino:
   collection: Tags
   ingredients:
-    cristiani_maraschino: {}
-    luxardo_maraschino: {}
+  - cristiani_maraschino
+  - luxardo_maraschino
   notes: ''
 Misc Liqueur:
   collection: Tags
   ingredients:
-    Coffee Liqueur: {}
-    Dark Creme de Cacao: {}
-    Falernum: {}
-    Macadamia Nut Liqueur: {}
-    Nocino: {}
-    White Creme de Cacao: {}
-    Amaretto: {}
-    nixta: {}
-    Pistachio Liqueur: {}
+  - Coffee Liqueur
+  - Dark Creme de Cacao
+  - Falernum
+  - Macadamia Nut Liqueur
+  - Nocino # should be nocino?
+  - White Creme de Cacao
+  - Amaretto
+  - nixta
+  - Pistachio Liqueur
   notes: Anything that doesn't fit in the Fruit or Herbal categories, and some that
     maybe do but aren't in them anyways
 Orange Liqueur:
   collection: Tags
   ingredients:
-    Triple Sec (Exclusive): {}
-    dry_curacao: {}
-    tacoma_punk: {}
-    Blue Curacao: {}
+  - Triple Sec (Exclusive)
+  - dry_curacao
+  - tacoma_punk
+  - Blue Curacao
   notes: Include all orange liqueurs
 Triple Sec (Exclusive):
   collection: Tags
   ingredients:
-    cointreau: {}
-    bols_triple_sec: {}
+  - cointreau
+  - bols_triple_sec
   notes: Include only actual triple-sec
 Triple Sec:
   collection: Tags
   ingredients:
-    Orange Liqueur: {}
+  - Orange Liqueur
   notes: Alias for Orange Liqueur. For actual triple sec, use Triple Sec (Exclusive)
 White Creme de Cacao:
   collection: Tags
   ingredients:
-    mr_stacks_creme_de_cacao: {}
+  - mr_stacks_creme_de_cacao
   notes: ''
 Yellow Chartreuse (Inclusive):
   collection: Tags
   ingredients:
-    gen-p: {}
-    yellow_chartreuse: {}
+  - gen-p
+  - yellow_chartreuse
   notes: ''
 Yuzu Liqueur:
   collection: Tags
   ingredients:
-    yuzu_curacao: {}
+  - yuzu_curacao
   notes: ''
 Pistachio Liqueur:
   collection: Tags
   ingredients:
-    pistacchio_mk_i: {}
-    pistacchio_mk_ii: {}
-  notes: We should really dump these out instead of making them a tag
+  notes: We dumped these out, thank god, but I'm using the empty tag for unit testing
 Amaretto:
   collection: Tags
   ingredients:
-    cristiani_amaretto: {}
+  - cristiani_amaretto
   notes: null
 Honey Liqueur:
   collection: Tags
   ingredients:
-    placeholder_honey_liqueur: {}
+  - placeholder_honey_liqueur
   notes: null
 Macadamia Liqueur:
   collection: Tags
   ingredients:
-    Macadamia Nut Liqueur: {}
+  - Macadamia Nut Liqueur
   notes: null
 Coconut Liqueur:
   collection: Tags
   ingredients:
-    placeholder_coconut_rum: {}
+  - placeholder_coconut_rum
   notes: null

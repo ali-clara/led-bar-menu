@@ -1,31 +1,31 @@
 Gin:
   collection: Tags
   ingredients:
-    dryfly_gin: {}
-    roku: {}
-    tanqueray_london_dry: {}
+  - dryfly_gin
+  - roku
+  - tanqueray_london_dry
   notes: Plain gins. For all gins, see Gin (Inclusive)
 Gin (Inclusive):
   collection: Tags
   ingredients:
-    Gin: {}
-    Orange Gin: {}
-    Sloe Gin: {}
-    Yuzu Gin: {}
+  - Gin
+  - Orange Gin
+  - Sloe Gin
+  - Yuzu Gin
   notes: Includes normal and flavored gins
 Orange Gin:
   collection: Tags
   ingredients:
-    tanqueray_sevilla: {}
+  - tanqueray_sevilla
   notes: ''
 Sloe Gin:
   collection: Tags
   ingredients:
-    sipsmith_sloe_gin: {}
+  - sipsmith_sloe_gin
   notes: ''
 Yuzu Gin:
   collection: Tags
   ingredients:
-    placeholder_yuzu_gin: {}
-    yu_gin: {}
+  - placeholder_yuzu_gin
+  - yu_gin
   notes: ''

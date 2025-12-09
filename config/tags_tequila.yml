@@ -1,43 +1,43 @@
 Mezcal:
   collection: Tags
   ingredients:
-    del_maguey_classico: {}
-    del_maguey_puebla: {}
-    tj_mezcal: {}
+  - del_maguey_classico
+  - del_maguey_puebla
+  - tj_mezcal
   notes: American definition-typical smoky mezcals
 Mezcal (Inclusive):
   collection: Tags
   ingredients:
-    Mezcal: {}
-    Tequila: {}
+  - Mezcal
+  - Tequila
   notes: Everything that is technically a mezcal
 Tequila:
   collection: Tags
   ingredients:
-    Tequila Anejo: {}
-    Tequila Blanco: {}
-    Tequila Reposado: {}
+  - Tequila Anejo
+  - Tequila Blanco
+  - Tequila Reposado
   notes: All tequilas/tequila-like mezcals
 Tequila Anejo:
   collection: Tags
   ingredients:
-    placeholder_anejo: {}
+  - placeholder_anejo
   notes: Can include anejo mezcals
 Tequila Blanco:
   collection: Tags
   ingredients:
-    1800_tequila: {}
+  - 1800_tequila
   notes: Can include mezcals with a similar taste profile
 Tequila Reposado:
   collection: Tags
   ingredients:
-    azunia_reposado: {}
-    cuervo_gold: {}
-    zignum_reposado: {}
+  - azunia_reposado
+  - cuervo_gold
+  - zignum_reposado
   notes: Can include reposado mezcals
 Del Maguey Vida:
   collection: Tags
   ingredients:
-    del_maguey_classico: {}
-    del_maguey_puebla: {}
+  - del_maguey_classico
+  - del_maguey_puebla
   notes: Anything with the Del Maguey Vida brand
