@@ -22,10 +22,22 @@
         </div>
   
         <div class="middle">
-            {% for key, value in categories.items() %}
-            <h1>Key: {{key}}</h1>
-            <h2>Value: {{value}}</h2>
+          <table id="tbl">
+            {% for key in categories %}
+            <tr><td><strong>{{key}}</strong></td></tr>
+              {% set count = namespace(value=0) %}
+              {% for i in range((categories[key]|length / 3)|round()|int) %}
+              <!-- <tr><td>{{categories[key][i]}}</td></tr> -->
+              <tr>
+                <td>{{categories[key][count.value]}}</td>
+                <td>{{categories[key][count.value + 1]}}</td>
+                <td>{{categories[key][count.value + 2]}}</td>
+              </tr>
+              {% set count.value = count.value + 3 %}
+              {% endfor %}
+              <tr><td></td></tr>
             {% endfor %}
+          </table>
         </div>  
     
       <div class="footer">

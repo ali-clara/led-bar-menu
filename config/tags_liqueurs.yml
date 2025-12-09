@@ -138,7 +138,7 @@ Yuzu Liqueur:
 Pistachio Liqueur:
   collection: Tags
   ingredients:
-  notes: We should really dump these out instead of making them a tag
+  notes: We dumped these out, thank god, but I'm using the empty tag for unit testing
 Amaretto:
   collection: Tags
   ingredients:
