@@ -39,6 +39,7 @@ class TestView(FlaskView):
         # that need more breadth, use params.yml
         self.lit_up_ingredients = set([""])
         self.random_ten = []
+        self.input_tags = []
 
         self._quick_update()
         
@@ -450,7 +451,7 @@ class TestView(FlaskView):
                 print("cancel input spirit")
                 input_spirit = ""
                 input_coord = ""
-                input_tags = []
+                self.input_tags = []
             # Add or preview spirit
             elif "input_add_spirit" in request.form.keys():
                 print(request.form.keys())
@@ -460,7 +461,9 @@ class TestView(FlaskView):
                 # Tags come through as dictionary keys, for some goddamn reason. Tried to make it be any different and could not.
                 # Find tags through the intersection of the dict keys with our list of tag names
                 tags = set(request.form.keys()).intersection(self.main_menu.get_tag_names())
-                input_tags = list(tags)
+                print(tags)
+                if len(tags) >= 1:
+                    self.input_tags = list(tags)
                 # Preview mode
                 if "btn_preview_spirit" in request.form.keys():
                     print("preview spirit mode")
@@ -477,7 +480,7 @@ class TestView(FlaskView):
                 elif "btn_add_spirit" in request.form.keys():
                     print("add spirit mode")
                     # Try to update the CSV and return the result.
-                    result = self.main_menu.add_spirit(input_spirit, input_coord, input_tags)
+                    result = self.main_menu.add_spirit(input_spirit, input_coord, self.input_tags)
                     if result:
                         add_result = f"Successfully added {input_spirit} to inventory"
                     else:
@@ -485,7 +488,7 @@ class TestView(FlaskView):
                     # Update the html display
                     input_spirit = ""
                     input_coord = ""
-                    input_tags = []
+                    self.input_tags = []
             # Remove spirit
             elif "btn_remove_spirit" in request.form.keys():
                 print("remove spirit mode")
@@ -510,7 +513,7 @@ class TestView(FlaskView):
                                # These change as a result of user input
                                inputSpirit=input_spirit, 
                                inputCoord=input_coord,
-                               inputTags=input_tags, 
+                               inputTags=self.input_tags, 
                                recipeResultString=recipe_result, 
                                removeResultString=remove_result, 
                                addResultString=add_result)

@@ -1,67 +1,27 @@
-
 'BroVo Amaro #4':
-  collection: Tags
-  ingredients:
-    amaro_04: {}
-    # brovo_amaro_#4: {}
-  notes: ''
+  - amaro_04
+  # - brovo_amaro_#4
 'BroVo Amaro #1':
-  collection: Tags
-  ingredients:
-    amaro_01: {}
-  notes: ''
+  - amaro_01
 'BroVo Amaro #14':
-  collection: Tags
-  ingredients:
-    amaro_14: {}
-  notes: ''
+  - amaro_14
 BroVo Amaro Kim:
-  collection: Tags
-  ingredients:
-    amaro_kim: {}
-  notes: ''
+  - amaro_kim
 BroVo American Amaro:
-  collection: Tags
-  ingredients:
-    brovo_american: {}
-  notes: ''
+  - brovo_american
 Reddit Aromatic Bitter:
-  collection: Tags
-  ingredients:
-    reddit_aroma: {}
-  notes: ''
+  - reddit_aroma
 Roku Gin:
-  collection: Tags
-  ingredients:
-    roku: {}
-  notes: ''
+  - roku
 Elderflower:
-  collection: Tags
-  ingredients:
-    Elderflower Liqueur: {}
-  notes: 'Rare to add elderflower not as a liqueur'
+  - Elderflower Liqueur # Rare to add elderflower not as a liqueur
 Amaro Meletti:
-  collection: Tags
-  ingredients:
-    meletti: {}
-  notes: ''
+  - meletti
 Velvet Falernum:
-  collection: Tags
-  ingredients:
-    falernum: {}
-  notes: ''
+  - falernum
 Rye:
-  collection: Tags
-  ingredients:
-    Rye Whiskey: {}
-  notes: ''
+  - Rye Whiskey
 Orange Flower Water:
-  collection: Tags
-  ingredients:
-    Orange Blossom Water: {}
-  notes: ''
+  - Orange Blossom Water
 Tanqueray Sevilla Orange:
-  collection: Tags
-  ingredients:
-    Tanqueray Sevilla: {}
-  notes: ''
+  - Tanqueray Sevilla

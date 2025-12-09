@@ -152,7 +152,7 @@ class Menu:
         else:
             alias_dict_restructured = {}
             for key in alias_dict:
-                aliases = list(alias_dict[key]["ingredients"].keys())
+                aliases = list(alias_dict[key])
 
                 aliases = [format_as_inventory(alias) for alias in aliases]
                 key = format_as_inventory(key)
@@ -412,7 +412,7 @@ class Menu:
                 # If our parent is a tag, expand it into kids
                 # tag, parent, _ = check_match(parent, tag_names)
                 if parent in tag_names:
-                    kids = list(self.tags_dict_all[parent]["ingredients"].keys())
+                    kids = list(self.tags_dict_all[parent]["ingredients"])
                     # For each of those kids...
                     for kid in kids:
                         # If it's a tag, put it in parents
@@ -723,7 +723,9 @@ class Menu:
                 data_dict = yaml.safe_load(stream)
             try:
                 # Update the "ingredients" key of the tag to include the new spirit
-                data_dict[tag]["ingredients"].update({spirit: {}})
+                ingredients_set = set(data_dict[tag]["ingredients"])
+                ingredients_set.add(spirit)
+                data_dict[tag].update({"ingredients": list(ingredients_set)})
             except KeyError as e:
                 print(e)
             else:
@@ -829,13 +831,13 @@ if __name__ == "__main__":
             with open(file, "w") as outfile:
                 yaml.dump(contents, outfile, sort_keys=False)
         
-    reformat_tag_yamls()
     
     # check_recipe_against_csv()
     # check_tags_against_csv()
-    # check_tags_and_aliases()
+    check_tags_and_aliases()
     # check_inventory()
     # check_collections()
+
 
     # print(myMenu.load_categories(True))
 
