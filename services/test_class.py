@@ -148,6 +148,7 @@ class TestView(FlaskView):
 
         # chosen_ingredients = list(self.main_menu.menu_dict[arg]['ingredients'].keys())
         chosen_ingredients = self.main_menu.get_ingredients(arg)
+        print(chosen_ingredients)
 
         # Part 1 - the LEDS. Expand any children and call the LED class
         for ingredient in chosen_ingredients:
