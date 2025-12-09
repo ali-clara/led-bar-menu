@@ -82,6 +82,7 @@ class Menu:
         # menu_dict_raw = self.load_recipes()
         # Dictionary of all tags {tag: {ingredients: [spirit_1, spirit_2, ..., spirit_n], notes: , etc}}, dictionary of organized tags {parent_tag: [tag_1, tag_2, ..., tag_n]}
         self.tags_dict_all, self.tags_dict_organized = self.load_tags()
+        self.remove_empty_tags()
         self.alias_dict = self.load_aliases()
         # Dictionary of {coordinate:led pixels}, list of coordinates
         self.led_dict, self.cabinet_locations = self.load_cabinet_locs()
@@ -138,20 +139,6 @@ class Menu:
         except FileNotFoundError as e:
             print(e)
         else:
-            # Remove any empty tags from both dictionaries, including as the values of other keys
-            tags_dict_copy = copy.copy(tags_dict_all)
-            for key in tags_dict_copy:
-                if tags_dict_all[key]["ingredients"] is None:
-                    # Remove it as a key
-                    tags_dict_all.pop(key)
-                    # Remove it as a value
-                    for tag in tags_dict_all:
-                        if key in tags_dict_all[tag]["ingredients"]:
-                            tags_dict_all[tag]["ingredients"].remove(key)
-                    for parent_tag in tags_dict_organized:
-                        if key in tags_dict_organized[parent_tag]:
-                            tags_dict_organized[parent_tag].remove(key)
-            
             return tags_dict_all, tags_dict_organized
         
     def load_aliases(self):
@@ -393,6 +380,25 @@ class Menu:
             return list(self.menu_dict[recipe_name]['ingredients'].keys())
     
     # -------------------- TAGS & ALIASES -------------------- #
+    def remove_empty_tags(self, quiet=True):
+        # Remove any empty tags from both dictionaries, including as the values of other keys
+        tags_dict_copy = copy.copy(self.tags_dict_all)
+        for key in tags_dict_copy:
+            if self.tags_dict_all[key]["ingredients"] is None:
+                if not quiet:
+                    print("Empty tag: ", key)
+                # Remove it as a key
+                self.tags_dict_all.pop(key)
+                # Remove it as a value
+                for tag in self.tags_dict_all:
+                    if self.tags_dict_all[tag]["ingredients"] is not None:
+                        if key in self.tags_dict_all[tag]["ingredients"]:
+                            self.tags_dict_all[tag]["ingredients"].remove(key)
+                for parent_tag in self.tags_dict_organized:
+                    if self.tags_dict_organized[parent_tag] is not None:
+                        if key in self.tags_dict_organized[parent_tag]:
+                            self.tags_dict_organized[parent_tag].remove(key)
+
     def expand_tag(self, given_tag:str):
         """Fully expands a tag into all its children. 'Brandy (Inclusive) becomes ['boulard_calvados', 'pear_williams', 
         'christian_brothers_vs', 'christian_brothers_vsop', 'placeholder_fig_brandy', 'fidelitas_kirsch']
@@ -816,7 +822,7 @@ if __name__ == "__main__":
     def check_tags_and_aliases():
         print("\nTags: ", myMenu.get_tag_names())
         # print("\nChildren of Brandy (Inclusive): ", myMenu.expand_tag("Brandy (Inclusive)"))
-        print("\nChildren of Misc Liqueur: ", myMenu.expand_tag("Misc Liqueur"))
+        print("\nChildren of Vodka (Inclusive): ", myMenu.expand_tag("Vodka (Inclusive)"))
         print("Aliases of Amaro 04: ", myMenu.expand_alias("Amaro 04"))
         print("Parent tag of Planteray Light Rum: ", myMenu.find_tag_parent("Planteray Light Rum"))
 
@@ -849,12 +855,14 @@ if __name__ == "__main__":
     
     # check_recipe_against_csv()
     # check_tags_against_csv()
-    check_tags_and_aliases()
+    # check_tags_and_aliases()
     # check_inventory()
     # check_collections()
 
+    # print(myMenu.tags_dict_all)
 
-    # print(myMenu.load_categories(True))
+
+    print(myMenu.load_categories(True))
 
     # print(myMenu.expand_tag("Whiskey"))
     

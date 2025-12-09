@@ -25,18 +25,24 @@
         <div class="middle">
           <table id="tbl">
             {% for key in categories %}
-            <tr><td><strong>{{key}}</strong></td></tr>
+              <tr><td><strong>{{key}}</strong></td></tr>
               {% set count = namespace(value=0) %}
-              {% for i in range((categories[key]|length / 3)|round()|int) %}
-              <!-- <tr><td>{{categories[key][i]}}</td></tr> -->
-              <tr>
-                <td>{{categories[key][count.value]}}</td>
-                <td>{{categories[key][count.value + 1]}}</td>
-                <td>{{categories[key][count.value + 2]}}</td>
-              </tr>
-              {% set count.value = count.value + 3 %}
-              {% endfor %}
-              <tr><td></td></tr>
+              {% if categories[key]|length < 3 %}
+                {% for val in categories[key] %}
+                  <tr><td>{{val}}</td></tr>
+                {% endfor %}
+              {% else %}
+                {% for i in range((categories[key]|length / 3)|round()|int) %}
+                <tr>
+                  <td>{{categories[key][count.value]}}</td>
+                  <td>{{categories[key][count.value + 1]}}</td>
+                  <td>{{categories[key][count.value + 2]}}</td>
+                </tr>
+                {% set count.value = count.value + 3 %}
+                {% endfor %}
+                <tr><td></td></tr>
+                <tr><td></td></tr>
+              {% endif %}
             {% endfor %}
           </table>
         </div>  

@@ -247,6 +247,7 @@ class TestView(FlaskView):
     @method("GET")
     def inventory(self):
         categories = self.main_menu.load_categories(user_facing=True)
+        print(categories)
         # Not particularly interestd in citrus, so we can get rid of that
         if "Citrus" in categories:
             categories.pop("Citrus")
