@@ -461,7 +461,6 @@ class TestView(FlaskView):
                 # Tags come through as dictionary keys, for some goddamn reason. Tried to make it be any different and could not.
                 # Find tags through the intersection of the dict keys with our list of tag names
                 tags = set(request.form.keys()).intersection(self.main_menu.get_tag_names())
-                print(tags)
                 if len(tags) >= 1:
                     self.input_tags = list(tags)
                 # Preview mode

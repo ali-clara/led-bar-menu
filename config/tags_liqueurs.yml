@@ -93,7 +93,7 @@ Misc Liqueur:
   - Dark Creme de Cacao
   - Falernum
   - Macadamia Nut Liqueur
-  - Nocino
+  - Nocino # should be nocino?
   - White Creme de Cacao
   - Amaretto
   - nixta
@@ -138,8 +138,6 @@ Yuzu Liqueur:
 Pistachio Liqueur:
   collection: Tags
   ingredients:
-  - pistacchio_mk_i
-  - pistacchio_mk_ii
   notes: We should really dump these out instead of making them a tag
 Amaretto:
   collection: Tags

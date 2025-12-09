@@ -138,6 +138,20 @@ class Menu:
         except FileNotFoundError as e:
             print(e)
         else:
+            # Remove any empty tags from both dictionaries, including as the values of other keys
+            tags_dict_copy = copy.copy(tags_dict_all)
+            for key in tags_dict_copy:
+                if tags_dict_all[key]["ingredients"] is None:
+                    # Remove it as a key
+                    tags_dict_all.pop(key)
+                    # Remove it as a value
+                    for tag in tags_dict_all:
+                        if key in tags_dict_all[tag]["ingredients"]:
+                            tags_dict_all[tag]["ingredients"].remove(key)
+                    for parent_tag in tags_dict_organized:
+                        if key in tags_dict_organized[parent_tag]:
+                            tags_dict_organized[parent_tag].remove(key)
+            
             return tags_dict_all, tags_dict_organized
         
     def load_aliases(self):
@@ -228,7 +242,7 @@ class Menu:
                 # I want to be a ~little~ more granular than base spirit, so catch this special case and split it
                 # into base spirit types
                 if category == "Base Spirits":
-                    base_spirits = contents[category]["ingredients"].keys()
+                    base_spirits = contents[category]["ingredients"]
                     # By definition these will have children, so we don't have to check for that
                     for spirit in base_spirits:
                         children = self.expand_tag(spirit)
@@ -237,7 +251,7 @@ class Menu:
                         categories_organized.update({spirit: children})
                 # Otherwise, pull each category/keys combo
                 else:
-                    sorted = list(contents[category]["ingredients"].keys())
+                    sorted = contents[category]["ingredients"]
                     sorted_expanded = []
                     for s in sorted:
                         children = self.expand_tag(s)
@@ -801,7 +815,8 @@ if __name__ == "__main__":
     
     def check_tags_and_aliases():
         print("\nTags: ", myMenu.get_tag_names())
-        print("\nChildren of Brandy (Inclusive): ", myMenu.expand_tag("Brandy (Inclusive)"))
+        # print("\nChildren of Brandy (Inclusive): ", myMenu.expand_tag("Brandy (Inclusive)"))
+        print("\nChildren of Misc Liqueur: ", myMenu.expand_tag("Misc Liqueur"))
         print("Aliases of Amaro 04: ", myMenu.expand_alias("Amaro 04"))
         print("Parent tag of Planteray Light Rum: ", myMenu.find_tag_parent("Planteray Light Rum"))
 
