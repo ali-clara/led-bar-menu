@@ -203,7 +203,9 @@ class Menu:
         return out_of_stock
 
     def load_categories(self, user_facing=False):
-        """Loads tags_category.yml and sorts spirits accordingly
+        """Loads tags_category.yml and sorts spirits accordingly.
+
+        Very messy. Want to rewrite and flag out of stock items instead of getting rid of them entirely.
 
         Returns:
             _type_: _description_
@@ -231,9 +233,7 @@ class Menu:
                     for spirit in base_spirits:
                         children = self.expand_tag(spirit)
                         if user_facing:
-                            children = [format_as_recipe(child) for child in children if self.is_in_stock(child)]
-                        else:
-                            children = [child for child in children if self.is_in_stock(child)]
+                            children = [format_as_recipe(child) for child in children]
                         categories_organized.update({spirit: children})
                 # Otherwise, pull each category/keys combo
                 else:
@@ -242,12 +242,11 @@ class Menu:
                     for s in sorted:
                         children = self.expand_tag(s)
                         if children:
-                            [sorted_expanded.append(child) for child in children if self.is_in_stock(child)]
+                            [sorted_expanded.append(child) for child in children]
                         else:
-                            if self.is_in_stock(s):
-                                sorted_expanded.append(s)
+                            sorted_expanded.append(s)
                     if user_facing:
-                        sorted_expanded = [format_as_recipe(sorted) for sorted in sorted_expanded if user_facing]
+                        sorted_expanded = [format_as_recipe(sorted) for sorted in sorted_expanded]
                     
                     categories_organized.update({category: sorted_expanded})
 
@@ -378,7 +377,7 @@ class Menu:
         print(recipe_name)
         if recipe_name in self.get_recipe_names():
             return list(self.menu_dict[recipe_name]['ingredients'].keys())
-
+    
     # -------------------- TAGS & ALIASES -------------------- #
     def expand_tag(self, given_tag:str):
         """Fully expands a tag into all its children. 'Brandy (Inclusive) becomes ['boulard_calvados', 'pear_williams', 
@@ -797,7 +796,7 @@ if __name__ == "__main__":
                         print(f"{key}: Could not find {ingredient} in ingredients list. Looking for {aliases}")
                         print()
         print("Finished checking tags")
-                    
+    
     def check_tags_and_aliases():
         print("\nTags: ", myMenu.get_tag_names())
         print("\nChildren of Brandy (Inclusive): ", myMenu.expand_tag("Brandy (Inclusive)"))
@@ -816,6 +815,21 @@ if __name__ == "__main__":
 
     def check_collections():
         print("Collections: ", myMenu.collections)
+    
+    # -------------------- OFFLINE REFORMATTING -------------------- #
+    def reformat_tag_yamls():
+        for file in glob.glob(myMenu.recipe_path+"/tags*.yml"):
+            with open(file) as stream:
+                # All tags (tag: {ingredients: [spirit_1, spirit_2, ..., spirit_n], notes: , etc})
+                contents = yaml.safe_load(stream)
+            for key in contents:
+                ingredients = contents[key]["ingredients"]
+                ingredients_list = list(ingredients.keys())
+                contents[key].update({"ingredients": ingredients_list})
+            with open(file, "w") as outfile:
+                yaml.dump(contents, outfile, sort_keys=False)
+        
+    reformat_tag_yamls()
     
     # check_recipe_against_csv()
     # check_tags_against_csv()

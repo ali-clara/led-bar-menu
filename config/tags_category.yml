@@ -1,45 +1,45 @@
 Amaro:
   collection: Tags
   ingredients:
-    Brovo Amaro: {}
-    Brucato Amaro: {}
-    Cynar: {}
-    Gentian Amaro: {}
-    amaro_angostura: {}
-    aperol: {}
-    byrrh: {}
-    campari: {}
-    cardamaro: {}
-    meletti: {}
-    nonino: {}
-    reddit_aroma: {}
-    rosso_amaro: {}
+  - Brovo Amaro
+  - Brucato Amaro
+  - Cynar
+  - Gentian Amaro
+  - amaro_angostura
+  - aperol
+  - byrrh
+  - campari
+  - cardamaro
+  - meletti
+  - nonino
+  - reddit_aroma
+  - rosso_amaro
   notes: Include all amaros. Use high-level tags where possible
 Base Spirits:
   collection: Tags
   ingredients:
-    Brandy (Inclusive): {}
-    Gin (Inclusive): {}
-    Mezcal (Inclusive): {}
-    Rum (Inclusive): {}
-    Vodka (Inclusive): {}
-    Whiskey (Inclusive): {}
+  - Brandy (Inclusive)
+  - Gin (Inclusive)
+  - Mezcal (Inclusive)
+  - Rum (Inclusive)
+  - Vodka (Inclusive)
+  - Whiskey (Inclusive)
   notes: Include only high-level tags here
 Citrus:
   collection: Tags
   ingredients:
-    Grapefruit Juice: {}
-    Key Lime Juice: {}
-    Lemon Juice: {}
-    Lime Juice: {}
-    Meyer Lemon Juice: {}
-    Orange Juice: {}
+  - Grapefruit Juice
+  - Key Lime Juice
+  - Lemon Juice
+  - Lime Juice
+  - Meyer Lemon Juice
+  - Orange Juice
   notes: Citrus
 Liqueurs:
   collection: Tags
   ingredients:
-    Fruit Liqueur: {}
-    Herbal Liqueur: {}
-    Misc Liqueur: {}
-    brovo_ginger_liqueur: {}
+  - Fruit Liqueur
+  - Herbal Liqueur
+  - Misc Liqueur
+  - brovo_ginger_liqueur
   notes: Include only high-level tags here
