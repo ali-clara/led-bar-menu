@@ -10,8 +10,12 @@ Getting lit (hah)
 - pi isn't automatically updating from github
 - comments on recipes
 - "add tag" option to modify spirits page
-- inventory page, with out of stock
+- inventory page needs out of stock and led connection
 - 'sort by' pages - sweet drinks, boozy drinks, herbal drinks, etc. Could have a tool that checks each ingredient and makes an educated guess
+
+### Bugs
+- input_add_spirit -> should get all tag names, not just used ones
+
 
 ### Docs
 - https://docs.circuitpython.org/projects/neopixel/en/latest/index.html

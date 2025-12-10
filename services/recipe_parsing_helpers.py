@@ -381,6 +381,7 @@ class Menu:
     
     # -------------------- TAGS & ALIASES -------------------- #
     def remove_empty_tags(self, quiet=True):
+        self.unstocked_tags = []
         # Remove any empty tags from both dictionaries, including as the values of other keys
         tags_dict_copy = copy.copy(self.tags_dict_all)
         for key in tags_dict_copy:
@@ -388,6 +389,7 @@ class Menu:
                 if not quiet:
                     print("Empty tag: ", key)
                 # Remove it as a key
+                self.unstocked_tags.append(key)
                 self.tags_dict_all.pop(key)
                 # Remove it as a value
                 for tag in self.tags_dict_all:
@@ -554,6 +556,8 @@ class Menu:
                                 recipe[ingredient].update({'stocked': True})
                             else:
                                 recipe[ingredient].update({'stocked': False})
+            elif ingredient in self.unstocked_tags:
+                recipe[ingredient].update({'stocked': False})
                         
             if not ingredient_exists:
                 if not quiet:
@@ -862,7 +866,7 @@ if __name__ == "__main__":
     # print(myMenu.tags_dict_all)
 
 
-    print(myMenu.load_categories(True))
+    # print(myMenu.load_categories(True))
 
     # print(myMenu.expand_tag("Whiskey"))
     
@@ -873,7 +877,6 @@ if __name__ == "__main__":
 
     # update_recipe_yaml("test2", "blah", "notes", ["", "two"], ["", "2"], ["", "oz"])
 
-    # print(myMenu.get_tag_names())
-   
+    print(myMenu.get_tag_names())
 
-    # print(myMenu.get_ingredients("Don't Take Me Alive"))
+    print(myMenu.menu_dict["Licorice Fern Margarita"])
