@@ -106,7 +106,7 @@ class TestView(FlaskView):
                 print(is_recipe, recipe_match, recipe_score)
                 is_ingredient, ingredient_match, ingredient_score = recipe.check_match(form_entry, self.main_menu.get_inventory(), match_threshold=0.75)
                 print(is_ingredient, ingredient_match, ingredient_score)
-                is_tag, tag_match, tag_score = recipe.check_match(form_entry, self.main_menu.get_tag_names(), match_threshold=0.75)
+                is_tag, tag_match, tag_score = recipe.check_match(form_entry, self.main_menu.get_used_tag_names(), match_threshold=0.75)
                 print(is_tag, tag_match, tag_score)
 
                 if is_recipe and recipe_score > ingredient_score:
@@ -156,7 +156,7 @@ class TestView(FlaskView):
             # I'm being cavalier with what I chuck to the led class because it will only light up things it has a location for
             tag_name = recipe.format_as_recipe(ingredient)
             print(tag_name)
-            if tag_name in self.main_menu.get_tag_names():
+            if tag_name in self.main_menu.get_used_tag_names():
                 print(f"found {tag_name} in tags")
                 children = self.main_menu.expand_tag(tag_name)
                 for child in children:
@@ -350,7 +350,7 @@ class TestView(FlaskView):
             # Check to see if the input matches an ingredient or tag in our database
             is_ingredient, ingredient_match, ingredient_score = recipe.check_match(ingredient_input, self.main_menu.get_inventory(), match_threshold=0.75)
             # print(is_ingredient, ingredient_match, ingredient_score)
-            is_tag, tag_match, tag_score = recipe.check_match(ingredient_input, self.main_menu.get_tag_names(), match_threshold=0.75)
+            is_tag, tag_match, tag_score = recipe.check_match(ingredient_input, self.main_menu.get_used_tag_names(), match_threshold=0.75)
             # print(is_tag, tag_match, tag_score)
 
             if is_ingredient and ingredient_score > tag_score:
@@ -462,7 +462,7 @@ class TestView(FlaskView):
                 input_coord = request.form["input_add_coord"].upper()
                 # Tags come through as dictionary keys, for some goddamn reason. Tried to make it be any different and could not.
                 # Find tags through the intersection of the dict keys with our list of tag names
-                tags = set(request.form.keys()).intersection(self.main_menu.get_tag_names())
+                tags = set(request.form.keys()).intersection(self.main_menu.get_all_tag_names())
                 if len(tags) >= 1:
                     self.input_tags = list(tags)
                 # Preview mode
@@ -510,7 +510,7 @@ class TestView(FlaskView):
                                # These are constants
                                collections=self.main_menu.get_collection_names(),
                                spiritList=self.main_menu.inventory_user_facing,
-                               tagList=self.main_menu.get_tag_names(), 
+                               tagList=self.main_menu.get_all_tag_names(), 
                                # These change as a result of user input
                                inputSpirit=input_spirit, 
                                inputCoord=input_coord,

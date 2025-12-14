@@ -82,7 +82,7 @@ class Menu:
         # menu_dict_raw = self.load_recipes()
         # Dictionary of all tags {tag: {ingredients: [spirit_1, spirit_2, ..., spirit_n], notes: , etc}}, dictionary of organized tags {parent_tag: [tag_1, tag_2, ..., tag_n]}
         self.tags_dict_all, self.tags_dict_organized = self.load_tags()
-        self.remove_empty_tags()
+        self.tags_dict_used = self.remove_empty_tags(self.tags_dict_all)
         self.alias_dict = self.load_aliases()
         # Dictionary of {coordinate:led pixels}, list of coordinates
         self.led_dict, self.cabinet_locations = self.load_cabinet_locs()
@@ -256,8 +256,11 @@ class Menu:
     def get_recipe_names(self):
         return list(self.menu_dict.keys())
     
-    def get_tag_names(self):
+    def get_all_tag_names(self):
         return list(self.tags_dict_all.keys())
+    
+    def get_used_tag_names(self):
+        return list(self.tags_dict_used.keys())
     
     def get_used_ingredients_limited(self):
         """Gets all used ingredients without expanding tags.
@@ -286,7 +289,7 @@ class Menu:
             list: names of all ingredients used in recipes
         """
         # Load all the tag names
-        tag_names = self.get_tag_names()
+        tag_names = self.get_used_tag_names()
         # Initialize lists for the loops
         all_ingredience_once = set([])
         printed_tags = []
@@ -380,26 +383,29 @@ class Menu:
             return list(self.menu_dict[recipe_name]['ingredients'].keys())
     
     # -------------------- TAGS & ALIASES -------------------- #
-    def remove_empty_tags(self, quiet=True):
+    def remove_empty_tags(self, all_tags:dict, quiet=True):
         self.unstocked_tags = []
         # Remove any empty tags from both dictionaries, including as the values of other keys
-        tags_dict_copy = copy.copy(self.tags_dict_all)
+        used_tags = copy.copy(all_tags)
+        tags_dict_copy = copy.copy(used_tags)
         for key in tags_dict_copy:
-            if self.tags_dict_all[key]["ingredients"] is None:
+            if used_tags[key]["ingredients"] is None:
                 if not quiet:
                     print("Empty tag: ", key)
                 # Remove it as a key
                 self.unstocked_tags.append(key)
-                self.tags_dict_all.pop(key)
+                used_tags.pop(key)
                 # Remove it as a value
-                for tag in self.tags_dict_all:
-                    if self.tags_dict_all[tag]["ingredients"] is not None:
-                        if key in self.tags_dict_all[tag]["ingredients"]:
-                            self.tags_dict_all[tag]["ingredients"].remove(key)
-                for parent_tag in self.tags_dict_organized:
-                    if self.tags_dict_organized[parent_tag] is not None:
-                        if key in self.tags_dict_organized[parent_tag]:
-                            self.tags_dict_organized[parent_tag].remove(key)
+                for tag in used_tags:
+                    if used_tags[tag]["ingredients"] is not None:
+                        if key in used_tags[tag]["ingredients"]:
+                            used_tags[tag]["ingredients"].remove(key)
+                # for parent_tag in self.tags_dict_organized:
+                #     if self.tags_dict_organized[parent_tag] is not None:
+                #         if key in self.tags_dict_organized[parent_tag]:
+                #             self.tags_dict_organized[parent_tag].remove(key)
+
+        return used_tags
 
     def expand_tag(self, given_tag:str):
         """Fully expands a tag into all its children. 'Brandy (Inclusive) becomes ['boulard_calvados', 'pear_williams', 
@@ -415,7 +421,7 @@ class Menu:
             
             False: input has no children
         """
-        tag_names = self.get_tag_names()
+        tag_names = self.get_used_tag_names()
         parents = [given_tag]
         children = []
         timeout = 10
@@ -434,7 +440,7 @@ class Menu:
                 # If our parent is a tag, expand it into kids
                 # tag, parent, _ = check_match(parent, tag_names)
                 if parent in tag_names:
-                    kids = list(self.tags_dict_all[parent]["ingredients"])
+                    kids = list(self.tags_dict_used[parent]["ingredients"])
                     # For each of those kids...
                     for kid in kids:
                         # If it's a tag, put it in parents
@@ -524,7 +530,7 @@ class Menu:
         if verbose:
             print(f"Checking {recipe_name}")
 
-        tag_names = self.get_tag_names()
+        tag_names = self.get_used_tag_names()
         recipe_ingredients = list(recipe.keys())
         ingredient_exists = False
 
@@ -824,7 +830,8 @@ if __name__ == "__main__":
         print("Finished checking tags")
     
     def check_tags_and_aliases():
-        print("\nTags: ", myMenu.get_tag_names())
+        print("\nAll Tags: ", myMenu.get_all_tag_names())
+        print("\nUsed Tags: ", myMenu.get_used_tag_names())
         # print("\nChildren of Brandy (Inclusive): ", myMenu.expand_tag("Brandy (Inclusive)"))
         print("\nChildren of Vodka (Inclusive): ", myMenu.expand_tag("Vodka (Inclusive)"))
         print("Aliases of Amaro 04: ", myMenu.expand_alias("Amaro 04"))
@@ -873,10 +880,10 @@ if __name__ == "__main__":
 
     # Test the similarity metric and the validation
     # print("\n")
-    # test_similarity(["Brandy (inclusive)"], myMenu.get_tag_names())
+    # test_similarity(["Brandy (inclusive)"], myMenu.get_used_tag_names())
 
     # update_recipe_yaml("test2", "blah", "notes", ["", "two"], ["", "2"], ["", "oz"])
 
-    print(myMenu.get_tag_names())
+    print(myMenu.get_all_tag_names())
 
     print(myMenu.menu_dict["Licorice Fern Margarita"])
