@@ -17,6 +17,7 @@ Wine (Inclusive):
   ingredients:
   - Vermouth
   - Wine
+  - port
   notes: Should probably also include normal wines like a general red or white if
     they ever make their way onto an ingredients list, but as yet they are not.
 Wine:
@@ -32,7 +33,8 @@ Red Wine:
   collection: Tags
   ingredients:
   - red_blend_portugal
+  - port
   notes: Red, red wine
 White Wine:
   collection: Tags
-  ingredients:
+  ingredients: null
