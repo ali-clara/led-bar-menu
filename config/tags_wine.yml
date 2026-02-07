@@ -1,12 +1,13 @@
 Vermouth:
   collection: Tags
   ingredients:
+  - brovo_jammy
+  - brovo_pink
+  - blanc_vermouth
+  - brovo_pretty
   - sweet_vermouth
   - dry_vermouth
-  - brovo_pink
-  - brovo_jammy
   - brovo_witty
-  - brovo_pretty
 Sparkling Wine:
   collection: Tags
   ingredients:
