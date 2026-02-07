@@ -13,6 +13,7 @@ Sparkling Wine:
   ingredients:
   - brut
   - prosecco
+  - champagne
 Wine (Inclusive):
   collection: Tags
   ingredients:
@@ -24,8 +25,9 @@ Wine (Inclusive):
 Wine:
   collection: Tags
   ingredients:
-  - Red Wine
   - White Wine
+  - Red Wine
+  - champagne
   - Sparkling Wine
   notes: Someday we can add tags for types of red and white wines and blends and shit,
     but not this day. Also I guess this system isn't fortified against me buying a
