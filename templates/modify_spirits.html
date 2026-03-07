@@ -255,7 +255,7 @@
                         <td>
                             <!-- Button to preview the spirit location - lights up the leds but doesn't change the csv -->
                             <button form="addSpirit" type="submit" name="btn_preview_spirit">Preview</button>
-                            <!-- Button to add the spirit to our master list.-->
+                            <!-- Button to add the spirit to the library backend-->
                             <button form="addSpirit" id="btnAddSpirit" type="submit" name="btn_add_spirit">Add</button>
                             <!-- Button to cancel the whole operation -->
                             <button form="addSpirit" id="btnCancelSpirit" type="submit" name="btn_cancel_spirit">Cancel</button>
@@ -273,6 +273,40 @@
                     <tr>
                         <td></td>
                     </tr>
+                <!-- spaaaace -->
+                <tr><td><br><br></td></tr>
+                <!-- ------------------- MOVE SPIRIT ------------------- -->
+                <form id="moveSpirit" name="moveSpirit" method="POST">
+                    <tr>
+                        <td><strong>Move Spirit</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Name: </td>
+                        <td>
+                            <input list="spirits" id="inputMoveSpirit" name="input_move_spirit" value="{{moveSpiritDisplay}}"></td>
+                            <datalist id="spirits">
+                                {% for spirit in spiritList %}
+                                <option value="{{spirit}}">{{spirit}}</option>
+                                {% endfor %}
+                            </datalist>
+                    </tr>
+                    <tr>
+                        <td>New Coordinate: </td>
+                        <td><input list="coordinates" id="inputMoveCoord" name="input_move_coord" value="{{moveCoordDisplay}}"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <!-- Button to preview the spirit location - lights up the leds but doesn't change the csv -->
+                            <button form="moveSpirit" type="submit" name="btn_preview_spirit">Preview</button>
+                            <!-- Button to add the spirit to the library backend-->
+                            <button form="moveSpirit" id="btnMoveSpirit" type="submit" name="btn_move_spirit">Move</button>
+                            <!-- Button to cancel the whole operation -->
+                            <button form="moveSpirit" id="btnCancelSpirit" type="submit" name="btn_cancel_spirit">Cancel</button>
+                        </td>
+                        <!-- Bit of result text for the user (e.g "successfully added X spirit to Y coordinate") -->
+                        <td>{{moveResultString}}</td>
+                    </tr>
+                </form>
                 <!-- spaaaace -->
                 <tr><td><br><br></td></tr>
                 <!-- ------------------- ADD RECIPE ------------------- -->

@@ -88,7 +88,7 @@ class Menu:
         self.led_dict, self.cabinet_locations = self.load_cabinet_locs()
         # Pull info from ingredients.csv: 
         # List of spirits (& other), dictionary of {spirit:location}, set of locations. From ingredients.csv
-        self.inventory, self.spirit_dict, self.used_locations = self.load_all_ingredients()
+        self.inventory, self.spirit_dict, self.used_locations, self.unused_locations = self.load_all_ingredients()
         self.out_of_stock = self.load_out_of_stock()
         # Menu of everything
         self.menu_dict = self.validate_all_recipes(verbose, quiet)
@@ -191,8 +191,9 @@ class Menu:
         location_dict = {ingredient:location for ingredient, location in zip(all_ingredients_list, locations)}
         # Pull a list of all used locations from the values of that dictionary
         used_locations = set(location_dict.values())
+        unused_locations = set(self.cabinet_locations).difference(used_locations)
 
-        return all_ingredients_list, location_dict, used_locations
+        return all_ingredients_list, location_dict, used_locations, unused_locations
     
     def load_out_of_stock(self):
         out_of_stock = []
@@ -353,7 +354,15 @@ class Menu:
         
         return collection_dict
     
-    def get_spirit_location(self, spirit):
+    def get_spirit_from_coord(self, coord):
+        coord = coord.title().strip()
+        for i, library_coord in enumerate(self.spirit_dict.values()):
+            if coord == library_coord:
+                return list(self.spirit_dict.keys())[i]
+            
+        return False
+    
+    def get_coord_from_spirit(self, spirit):
         aliases = self.expand_alias(spirit)
         for alias in aliases:
             if alias in self.inventory:
@@ -884,6 +893,7 @@ if __name__ == "__main__":
 
     # update_recipe_yaml("test2", "blah", "notes", ["", "two"], ["", "2"], ["", "oz"])
 
-    print(myMenu.get_all_tag_names())
+    # print(myMenu.get_all_tag_names())
 
-    print(myMenu.menu_dict["Licorice Fern Margarita"])
+    # print(myMenu.menu_dict["Licorice Fern Margarita"])
+

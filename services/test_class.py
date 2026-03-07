@@ -37,6 +37,7 @@ class TestView(FlaskView):
         # Initialize a few class variables
         # Due to HTML wizardry and ghosts, class vars can be fucky if you try to use them in between website pages. For vars
         # that need more breadth, use params.yml
+        # TODO: think about refactoring this whole script to not be a class.
         self.lit_up_ingredients = set([""])
         self.random_ten = []
         self.input_tags = []
@@ -361,7 +362,7 @@ class TestView(FlaskView):
                 # Update the website display
                 ingredient_selected = recipe.format_as_recipe(ingredient_match)
                 # location_selected = self.main_menu.spirit_dict[ingredient_match].title()
-                location_selected = self.main_menu.get_spirit_location(ingredient_match)
+                location_selected = self.main_menu.get_coord_from_spirit(ingredient_match)
 
                 # self.lights.illuminate_location(location_selected)
 
@@ -405,6 +406,23 @@ class TestView(FlaskView):
         fruits = ["Apple", "Orange", "Grapes", "Berry", "Mango", "Banana"]
         return render_template("test_datalist.html", testList=fruits)
     
+    def preview_cabinet_loc(self, coordinate):
+        if coordinate in self.main_menu.cabinet_locations:
+            # Spin up a thread to flash the LEDs in that location
+            self.lights._allow_flashing()
+            t = threading.Thread(target=self.lights.illuminate_location, args=(coordinate, True, False))
+            t.start()
+            # self.lights.illuminate_location(self.input_coord, flash=True)
+            # result = f'Lighting up coordinate {coordinate}'
+            if coordinate in self.main_menu.unused_locations or coordinate in self.main_menu.non_cabinet_locations:
+                result = f'{coordinate} is valid and empty.'
+            elif coordinate in self.main_menu.used_locations:
+                occupying_spirit = self.main_menu.get_spirit_from_coord(coordinate)
+                result = f'{coordinate} is currently occupied by {recipe.format_as_recipe(occupying_spirit)}'
+        else:
+            result = f'Warning - "{coordinate}" is not a cabinet coordinate. If that was intentional, carry on.'
+        return result
+    
     @method("GET")
     @method("POST")
     def modify_spirits(self):
@@ -416,8 +434,11 @@ class TestView(FlaskView):
         recipe_result = ""
         remove_result = ""
         add_result = ""
+        move_result = ""
         input_spirit = ""
         input_coord = ""
+        move_spirit = ""
+        move_coord = ""
         input_tags = []
 
         if request.method == "POST":
@@ -468,15 +489,7 @@ class TestView(FlaskView):
                 # Preview mode
                 if "btn_preview_spirit" in request.form.keys():
                     print("preview spirit mode")
-                    if input_coord in self.main_menu.cabinet_locations:
-                        # Spin up a thread to flash the LEDs in that location
-                        self.lights._allow_flashing()
-                        t = threading.Thread(target=self.lights.illuminate_location, args=(input_coord, True, False))
-                        t.start()
-                        # self.lights.illuminate_location(self.input_coord, flash=True)
-                        add_result = f'Lighting up coordinate {input_coord}'
-                    else:
-                        add_result = f'Warning - {input_coord} is not a cabinet coordinate. If that was intentional, carry on.'
+                    add_result = self.preview_cabinet_loc(input_coord)
                 # Add mode
                 elif "btn_add_spirit" in request.form.keys():
                     print("add spirit mode")
@@ -490,6 +503,32 @@ class TestView(FlaskView):
                     input_spirit = ""
                     input_coord = ""
                     self.input_tags = []
+            # Move spirit
+            elif "input_move_spirit" in request.form.keys():
+                print("moving!")
+                print(request.form)
+                # Get the values of the html input elements
+                move_spirit = request.form["input_move_spirit"]
+                move_coord = request.form["input_move_coord"].upper()
+                if "btn_preview_spirit" in request.form.keys():
+                    print("preview move")
+                    # Light up and report the old location
+                    # old_coord = self.main_menu.spirit_dict[recipe.format_as_inventory(move_spirit)]
+                    old_coord = self.main_menu.get_coord_from_spirit(move_spirit)
+                    move_result = f"{move_spirit} is currently at location {old_coord}. \n"
+                    # Light up and report the new location, if it's valid
+                    move_result += self.preview_cabinet_loc(move_coord)
+                elif "btn_move_spirit" in request.form.keys():
+                    print("move")
+                    # Try to update the CSV and return the result.
+                    result = self.main_menu.add_spirit(move_spirit, move_coord, tags=[])
+                    if result:
+                        move_result = f"Successfully moved {move_spirit} to {move_coord}."
+                    else:
+                        move_result = f"Failed to move {move_spirit}. Hmm."
+                    # Update the html display
+                    move_spirit = ""
+                    move_coord = ""
             # Remove spirit
             elif "btn_remove_spirit" in request.form.keys():
                 print("remove spirit mode")
@@ -514,10 +553,13 @@ class TestView(FlaskView):
                                # These change as a result of user input
                                inputSpirit=input_spirit, 
                                inputCoord=input_coord,
-                               inputTags=self.input_tags, 
+                               inputTags=self.input_tags,
+                               moveSpiritDisplay=move_spirit,
+                               moveCoordDisplay=move_coord,
                                recipeResultString=recipe_result, 
                                removeResultString=remove_result, 
-                               addResultString=add_result)
+                               addResultString=add_result,
+                               moveResultString=move_result,)
 
 
 # TestView.register(app, route_base = '/')
