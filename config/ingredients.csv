@@ -99,7 +99,7 @@ lillet_blanc, none
 st_germain, none
 islay_scotch,C8
 creme_de_cassis, none
-champagne, none
+champagne,overflow
 black_velvet, none
 amaro_nonino, none
 de_kuyper_creme_de_menthe, none
@@ -252,4 +252,12 @@ tanqueray_rangpur_lime,N4
 red_huck_jar,M1
 
 test,A4
+
+midori,N6
+
+port,fridge
+
+ruby_porto,fridge
+
+blanc_vermouth,fridge
 

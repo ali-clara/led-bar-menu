@@ -11,3 +11,133 @@ The Fez:
       amount: '2'
       units: dashes
   notes: ''
+I.G.Y.:
+  collection: Steely Dan
+  ingredients:
+    Yellow Chartreuse:
+      amount: '1'
+      units: part
+    Lemon Juice:
+      amount: '1'
+      units: part
+    Falernum:
+      amount: '1'
+      units: part
+    Champagne:
+      amount: '4'
+      units: parts
+  notes: ''
+Green Flower Street:
+  collection: Steely Dan
+  ingredients:
+    Yuzu Gin:
+      amount: '1'
+      units: oz
+    Lime Juice:
+      amount: '0.5'
+      units: oz
+    Midori:
+      amount: '0.5'
+      units: oz
+    Brovo Ginger Liqueur:
+      amount: '0.25'
+      units: oz
+    Absinthe:
+      amount: '1'
+      units: splash
+  notes: ''
+Ruby Baby:
+  collection: Steely Dan
+  ingredients:
+    Ruby Porto:
+      amount: '1.5'
+      units: oz
+    Orange Juice:
+      amount: '0.75'
+      units: oz
+    Falernum:
+      amount: '0.5'
+      units: oz
+    Islay Scotch:
+      amount: '0.5'
+      units: oz
+  notes: I've mainly used Cara Cara Oranges for the juice, but probably doesn't matter
+Maxine:
+  collection: Steely Dan
+  ingredients:
+    Rye:
+      amount: '1'
+      units: oz
+    Amaretto:
+      amount: '0.25'
+      units: oz
+    Maple Syrup:
+      amount: '0.25'
+      units: oz
+    Angostura Bitters:
+      amount: '2'
+      units: dashes
+    Red Wine:
+      amount: ''
+      units: float
+  notes: Can go a little lighter on the maple syrup
+New Frontier:
+  collection: Steely Dan
+  ingredients:
+    Rye:
+      amount: '1.5'
+      units: oz
+    Absinthe:
+      amount: '0.25'
+      units: oz
+    Lofi Gentian:
+      amount: '0.5'
+      units: oz
+    Honey Syrup:
+      amount: '1'
+      units: tsp
+    Peychauds Bitters:
+      amount: '1'
+      units: dash
+  notes: ''
+The Goodbye Look:
+  collection: Steely Dan
+  ingredients:
+    Light Rum:
+      amount: '1.5'
+      units: oz
+    Blanc Vermouth:
+      amount: '0.75'
+      units: oz
+    Yuzu Curacao:
+      amount: '0.25'
+      units: oz
+    Brovo Ginger Liqueur:
+      amount: '0.125'
+      units: oz
+    Fresh Pineapple:
+      amount: ''
+      units: garnish
+  notes: ''
+Walk Between Raindrops:
+  collection: Steely Dan
+  ingredients:
+    Light Rum:
+      amount: '1'
+      units: oz
+    Yellow Chartreuse:
+      amount: '0.5'
+      units: oz
+    Cointreau:
+      amount: '0.25'
+      units: oz
+    White Creme de Cacao:
+      amount: '0.25'
+      units: oz
+    Lemon Juice:
+      amount: '0.125'
+      units: oz
+    Brovo Ginger Liqueur:
+      amount: '0.125'
+      units: oz
+  notes: ''

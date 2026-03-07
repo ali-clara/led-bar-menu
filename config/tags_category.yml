@@ -38,8 +38,9 @@ Citrus:
 Liqueurs:
   collection: Tags
   ingredients:
-  - Fruit Liqueur
-  - Herbal Liqueur
-  - Misc Liqueur
   - brovo_ginger_liqueur
+  - midori
+  - Herbal Liqueur
+  - Fruit Liqueur
+  - Misc Liqueur
   notes: Include only high-level tags here

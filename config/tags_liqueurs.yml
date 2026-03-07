@@ -36,20 +36,22 @@ Elderflower Liqueur:
 Fruit Liqueur:
   collection: Tags
   ingredients:
+  - midori
   - 360_huckleberry
-  - Elderflower Liqueur
-  - Maraschino
+  - peachtree
+  - limoncello
   - Orange Liqueur
   - Yuzu Liqueur
-  - limoncello
-  - peachtree
+  - Maraschino
+  - Elderflower Liqueur
   notes: ''
 Sweet Liqueur:
   collection: Tags
   ingredients:
-  - Fruit Liqueur
   - Coffee Liqueur
+  - midori
   - Elderflower Liqueur
+  - Fruit Liqueur
 Green Chartreuse (Flammable):
   collection: Tags
   ingredients:
@@ -93,7 +95,7 @@ Misc Liqueur:
   - Dark Creme de Cacao
   - Falernum
   - Macadamia Nut Liqueur
-  - Nocino # should be nocino?
+  - Nocino
   - White Creme de Cacao
   - Amaretto
   - nixta
@@ -137,7 +139,7 @@ Yuzu Liqueur:
   notes: ''
 Pistachio Liqueur:
   collection: Tags
-  ingredients:
+  ingredients: null
   notes: We dumped these out, thank god, but I'm using the empty tag for unit testing
 Amaretto:
   collection: Tags
@@ -146,7 +148,7 @@ Amaretto:
   notes: null
 Honey Liqueur:
   collection: Tags
-  ingredients:
+  ingredients: null
   notes: null
 Macadamia Liqueur:
   collection: Tags
@@ -155,5 +157,5 @@ Macadamia Liqueur:
   notes: null
 Coconut Liqueur:
   collection: Tags
-  ingredients:
+  ingredients: null
   notes: null
