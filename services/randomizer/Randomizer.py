@@ -27,22 +27,26 @@ with open(os.path.join(config_path, "ingredients.csv"), 'r') as file:
 #This holds in the data of all of the tag files.
 yamls = {}
 for filename in os.listdir(config_path):
-    if filename[-4:] == '.yml' and filename[:5] == "tags_":
+    if filename[-4:] == '.yml' and filename[:5] == "tags_": # my dear we've even imported glob. It doesn't have to be like this
         with open(config_path+"/%s"%filename, 'r') as file:
             yamls[filename[:-4]] = yaml.safe_load(file)
-            file.close()
 
 #We'd like lists of all tags and ingredients
 tags = []
 ingredients = []
 for tagfile in yamls:
     for tag in yamls[tagfile].keys():
-        tags.append(tag)
+        if yamls[tagfile][tag]["ingredients"] is None: # If the tag is empty, don't load it
+            continue
+        else:
+            tags.append(tag)
 with open(config_path+"/ingredients.csv", 'r') as file:
     data = file.read().split("\n")
     for i in data:
         if len(i)>1:
             ingredients.append(i.split(',')[0])
+
+print(tags)
 
 
 #Armed with the tags and the ingredients, we now
@@ -52,7 +56,8 @@ def get_ingredients(tag):
     investigated_tags = [tag]
     for tagfile in yamls:
         if tag in yamls[tagfile]:
-            subsidiaries = yamls[tagfile][tag]['ingredients'].keys()
+            subsidiaries = yamls[tagfile][tag]['ingredients']
+            print(subsidiaries)
             for sub in subsidiaries:
                 if sub in ingredients:
                     ingredience.append(sub)
@@ -67,7 +72,6 @@ def resolve_random_ingredient(rand_ingredient):
     data = {}
     with open(dir_path+"/random_tags.yml", 'r') as file:
         data = yaml.safe_load(file)
-        file.close()
     configuration = data[rand_ingredient]['included']
     #Select a tag category from the configuration
     distribution = []
@@ -88,7 +92,6 @@ def load_random_recipes():
     recipes = {}
     with open(dir_path+"/random_recipes.yml", 'r') as file:
         recipes = yaml.safe_load(file)
-        file.close()
     return recipes
 
 def get_random_recipe_options():
