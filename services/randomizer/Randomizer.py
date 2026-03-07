@@ -36,9 +36,7 @@ tags = []
 ingredients = []
 for tagfile in yamls:
     for tag in yamls[tagfile].keys():
-        if yamls[tagfile][tag]["ingredients"] is None: # If the tag is empty, don't load it
-            continue
-        else:
+        if yamls[tagfile][tag]["ingredients"] is not None: # If the tag is empty, don't load it
             tags.append(tag)
 with open(config_path+"/ingredients.csv", 'r') as file:
     data = file.read().split("\n")
