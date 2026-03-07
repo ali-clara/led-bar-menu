@@ -46,8 +46,6 @@ with open(config_path+"/ingredients.csv", 'r') as file:
         if len(i)>1:
             ingredients.append(i.split(',')[0])
 
-print(tags)
-
 
 #Armed with the tags and the ingredients, we now
 def get_ingredients(tag):
@@ -57,7 +55,6 @@ def get_ingredients(tag):
     for tagfile in yamls:
         if tag in yamls[tagfile]:
             subsidiaries = yamls[tagfile][tag]['ingredients']
-            print(subsidiaries)
             for sub in subsidiaries:
                 if sub in ingredients:
                     ingredience.append(sub)
