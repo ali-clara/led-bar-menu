@@ -2,8 +2,9 @@ Gin:
   collection: Tags
   ingredients:
   - dryfly_gin
-  - roku
   - tanqueray_london_dry
+  - bainbridge_doug_fir_gin
+  - roku
   notes: Plain gins. For all gins, see Gin (Inclusive)
 Gin (Inclusive):
   collection: Tags
