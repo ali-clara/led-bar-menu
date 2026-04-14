@@ -133,7 +133,6 @@ cranberry_juice, none
 olive, none
 egg_white, fridge
 heavy_cream, none
-pineapple_juice, none
 coconut_cream, fridge
 
 noble_fir_juniper_tincture, bitters_rack_top
@@ -215,6 +214,8 @@ grapefruit, bowl
 grapefruit_juice, bowl
 grapefruit_twist, bowl
 grapefruit_zest, bowl
+pineapple, none
+pineapple_juice, none
 
 mint, plant
 rosemary, plant
@@ -261,4 +262,4 @@ ruby_porto,fridge
 
 blanc_vermouth,fridge
 bainbridge_doug_fir_gin,F5
-
+

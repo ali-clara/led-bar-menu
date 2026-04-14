@@ -115,10 +115,10 @@ The Goodbye Look:
     Brovo Ginger Liqueur:
       amount: '0.125'
       units: oz
-    Fresh Pineapple:
+    Pineapple:
       amount: ''
       units: garnish
-  notes: ''
+  notes: 'The pinepple should be fresh, but who has time for that'
 Walk Between Raindrops:
   collection: Steely Dan
   ingredients:

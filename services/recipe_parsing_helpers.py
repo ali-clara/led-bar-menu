@@ -80,21 +80,20 @@ class Menu:
         # Load everything
         # Big menu, matches the layout of the yamls
         # menu_dict_raw = self.load_recipes()
+        # Dictionary of {coordinate:led pixels}, list of coordinates
+        self.led_dict, self.cabinet_locations = self.load_cabinet_locs()
+
+        # Load list of spirits (& other), dictionary of {spirit:location}, set of locations. From ingredients.csv
+        self.inventory, self.spirit_dict, self.used_locations, self.unused_locations = self.load_all_ingredients()
+        self.out_of_stock = self.load_out_of_stock()
+
         # Dictionary of all tags {tag: {ingredients: [spirit_1, spirit_2, ..., spirit_n], notes: , etc}}, dictionary of organized tags {parent_tag: [tag_1, tag_2, ..., tag_n]}
         self.tags_dict_all, self.tags_dict_organized = self.load_tags()
         self.tags_dict_used = self.remove_empty_tags(self.tags_dict_all)
         self.alias_dict = self.load_aliases()
-        # Dictionary of {coordinate:led pixels}, list of coordinates
-        self.led_dict, self.cabinet_locations = self.load_cabinet_locs()
-        # Pull info from ingredients.csv: 
-        # List of spirits (& other), dictionary of {spirit:location}, set of locations. From ingredients.csv
-        self.inventory, self.spirit_dict, self.used_locations, self.unused_locations = self.load_all_ingredients()
-        self.out_of_stock = self.load_out_of_stock()
-        # Menu of everything
-        self.menu_dict = self.validate_all_recipes(verbose, quiet)
-
+        
         # Sort, validate, and modify anything that needs modifying
-
+        self.menu_dict = self.validate_all_recipes(verbose, quiet)
         # Inventory formatted for the website
         self.inventory_user_facing = [format_as_recipe(spirit) for spirit in self.inventory]
         # List of used locations not in the cabinet (e.g "fridge")
@@ -156,14 +155,18 @@ class Menu:
                 aliases = list(alias_dict[key])
 
                 for i, alias in enumerate(aliases):
-                    # If it's a tag, format it as a recipe
+                    # For both key and alias:
+                    #   If it's a tag, format it as a recipe. If it's an ingredient, format it as an ingredient
                     if format_as_recipe(alias) in self.get_all_tag_names():
                         aliases[i] = format_as_recipe(alias)
-                        key = format_as_recipe(key)
-                    # Otherwise format it as an ingredient
-                    else:
+                    elif format_as_inventory(alias) in self.get_inventory():
                         aliases[i] = format_as_inventory(alias)
+                    if format_as_recipe(key) in self.get_all_tag_names():
+                        key = format_as_recipe(key)
+                    elif format_as_inventory(key) in self.get_inventory():
                         key = format_as_inventory(key)
+
+                    # TODO Otherwise... trust the user? throw a warning?
 
                 alias_dict_restructured.update({key:aliases})
             return alias_dict_restructured
@@ -482,8 +485,9 @@ class Menu:
             list: aliases (if no aliases found, returns [ingredient])
         """
             
-        # ingredient = format_as_inventory(ingredient)
         names_to_check = [ingredient]
+
+        # TODO - think about the formatting here. recipe vs inventory
 
         # print(ingredient)
         # if it's a key, add its values
@@ -528,6 +532,7 @@ class Menu:
         Returns:
             _type_: _description_
         """
+        ingredient = format_as_inventory(ingredient)
         if ingredient in self.out_of_stock:
             if not quiet:
                 ingredient = "\033[1m"+ingredient+"\033[0m"
@@ -552,12 +557,13 @@ class Menu:
             ingredient_exists = False
             # First, check the ingredient name and any aliases it might be under
             ing_aliases = self.expand_alias(ingredient)
+            # print(ing_aliases)
             if verbose:
                 print(f"Checking {ingredient} (aliases {ing_aliases[1:]})")
             # For each alias: 
             for alias in ing_aliases:
                 # if we can find it as an ingredient, check if it's in stock.
-                if alias in self.inventory:
+                if format_as_inventory(alias) in self.inventory:
                     ingredient_exists = True
                     if self.is_in_stock(alias, recipe_name, verbose, quiet):
                         recipe[ingredient].update({'stocked': True})
@@ -565,7 +571,7 @@ class Menu:
                         recipe[ingredient].update({'stocked': False})
                 
                 # otherwise, if can find it as a tag, check if any tag 'children' are in stock
-                elif alias in tag_names:
+                elif format_as_recipe(alias) in tag_names:
                     children = self.expand_tag(alias)
                     # Get any aliases of each child and check them against the inventory list
                     for child in children:
@@ -806,7 +812,7 @@ class Menu:
 
 
 if __name__ == "__main__":
-    myMenu = Menu(verbose=True, quiet=False)
+    myMenu = Menu(verbose=False, quiet=False)
 
     # Unit tests
     # -------------------- FLAGGING OUR MISTAKES -------------------- #
@@ -817,21 +823,31 @@ if __name__ == "__main__":
         Formatting note -- We use Title Case in recipes (public facing) and snake_case in the ingredients list (internal). E.g
         Amaro Nonino in The Spanish Graft and amaro_nonino in ingredients.csv.
         """
+        
+        print("Checking recipes for invalid ingredients")
+        
         # Identify all the ingredients we use throughout every recipe
         all_ingredience_once = myMenu.get_used_ingredients_expanded()
 
         # Now do the flagging
         for ingredient in all_ingredience_once:
+            found = False
             # Check for any aliases, and reformat to match ingredients.csv
             aliases = myMenu.expand_alias(ingredient)
             if verbose:
                 print(f"Given {ingredient}, checking {aliases}")
-            aliases = [format_as_inventory(alias) for alias in aliases]
+            # aliases = [format_as_inventory(alias) for alias in aliases]
             # If we couldn't find any aliases in our master ingredients list, throw a flag
-            if not any((True for x in aliases if x in myMenu.inventory)):
+            if any((True for x in aliases if format_as_inventory(x) in myMenu.get_inventory())):
+                found = True
+            
+            elif any((True for x in aliases if format_as_recipe(x) in myMenu.get_all_tag_names())):
+                found = True
+
+            if not found:
                 print("---")
-                print(f"Could not find {ingredient} in ingredients list: looking for {aliases}")
-                print()
+                print(f"Could not find {ingredient} in ingredients list or tags: looking for {aliases} \n")
+
         print("Finished checking recipes")
 
     def check_tags_against_csv():
@@ -886,9 +902,7 @@ if __name__ == "__main__":
                 yaml.dump(contents, outfile, sort_keys=False)
         
     
-    print(myMenu.get_used_tag_names())
-    
-    # check_recipe_against_csv()
+    check_recipe_against_csv()
     # check_tags_against_csv()
     # check_tags_and_aliases()
     # check_inventory()
