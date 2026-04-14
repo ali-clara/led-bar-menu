@@ -177,6 +177,7 @@ class TestView(FlaskView):
         amounts = []
         for ing in chosen_ingredients:
             # Check stock and format the ingredients
+            print(self.main_menu.menu_dict[arg]['ingredients'][ing])
             if self.main_menu.menu_dict[arg]['ingredients'][ing]['stocked'] == False:
                 ingredient_display = recipe.format_as_recipe(ing) + " -- out of stock"
             else:

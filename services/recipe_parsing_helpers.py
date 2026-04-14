@@ -69,10 +69,10 @@ def test_similarity(list_to_match:list, to_check_against:list):
         print(used, "|", result, "|", score)
 
 class Menu:
-    def __init__(self):
+    def __init__(self, verbose=False, quiet=True):
         self.dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
         self.recipe_path = os.path.join(self.dir_path, "config")
-        self.update()
+        self.update(verbose, quiet)
 
     def update(self, verbose=False, quiet=True):
         if not quiet:
@@ -155,8 +155,15 @@ class Menu:
             for key in alias_dict:
                 aliases = list(alias_dict[key])
 
-                aliases = [format_as_inventory(alias) for alias in aliases]
-                key = format_as_inventory(key)
+                for i, alias in enumerate(aliases):
+                    # If it's a tag, format it as a recipe
+                    if format_as_recipe(alias) in self.get_all_tag_names():
+                        aliases[i] = format_as_recipe(alias)
+                        key = format_as_recipe(key)
+                    # Otherwise format it as an ingredient
+                    else:
+                        aliases[i] = format_as_inventory(alias)
+                        key = format_as_inventory(key)
 
                 alias_dict_restructured.update({key:aliases})
             return alias_dict_restructured
@@ -471,13 +478,11 @@ class Menu:
 
         Args:
             ingredient (str): _description_
-            alias_dict (dict): _description_
-
         Returns:
             list: aliases (if no aliases found, returns [ingredient])
         """
             
-        ingredient = format_as_inventory(ingredient)
+        # ingredient = format_as_inventory(ingredient)
         names_to_check = [ingredient]
 
         # print(ingredient)
@@ -537,44 +542,52 @@ class Menu:
         # if all the ingredients of the recipe are good, recipe is good. return recipe
         # otherwise, false
         if verbose:
-            print(f"Checking {recipe_name}")
+            print(f"\n Checking {recipe_name}")
 
         tag_names = self.get_used_tag_names()
         recipe_ingredients = list(recipe.keys())
-        ingredient_exists = False
-
+        
         for ingredient in recipe_ingredients:
+            # print(ingredient)
+            ingredient_exists = False
             # First, check the ingredient name and any aliases it might be under
             ing_aliases = self.expand_alias(ingredient)
             if verbose:
                 print(f"Checking {ingredient} (aliases {ing_aliases[1:]})")
-            # For each alias: if we can find it, check if it's in stock.
+            # For each alias: 
             for alias in ing_aliases:
+                # if we can find it as an ingredient, check if it's in stock.
                 if alias in self.inventory:
                     ingredient_exists = True
                     if self.is_in_stock(alias, recipe_name, verbose, quiet):
                         recipe[ingredient].update({'stocked': True})
                     else:
                         recipe[ingredient].update({'stocked': False})
-            # Then check if it's a tag, and repeat the process for any children
-            if ingredient in tag_names:
-                children = self.expand_tag(ingredient)
-                # Get any aliases of each child and check them against the inventory list
-                for child in children:
-                    tag_aliases = self.expand_alias(child)
-                    if verbose:
-                        print(f"Found {child} (aliases {tag_aliases[1:]}) in the {ingredient} tag")
-                    for alias in tag_aliases:
-                        if alias in self.inventory:
-                            ingredient_exists = True
-                            if self.is_in_stock(alias, recipe_name, verbose, quiet):
-                                recipe[ingredient].update({'stocked': True})
-                            else:
-                                recipe[ingredient].update({'stocked': False})
-            elif ingredient in self.unstocked_tags:
+                
+                # otherwise, if can find it as a tag, check if any tag 'children' are in stock
+                elif alias in tag_names:
+                    children = self.expand_tag(alias)
+                    # Get any aliases of each child and check them against the inventory list
+                    for child in children:
+                        child_in_stock = False
+                        tag_aliases = self.expand_alias(child)
+                        if verbose:
+                            print(f"Found {child} in the {ingredient} tag")
+                        for t_alias in tag_aliases:
+                            if t_alias in self.inventory:
+                                ingredient_exists = True
+                                child_in_stock = True # if we find anything in stock, stop checking early (speeds up loop)
+                                if self.is_in_stock(t_alias, recipe_name, verbose, quiet):
+                                    recipe[ingredient].update({'stocked': True})
+                                else:
+                                    recipe[ingredient].update({'stocked': False})
+                        if child_in_stock:
+                            break
+                                
+            if ingredient in self.unstocked_tags:
                 recipe[ingredient].update({'stocked': False})
-                        
-            if not ingredient_exists:
+            
+            elif not ingredient_exists:
                 if not quiet:
                     print(f"Could not validate {recipe_name}, {ingredient} not found in inventory or tags")
                 return False
@@ -793,7 +806,7 @@ class Menu:
 
 
 if __name__ == "__main__":
-    myMenu = Menu()
+    myMenu = Menu(verbose=True, quiet=False)
 
     # Unit tests
     # -------------------- FLAGGING OUR MISTAKES -------------------- #
@@ -872,6 +885,8 @@ if __name__ == "__main__":
             with open(file, "w") as outfile:
                 yaml.dump(contents, outfile, sort_keys=False)
         
+    
+    print(myMenu.get_used_tag_names())
     
     # check_recipe_against_csv()
     # check_tags_against_csv()
