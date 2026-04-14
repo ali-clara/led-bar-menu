@@ -23,7 +23,7 @@ cuervo_gold,H3
 largo_bay_151, C4
 yuzu_curacao, B17
 boulard_calvados,D8
-dryfly_gin, F5
+dryfly_gin,fridge
 christian_brothers_vsop, D5
 christian_brothers_vs, E9
 tj_mezcal, E15
@@ -260,3 +260,5 @@ port,fridge
 ruby_porto,fridge
 
 blanc_vermouth,fridge
+bainbridge_doug_fir_gin,F5
+
