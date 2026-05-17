@@ -33,6 +33,11 @@ Elderflower Liqueur:
   - drillaud_elderflower
   - st_germain
   notes: ''
+Floral Liqueur:
+  collection: Tags
+  ingredients:
+  - Creme de Violette
+  - Elderflower Liqueur
 Fruit Liqueur:
   collection: Tags
   ingredients:
@@ -52,6 +57,9 @@ Sweet Liqueur:
   - midori
   - Elderflower Liqueur
   - Fruit Liqueur
+  - Falernum
+  - Creme de Cassis
+  - Creme de Violette
 Green Chartreuse (Flammable):
   collection: Tags
   ingredients:
@@ -159,3 +167,18 @@ Coconut Liqueur:
   collection: Tags
   ingredients: null
   notes: null
+Falernum:
+  collection: Tags
+  ingredients:
+  - velvet_falernum
+Absinthe:
+  collection: Tags
+  ingredients:
+  - absente
+Creme de Cassis:
+  collection: Tags
+  ingredients:
+Creme de Violette:
+  collection: Tags
+  ingredients:
+

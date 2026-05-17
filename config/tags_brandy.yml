@@ -17,6 +17,7 @@ Brandy (Inclusive):
   - Kirsch
   - Pear Brandy
   - Fig Brandy
+  - Pisco
   notes: You're an inclusive girl. Contains flavored brandies as well as those more
     similar to Cognac
 Calvados:
@@ -54,3 +55,7 @@ Fig Brandy:
   collection: Tags
   ingredients:
   notes: Fig Brandies
+Pisco:
+  collection: Tags
+  ingredients:
+  notes:
