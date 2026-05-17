@@ -151,7 +151,8 @@ Yuzu Liqueur:
   notes: ''
 Pistachio Liqueur:
   collection: Tags
-  ingredients: null
+  ingredients:
+  -
   notes: We dumped these out, thank god, but I'm using the empty tag for unit testing
 Amaretto:
   collection: Tags
@@ -161,7 +162,8 @@ Amaretto:
   notes: null
 Honey Liqueur:
   collection: Tags
-  ingredients: null
+  ingredients:
+  -
   notes: null
 Macadamia Liqueur:
   collection: Tags
@@ -170,7 +172,8 @@ Macadamia Liqueur:
   notes: null
 Coconut Liqueur:
   collection: Tags
-  ingredients: null
+  ingredients:
+  -
   notes: null
 Falernum:
   collection: Tags
@@ -183,7 +186,9 @@ Absinthe:
 Creme de Cassis:
   collection: Tags
   ingredients:
+  -
 Creme de Violette:
   collection: Tags
   ingredients:
+  -
 
