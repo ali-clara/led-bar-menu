@@ -333,8 +333,9 @@ class LED:
         r_max = 15
 
         mag_dropoff = 1 - t/t_max
+        ripple_width = 0.5 # larger makes thinner
 
-        z = (1 - 0.25*np.abs(r_t - r_max*(t/t_max))) * mag_dropoff
+        z = (1 - ripple_width*np.abs(r_t - r_max*(t/t_max))) * mag_dropoff
 
         return max(z, 0)
 
