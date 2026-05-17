@@ -245,6 +245,8 @@ class Menu:
                     for spirit in base_spirits:
                         children = self.expand_tag(spirit)
                         if user_facing:
+                            if None in children:
+                                children.remove(None)
                             children = [format_as_recipe(child) for child in children]
                         categories_organized.update({spirit: children})
                 # Otherwise, pull each category/keys combo
@@ -254,6 +256,8 @@ class Menu:
                     for s in sorted:
                         children = self.expand_tag(s)
                         if children:
+                            if None in children:
+                                children.remove(None)
                             [sorted_expanded.append(child) for child in children]
                         else:
                             sorted_expanded.append(s)

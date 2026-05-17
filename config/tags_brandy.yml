@@ -50,7 +50,6 @@ Kirschwasser:
 Pear Brandy:
   collection: Tags
   ingredients:
-  - test_new_tag
   - pear_williams
   notes: Pear Brandies
 Fig Brandy:
