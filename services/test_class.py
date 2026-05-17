@@ -566,7 +566,10 @@ class TestView(FlaskView):
     @method("GET")
     def animation(self):
         params.add_or_update_param("animation", True)
-        t = threading.Thread(target=self.lights.animate_generalized, args=(self.lights.splash, 3))
+        # t = threading.Thread(target=self.lights.animate_generalized, args=(self.lights.splash, 3),
+        #                      kwargs={"cx": 5, "cy": 10})
+        t = threading.Thread(target=self.lights.animate_generalized, args=(self.lights.screensaver, 5),
+                             kwargs={"cx": 10, "cy": 10, "rball": 4})
         t.start()
 
         return render_template("empty_template.html")

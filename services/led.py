@@ -310,35 +310,65 @@ class LED:
     def coord_from_pix(self, pix):
         return float(self.led_coord_dict[pix]["x"]), float(self.led_coord_dict[pix]["y"])
     
-    def animate_generalized(self, animate_function, time_end, time_step=0.1):
+    def animate_generalized(self, animate_function, time_end, time_step=0.1, **kwargs):
         loop_end = int(time_end / time_step)
         for t in range(loop_end):
             for i in range(self.num_lights):
                 x, y = self.coord_from_pix(i)
-                pix_brightness = animate_function(t, x, y, loop_end)
+                pix_brightness = animate_function(t, x, y, loop_end, **kwargs)
                 scaled_color = pix_brightness*np.array((255,255,0))
                 int_scaled_color = scaled_color.astype(int)
                 self.pixels[i] = int_scaled_color
-                if i == 152:
+                if i == 45:
                     print(pix_brightness)
             
             self.pixels.show()
             time.sleep(time_step)
 
-    def splash(self, t, x, y, t_max):
-        splash_x = 15 # in
-        splash_y = 30 # in
+    def splash(self, t, x, y, t_max, **kwargs):
 
-        r_t = np.sqrt((x - splash_x)**2 + (y - splash_y)**2)
+        try:
+            center_x = kwargs["cx"]
+            center_y = kwargs["cy"]
+        except Exception as e:
+            print(e)
+            center_x = 15
+            center_y = 30
+
+        r_t = np.sqrt((x - center_x)**2 + (y - center_y)**2)
         r_max = 15
 
         mag_dropoff = 1 - t/t_max
-        ripple_width = 0.5 # larger makes thinner
+        ripple_width = 0.5 # larger makes thinner (technically slope of hidden cone)
 
         z = (1 - ripple_width*np.abs(r_t - r_max*(t/t_max))) * mag_dropoff
 
         return max(z, 0)
+    
+    def screensaver(self, t, x, y, t_max, **kwargs):
+        # cabinet dims
+        x_max = 30
+        y_max = 60
 
+        # there's gotta be a better way to check if something is in a dictionary, but here's
+        # quick and dirty
+        try:
+            center_x = kwargs["cx"]
+            center_y = kwargs["cy"]
+            r_ball = kwargs["rball"]
+        except Exception as e:
+            print(e)
+            center_x = 15
+            center_y = 30
+            r_ball = 2
+
+        t_m = t_max - t
+        x_t = np.abs(x_max - np.abs(center_x + t_m - x_max))
+        y_t = np.abs(y_max - np.abs(center_y + t_m - y_max))
+
+        z = min((1 - np.abs(x_t - x)/r_ball), (1 - np.abs(y_t - y)/r_ball))
+
+        return max(z, 0)
     
 
 if __name__ == "__main__":
