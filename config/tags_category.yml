@@ -1,19 +1,25 @@
 Amaro:
   collection: Tags
   ingredients:
-  - Brovo Amaro
-  - Brucato Amaro
-  - Cynar
-  - Gentian Amaro
-  - amaro_angostura
+  - torani_amer
+  - ramazzoti_amaro
   - aperol
-  - byrrh
+  - Cynar
   - campari
+  - Brovo Amaro
+  - rosso_amaro
   - cardamaro
+  - kina_laero_dor
+  - amaro_averna
+  - fernet-branca
+  - gran_classico
+  - reddit_aroma
+  - Brucato Amaro
+  - amaro_angostura
   - meletti
   - nonino
-  - reddit_aroma
-  - rosso_amaro
+  - byrrh
+  - Gentian Amaro
   notes: Include all amaros. Use high-level tags where possible
 Base Spirits:
   collection: Tags

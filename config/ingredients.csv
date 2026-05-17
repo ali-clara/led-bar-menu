@@ -6,7 +6,7 @@ pitu_cachaca,overflow
 high_west_bourye,overflow
 aultmore_12_year, C19
 the_deacon, E23
-azunia_reposado, E17
+azunia_reposado,E16
 tanqueray_sevilla, E5
 sonoma_cherrywood_rye, E19
 roku, E2
@@ -16,7 +16,7 @@ pear_williams, F10
 tanqueray_london_dry, F2
 zignum_reposado,overflow
 famous_grouse,F18
-famous_grouse_smoky_black, none
+famous_grouse_smoky_black,E18
 del_maguey_classico,D13
 del_maguey_puebla,out
 cuervo_gold,H3
@@ -30,7 +30,7 @@ tj_mezcal, E15
 genepy, A2
 yellow_chartreuse, B2
 green_chartreuse, B4
-1800_tequila, E12
+1800_tequila,E10
 lofi_gentian, J4
 amaro_04, L3
 zirbenz, L5
@@ -72,8 +72,8 @@ giffard_cacao, H5
 pistacchio_mk_i,none
 pistacchio_mk_ii,none
 gen-p, A1
-dry_curacao, none
-kahana_mac_nut, L7
+dry_curacao,N2
+kahana_mac_nut,H7
 360_huckleberry, I6
 yellowstone_bourbon,J2
 velvet_falernum, N7
@@ -248,7 +248,7 @@ brovo_ginger_liqueur,K5
 
 yu_gin,F12
 
-tanqueray_rangpur_lime,N4
+tanqueray_rangpur_lime,E7
 
 red_huck_jar,M1
 
@@ -281,7 +281,7 @@ plantation_pineapple,D4
 
 cognac_comandon,D10
 
-del_maguey_chichicapa,E15
+del_maguey_chichicapa,E13
 
 pimms,K2
 
@@ -290,3 +290,27 @@ arancino_cinque_terra,H1
 mandarinetto,H2
 
 creme_de_noyaux,B22
+brovo_lucky_falernum,M7
+
+ramazzoti_amaro,M6
+
+fernet-branca,L6
+
+creme_de_cassie_de_dijon,K6
+
+amaro_averna,M2
+
+torani_amer,L7
+
+marilyn_mansinthe,H3
+
+don_cesar_pisco_,I4
+
+gran_classico,M4
+
+kina_laero_dor,N4
+
+cointreau_noir,A9
+
+pages_creme_de_violette,A20
+
