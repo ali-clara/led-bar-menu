@@ -279,13 +279,14 @@ class LED:
 
             for j in range(self.num_lights):
                 try:
-                    self.pixels[j] = self._wheel(i+j)
+                    self.pixels[j] = self._wheel((i+j)%self.num_lights)
                 except IndexError as e:
                     print(e)
             
             self.pixels.show()
             time.sleep(0.1)
-            print(self._wheel(i))
+            # print(self._wheel(i))
+            print((i+j)%self.num_lights)
 
             i += 1
 
