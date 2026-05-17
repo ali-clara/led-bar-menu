@@ -238,21 +238,25 @@ class LED:
             self.pixels[i] = (0,0,0)
         self.pixels.show()
     
-    def _flash_threaded(self, neopixel_range, color, brightness):
-        starttime = time.time()
+    def range_flash(self, neopixel_range, color, brightness):
 
-        with open(dir_path+"/config/params.yml") as stream:
-            params_dict = yaml.safe_load(stream)
+        # with open(dir_path+"/config/params.yml") as stream:
+        #     params_dict = yaml.safe_load(stream)
+
+        params_dict = params.read()
+        
+        print(params_dict)
 
         while params_dict["flashing"]:
 
-            with open(dir_path+"/config/params.yml") as stream:
-                params_dict = yaml.safe_load(stream)
+            print("params dict")
+            print(params_dict)
 
-            # Safety measure so my thread doesn't run forever
-            # if (time.time() - starttime) >= 20:
-            #     break
-            
+            # with open(dir_path+"/config/params.yml") as stream:
+            #     params_dict = yaml.safe_load(stream)
+
+            params_dict = params.read()
+
             for start, stop in neopixel_range:
                 self.set_pixels_from_range(start, stop, color, brightness)
             self.pixels.show()
@@ -265,13 +269,6 @@ class LED:
             print("off")
             time.sleep(0.5)
     
-    def range_flash(self, neopixel_range, color=(255,255,0), brightness=0.1):
-        # with concurrent.futures.ThreadPoolExecutor() as executor:
-        #     flash = executor.submit(self._flash_threaded, neopixel_range, color, brightness)
-
-        self._flash_threaded(neopixel_range, color, brightness)
-
-        # flash.result()
 
     def _wheel(self, pos):
         # From Adafruit

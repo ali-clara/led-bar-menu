@@ -50,3 +50,11 @@ def get_param(param_key:str):
         print(f"Error in reading params dict: no key {param_key}. \nFull dict {params_dict}")
     else:
         return param_value
+    
+
+if __name__ == "__main__":
+    print(read())
+
+    add_or_update_param("menu_update_pending", True)
+
+    print(read())
