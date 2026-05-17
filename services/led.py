@@ -191,11 +191,10 @@ class LED:
         # Light em up
         if flash:
             self.range_flash(neopixel_range, color, brightness)
-            # self._flash_threaded(neopixel_range, color, brightness)
+
         else:
             for start, stop in neopixel_range:
                 self.set_pixels_from_range(start, stop, color, brightness)
-                # self.range_on(start, stop, color, brightness)
                 if verbose:
                     print(f"lit up {start} through {stop}")
                 self.pixels.show()
@@ -267,8 +266,10 @@ class LED:
             time.sleep(0.5)
     
     def range_flash(self, neopixel_range, color=(255,255,0), brightness=0.1):
-        with concurrent.futures.ThreadPoolExecutor() as executor:
-            flash = executor.submit(self._flash_threaded, neopixel_range, color, brightness)
+        # with concurrent.futures.ThreadPoolExecutor() as executor:
+        #     flash = executor.submit(self._flash_threaded, neopixel_range, color, brightness)
+
+        self._flash_threaded(neopixel_range, color, brightness)
 
         # flash.result()
 

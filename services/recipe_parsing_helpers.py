@@ -215,9 +215,10 @@ class Menu:
         return out_of_stock
 
     def load_categories(self, user_facing=False):
-        """Loads tags_category.yml and sorts spirits accordingly.
+        """Loads tags_category.yml and sorts spirits accordingly. Currently only used to display on the inventory page
 
-        Very messy. Want to rewrite and flag out of stock items instead of getting rid of them entirely.
+        Very messy. 
+        TODO rewrite and flag out of stock items instead of getting rid of them entirely.
 
         Returns:
             _type_: _description_
