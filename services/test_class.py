@@ -49,6 +49,8 @@ class TestView(FlaskView):
         """
         self.lights._forbid_flashing()
 
+        params.add_or_update_param("animation", False)
+
         need_menu_update = params.get_param("menu_update_pending")
         if need_menu_update:
             self.main_menu.update(quiet=False)
@@ -561,6 +563,14 @@ class TestView(FlaskView):
                                removeResultString=remove_result, 
                                addResultString=add_result,
                                moveResultString=move_result,)
+    
+    @method("GET")
+    def animation(self):
+        params.add_or_update_param("animation", True)
+        t = threading.Thread(target=self.lights.animate_wheel)
+        t.start()
+
+        return render_template("empty_template.html")
 
 
 # TestView.register(app, route_base = '/')

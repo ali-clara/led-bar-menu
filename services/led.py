@@ -39,8 +39,9 @@ dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
 class LED:
     def __init__(self, main_menu):
         # Initialize the NeoPixel strip with GPIO pin 10 (needed for not running this with SUDO privileges),
-        # 150 lights, and 20% brightness. Auto_write means we're going to need to call pixels.show() whenever we want them lit up
-        self.pixels = neopixel.NeoPixel(board.D10, 255, brightness=0.2, auto_write=False)
+        # 255 lights, and 20% brightness. Auto_write means we're going to need to call pixels.show() whenever we want them lit up
+        self.num_lights = 255
+        self.pixels = neopixel.NeoPixel(board.D10, self.num_lights, brightness=0.2, auto_write=False)
         # Make sure our strip is off
         self.pixels.fill((0,0,0))
         self.pixels.show()
@@ -220,40 +221,38 @@ class LED:
             except IndexError:
                 pass
     
-    def range_on(self, start_pix: int, stop_pix: int, color=(255,255,0), brightness=0.1):
-        print(f"lighting up pixels {start_pix, stop_pix}")
-        scaled_color = brightness*np.array(color)
-        int_scaled_color = scaled_color.astype(int)
-        print(int_scaled_color)
-        for i in range(start_pix, stop_pix+1):
-            try:
-                self.pixels[i] = int_scaled_color
-            except IndexError as e:
-                print(e)
+    # def range_on(self, start_pix: int, stop_pix: int, color=(255,255,0), brightness=0.1):
+    #     print(f"lighting up pixels {start_pix, stop_pix}")
+    #     scaled_color = brightness*np.array(color)
+    #     int_scaled_color = scaled_color.astype(int)
+    #     print(int_scaled_color)
+    #     for i in range(start_pix, stop_pix+1):
+    #         try:
+    #             self.pixels[i] = int_scaled_color
+    #         except IndexError as e:
+    #             print(e)
 
-        self.pixels.show()
+    #     self.pixels.show()
 
-    def range_off(self, start_pix: int, stop_pix: int):
-        for i in range(start_pix, stop_pix):
-            self.pixels[i] = (0,0,0)
-        self.pixels.show()
+    # def range_off(self, start_pix: int, stop_pix: int):                                                                     
+    #     for i in range(start_pix, stop_pix):
+    #         self.pixels[i] = (0,0,0)
+    #     self.pixels.show()
     
-    def range_flash(self, neopixel_range, color, brightness):
+    def range_flash(self, neopixel_range, color, brightness, time_on=0.5, time_off=0.5):
+        """Flashes a given neopixel range on and off.
 
-        # with open(dir_path+"/config/params.yml") as stream:
-        #     params_dict = yaml.safe_load(stream)
+        Args:
+            neopixel_range (_type_): _description_
+            color (_type_): _description_
+            brightness (_type_): _description_
+            time_on (float, optional): _description_. Defaults to 0.5.
+            time_off (float, optional): _description_. Defaults to 0.5.
+        """
 
         params_dict = params.read()
-        
-        print(params_dict)
 
         while params_dict["flashing"]:
-
-            print("params dict")
-            print(params_dict)
-
-            # with open(dir_path+"/config/params.yml") as stream:
-            #     params_dict = yaml.safe_load(stream)
 
             params_dict = params.read()
 
@@ -261,14 +260,34 @@ class LED:
                 self.set_pixels_from_range(start, stop, color, brightness)
             self.pixels.show()
             print("on")
-            time.sleep(0.5)
+            time.sleep(time_on)
             
             for start, stop in neopixel_range:
                 self.set_pixels_from_range(start, stop, color=(0,0,0), brightness=0)
             self.pixels.show()
             print("off")
-            time.sleep(0.5)
-    
+            time.sleep(time_off)
+
+    def animate_wheel(self):
+        
+        params_dict = params.read()
+        
+        i = 0
+        while params_dict["animation"]:
+
+            params_dict = params.read()
+
+            for j in range(self.num_lights):
+                try:
+                    self.pixels[j] = self._wheel(i+j)
+                except IndexError as e:
+                    print(e)
+            
+            time.sleep(0.1)
+            print(self._wheel(i))
+
+            i += 1
+
 
     def _wheel(self, pos):
         # From Adafruit
