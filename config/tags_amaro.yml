@@ -18,8 +18,8 @@ Brucato Amaro:
 Cynar:
   collection: Tags
   ingredients:
-  - cynar_70
   - cynar_std
+  - cynar_70
   notes: Both versions of Cynar
 Gentian Amaro:
   collection: Tags

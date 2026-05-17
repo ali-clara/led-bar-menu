@@ -1,9 +1,10 @@
 Mezcal:
   collection: Tags
   ingredients:
-  - del_maguey_classico
-  - del_maguey_puebla
   - tj_mezcal
+  - del_maguey_puebla
+  - del_maguey_chichicapa
+  - del_maguey_classico
   notes: American definition-typical smoky mezcals
 Mezcal (Inclusive):
   collection: Tags
@@ -20,7 +21,7 @@ Tequila:
   notes: All tequilas/tequila-like mezcals
 Tequila Anejo:
   collection: Tags
-  ingredients:
+  ingredients: null
   notes: Can include anejo mezcals
 Tequila Blanco:
   collection: Tags
@@ -37,6 +38,7 @@ Tequila Reposado:
 Del Maguey Vida:
   collection: Tags
   ingredients:
-  - del_maguey_classico
   - del_maguey_puebla
+  - del_maguey_chichicapa
+  - del_maguey_classico
   notes: Anything with the Del Maguey Vida brand

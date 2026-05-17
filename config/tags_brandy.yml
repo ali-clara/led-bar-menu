@@ -33,8 +33,9 @@ Cherry Brandy:
 Cognac:
   collection: Tags
   ingredients:
-  - christian_brothers_vs
+  - cognac_comandon
   - christian_brothers_vsop
+  - christian_brothers_vs
   notes: Cognac/acceptable substitutes
 Kirsch:
   collection: Tags
@@ -53,7 +54,7 @@ Pear Brandy:
   notes: Pear Brandies
 Fig Brandy:
   collection: Tags
-  ingredients:
+  ingredients: null
   notes: Fig Brandies
 Pisco:
   collection: Tags
