@@ -19,7 +19,7 @@ Irish Whiskey:
   notes: Should include all whiskey from Ireland
 Japanese Whisky:
   collection: Tags
-  ingredients:
+  ingredients: null
   notes: Should include all Japanese Whisky
 Peated Whisky:
   collection: Tags
@@ -52,8 +52,12 @@ Whiskey:
 Whiskey (Specific):
   collection: Tags
   ingredients:
-  - Bourbon
+  - saint_george_single_malt
+  - mellow_corn_whiskey_
   - Irish Whiskey
+  - sandstone_white_whiskey
+  - Bourbon
+  - mesquite_smoked_whiskey
   notes: Whiskey spelled with the 'e'
 Whisky:
   collection: Tags
@@ -83,8 +87,9 @@ Smoky Scotch Whisky:
 Smoky Scotch:
   collection: Tags
   ingredients:
-  - Smoky Scotch Whisky
+  - mesquite_smoked_whiskey
   - islay_scotch
+  - Smoky Scotch Whisky
   notes: Alias
 Scotch:
   collection: Tags

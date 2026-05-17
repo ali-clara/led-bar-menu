@@ -5,17 +5,19 @@ Cachaca:
   notes: Contains all Cachaca
 Coconut Rum:
   collection: Tags
-  ingredients:
+  ingredients: null
   notes: Should include all coconut rum
 Dark Rum:
   collection: Tags
   ingredients:
+  - rhum_barbancourt
   - plantation_dark
   notes: Should include all dark rums, not light or golden
 Flavored Rum:
   collection: Tags
   ingredients:
   - Coconut Rum
+  - plantation_pineapple
   notes: Should include all rum with atypical flavor
 Gold Rum:
   collection: Tags
@@ -31,6 +33,7 @@ Light Rum:
 Overproof Rum:
   collection: Tags
   ingredients:
+  - wray_and_nephew_overproof
   - largo_bay_151
   notes: Should include all rums that can be set on fire
 White Rum:

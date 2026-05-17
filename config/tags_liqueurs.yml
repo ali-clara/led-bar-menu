@@ -2,6 +2,7 @@ Blue Curacao:
   collection: Tags
   ingredients:
   - blue_curacao_jar
+  - chateaux_blue_curacao
   notes: ''
 Chartreuse:
   collection: Tags
@@ -48,10 +49,11 @@ Fruit Liqueur:
 Sweet Liqueur:
   collection: Tags
   ingredients:
-  - Coffee Liqueur
+  - pimms
   - midori
-  - Elderflower Liqueur
   - Fruit Liqueur
+  - Coffee Liqueur
+  - Elderflower Liqueur
 Green Chartreuse (Flammable):
   collection: Tags
   ingredients:
@@ -105,9 +107,11 @@ Misc Liqueur:
 Orange Liqueur:
   collection: Tags
   ingredients:
-  - Triple Sec (Exclusive)
-  - dry_curacao
   - tacoma_punk
+  - Triple Sec (Exclusive)
+  - mandarinetto
+  - arancino_cinque_terra
+  - dry_curacao
   - Blue Curacao
   notes: Include all orange liqueurs
 Triple Sec (Exclusive):
@@ -145,6 +149,7 @@ Amaretto:
   collection: Tags
   ingredients:
   - cristiani_amaretto
+  - creme_de_noyaux
   notes: null
 Honey Liqueur:
   collection: Tags
