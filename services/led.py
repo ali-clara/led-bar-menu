@@ -283,6 +283,7 @@ class LED:
                 except IndexError as e:
                     print(e)
             
+            self.pixels.show()
             time.sleep(0.1)
             print(self._wheel(i))
 
