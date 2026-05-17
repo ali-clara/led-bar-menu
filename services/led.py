@@ -48,17 +48,13 @@ class LED:
 
         self.main_menu = main_menu
 
-        # Dictionary of spirit:location, where 'location' is a coordinate not a neopixel address (e.g A7 not 150)
+        # Dictionary of spirit:location, where 'location' is NOT a neopixel address (e.g A7 not 150)
         # all_ingredients, self.spirit_loc_dict = self.main_menu.load_all_ingredients()
         # Pull a list of all used locations from the values of that dictionary
         used_locations = set(self.main_menu.spirit_dict.values())
 
-        # Dictionary of coordinate:[neopixel start, neopixel stop]
-        with open(dir_path+"/config/led_locs_final.yml") as stream:
-            self.led_loc_dict = yaml.safe_load(stream)
-        # Pull the list of all locations from the keys of that dictionary
-        self.all_cabinet_locations = list(self.led_loc_dict.keys())
-        self.all_cabinet_locations.sort()
+        self.load_and_sort_cabinet_locs()
+        self.load_cabinet_xy()
 
         # Find the difference between "used locations" and "cabinet locations" to get "non cabinet locations"
         # E.g "fridge" "bowl" "cart" etc
@@ -88,8 +84,20 @@ class LED:
     #     self.spirit_loc_dict = new_dict
         # should just turn this into "reload everything pls" now that this file reads config independently
         
+    def load_and_sort_cabinet_locs(self):
+        # Dictionary of location:[neopixel start, neopixel stop]
+        with open(dir_path+"/config/led_locs_final.yml") as stream:
+            self.led_loc_dict = yaml.safe_load(stream)
+        # Pull the list of all locations from the keys of that dictionary
+        self.all_cabinet_locations = list(self.led_loc_dict.keys())
+        self.all_cabinet_locations.sort()
+    
+    def load_cabinet_xy(self):
+        with open(dir_path+"/config/led_coords_final.yml") as stream:
+            self.led_coord_dict = yaml.safe_load(stream)
+    
     def update(self):
-        print("Updating LED coordinates")
+        print("Updating LED locations")
         self.main_menu.update(verbose=False, quiet=True)
     
     def get_rainbow_color(self):
@@ -128,22 +136,6 @@ class LED:
         else:
             print("Not a standard led location")
             return 0.4
-    
-    def _allow_flashing(self):
-        """Updates the parameters file to allow LED flashing
-        """
-        # params_dict = params.read()
-        # params_dict.update({"flashing": True})
-        # params.write(params_dict)
-        params.add_or_update_param("flashing", True)
-
-    def _forbid_flashing(self):
-        """Updates the parameters file to forbid LED flashing
-        """
-        # params_dict = params.read()
-        # params_dict.update({"flashing": False})
-        # params.write(params_dict)
-        params.add_or_update_param("flashing", False)
     
     def illuminate_spirit(self, spirit_input, flash=False, verbose=True):
         ## should return success/failure
@@ -268,28 +260,30 @@ class LED:
             print("off")
             time.sleep(time_off)
 
-    def animate_wheel(self):
-        
+    def animate_rainbow(self, wait=0.1):
+        """Animates a subtly color-changing rainbow across all pixels
+        """
+        # Read params -- this pulls from an external file that's updated by other parts of the website. This allows us to kill the animation
+        # from elsewhere on the website, and it has proper read/write locking. If the animation isn't going to run forever, this isn't necessary
         params_dict = params.read()
         
         i = 0
-        while params_dict["animation"]:
-
+        while params_dict["animation"]: # while we're allowed to be animating...
+            # Update our reference
             params_dict = params.read()
-
+            # Loop through each pixel in the string and set its color
             for j in range(self.num_lights):
                 try:
-                    self.pixels[j] = self._wheel((i+j)%self.num_lights)
+                    # Set color based on pixel location and loop index, modulo the number of lights. Keeps us rainbowing indefinitely
+                    self.pixels[j] = self._wheel((i+j)%self.num_lights) 
+                # Make sure we don't crash because of any funny business
                 except IndexError as e:
                     print(e)
-            
+            # Update colors all at once
             self.pixels.show()
-            time.sleep(0.1)
-            # print(self._wheel(i))
-            print((i+j)%self.num_lights)
-
+            # Incrememt time and iteration
+            time.sleep(wait)
             i += 1
-
 
     def _wheel(self, pos):
         # From Adafruit
@@ -313,14 +307,38 @@ class LED:
             b = int(255 - pos * 3)
         return (r, g, b)
     
-    def rainbow_cycle(self, num_pixels, wait):
-        for j in range(255):
-            for i in range(num_pixels):
-                pixel_index = (i * 256 // num_pixels) + j
-                self.pixels[i] = self._wheel(pixel_index & 255)
-                self.pixels.show()
-                time.sleep(wait)
+    def coord_from_pix(self, pix):
+        return float(self.led_coord_dict[pix]["x"]), float(self.led_coord_dict[pix]["y"])
+    
+    def animate_generalized(self, animate_function, time_end, time_step=0.1):
+        loop_end = int(time_end / time_step)
+        for t in range(loop_end):
+            for i in range(self.num_lights):
+                x, y = self.coord_from_pix(i)
+                pix_brightness = animate_function(t, x, y, loop_end)
+                scaled_color = pix_brightness*np.array((255,255,0))
+                int_scaled_color = scaled_color.astype(int)
+                self.pixels[i] = int_scaled_color
+                if i == 152:
+                    print(pix_brightness)
+            
+            self.pixels.show()
+            time.sleep(time_step)
 
+    def splash(self, t, x, y, t_max):
+        splash_x = 15 # in
+        splash_y = 30 # in
+
+        r_t = np.sqrt((x - splash_x)**2 + (y - splash_y)**2)
+        r_max = 15
+
+        mag_dropoff = 1 - t/t_max
+
+        z = (1 - 0.25*np.abs(r_t - r_max*(t/t_max))) * mag_dropoff
+
+        return max(z, 0)
+
+    
 
 if __name__ == "__main__":
 

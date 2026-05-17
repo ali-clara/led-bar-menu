@@ -47,8 +47,7 @@ class TestView(FlaskView):
     def _quick_update(self):
         """Checks if we need to update the menu dictionary, and updates if so. Always disables lights flashing.
         """
-        self.lights._forbid_flashing()
-
+        params.add_or_update_param("flashing", False)
         params.add_or_update_param("animation", False)
 
         need_menu_update = params.get_param("menu_update_pending")
@@ -60,7 +59,7 @@ class TestView(FlaskView):
     
     def _full_update(self):
         """Doesn't check if we need an update first, just does it anyway. Still disables lights flashing."""
-        self.lights._forbid_flashing()
+        params.add_or_update_param("flashing", False)
         self.main_menu.update(quiet=False)
         self.lights.update()
         params.add_or_update_param("menu_update_pending", False)
@@ -412,7 +411,7 @@ class TestView(FlaskView):
     def preview_cabinet_loc(self, coordinate):
         if coordinate in self.main_menu.cabinet_locations:
             # Spin up a thread to flash the LEDs in that location
-            self.lights._allow_flashing()
+            params.add_or_update_param("flashing", True)
             t = threading.Thread(target=self.lights.illuminate_location, args=(coordinate, True, False))
             t.start()
             # self.lights.illuminate_location(self.input_coord, flash=True)
@@ -567,7 +566,7 @@ class TestView(FlaskView):
     @method("GET")
     def animation(self):
         params.add_or_update_param("animation", True)
-        t = threading.Thread(target=self.lights.animate_wheel)
+        t = threading.Thread(target=self.lights.animate_generalized, args=(self.lights.splash, 10))
         t.start()
 
         return render_template("empty_template.html")
