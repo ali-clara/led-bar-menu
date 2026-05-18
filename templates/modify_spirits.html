@@ -420,14 +420,14 @@
                                 <span class="anchor">
                                     <input type="text" placeholder="Search..." id="spiritsDropdownInput" 
                                         onkeyup="filterFunction('spiritsDropdown', 'spiritsDropdownInput')" 
-                                        onclick="dropDown({{spiritList}}, {{inputTags}}, 'spiritsDropArrow', 'spiritsDropdown', 'spiritsDropButton', 'dropdownItemSpirits', 'addTag')">
-                                    <button class="dropdown-button" type="button" id="spiritsDropButton" onclick="toggleDropdown({{spiritList}}, {{inputTags}}, 'spiritsDropArrow', 'spiritsDropdown', 'spiritsDropButton', 'dropdownItemSpirits', 'addTag')">
+                                        onclick="dropDown({{spiritList}}, {{inputSpiritForTag}}, 'spiritsDropArrow', 'spiritsDropdown', 'spiritsDropButton', 'dropdownItemSpirits', 'addTag')">
+                                    <button class="dropdown-button" type="button" id="spiritsDropButton" onclick="toggleDropdown({{spiritList}}, {{inputSpiritForTag}}, 'spiritsDropArrow', 'spiritsDropdown', 'spiritsDropButton', 'dropdownItemSpirits', 'addTag')">
                                         <i class="arrow" id="spiritsDropArrow"></i>
                                     </button>
                                 </span>
                                 <ul class="items" id="dropdownItemSpirits">
                                     <!-- The items in this dropdown are dynamically created in makeList() -->
-                                     <!-- YOU CANT GIVE IT A NAME ATTRIBUTE HERE OR THE LIST WON'T GET CREATED. Comment explaining up in makeList(). I'm sorry. -->
+                                    <!-- YOU CANT GIVE IT A NAME ATTRIBUTE HERE OR THE LIST WON'T GET CREATED. Comment explaining up in makeList(). I'm sorry. -->
                                 </ul>
                             </div>
 
