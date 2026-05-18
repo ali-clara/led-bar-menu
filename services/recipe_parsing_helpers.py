@@ -35,6 +35,12 @@ def format_new_recipe_yaml(recipe_name:str, collection:str, notes:str, ingredien
     # Yay
     return new_recipe, recipe_name
 
+def format_new_tag_yaml(tag_name:str, ingredients):
+    tag_name = format_as_recipe(tag_name)
+    ingredients = list(ingredients)
+    new_tag = {tag_name: {'collection': 'Tags', 'ingredients': ingredients}}
+    return new_tag
+
 # -------------------- FUZZY STRINGS -------------------- #
 def get_closest_match(x, to_check_against, similarity_threshold=0.75, verbose=False):
     best_match = None
@@ -88,7 +94,7 @@ class Menu:
         self.out_of_stock = self.load_out_of_stock()
 
         # Dictionary of all tags {tag: {ingredients: [spirit_1, spirit_2, ..., spirit_n], notes: , etc}}, dictionary of organized tags {parent_tag: [tag_1, tag_2, ..., tag_n]}
-        self.tags_dict_all, self.tags_dict_organized = self.load_tags()
+        self.tags_dict_all, self.tags_dict_organized, self.meta_tags = self.load_tags()
         self.tags_dict_used = self.remove_empty_tags(self.tags_dict_all)
         self.alias_dict = self.load_aliases()
         
@@ -122,9 +128,16 @@ class Menu:
     def load_tags(self):
         tags_dict_all = {}
         tags_dict_organized = {}
+        meta_tags = []
         
         try:
             for file in glob.glob(self.recipe_path+"/tags*.yml"):
+                # Pull out just the tag type from the filename
+                # Filenames should be something like: /home/alicj/Documents/Github/led-bar-menu/services/../config/tags_bitters.yml (example from Ali's linux pc)
+                # BUT different operating systems use different representations of "/" and "..". So the safest thing is to split it at "tags_" and then again at the file extension "."
+                filename_with_extension = file.split("tags_")[1]
+                meta_tag = filename_with_extension.split(".")[0]
+                meta_tags.append(meta_tag)
                 with open(file) as stream:
                     # All tags (tag: {ingredients: [spirit_1, spirit_2, ..., spirit_n], notes: , etc})
                     contents = yaml.safe_load(stream)
@@ -138,7 +151,8 @@ class Menu:
         except FileNotFoundError as e:
             print(e)
         else:
-            return tags_dict_all, tags_dict_organized
+            meta_tags.sort()
+            return tags_dict_all, tags_dict_organized, meta_tags
         
     def load_aliases(self):
         try:
@@ -277,7 +291,10 @@ class Menu:
     
     def get_used_tag_names(self):
         return list(self.tags_dict_used.keys())
-    
+
+    def get_meta_tags(self):
+        return [format_as_recipe(tag) for tag in self.meta_tags]
+
     def get_used_ingredients_limited(self):
         """Gets all used ingredients without expanding tags.
 
@@ -433,7 +450,7 @@ class Menu:
 
     def expand_tag(self, given_tag:str):
         """Fully expands a tag into all its children. 'Brandy (Inclusive) becomes ['boulard_calvados', 'pear_williams', 
-        'christian_brothers_vs', 'christian_brothers_vsop', 'placeholder_fig_brandy', 'fidelitas_kirsch']
+        'christian_brothers_vs', 'christian_brothers_vsop', 'pisco', 'fidelitas_kirsch']
 
         Args:
             given_tag (str): Tag name
@@ -519,8 +536,12 @@ class Menu:
         Returns:
             str: Parent tag, if it exists. Otherwise returns None
         """
-        for parent_tag in self.tags_dict_organized:
-            if tag in self.tags_dict_organized[parent_tag]:
+        tag = format_as_recipe(tag)
+        # In case we've added a new tag, reload them
+        _, tags_dict_organized, _ = self.load_tags() 
+
+        for parent_tag in tags_dict_organized:
+            if tag in tags_dict_organized[parent_tag]:
                 return parent_tag
             
         print(f"Could not find parent tag for {tag}")
@@ -790,7 +811,7 @@ class Menu:
                 ingredients_set.add(spirit)
                 data_dict[tag].update({"ingredients": list(ingredients_set)})
             except KeyError as e:
-                print(e)
+                print(f"Key error in adding spirit {spirit} to tag {tag}: {e}")
             else:
                 with open(parent_file, 'w') as outfile:
                     yaml.dump(data_dict, outfile, sort_keys=False)
@@ -815,6 +836,39 @@ class Menu:
         else:
             return False
 
+    def add_tag(self, tag:str, tag_category:str, spirits_for_tag):
+        # Trigger the update flag before any other shenanigans happen
+        params.add_or_update_param("menu_update_pending", True)
+        
+        # Get the parent file out of the category name
+        filename = f"tags_{tag_category.lower()}.yml"
+        parent_file = os.path.join(self.recipe_path, filename)
+        
+        # Format the new tag
+        tag = format_as_recipe(tag)
+        if spirits_for_tag:
+            new_tag = format_new_tag_yaml(tag, spirits_for_tag)
+        else:
+            new_tag = format_new_tag_yaml(tag, [None])
+
+        # Add it to the parent file
+        with open(parent_file, 'r') as stream:
+            data_dict = yaml.safe_load(stream)
+            try:
+                # Update the file to include the new tag
+                data_dict.update(new_tag)
+            except KeyError as e:
+                print(f"Key error in updating tag file {parent_file}: {e}")
+            else:
+                with open(parent_file, 'w') as outfile:
+                    yaml.dump(data_dict, outfile, sort_keys=False)
+        
+                # Finally, add spirits to this new tag we've created
+                if spirits_for_tag:
+                    for spirit in spirits_for_tag:
+                        self.add_spirit_to_tag(spirit, tag)
+
+                return True
 
 if __name__ == "__main__":
     myMenu = Menu(verbose=False, quiet=False)
@@ -907,10 +961,10 @@ if __name__ == "__main__":
                 yaml.dump(contents, outfile, sort_keys=False)
         
     
-    check_recipe_against_csv()
+    # check_recipe_against_csv()
     # check_tags_against_csv()
     # check_tags_and_aliases()
-    # check_inventory()
+    check_inventory()
     # check_collections()
 
     # print(myMenu.tags_dict_all)
@@ -930,4 +984,6 @@ if __name__ == "__main__":
     # print(myMenu.get_all_tag_names())
 
     # print(myMenu.menu_dict["Licorice Fern Margarita"])
+
+    myMenu.add_tag("test tag", "Gin", None)
 
