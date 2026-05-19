@@ -1,0 +1,7 @@
+Clearance:
+    collection: Tags
+    ingredients:
+      - szechuan_ii
+      - brovo_pink
+      - brovo_witty
+    notes: Ingredients that are in low supply, and should be encouraged by the randomizer.

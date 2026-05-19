@@ -108,7 +108,15 @@ def select_random_recipe(recipes_by_collection:dict, classic=False):
     # Pick a random one and return it
     return options[int(np.random.rand() * len(options))]
 
-def resolve_random_recipe(rand_recipe):
+
+
+
+#This is all the ingredients listed as "Clearance"
+clearance_ingredients = yamls['tags_meta']['Clearance']['ingredients']
+
+#clearance_weight is a parameter to encourage the randomizer using ingredients that are low in stock in order to clear them out 
+#the weight is set rather low right now because it otherwise causes stack overflows
+def resolve_random_recipe(rand_recipe, clearance_weight = 0.3):
     recipes = load_random_recipes()
     if rand_recipe == "Random Random":
         rand_recipe = get_random_recipe_options()[int(np.random.rand() * len(recipes))]
@@ -118,8 +126,19 @@ def resolve_random_recipe(rand_recipe):
             resolution = resolve_random_ingredient(i)
             random_ingredients[resolution] = random_ingredients[i]
             del random_ingredients[i]
-    return random_ingredients
 
+    #So the way this currently works is that it just generates random cocktails until it finds one that works
+        #the problem is that you might run into a stack overflow since it has no way to actually try to use an out-of-stock ingredient
+        #I'll think on how I want to address this, and it might also be a smaller problem in practice if the clearance rack is sufficiently well-stocked.
+    for i in random_ingredients.keys():
+        if i in clearance_ingredients:
+            print("Got one!")
+            return random_ingredients
+    if np.random.rand() > clearance_weight:
+        return random_ingredients
+    return resolve_random_recipe(rand_recipe)
+
+#Should this really be hardcoded?
 if __name__ == "__main__":
     # for i in range(1000):
     #     R = resolve_random_ingredient("Random Base Spirit")
