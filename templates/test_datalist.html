@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/mainstyle.css') }}">
+    <title>Title</title>
+
+    <script>
+        var madeList = false
+            
+        var rowIdx = 0;
+        var numBtns = 1; 
+        var madeList = false    
+
+        function AddField(tableId, elementId, inputList) {
+            // Grab the table references and update the rowIdx if we need to
+            var tableRef = document.getElementById(tableId);
+            if (rowIdx == 0) {
+                // The first .parentNode will give the CELL the second will give the ROW, then get the INDEX from the ROW
+                rowIdx = document.getElementById(elementId).parentNode.parentNode.rowIndex + 1;
+            }
+            // Create a new row at the specified index
+            var newRow = tableRef.insertRow(rowIdx);
+            // Do this twice so we're working in the right cell (second column)
+            var cell0  = newRow.insertCell();
+            var cell1 = newRow.insertCell();
+            var cell2 = newRow.insertCell();
+            
+            // Create a bunch of elements to put in those cells
+            var ingElement = document.createElement('input');
+            var ingDatalist = document.createElement('datalist');
+            var amountElement = document.createElement('input');
+            var unitElement = document.createElement('input');
+            var comma1Node = document.createTextNode(" , ");
+            var comma2Node = document.createTextNode(" , ");
+            var removeBtn = document.createElement('input');
+
+            var len = inputList.length;
+
+            // Assign attributes to those elements
+            ingElement.setAttribute("form", "add recipe");
+            ingElement.setAttribute("name", `input_recipe_ingredient_${numBtns}`);
+            ingElement.setAttribute("list", "dlInput");
+            ingElement.setAttribute("placeholder", `${len}`);
+
+            ingDatalist.setAttribute("id", "dlInput");
+            for (var i=0; i < len; i+= 1) {
+                var option = document.createElement("option");
+                option.value = inputList[i];
+                ingDatalist.appendChild(option);
+            }
+
+            ingElement.appendChild(ingDatalist);
+
+            amountElement.setAttribute("form", "add recipe");
+            amountElement.setAttribute("name", `input_recipe_amount_${numBtns}`);
+
+            unitElement.setAttribute("form", "add recipe");
+            unitElement.setAttribute("name", `input_recipe_unit_${numBtns}`);
+
+            var id = `btnRemove${numBtns}`
+            removeBtn.setAttribute("type", "button")
+            removeBtn.setAttribute("value", "Remove Ingredient");
+            removeBtn.setAttribute("id", `${id}`)
+            removeBtn.setAttribute("onclick", `removeField("${tableId}", "${id}")`)
+
+            // Append the elements to the appropriate cell
+            cell1.appendChild(ingElement);
+            cell1.appendChild(comma1Node);
+            cell1.appendChild(amountElement);
+            cell1.appendChild(comma2Node);
+            cell1.appendChild(unitElement)
+            cell2.appendChild(removeBtn);
+
+            // Update our counters
+            rowIdx = rowIdx + 1;
+            numBtns = numBtns + 1;
+
+            // verification that we got to the end of this method
+            enableButton2()
+        }
+
+        function enableButton2() {
+            document.getElementById("button2").disabled = false;
+        }
+
+        function disableButton2() {
+            document.getElementById("button2").disabled = true;
+        }
+
+        function removeField(tableId, id) {
+            // Grab the table reference
+            var tableRef = document.getElementById(tableId);
+            // Grab the table row that corresponds to the id
+            var row = document.getElementById(id).parentNode.parentNode.rowIndex;
+            // Get that thang out of here
+            tableRef.deleteRow(row);
+            // Update our master row index accordingly
+            rowIdx = rowIdx - 1;
+
+            // verification that we got to the end of this method
+            disableButton2()
+        }
+
+    </script>
+</head>
+
+<body>
+    <div class="grid-container">
+        <div class="header">
+        </div>
+    
+        <div class="left">
+          <!-- Navbar! We're not on any menu page, so don't set any of them active -->
+          <div class="vertical-menu">
+            <a href="/menu">Home</a>
+            <a href="/collections_main_page">Collections</a>
+            <a href="/random_cocktail_generator">Random Cocktail Generator</a>
+            <a href="/credits">Credits</a>
+          </div>
+        </div>
+  
+        <div class="middle">
+            <table id="tbl">
+            <form id="add recipe" method="POST">
+                <tr>
+                    <td><strong>Add Recipe</strong></td>
+                </tr>
+                <tr>
+                    <td>Name: </td>
+                    <td><input id="inputRecipeName" name="input_recipe_name"></td>
+                </tr>
+                <tr>
+                    <td>Collection: </td>
+                    <td>
+                        <input list="collections" id="inputCollection" name="input_recipe_collection">
+                        <datalist id="collections">
+                            {% for test in testList %}
+                            <option value="{{test}}">{{test}}</option>
+                            {% endfor %}
+                        </datalist>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Notes: </td>
+                    <td><input id="inputRecipeNotes" name="input_recipe_notes"></td>
+                </tr>
+                <tr>
+                    <td>Ingredient, Amount, Units: &emsp;</td>
+                    <td><input list="allIngredients" id="inputIngName" name="input_recipe_ingredient_0"> , 
+                        <datalist id="allIngredients">
+                            {% for test in testList %}
+                            <option value="{{test}}">{{test}}</option>
+                            {% endfor %}
+                        </datalist>
+                        <input id="inputIngAmount" name="input_recipe_amount_0"> , 
+                        <input id="inputIngUnit" name="input_recipe_unit_0"></td>
+                    <td><button form="add recipe" type="button" id="btnAddIng" onclick="AddField('tbl', 'btnAddIng', {{testList}})">Add ingredient</button></td>
+                </tr>
+            </form>
+            </table>
+
+            <input type="button" id="button2" value="button 2" disabled />
+
+
+        </div>  
+    
+      <div class="footer">
+        <a href="/put_away_ingredient">♫♪♪ Clean up, clean up ♫♪♪</a> <br>
+        <a href="/modify_spirits">Add a new spirit</a>
+      </div>
+  
+    </div>
+  </body>
+
+  </html>

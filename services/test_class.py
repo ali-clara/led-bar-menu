@@ -1,60 +1,75 @@
 # The imports
 from flask import Flask, render_template, redirect, url_for
 from flask_classful import FlaskView, method, route, request
+from titlecase import titlecase
 try:
     from led import LED
 except ImportError:
     from services.led import LED
 
-import yaml
+import os
+import threading
 
-try:
+try: # run from this script
     import recipe_parsing_helpers as recipe
     from randomizer import Randomizer as rands
-except ImportError:
+    import parameter_helpers as params
+except ImportError: # run from the main script
     from services import recipe_parsing_helpers as recipe
     from services.randomizer import Randomizer as rands
+    from services import parameter_helpers as params
 
-# app = Flask(__name__, template_folder="templates")
+print("Starting")
+dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
+params.add_or_update_param("menu_update_pending", True)
+
+# app = Flask(__name__, template_folder=dir_path+"/templates")
 
 class TestView(FlaskView):
 
     def __init__(self) -> None:
+
+        # Initialize the other classes
+        self.main_menu = recipe.Menu()
         super().__init__()
-        self._load_menu()
-        self.lights = LED(self.location_dict)
-        self.lit_up_ingredients = []
+        self.lights = LED(self.main_menu)
+
+        # Initialize a few class variables
+        # Due to HTML wizardry and ghosts, class vars can be fucky if you try to use them in between website pages. For vars
+        # that need more breadth, use params.yml
+        # TODO: think about refactoring this whole script to not be a class.
+        self.lit_up_ingredients = set([""])
         self.random_ten = []
+        self.input_tags = []
 
-    def _load_menu(self):
-        # Read in the main menu and validate it against our master list of ingredients
-        menu_dict_raw, self.tags_dict, alias_dict = recipe.read_main_menu()
-        self.all_ingredients, self.location_dict = recipe.load_all_ingredients()
-        self.menu_dict = recipe.validate_all_recipes(menu_dict_raw, self.all_ingredients, self.tags_dict, alias_dict)
+        self._quick_update()
+        
+    def _quick_update(self):
+        """Checks if we need to update the menu dictionary, and updates if so. Always disables lights flashing.
+        """
+        params.add_or_update_param("flashing", False)
+        params.add_or_update_param("animation", False)
 
-        print("--")
-        print(f"Validated recipes: {list(self.menu_dict.keys())}")
+        need_menu_update = params.get_param("menu_update_pending")
+        if need_menu_update:
+            self.main_menu.update(quiet=False)
+            self.lights.update()
 
-        # Pull out collection and cocktail names
-        self.collection_names = recipe.load_collection_names(self.menu_dict)
-        self.cocktail_names = recipe.load_recipe_names(self.menu_dict)
-        self.used_ingredients = recipe.load_used_ingredients(self.menu_dict)
-        self.tags = recipe.load_tags(self.tags_dict)
-
-        # Build a dictionary that sorts the cocktail names by collection
-        #   e.g {'5057 main menu': ['Anthracite Prospector'], '2201 main menu': ['The Highland Locust'], 'lord of the rings': ['Pippin']}
-        self.collection_dict = recipe.sort_collections(self.menu_dict, self.collection_names)
-
-        # print(f"Cocktail names: {self.cocktail_names}")
-        # print(f"Collections: {self.collection_names}")
-        # print(f"Sorted collection dict: {self.collection_dict}")
-
+        params.add_or_update_param("menu_update_pending", False)
+    
+    def _full_update(self):
+        """Doesn't check if we need an update first, just does it anyway. Still disables lights flashing."""
+        params.add_or_update_param("flashing", False)
+        self.main_menu.update(quiet=False)
+        self.lights.update()
+        params.add_or_update_param("menu_update_pending", False)
+    
     def index(self):
         """The main page. Redirects to the menu
         This lives at http://localhost:5000/ or http://10.0.0.120:5000
         """
-        return redirect(url_for('TestView:menu'))
-    
+        return redirect(url_for('TestView:menu'), code=301)
+
     def not_found(self):
         return render_template("error404.html")
 
@@ -63,155 +78,212 @@ class TestView(FlaskView):
     def menu(self):
         """http://localhost:5000/menu"""
 
+        self._quick_update()
+
         # print(f"available cocktails: {self.cocktail_names}")
         # print(f"collections: {self.collection_names}")
 
-        # These may become class vars eventually
-        chosen_ingredients = [] # proxy for led lights
+        # Initialize HTML args
         chosen_collection = None
 
+        collection_names, collection_notes = self._get_collection_info()
+
         # If we've gotten a change of state on the server (in this case, due to user entry),
-        #   take a look at it. 
+        #   take a look at it.
         if request.method == "POST":
             # Clear the LEDS, if they're on
             self.lights.all_off()
-            self.lit_up_ingredients = []
-
-            print(request.form)
+            self.lit_up_ingredients.clear()
 
             # When "post" is triggered, take a look at what happened in the HTML form. The value "request.form" is
-            # a dictionary with key-value pairs "element-name" "element-entry". We don't really care about the name,
-            # but we can use it to grab the dict value
+            # a dictionary with key-value pairs "element-name" "element-entry". We use "element-name" to determine which
+            # button was selected, and "element-entry" to determine the input info
             element_name = list(request.form.keys())[0]
             form_entry = request.form.get(element_name)
 
-            print(form_entry)
-            is_recipe, recipe_match, recipe_score = recipe.check_match(form_entry, self.cocktail_names, match_threshold=0.705)
-            print(is_recipe, recipe_match, recipe_score)
-            is_ingredient, ingredient_match, score = recipe.check_match(form_entry, self.all_ingredients, match_threshold=0.75)
-            print(is_ingredient, ingredient_match, score)
-            is_tag, tag_match, tag_score = recipe.check_match(form_entry, self.tags, match_threshold=0.75)
-            print(is_tag, tag_match, tag_score)
+            # If the form has returned a cocktail, process it
+            if element_name == "cocktail input":
+                # Fuzzy string checking!
+                is_recipe, recipe_match, recipe_score = recipe.check_match(form_entry, self.main_menu.get_recipe_names(), match_threshold=0.705)
+                print(is_recipe, recipe_match, recipe_score)
+                is_ingredient, ingredient_match, ingredient_score = recipe.check_match(form_entry, self.main_menu.get_inventory(), match_threshold=0.75)
+                print(is_ingredient, ingredient_match, ingredient_score)
+                is_tag, tag_match, tag_score = recipe.check_match(form_entry, self.main_menu.get_used_tag_names(), match_threshold=0.75)
+                print(is_tag, tag_match, tag_score)
 
-            # If the form has returned a cocktail, process that
-            if is_recipe:
-                # Once we know the name of the cocktail, we can grab its ingredients
-                # self.resippy(recipe_match)
-                return redirect(url_for('TestView:resippy', arg=recipe_match))
+                if is_recipe and recipe_score > ingredient_score:
+                    # Once we know the name of the cocktail, we can grab its ingredients
+                    return redirect(url_for('TestView:resippy', arg=recipe_match), code=308)
 
-            elif is_tag:
-                children = recipe.expand_tag(tag_match, self.tags_dict)
-                [self.lit_up_ingredients.append(child) for child in children]
-                print(f"lighting up tag: {tag_match}")
-                self.lights.illuminate(self.lit_up_ingredients)
-            
-            elif is_ingredient:
-                print(f"lighting up single ingredient: {ingredient_match}")
-                self.lights.illuminate([ingredient_match])
+                elif is_tag:
+                    children = self.main_menu.expand_tag(tag_match)
+                    [self.lit_up_ingredients.add(child) for child in children]
+                    print(f"lighting up tag: {tag_match}")
+                    self.lights.illuminate_spirit(self.lit_up_ingredients)
+
+                elif is_ingredient:
+                    print(f"lighting up single ingredient: {ingredient_match}")
+                    self.lights.illuminate_spirit([ingredient_match])
 
             # Otherwise, if the form has returned a collection, process ~that~
-            elif form_entry in self.collection_names:
-                # This line isn't strictly necessary, but I think title case with spaces looks dumb in a URL, so I 
-                #   do some string formatting
-                chosen_collection = form_entry.replace(" ", "_").lower()
-                # Redirect us to the "collections" page with the given collection
-                return redirect(url_for('TestView:collection', arg=chosen_collection))
-            
-            # The else will eventually be deleted, but it's here while there's the LED proxy on the website
-            else:
-                chosen_ingredients = []
+            # elif element_name == "collection dropdown":
+            #     if form_entry in self.main_menu.get_collection_names():
+            #         # This line isn't strictly necessary, but I think title case with spaces looks dumb in a URL, so I
+            #         #   do some string formatting
+            #         chosen_collection = recipe.format_as_inventory(form_entry)
+            #         # Redirect us to the "collections" page with the given collection
+            #         return redirect(url_for('TestView:collection', arg=chosen_collection), code=308)
 
-        return render_template('main_menu.html', options=self.cocktail_names, ingredients=self.used_ingredients, chosen_ingredients=chosen_ingredients, collections=self.collection_names)
-    
+        return render_template('main_menu.html', 
+                               options=self.main_menu.get_recipe_names(), 
+                               ingredients=self.main_menu.get_inventory(), 
+                               collections=collection_names,
+                               notes=collection_notes)        
+
+    @method("GET")
+    @method("POST")
     def resippy(self, arg:str):
         """http://localhost:5000/recipe/arg"""
-        
-        self.lights.all_off()
-        self.lit_up_ingredients = []
-        
-        print("lit up ingredients:")
-        print(self.lit_up_ingredients)
-        
 
-        chosen_ingredients = list(self.menu_dict[arg]['ingredients'].keys())
-        print("chosen ingredients:")
+        self.lights.all_off()
+        self.lit_up_ingredients.clear()
+
+        # chosen_ingredients = list(self.main_menu.menu_dict[arg]['ingredients'].keys())
+        chosen_ingredients = self.main_menu.get_ingredients(arg)
         print(chosen_ingredients)
-        
+
         # Part 1 - the LEDS. Expand any children and call the LED class
         for ingredient in chosen_ingredients:
-            children = recipe.expand_tag(ingredient, self.tags_dict)
-            if children:
-                [self.lit_up_ingredients.append(child) for child in children]
+            # If it's a tag, expand it, check aliases for any children, and pass all that to LEDs
+            # I'm being cavalier with what I chuck to the led class because it will only light up things it has a location for
+            tag_name = recipe.format_as_recipe(ingredient)
+            print(tag_name)
+            if tag_name in self.main_menu.get_used_tag_names():
+                print(f"found {tag_name} in tags")
+                children = self.main_menu.expand_tag(tag_name)
+                for child in children:
+                    aliases = self.main_menu.expand_alias(child)
+                    [self.lit_up_ingredients.add(alias) for alias in aliases]
+            # Otherwise it's not a tag, so just get any aliases and pass them to the LEDs
             else:
-                self.lit_up_ingredients.append(ingredient)
-
-        self.lights.illuminate(self.lit_up_ingredients)
-
-        print("lit up ingredients:")
-        print(self.lit_up_ingredients)
+                aliases = self.main_menu.expand_alias(ingredient)
+                for alias in aliases:
+                    self.lit_up_ingredients.add(alias)
+                
+        self.lights.illuminate_spirit(self.lit_up_ingredients)
 
         # Part 2 - the website. For each ingredient
         rendered_ingredients = []
         units = []
         amounts = []
         for ing in chosen_ingredients:
-            # Format the ingredients nicely
-            rendered_ingredients.append(ing.replace("_", " ").title())
-            units.append(self.menu_dict[arg]['ingredients'][ing]["units"])
-            amounts.append(self.menu_dict[arg]['ingredients'][ing]["amount"])
-        notes = self.menu_dict[arg]["notes"]
+            # Check stock and format the ingredients
+            print(self.main_menu.menu_dict[arg]['ingredients'][ing])
+            if self.main_menu.menu_dict[arg]['ingredients'][ing]['stocked'] == False:
+                ingredient_display = recipe.format_as_recipe(ing) + " -- out of stock"
+            else:
+                ingredient_display = recipe.format_as_recipe(ing)
+            rendered_ingredients.append(ingredient_display)
+            # Grab units and amounts
+            units.append(self.main_menu.menu_dict[arg]['ingredients'][ing]["units"])
+            amounts.append(self.main_menu.menu_dict[arg]['ingredients'][ing]["amount"])
+        notes = self.main_menu.menu_dict[arg]["notes"]
+        
         # Then render the html page
-        return render_template('recipe.html', header=arg.title(), cocktail=arg, ingredients=rendered_ingredients, units=units, amounts=amounts, notes=notes)
+        return render_template('recipe.html', header=recipe.format_as_recipe(arg), cocktail=arg, ingredients=rendered_ingredients, units=units, amounts=amounts, notes=notes)
 
-    
+    @method("POST")
+    @method("GET")
     def collection(self, arg:str):
         """http://localhost:5000/collection/arg"""
-        # Do some string processing to match our collection title formatting - 
+        # Do some string processing to match our collection title formatting -
         #   replace any underscores or hyphens with spaces, and make it title case
-        if "_" in arg:
-            title = arg.replace("_", " ").title()
-        elif "-" in arg:
-            title = arg.replace("-", " ").title()
+        if "-" in arg:
+            title = titlecase(arg.replace("-", " "))
         else:
-            title = arg.title()
+            title = recipe.format_as_recipe(arg)
 
         # Check if it's a valid collection name. If not, stop here and let us know
-        if title not in self.collection_names:
+        if title not in self.main_menu.get_collection_names():
             return "<p> not a valid cocktail menu collection :3 </p>"
-        
-        # If we're good, then load the available cocktails as dropdowns
-        cocktails_in_collection = self.collection_dict[title]
-        ingredients_list = [list(self.menu_dict[cocktail]["ingredients"].keys()) for cocktail in cocktails_in_collection]
 
-        return render_template('collections.html', header=title.title()+" Collection", cocktails=cocktails_in_collection, ingredients=ingredients_list)
-    
-    @route("collections")
+        # If we're good, then load the available cocktails as dropdowns
+        collections_dict = self.main_menu.sort_by_collections()
+        cocktails_in_collection = collections_dict[title]
+        ingredients_list = [list(self.main_menu.menu_dict[cocktail]["ingredients"].keys()) for cocktail in cocktails_in_collection]
+        notes_list = [self.main_menu.menu_dict[cocktail]["notes"] for cocktail in cocktails_in_collection]
+
+        return render_template('collection.html', header=title+" Collection",
+                               cocktails=cocktails_in_collection,
+                               ingredients=ingredients_list,
+                               notes=notes_list)
+
+    def _get_collection_info(self):
+        # should make this be an external yaml probably
+        collection_names = self.main_menu.get_collection_names()
+        collection_names.sort()
+
+        collection_descriptions = ["The creations of Jack and Dane from their time in the 2201 N 106th st apartment",
+                                   "Cocktails from our undergrad days at Ali's uncle's house",
+                                   "Classic drinks! You could order these in public and people will probably know what you mean",
+                                    "Drinks inspired by Steely Dan songs and albums. Ask for a physical menu for extra ~zing~",
+                                    "Miscellaneous!",
+                                    "Plagiarized from our favorite cocktail bar, The Zig Zag Cafe in Pike Place",
+                                    ]
+        
+        return collection_names, collection_descriptions
+
     def collections_main_page(self):
-        mytext = "Collections page"
-        return render_template('empty_template.html', text=mytext)
-    
-    
+        self._quick_update()
+        collection_names = self.main_menu.get_collection_names()
+        collection_names.sort()
+
+        collection_descriptions = ["The creations of Jack and Dane from their time in the 2201 N 106th st apartment",
+                                   "Cocktails from our undergrad days at Ali's uncle's house",
+                                   "Classic drinks! You could order these in public and people will probably know what you mean",
+                                    "Drinks inspired by Steely Dan songs and albums. Ask for a physical menu for extra ~zing~",
+                                    # "Miscellaneous!",
+                                    "Plagiarized from our favorite cocktail bar, The Zig Zag Cafe in Pike Place",
+                                    ]
+        return render_template('collections_main.html', collections=self.main_menu.get_collection_names(), notes=collection_descriptions)
+
+    @method("POST")
+    @method("GET")
+    def inventory(self):
+        categories = self.main_menu.load_categories(user_facing=True)
+        print(categories)
+        # Not particularly interestd in citrus, so we can get rid of that
+        if "Citrus" in categories:
+            categories.pop("Citrus")
+
+        return render_template('inventory.html', allIngredients=self.main_menu.inventory_user_facing, categories=categories)
+
     @method("POST")
     @method("GET")
     def random_cocktail_generator(self):
+        self._quick_update()
         random_recipe_options = rands.get_random_recipe_options()
-        mytext = "This will generate you a random cocktail once we integrate Dane's script"
 
-        if request.method == "POST":   
+        # What we want displayed on the website
+        numrows = 2
+        numcols = 5
+        button_color = [None]*numrows*numcols
 
+        if request.method == "POST":
+
+            self.lights.all_off()
             # When "post" is triggered, take a look at what happened in the HTML form. The value "request.form" is
             # a dictionary with key-value pairs "element-name" "element-entry". We don't really care about the name,
             # but we can use it to grab the dict value
             element_name = list(request.form.keys())[0]
             # form_entry = request.form.get(element_name)
 
-            print(element_name)
-            numcols = 5
-            
-            if element_name in random_recipe_options:
+            # If we've hit one of the broader "Random X" buttons, we want to generate 10 random cocktails of that
+            # formula. E.g Random Negroni, Random Last Word, Random Random
+            if element_name in random_recipe_options or element_name == "Random Random":
                 self.random_ten = []
 
-                for row in range(2): # rows
+                for row in range(numrows): # rows
                     self.random_ten.append([])
                     for _ in range(numcols): # columns
                         random_dict = rands.resolve_random_recipe(element_name)
@@ -224,28 +296,301 @@ class TestView(FlaskView):
                         ) for i in ingredients) + "\n\n"
 
                         for i in random_dict:
-                            ingredient = i.replace("_", " ").title()
+                            ingredient = recipe.format_as_recipe(i)
                             amount = random_dict[i]["amount"]
                             unit = random_dict[i]["units"]
-
-                            quantity.append(amount + " " + unit)
+                            if amount.lower() == "taste":
+                                quantity.append("To taste (%s)" % unit)
+                            else:
+                                quantity.append(amount + " " + unit)
                             ingredients.append(ingredient)
 
                         self.random_ten[row].append([ingredients, quantity])
-
+            # If we've selected one of the random recipes
             elif element_name.isnumeric():
                 try:
                     index = int(element_name)
-                    ingredients, quantity = self.random_ten[index//numcols][index%numcols]
+                    flattened_ten = []
+                    for i in range(numrows):
+                        [flattened_ten.append(rand) for rand in self.random_ten[i]]
+                
+                    ingredients, quantity = flattened_ten[index]
                 except ValueError as e:
                     print(f"Could not convert {element_name} to integer: {e}")
                 except IndexError as e:
                     print(f"Could not index cocktails: '{e}' not found in {self.random_ten}")
                 else:
-                    self.lights.illuminate(ingredients)
+                    button_color[index] = "#657694"
+                    self.lights.illuminate_spirit(ingredients)
+            # If we've hit the "I'm feeling lucky" button
+            elif element_name == "random existing":
+                random_cocktail = rands.select_random_recipe(self.main_menu.sort_by_collections())
+                return redirect(url_for('TestView:resippy', arg=random_cocktail))
 
 
-        return render_template('randomizer.html', rand_options=random_recipe_options, cocktails=self.random_ten)
+        return render_template('randomizer.html', rand_options=random_recipe_options, cocktails=self.random_ten, 
+                               rows=numrows, cols=numcols, button_color=button_color)
+
+    def credits(self):
+        return render_template('credits.html')
+
+    @method("GET")
+    @method("POST")
+    def put_away_ingredient(self):
+        self._quick_update()
+
+        # HTML args
+        ingredient_selected = ""
+        location_selected = ""
+
+        if request.method == "POST":
+            # Clear the LEDS, if they're on
+            self.lights.all_off()
+            self.lit_up_ingredients.clear()
+
+            ingredient_input = request.form["ingredient_input"]
+
+            # Check to see if the input matches an ingredient or tag in our database
+            is_ingredient, ingredient_match, ingredient_score = recipe.check_match(ingredient_input, self.main_menu.get_inventory(), match_threshold=0.75)
+            # print(is_ingredient, ingredient_match, ingredient_score)
+            is_tag, tag_match, tag_score = recipe.check_match(ingredient_input, self.main_menu.get_used_tag_names(), match_threshold=0.75)
+            # print(is_tag, tag_match, tag_score)
+
+            if is_ingredient and ingredient_score > tag_score:
+                self.lit_up_ingredients.add(ingredient_match)
+                print("from put_away:")
+                self.lights.illuminate_spirit(self.lit_up_ingredients)
+
+                # Update the website display
+                ingredient_selected = recipe.format_as_recipe(ingredient_match)
+                # location_selected = self.main_menu.spirit_dict[ingredient_match].title()
+                location_selected = self.main_menu.get_coord_from_spirit(ingredient_match)
+
+                # self.lights.illuminate_location(location_selected)
+
+            # elif is_tag and tag_score > ingredient_score or tag_score == ingredient_score:
+            #     if tag_score != 0:
+            #         # If it's a tag, we need to get all the spirits it describes
+            #         children = recipe.expand_tag(tag_match, self.tags_dict)
+            #         # Turn on those LEDs
+            #         [self.lit_up_ingredients.add(child) for child in children]
+            #         self.lights.illuminate_spirit(self.lit_up_ingredients)
+            #         # Get and format the cabinet locations of each child spirit
+            #         locations = ""
+            #         ingredients = ""
+            #         print(self.location_dict)
+            #         for child in children:
+            #             print(child)
+            #             try:
+            #                 locations = locations + recipe.format_as_recipe(self.location_dict[recipe.format_as_recipe(child)]) + ", "
+            #                 ingredients = ingredients + recipe.format_as_recipe(child) + ", "
+            #             except KeyError as e:
+            #                 print(f"Could not find {e} in the dictionary of cabinet locations.")
+
+            #         # Update the website display
+            #         location_selected = locations[0:-2] # Trim off the last two characters (comma and space)
+            #         ingredient_selected = ingredients[0:-2]
+
+        return render_template('put_away_ingredient.html', ingredients=self.main_menu.inventory,
+                               ingredientSelected=ingredient_selected, locationSelected=location_selected)
+      
+ 
+    @method("GET")
+    @method("POST")
+    def test_dropdown(self):
+        fruits = ["Apple", "Orange", "Grapes", "Berry", "Mango", "Banana"]
+        return render_template("test_dropdown.html", testList=fruits)
+    
+    
+    @method("GET")
+    @method("POST")
+    def test_datalist(self):
+        fruits = ["Apple", "Orange", "Grapes", "Berry", "Mango", "Banana"]
+        return render_template("test_datalist.html", testList=fruits)
+    
+    def preview_cabinet_loc(self, coordinate):
+        if coordinate in self.main_menu.cabinet_locations:
+            # Spin up a thread to flash the LEDs in that location
+            params.add_or_update_param("flashing", True)
+            t = threading.Thread(target=self.lights.illuminate_location, args=(coordinate, True, False))
+            t.start()
+            # self.lights.illuminate_location(self.input_coord, flash=True)
+            # result = f'Lighting up coordinate {coordinate}'
+            if coordinate in self.main_menu.unused_locations or coordinate in self.main_menu.non_cabinet_locations:
+                result = f'{coordinate} is valid and empty.'
+            elif coordinate in self.main_menu.used_locations:
+                occupying_spirit = self.main_menu.get_spirit_from_coord(coordinate)
+                result = f'{coordinate} is currently occupied by {recipe.format_as_recipe(occupying_spirit)}'
+        else:
+            result = f'Warning - "{coordinate}" is not a cabinet coordinate. If that was intentional, carry on.'
+        return result
+    
+    @method("GET")
+    @method("POST")
+    def modify_spirits(self):
+        """Developer mode babey"""
+        self._quick_update()
+
+        # Set some initial parameters. These get passed to the HTML as result strings for the user
+        # (e.g "Successfully added Roku Gin at coordinate A7" or "Failed to remove St Germain")
+        recipe_result = ""
+        remove_result = ""
+        add_result = ""
+        move_result = ""
+        input_spirit = ""
+        input_coord = ""
+        move_spirit = ""
+        move_coord = ""
+        input_tags = []
+
+        if request.method == "POST":
+            # Clear the LEDS, if they're on
+            self.lights.all_off()
+            # Cancel adding recipe
+            if "btn_cancel_recipe" in request.form.keys():
+                pass
+            # Add recipe
+            elif "btn_add_recipe" in request.form.keys():
+                print("add recipe mode")
+                print(request.form.keys())
+                # Pull out the name, collection, and notes directly with their keys.
+                recipe_name = request.form["input_recipe_name"]
+                recipe_collection = request.form["input_recipe_collection"]
+                recipe_notes = request.form["input_recipe_notes"]
+                # Since we can have an arbitrary number of ingredients, extracting them is slightly different.
+                # The cocktail ingredients, amounts, and units - respectively - start after "input_recipe_notes"
+                # To get them organized nicely, we start at the appropriate index and grab every third dictionary value.
+                cocktail_makeup = list(request.form.values())[3:]
+                ingredients = cocktail_makeup[0::3]
+                amounts = cocktail_makeup[1::3]
+                units = cocktail_makeup[2::3]
+                # Update the external yaml file with our new info
+                result, updated_name = self.main_menu.update_recipe_yaml(recipe_name, recipe_collection, recipe_notes,
+                                          ingredients, amounts, units)
+                if result:
+                    recipe_result = f"Successfully added {updated_name}!"
+                else:
+                    recipe_result = f"Failed to add {updated_name}. Sure would be great if we had logs published to the website"
+            # Cancel adding or previewing spirit
+            elif "btn_cancel_spirit" in request.form.keys():
+                print("cancel input spirit")
+                input_spirit = ""
+                input_coord = ""
+                self.input_tags = []
+            # Add or preview spirit
+            elif "input_add_spirit" in request.form.keys():
+                print(request.form.keys())
+                # Get the values of the html input elements
+                input_spirit = request.form["input_add_spirit"]
+                input_coord = request.form["input_add_coord"].upper()
+                # Tags come through as dictionary keys, for some goddamn reason. Tried to make it be any different and could not.
+                # Find tags through the intersection of the dict keys with our list of tag names
+                tags = set(request.form.keys()).intersection(self.main_menu.get_all_tag_names())
+                if len(tags) >= 1:
+                    self.input_tags = list(tags)
+                # Preview mode
+                if "btn_preview_spirit" in request.form.keys():
+                    print("preview spirit mode")
+                    add_result = self.preview_cabinet_loc(input_coord)
+                # Add mode
+                elif "btn_add_spirit" in request.form.keys():
+                    print("add spirit mode")
+                    # Try to update the CSV and return the result.
+                    result = self.main_menu.add_spirit(input_spirit, input_coord, self.input_tags)
+                    if result:
+                        add_result = f"Successfully added {input_spirit} to inventory"
+                    else:
+                        add_result = f"Failed to add {input_spirit}. Hmm."
+                    # Update the html display
+                    input_spirit = ""
+                    input_coord = ""
+                    self.input_tags = []
+            # Move spirit
+            elif "input_move_spirit" in request.form.keys():
+                print("moving!")
+                print(request.form)
+                # Get the values of the html input elements
+                move_spirit = request.form["input_move_spirit"]
+                move_coord = request.form["input_move_coord"].upper()
+                if "btn_preview_spirit" in request.form.keys():
+                    print("preview move")
+                    # Light up and report the old location
+                    # old_coord = self.main_menu.spirit_dict[recipe.format_as_inventory(move_spirit)]
+                    old_coord = self.main_menu.get_coord_from_spirit(move_spirit)
+                    move_result = f"{move_spirit} is currently at location {old_coord}. \n"
+                    # Light up and report the new location, if it's valid
+                    move_result += self.preview_cabinet_loc(move_coord)
+                elif "btn_move_spirit" in request.form.keys():
+                    print("move")
+                    # Try to update the CSV and return the result.
+                    result = self.main_menu.add_spirit(move_spirit, move_coord, tags=[])
+                    if result:
+                        move_result = f"Successfully moved {move_spirit} to {move_coord}."
+                    else:
+                        move_result = f"Failed to move {move_spirit}. Hmm."
+                    # Update the html display
+                    move_spirit = ""
+                    move_coord = ""
+            # Remove spirit
+            elif "btn_remove_spirit" in request.form.keys():
+                print("remove spirit mode")
+                spirit_to_remove = request.form["input_remove_spirit"]
+                # Have a popup window here that asks if you're sure. While the window is up, have the 
+                # spirit leds flash
+                spirit_to_remove = recipe.format_as_inventory(spirit_to_remove)
+                result = self.main_menu.remove_spirit(spirit_to_remove)
+                if result:
+                    remove_result = f"Successfully removed {spirit_to_remove} from inventory"
+                else:
+                    remove_result = f"Failed to remove {spirit_to_remove}. Does that spirit exist?"
+            elif "input_add_tag" in request.form.keys():
+                print("add tag mode")
+                # Get the inputs
+                input_tag = request.form["input_add_tag"]
+                input_tag_category = request.form["input_meta_tag"]
+                # Like above, spirits assigned via the dropdown come through as dictionary keys.
+                # Find spirits through the intersection of the dict keys with our inventory list
+                spirits_for_tag = set(request.form.keys()).intersection(self.main_menu.inventory_user_facing)
+                
+                self.main_menu.add_tag(input_tag, input_tag_category, spirits_for_tag)
+
+                print(input_tag, input_tag_category, spirits_for_tag)
+
+        
+        params.add_or_update_param("menu_update_pending", True)
+
+        return render_template('modify_spirits.html', 
+                               # These are constants
+                               collections=self.main_menu.get_collection_names(),
+                               spiritList=self.main_menu.inventory_user_facing,
+                               tagList=self.main_menu.get_all_tag_names(), 
+                               # These change as a result of user input
+                               inputSpirit=input_spirit, 
+                               inputCoord=input_coord,
+                               inputTags=self.input_tags,
+                               moveSpiritDisplay=move_spirit,
+                               moveCoordDisplay=move_coord,
+                               recipeResultString=recipe_result, 
+                               removeResultString=remove_result, 
+                               addResultString=add_result,
+                               moveResultString=move_result,
+                               metaTagList=self.main_menu.get_meta_tags(),
+                               inputSpiritForTag=[], # same as inputTags but for spirits
+                               )
+    
+    @method("GET")
+    def animation(self):
+        params.add_or_update_param("animation", True)
+        # t = threading.Thread(target=self.lights.animate_generalized, args=(self.lights.splash, 3),
+        #                      kwargs={"cx": 5, "cy": 10})
+        t = threading.Thread(target=self.lights.animate_generalized, args=(self.lights.screensaver, 5),
+                             kwargs={"cx": 10, "cy": 10, "rball": 4})
+        t.start()
+
+        return render_template("empty_template.html")
+
+
+# TestView.register(app, route_base = '/')
 
 if __name__ == "__main__":
 #     TestView.register(app, route_base = '/')
@@ -253,3 +598,4 @@ if __name__ == "__main__":
 #     app.run(host='0.0.0.0', port=5000, debug=True)
 
     test = TestView()
+

@@ -3,7 +3,7 @@
 
 <head>
   <link rel="stylesheet" href="{{ url_for('static',filename='styles/mainstyle.css') }}">
-  <title>Main Menu</title>
+  <title>{{header}} Collection</title>
 </head>
 
 <body>
@@ -16,8 +16,10 @@
         <!-- Navbar! We're on the collections page, so make sure that one's "active" -->
         <div class="vertical-menu">
           <a href="/menu">Home</a>
-          <a class="active" href="/collections">Collections</a>
-          <a href="/random-cocktail-generator">Random Cocktail Generator</a>
+          <a class="active" href="/collections_main_page">Collections</a>
+          <a href="/inventory">Inventory</a>
+          <a href="/random_cocktail_generator">Random Cocktail Generator</a>
+          <a href="/credits">Credits</a>
         </div>
       </div>
 
@@ -26,16 +28,20 @@
       <div class="middle">
           {% for i in range(cocktails|length) %}
               <details>
-                  <summary>{{cocktails[i]}}</summary>
+                  <summary> <a href="/resippy/{{cocktails[i]}}">{{cocktails[i]}}</a></summary>
                       {% for ingredient in ingredients[i] %}
                       &emsp;&emsp;{{ingredient}}<br>
                       {% endfor %}
+                      <br>
+                      &emsp;&emsp;Bartender's note: {{notes[i]}}
               </details>
+              <br>
           {% endfor %}
       </div>  
   
     <div class="footer">
-      <p>Footer</p>
+        <a href="/put_away_ingredient">♫♪♪ Clean up, clean up ♫♪♪</a> <br>
+        <a href="/modify_spirits">Add a new spirit</a>
     </div>
 
   </div>

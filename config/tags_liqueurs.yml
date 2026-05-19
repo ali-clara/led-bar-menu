@@ -1,157 +1,198 @@
 Blue Curacao:
   collection: Tags
   ingredients:
-    blue_curacao_jar: {}
+  - blue_curacao_jar
+  - chateaux_blue_curacao
   notes: ''
 Chartreuse:
   collection: Tags
   ingredients:
-    Green Chartreuse (Exclusive): {}
-    Yellow Chartreuse (Inclusive): {}
+  - Green Chartreuse (Inclusive)
+  - Yellow Chartreuse (Inclusive)
   notes: All chartreuse/copycats
 Coffee Liqueur:
   collection: Tags
   ingredients:
-    drip_coffee_liqueur: {}
-    kahlua: {}
+  - drip_coffee_liqueur
+  - kahlua
   notes: ''
 Creme de Cacao:
   collection: Tags
   ingredients:
-    Dark Creme de Cacao: {}
-    White Creme de Cacao: {}
+  - Dark Creme de Cacao
+  - White Creme de Cacao
   notes: ''
 Dark Creme de Cacao:
   collection: Tags
   ingredients:
-    giffard_cacao: {}
+  - giffard_cacao
   notes: ''
 Elderflower Liqueur:
   collection: Tags
   ingredients:
-    craft_cordials_elderflower: {}
-    drillaud_elderflower: {}
-    st_germain: {}
+  - craft_cordials_elderflower
+  - drillaud_elderflower
+  - st_germain
   notes: ''
+Floral Liqueur:
+  collection: Tags
+  ingredients:
+  - Creme de Violette
+  - Elderflower Liqueur
 Fruit Liqueur:
   collection: Tags
   ingredients:
-    360_huckleberry: {}
-    Elderflower Liqueur: {}
-    Maraschino: {}
-    Orange Liqueur: {}
-    Yuzu Liqueur: {}
-    limoncello: {}
-    peachtree: {}
+  - midori
+  - 360_huckleberry
+  - Maraschino
+  - drillaud_blackberry
+  - Orange Liqueur
+  - limoncello
+  - Elderflower Liqueur
+  - Yuzu Liqueur
+  - peachtree
   notes: ''
 Sweet Liqueur:
   collection: Tags
   ingredients:
-    Fruit Liqueur: {}
-    Coffee Liqueur: {}
-    Elderflower Liqueur: {}
+  - pimms
+  - midori
+  - Coffee Liqueur
+  - Fruit Liqueur
+  - Creme de Violette
+  - drillaud_blackberry
+  - Falernum
+  - Elderflower Liqueur
+  - Creme de Cassis
 Green Chartreuse (Flammable):
   collection: Tags
   ingredients:
-    green_chartreuse: {}
-    uncharted_rhapsody: {}
+  - green_chartreuse
+  - uncharted_rhapsody
   notes: ''
 Green Chartreuse (Inclusive):
   collection: Tags
   ingredients:
-    brucato_chaparral: {}
-    genepy: {}
-    green_chartreuse: {}
-    uncharted_rhapsody: {}
+  - brucato_chaparral
+  - genepy
+  - green_chartreuse
+  - uncharted_rhapsody
   notes: ''
 Herbal Liqueur:
   collection: Tags
   ingredients:
-    Chartreuse: {}
-    de_kuyper_creme_de_menthe: {}
-    douglas_fir: {}
-    galliano: {}
-    sambuca_di_amore: {}
-    zirbenz: {}
+  - Chartreuse
+  - de_kuyper_creme_de_menthe
+  - douglas_fir
+  - galliano
+  - sambuca_di_amore
+  - zirbenz
+  - brovo_ginger_liqueur
   notes: ''
 Macadamia Nut Liqueur:
   collection: Tags
   ingredients:
-    kahana_mac_nut: {}
+  - kahana_mac_nut
   notes: ''
 Maraschino:
   collection: Tags
   ingredients:
-    cristiani_maraschino: {}
-    luxardo_maraschino: {}
+  - cristiani_maraschino
+  - luxardo_maraschino
   notes: ''
 Misc Liqueur:
   collection: Tags
   ingredients:
-    Coffee Liqueur: {}
-    Dark Creme de Cacao: {}
-    Falernum: {}
-    Macadamia Nut Liqueur: {}
-    Nocino: {}
-    White Creme de Cacao: {}
-    Amaretto: {}
-    nixta: {}
-    Pistachio Liqueur: {}
+  - Coffee Liqueur
+  - Dark Creme de Cacao
+  - Falernum
+  - Macadamia Nut Liqueur
+  - Nocino
+  - White Creme de Cacao
+  - Amaretto
+  - nixta
+  - Pistachio Liqueur
   notes: Anything that doesn't fit in the Fruit or Herbal categories, and some that
     maybe do but aren't in them anyways
 Orange Liqueur:
   collection: Tags
   ingredients:
-    Triplesec (Exclusive): {}
-    dry_curacao: {}
-    tacoma_punk: {}
-    Blue Curacao: {}
+  - dry_curacao
+  - Blue Curacao
+  - cointreau_noir
+  - Triple Sec (Exclusive)
+  - arancino_cinque_terra
+  - mandarinetto
+  - tacoma_punk
   notes: Include all orange liqueurs
 Triple Sec (Exclusive):
   collection: Tags
   ingredients:
-    cointreau: {}
-    bols_triple_sec: {}
+  - cointreau
+  - bols_triple_sec
   notes: Include only actual triple-sec
 Triple Sec:
   collection: Tags
   ingredients:
-    Orange Liqueur: {}
+  - Orange Liqueur
   notes: Alias for Orange Liqueur. For actual triple sec, use Triple Sec (Exclusive)
 White Creme de Cacao:
   collection: Tags
   ingredients:
-    mr_stacks_creme_de_cacao: {}
+  - mr_stacks_creme_de_cacao
   notes: ''
 Yellow Chartreuse (Inclusive):
   collection: Tags
   ingredients:
-    gen-p: {}
-    yellow_chartreuse: {}
+  - gen-p
+  - yellow_chartreuse
   notes: ''
 Yuzu Liqueur:
   collection: Tags
   ingredients:
-    yuzu_curacao: {}
+  - yuzu_curacao
   notes: ''
 Pistachio Liqueur:
   collection: Tags
   ingredients:
-    pistacchio_mk_i: {}
-    pistacchio_mk_ii: {}
-  notes: 'We should really dump these out instead of making them a tag'
+  - null
+  notes: We dumped these out, thank god, but I'm using the empty tag for unit testing
 Amaretto:
   collection: Tags
   ingredients:
-    cristiani_amaretto: {}
-  notes: 
+  - cristiani_amaretto
+  - creme_de_noyaux
+  notes: null
 Honey Liqueur:
   collection: Tags
   ingredients:
-    placeholder_honey_liqueur: {}
-  notes: 
+  - null
+  notes: null
 Macadamia Liqueur:
   collection: Tags
   ingredients:
-    Macadamia Nut Liqueur: {}
-  notes: 
+  - Macadamia Nut Liqueur
+  notes: null
+Coconut Liqueur:
+  collection: Tags
+  ingredients:
+  - null
+  notes: null
+Falernum:
+  collection: Tags
+  ingredients:
+  - brovo_lucky_falernum
+  - velvet_falernum
+Absinthe:
+  collection: Tags
+  ingredients:
+  - marilyn_mansinthe
+  - absente
+Creme de Cassis:
+  collection: Tags
+  ingredients:
+  - creme_de_cassie_de_dijon
+Creme de Violette:
+  collection: Tags
+  ingredients:
+  - pages_creme_de_violette

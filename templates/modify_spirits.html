@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/mainstyle.css') }}">
+    <title>Menu Editor</title>
+
+    <script>
+        var rowIdx = 0;
+        var numBtns = 1; 
+
+        function addField(tableId, elementId, ingList) {
+            // Grab the table references and update the rowIdx if we need to
+            var tableRef = document.getElementById(tableId);
+            if (rowIdx == 0) {
+                // The first .parentNode will give the CELL the second will give the ROW, then get the INDEX from the ROW
+                rowIdx = document.getElementById(elementId).parentNode.parentNode.rowIndex + 1;
+            }
+            // Create a new row at the specified index
+            var newRow = tableRef.insertRow(rowIdx);
+            // Do this twice so we're working in the right cell (second column)
+            var cell0  = newRow.insertCell();
+            var cell1 = newRow.insertCell();
+            var cell2 = newRow.insertCell();
+            
+            // Create a bunch of elements to put in those cells
+            var ingElement = document.createElement('input');
+            var ingDatalist = document.createElement('datalist');
+            var amountElement = document.createElement('input');
+            var unitElement = document.createElement('input');
+            var comma1Node = document.createTextNode(" , ");
+            var comma2Node = document.createTextNode(" , ");
+            var removeBtn = document.createElement('input');
+
+            // Assign attributes to those elements
+            ingElement.setAttribute("form", "add recipe");
+            ingElement.setAttribute("name", `input_recipe_ingredient_${numBtns}`);
+            ingElement.setAttribute("list", "dlIngredients");
+            ingDatalist.setAttribute("id", "dlIngredients");
+            // Add datalist elements to the ingredient input
+            var len = ingList.length;
+            for (var i=0; i < len; i+= 1) {
+                var option = document.createElement("option");
+                option.value = ingList[i];
+                ingDatalist.appendChild(option);
+            }
+            ingElement.appendChild(ingDatalist);
+
+            amountElement.setAttribute("form", "add recipe");
+            amountElement.setAttribute("name", `input_recipe_amount_${numBtns}`);
+
+            unitElement.setAttribute("form", "add recipe");
+            unitElement.setAttribute("name", `input_recipe_unit_${numBtns}`);
+
+            var id = `btnRemove${numBtns}`
+            removeBtn.setAttribute("type", "button")
+            removeBtn.setAttribute("value", "Remove Ingredient");
+            removeBtn.setAttribute("id", `${id}`)
+            removeBtn.setAttribute("onclick", `removeField("${tableId}", "${id}")`)
+
+            // Append the elements to the appropriate cell
+            cell1.appendChild(ingElement);
+            cell1.appendChild(ingDatalist);
+            cell1.appendChild(comma1Node);
+            cell1.appendChild(amountElement);
+            cell1.appendChild(comma2Node);
+            cell1.appendChild(unitElement)
+            cell2.appendChild(removeBtn);
+
+            // Update our counters
+            rowIdx = rowIdx + 1;
+            numBtns = numBtns + 1;
+
+            // verification that we got to the end of this method
+            // enableButton2()
+        }
+
+        function removeField(tableId, id) {
+            // Grab the table reference
+            var tableRef = document.getElementById(tableId);
+            // Grab the table row that corresponds to the id
+            var row = document.getElementById(id).parentNode.parentNode.rowIndex;
+            // Get that thang out of here
+            tableRef.deleteRow(row);
+            // Update our master row index accordingly
+            rowIdx = rowIdx - 1;
+
+            // verification that we got to the end of this method
+            disableButton2()
+        }
+        
+        function enableButton2() {
+            document.getElementById("button2").disabled = false;
+        }
+
+        function disableButton2() {
+            document.getElementById("button2").disabled = true;
+        }
+    
+        function dropDown(listItems, checkedItems, arrowID, checklistID, buttonID, dropdownItemsID, formID){
+            // Callback for dropdownInput.onClick
+            // Opens the dropdown and keeps it there. We don't want clicking the input box to keep toggling the dropdown
+            // back and forth, so here's a one-way ticket
+
+            // The first time we drop down, dynamically make the checklist
+            // Being a little cheeky here -- I give the checklist a name upon creation, so this only triggers once
+            // Couldn't do something more reasonable like "does this element have children" for some reason
+            var dropItems = document.getElementById(dropdownItemsID);
+            if (!dropItems.hasAttribute("name")) {
+                makeList(listItems, checkedItems, dropdownItemsID, formID);
+            }
+
+            // Format the dropdown to be visible and the button to point in the right direction
+            var arrow = document.getElementById(arrowID);
+            var checkList = document.getElementById(checklistID);
+            var button = document.getElementById(buttonID)
+            if (!checkList.classList.contains("visible")){
+                checkList.classList.toggle("visible");
+                arrow.classList.toggle("rotate-up");
+                button.classList.toggle("pressed");
+            }
+        }
+        
+        function toggleDropdown(listItems, checkedItems, arrowID, checklistID, buttonID, dropdownItemsID, formID) {
+            // Callback for dropdownButton.onClick
+            // Opens and closes the dropdown menu
+
+            // The first time we drop down, dynamically make the checklist
+            // Being a little cheeky here -- I give the checklist a name upon creation, so this only triggers once
+            // Couldn't do something more reasonable like "does this element have children" for some reason
+            var dropItems = document.getElementById(dropdownItemsID);
+            if (!dropItems.hasAttribute("name")) {
+                makeList(listItems, checkedItems, dropdownItemsID, formID);
+            }
+
+            var checkList = document.getElementById(checklistID);
+            var button = document.getElementById(buttonID);
+            var arrow = document.getElementById(arrowID);
+            
+            // Ah, glorious 'toggle'. If it's on, turn it off. Etc etc
+            button.classList.toggle("pressed");
+            arrow.classList.toggle("rotate-up");
+            checkList.classList.toggle("visible");
+        }
+
+        function filterFunction(checklistID, inputID) {
+            // Limits the visible dropdown options as you type in the "Search" input
+            var input, filter, li, a, i;
+            input = document.getElementById(inputID);
+            filter = input.value.toUpperCase();
+            div = document.getElementById(checklistID);
+            const checkboxes = div.querySelectorAll("ul input");
+            const labels = div.querySelectorAll("ul label");
+            // Loop through the checkboxes. If they're selected or they match the search value, keep them visible
+            for (i = 0; i < checkboxes.length; i++) {
+                box = checkboxes[i];
+                lab = labels[i];
+                txtValue = lab.textContent || lab.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1 || box.checked) {
+                    box.style.display = "";
+                    lab.style.display = "";
+                } else {
+                    box.style.display = "none";
+                    lab.style.display = "none";
+                }
+            }
+        }
+    
+        function makeList(listItems, checkedItems, dropdownItemsID, formID){
+            // Dynamically makes the checklist that lives in dropdownItems so I can pre-check the appropriate boxes
+            // Recreates:
+            //      {% for tag in tagList %}
+            //      <li><input type="checkbox" id="{{tag}}" name="{{tag}}"/><label for="{{tag}}">{{tag}}</label></li>
+            //      {% endfor %}
+            
+            var dropdown = document.getElementById(dropdownItemsID);
+            dropdown.setAttribute("name", "formID")
+
+            for (fruit of listItems){
+                // <li>
+                var listElement = document.createElement('li');
+                listElement.setAttribute("form", formID);
+                // <input>
+                var checkElement = document.createElement('input');
+                checkElement.type = "checkbox";
+                checkElement.id = fruit;
+                checkElement.name = fruit;
+                checkElement.setAttribute("form", formID);
+                if (checkedItems.includes(fruit)){
+                    checkElement.checked = true;
+                }
+                // <label>
+                var labelElement = document.createElement('label');
+                labelElement.htmlFor = fruit;
+                labelElement.innerText = fruit;
+                labelElement.setAttribute("form", formID);
+                // Add to page
+                dropdown.appendChild(listElement);
+                dropdown.appendChild(checkElement);
+                dropdown.appendChild(labelElement);
+            }
+        }
+    
+    </script>
+</head>
+
+<body>
+    <div class="grid-container">
+        <div class="header">
+            <h2>Menu Editor</h2>
+        </div>
+    
+        <div class="left">
+          <!-- Navbar! We're not on any menu page, so don't set any of them active -->
+          <div class="vertical-menu">
+            <a href="/menu">Home</a>
+            <a href="/collections_main_page">Collections</a>
+            <a href="/inventory">Inventory</a>
+            <a href="/random_cocktail_generator">Random Cocktail Generator</a>
+            <a href="/credits">Credits</a>
+          </div>
+        </div>
+  
+        <div class="middle">
+            <table id="tbl">
+                <!-- ------------------- PREVIEW & ADD SPIRITS ------------------- -->
+                <form id="addSpirit" name="addSpirit" method="POST">
+                    <tr>
+                        <td><strong>Add Spirit</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Name: </td>
+                        <td><input list="spirits" id="inputAddSpirit" name="input_add_spirit" value="{{inputSpirit}}"></td>
+                    </tr>
+                    <tr>
+                        <td>Coordinate: </td>
+                        <td><input list="coordinates" id="inputAddCoord" name="input_add_coord" value={{inputCoord}}></td>
+                    </tr>                
+                    <tr>
+                        <td>Tags: </td>
+                        <td>
+                            <div id="tagsDropdown" class="dropdown-check-list">
+                                <span class="anchor">
+                                    <input type="text" placeholder="Search..." id="tagsDropdownInput" 
+                                        onkeyup="filterFunction('tagsDropdown', 'tagsDropdownInput')" 
+                                        onclick="dropDown({{tagList}}, {{inputTags}}, 'tagsDropArrow', 'tagsDropdown', 'tagsDropButton', 'dropdownItemTags', 'addSpirit')">
+                                    <button class="dropdown-button" type="button" id="tagsDropButton" onclick="toggleDropdown({{tagList}}, {{inputTags}}, 'tagsDropArrow', 'tagsDropdown', 'tagsDropButton', 'dropdownItemTags', 'addSpirit')">
+                                        <i class="arrow" id="tagsDropArrow"></i>
+                                    </button>
+                                </span>
+                                <ul class="items" id="dropdownItemTags">
+                                    <!-- The items in this dropdown are dynamically created in makeList() dropdownItemsID, formID -->
+                                    <!-- YOU CANT GIVE IT A NAME ATTRIBUTE HERE OR THE LIST WON'T GET CREATED. Comment explaining up in makeList(). I'm sorry. -->
+                                </ul>
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr>
+                    <tr>
+                        <td>
+                            <!-- Button to preview the spirit location - lights up the leds but doesn't change the csv -->
+                            <button form="addSpirit" type="submit" name="btn_preview_spirit">Preview</button>
+                            <!-- Button to add the spirit to the library backend-->
+                            <button form="addSpirit" id="btnAddSpirit" type="submit" name="btn_add_spirit">Add</button>
+                            <!-- Button to cancel the whole operation -->
+                            <button form="addSpirit" id="btnCancelSpirit" type="submit" name="btn_cancel_spirit">Cancel</button>
+                        </td>
+                        <!-- Bit of result text for the user (e.g "successfully added X spirit to Y coordinate") -->
+                        <td>{{addResultString}}</td>
+                    </tr>
+                    </form>
+                        <!-- Since sending a "post" resets the page, I need to disable the button manually/in Python instead of 
+                        letting the Preview Spirit button handle it in html. I pass in add_spirits_disabled from the flask method,
+                        which sets the disabled flag to "true" or "false". It's not actually an error, my ide just thinks it is -->
+                        <!-- Might come back to this if I get threading to work, so leaving it here -->
+                        <!-- <script>document.getElementById("btnAddSpirit").disabled = {{addSpiritsDisabled}};</script> -->
+                
+                    <tr>
+                        <td></td>
+                    </tr>
+                <!-- spaaaace -->
+                <tr><td><br><br></td></tr>
+                <!-- ------------------- MOVE SPIRIT ------------------- -->
+                <form id="moveSpirit" name="moveSpirit" method="POST">
+                    <tr>
+                        <td><strong>Move Spirit</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Name: </td>
+                        <td>
+                            <input list="spirits" id="inputMoveSpirit" name="input_move_spirit" value="{{moveSpiritDisplay}}"></td>
+                            <datalist id="spirits">
+                                {% for spirit in spiritList %}
+                                <option value="{{spirit}}">{{spirit}}</option>
+                                {% endfor %}
+                            </datalist>
+                    </tr>
+                    <tr>
+                        <td>New Coordinate: </td>
+                        <td><input list="coordinates" id="inputMoveCoord" name="input_move_coord" value="{{moveCoordDisplay}}"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <!-- Button to preview the spirit location - lights up the leds but doesn't change the csv -->
+                            <button form="moveSpirit" type="submit" name="btn_preview_spirit">Preview</button>
+                            <!-- Button to add the spirit to the library backend-->
+                            <button form="moveSpirit" id="btnMoveSpirit" type="submit" name="btn_move_spirit">Move</button>
+                            <!-- Button to cancel the whole operation -->
+                            <button form="moveSpirit" id="btnCancelSpirit" type="submit" name="btn_cancel_spirit">Cancel</button>
+                        </td>
+                        <!-- Bit of result text for the user (e.g "successfully added X spirit to Y coordinate") -->
+                        <td>{{moveResultString}}</td>
+                    </tr>
+                </form>
+                <!-- spaaaace -->
+                <tr><td><br><br></td></tr>
+                 <!-- ------------------- REMOVE SPIRIT ------------------- -->
+                <form id="remove spirit" method="POST">
+                    <tr>
+                        <td><strong>Remove Spirit</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Name: </td>
+                        <td><input list="spiritList" id="inputRemoveSpirit" name="input_remove_spirit"></td>
+                        <td><datalist id="spiritList">
+                            {% for spirit in spiritList %}
+                            <option value="{{spirit}}">{{spirit}}</option>
+                            {% endfor %}
+                        </datalist></td>
+                    </tr>
+                    <tr>
+                        <td><button form="remove spirit" type="submit" name="btn_remove_spirit" id="btnRemoveSpirit">Remove</button></td>
+                    </tr>
+                    <tr>
+                        <!-- Bit of result text for the user (e.g "successfully removed X spirit") -->
+                        <td></td>
+                        <td>{{removeResultString}}</td>
+                    </tr>
+                </form>
+                <!-- spaaaace -->
+                <tr><td><br><br></td></tr>
+                <!-- ------------------- ADD RECIPE ------------------- -->
+                <form id="add recipe" method="POST">
+                    <tr>
+                        <td><strong>Add Recipe</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Name: </td>
+                        <td><input id="inputRecipeName" name="input_recipe_name"></td>
+                    </tr>
+                    <tr>
+                        <td>Collection: </td>
+                        <td>
+                            <input list="collections" id="inputCollection" name="input_recipe_collection">
+                            <datalist id="collections">
+                                {% for collection in collections %}
+                                <option value="{{collection}}">{{collection}}</option>
+                                {% endfor %}
+                            </datalist>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Notes: </td>
+                        <td><input id="inputRecipeNotes" name="input_recipe_notes"></td>
+                    </tr>
+                    <tr>
+                        <td>Ingredient, Amount, Units: &emsp;</td>
+                        <td><input list="allIngredients" id="inputIngName" name="input_recipe_ingredient_0"> , 
+                            <datalist id="allIngredients">
+                                {% for spirit in spiritList %}
+                                <option value="{{spirit}}">{{spirit}}</option>
+                                {% endfor %}
+                            </datalist>
+                            <input id="inputIngAmount" name="input_recipe_amount_0"> , 
+                            <input id="inputIngUnit" name="input_recipe_unit_0"></td>
+                        <td><button form="add recipe" type="button" id="btnAddIng" onclick="addField('tbl', 'btnAddIng', {{spiritList}})">Add ingredient</button></td>
+                        <!-- <td><button type="button" id="button1" value="button 1" onclick="enableButton2()">Test</button></td> -->
+                    </tr>
+                </form>
+                    <tr>
+                        <td>
+                            <!-- Button to add the recipe to the appropriate yaml-->
+                            <button form="add recipe" name="btn_add_recipe" type="submit">Add Recipe</button>
+                            <!-- Button to cancel (just sends a blank POST, could probably make it quicker with JS instead but. no.)-->
+                            <button form="add recipe" name="btn_cancel_recipe" type="submit">Cancel</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <!-- Bit of result text for the user (e.g "successfully added X recipe") -->
+                        <td></td>
+                        <td>{{recipeResultString}}</td>
+                    </tr>
+                <!-- spaaaace -->
+                <tr><td><br><br></td></tr>
+                <!-- ------------------- ADD TAG ------------------- -->
+                <form id="addTag" name="addTag" method="POST">
+                    <tr>
+                        <td><strong>Add Tag</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Tag Name: </td>
+                        <td><input list="tags" id="inputaddTag" name="input_add_tag" required="true"></td>
+                    </tr>
+                    <tr>
+                        <td>Tag Category: </td>
+                        <td>
+                            <!-- <input list="metaTag" id="inputTagParent" name="input_tag_parent"></td> -->
+                            <select form="addTag" id="metaTags" name="input_meta_tag" required="true">
+                                <option value="">-- Select --</option>
+                                {% for tag in metaTagList %}
+                                <option value="{{tag}}">{{tag}}</option>
+                                {% endfor %}
+                            </select>
+                    </tr>
+                    <tr>
+                        <td>Spirits (optional): </td>
+                        <td>
+                            <div id="spiritsDropdown" class="dropdown-check-list">
+                                <span class="anchor">
+                                    <input type="text" placeholder="Search..." id="spiritsDropdownInput" 
+                                        onkeyup="filterFunction('spiritsDropdown', 'spiritsDropdownInput')" 
+                                        onclick="dropDown({{spiritList}}, {{inputSpiritForTag}}, 'spiritsDropArrow', 'spiritsDropdown', 'spiritsDropButton', 'dropdownItemSpirits', 'addTag')">
+                                    <button class="dropdown-button" type="button" id="spiritsDropButton" onclick="toggleDropdown({{spiritList}}, {{inputSpiritForTag}}, 'spiritsDropArrow', 'spiritsDropdown', 'spiritsDropButton', 'dropdownItemSpirits', 'addTag')">
+                                        <i class="arrow" id="spiritsDropArrow"></i>
+                                    </button>
+                                </span>
+                                <ul class="items" id="dropdownItemSpirits">
+                                    <!-- The items in this dropdown are dynamically created in makeList() -->
+                                    <!-- YOU CANT GIVE IT A NAME ATTRIBUTE HERE OR THE LIST WON'T GET CREATED. Comment explaining up in makeList(). I'm sorry. -->
+                                </ul>
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <!-- Button to add the tag to the library backend-->
+                            <button form="addTag" type="submit" name="btn_add_tag">Submit</button>
+                            <!-- Button to cancel the whole operation -->
+                            <button form="addTag" id="btnCancelTag" type="submit" name="btn_cancel_tag">Cancel</button>
+                        </td>
+                        <!-- Bit of result text for the user (e.g "successfully added X spirit to Y coordinate") -->
+                        <td>{{tagResultString}}</td>
+                    </tr>
+                </form>
+            </table>
+
+            <!-- <br><br><br>
+            <input type="button" id="button1" value="button 1" onclick="enableButton2()"  />
+            <input type="button" id="button2" value="button 2" disabled /> -->
+            
+        </div>  
+    
+      <div class="footer">
+        <a href="/put_away_ingredient">♫♪♪ Clean up, clean up ♫♪♪</a> <br>
+        <a href="/modify_spirits">Add a new spirit</a>
+      </div>
+  
+    </div>
+  </body>
+
+  </html>
