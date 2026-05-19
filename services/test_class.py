@@ -554,7 +554,11 @@ class TestView(FlaskView):
                 # Find spirits through the intersection of the dict keys with our inventory list
                 spirits_for_tag = set(request.form.keys()).intersection(self.main_menu.inventory_user_facing)
                 
-                self.main_menu.add_tag(input_tag, input_tag_category, spirits_for_tag)
+                parent_tags = set(request.form.keys()).intersection(self.main_menu.get_all_tag_names())
+
+                print(parent_tags)
+                
+                self.main_menu.add_tag(input_tag, input_tag_category, spirits_for_tag, parent_tags)
 
         
         params.add_or_update_param("menu_update_pending", True)

@@ -802,8 +802,9 @@ class Menu:
 
     def add_spirit_to_tag(self, spirit:str, tag:str):
         parent = self.find_tag_parent(tag)
+        parent_filename = f"tags_{parent.lower()}.yml" # TODO think about non-hardcoding this
         if parent:
-            parent_file = os.path.join(self.recipe_path, parent)
+            parent_file = os.path.join(self.recipe_path, parent_filename)
             with open(parent_file, 'r') as stream:
                 data_dict = yaml.safe_load(stream)
             try:
@@ -836,8 +837,8 @@ class Menu:
             return True
         else:
             return False
-
-    def add_tag(self, tag:str, tag_category:str, spirits_for_tag):
+    
+    def add_tag(self, tag:str, tag_category:str, spirits_for_tag, tag_parents):
         # Trigger the update flag before any other shenanigans happen
         params.add_or_update_param("menu_update_pending", True)
         
@@ -864,10 +865,14 @@ class Menu:
                 with open(parent_file, 'w') as outfile:
                     yaml.dump(data_dict, outfile, sort_keys=False)
         
-                # Finally, add spirits to this new tag we've created
+                # Finally, add spirits to this new tag we've created...
                 if spirits_for_tag:
                     for spirit in spirits_for_tag:
                         self.add_spirit_to_tag(spirit, tag)
+                # ... and add it to any parent tags
+                if tag_parents:
+                    for parent in tag_parents:
+                        self.add_spirit_to_tag(tag, parent)
 
                 return True
 
