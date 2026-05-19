@@ -90,7 +90,9 @@
         }
         
         function enableButton2() {
+
             document.getElementById("button2").disabled = false;
+            // document.getElementById("button2").setAttribute("value", document.getElementById("metaTags").value)
         }
 
         function disableButton2() {
@@ -201,6 +203,26 @@
             }
         }
     
+        function clearList(dropdownItemsID){
+            // Gets rid of the list name and all children
+            var dropdown = document.getElementById(dropdownItemsID);
+            dropdown.removeAttribute("name");
+            while (dropdown.firstChild) {
+                dropdown.removeChild(dropdown.lastChild);
+            }
+        }
+        
+        function sortParentTags(tagsOrganized, dropdownItemsID, formID) {
+            // First clear the list
+            clearList(dropdownItemsID);
+            // Then grab the selected tag category and pull out the tags from that key of the dictionary
+            var tagCategory = document.getElementById("metaTags").value;
+            var tagList = tagsOrganized[tagCategory];
+            // Finally, make the list for the dropdown with only the selected set of tags
+            makeList(tagList, [], dropdownItemsID, formID);
+            
+        }
+
     </script>
 </head>
 
@@ -406,7 +428,8 @@
                         <td>Tag Category: </td>
                         <td>
                             <!-- <input list="metaTag" id="inputTagParent" name="input_tag_parent"></td> -->
-                            <select form="addTag" id="metaTags" name="input_meta_tag" required="true">
+                            <select form="addTag" id="metaTags" name="input_meta_tag" required="true" 
+                                onchange="sortParentTags({{tagsDictOrganized}}, 'dropdownItemParents', 'addTag')">
                                 <option value="">-- Select --</option>
                                 {% for tag in metaTagList %}
                                 <option value="{{tag}}">{{tag}}</option>
@@ -420,8 +443,8 @@
                                 <span class="anchor">
                                     <input type="text" placeholder="Search..." id="spiritsDropdownInput" 
                                         onkeyup="filterFunction('spiritsDropdown', 'spiritsDropdownInput')" 
-                                        onclick="dropDown({{spiritList}}, {{inputSpiritForTag}}, 'spiritsDropArrow', 'spiritsDropdown', 'spiritsDropButton', 'dropdownItemSpirits', 'addTag')">
-                                    <button class="dropdown-button" type="button" id="spiritsDropButton" onclick="toggleDropdown({{spiritList}}, {{inputSpiritForTag}}, 'spiritsDropArrow', 'spiritsDropdown', 'spiritsDropButton', 'dropdownItemSpirits', 'addTag')">
+                                        onclick="dropDown({{spiritList}}, '[]', 'spiritsDropArrow', 'spiritsDropdown', 'spiritsDropButton', 'dropdownItemSpirits', 'addTag')">
+                                    <button class="dropdown-button" type="button" id="spiritsDropButton" onclick="toggleDropdown({{spiritList}}, '[]', 'spiritsDropArrow', 'spiritsDropdown', 'spiritsDropButton', 'dropdownItemSpirits', 'addTag')">
                                         <i class="arrow" id="spiritsDropArrow"></i>
                                     </button>
                                 </span>
@@ -430,7 +453,25 @@
                                     <!-- YOU CANT GIVE IT A NAME ATTRIBUTE HERE OR THE LIST WON'T GET CREATED. Comment explaining up in makeList(). I'm sorry. -->
                                 </ul>
                             </div>
-
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Parent Tags (optional): </td>
+                        <td>
+                            <div id="parentsDropdown" class="dropdown-check-list">
+                                <span class="anchor">
+                                    <input type="text" placeholder="Search..." id="parentsDropdownInput" 
+                                        onkeyup="filterFunction('parentsDropdown', 'parentsDropdownInput')" 
+                                        onclick="dropDown({{tagList}}, '[]', 'parentsDropArrow', 'parentsDropdown', 'parentsDropButton', 'dropdownItemParents', 'addTag')">
+                                    <button class="dropdown-button" type="button" id="parentsDropButton" onclick="toggleDropdown({{tagList}}, '[]', 'parentsDropArrow', 'parentsDropdown', 'parentsDropButton', 'dropdownItemParents', 'addTag')">
+                                        <i class="arrow" id="parentsDropArrow"></i>
+                                    </button>
+                                </span>
+                                <ul class="items" id="dropdownItemParents">
+                                    <!-- The items in this dropdown are dynamically created in makeList() -->
+                                    <!-- YOU CANT GIVE IT A NAME ATTRIBUTE HERE OR THE LIST WON'T GET CREATED. Comment explaining up in makeList(). I'm sorry. -->
+                                </ul>
+                            </div>
                         </td>
                     </tr>
                     <tr>
