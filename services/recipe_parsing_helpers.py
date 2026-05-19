@@ -145,7 +145,8 @@ class Menu:
                     # Organized tags (parent_tag: [tag_1, tag_2, ..., tag_n])
                     filename = file.split(os.path.sep)[-1]
                     tag_names = list(contents.keys())
-                    tags_dict_organized.update({filename: tag_names})
+                    # Remember -- tags_dict_organized is used in modify_spirits.html. Changing its format for some reason may break something there
+                    tags_dict_organized.update({format_as_recipe(meta_tag): tag_names})
         except TypeError as e:
             print(f"Failed to read {file}: {e}")
         except FileNotFoundError as e:
@@ -964,7 +965,7 @@ if __name__ == "__main__":
     # check_recipe_against_csv()
     # check_tags_against_csv()
     # check_tags_and_aliases()
-    check_inventory()
+    # check_inventory()
     # check_collections()
 
     # print(myMenu.tags_dict_all)
@@ -985,5 +986,5 @@ if __name__ == "__main__":
 
     # print(myMenu.menu_dict["Licorice Fern Margarita"])
 
-    myMenu.add_tag("test tag", "Gin", None)
+    print(myMenu.tags_dict_organized)
 

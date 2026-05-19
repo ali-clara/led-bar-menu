@@ -545,6 +545,8 @@ class TestView(FlaskView):
                     remove_result = f"Failed to remove {spirit_to_remove}. Does that spirit exist?"
             elif "input_add_tag" in request.form.keys():
                 print("add tag mode")
+
+                print(request.form)
                 # Get the inputs
                 input_tag = request.form["input_add_tag"]
                 input_tag_category = request.form["input_meta_tag"]
@@ -554,8 +556,6 @@ class TestView(FlaskView):
                 
                 self.main_menu.add_tag(input_tag, input_tag_category, spirits_for_tag)
 
-                print(input_tag, input_tag_category, spirits_for_tag)
-
         
         params.add_or_update_param("menu_update_pending", True)
 
@@ -563,7 +563,9 @@ class TestView(FlaskView):
                                # These are constants
                                collections=self.main_menu.get_collection_names(),
                                spiritList=self.main_menu.inventory_user_facing,
-                               tagList=self.main_menu.get_all_tag_names(), 
+                               tagList=self.main_menu.get_all_tag_names(),
+                               tagsDictOrganized=self.main_menu.tags_dict_organized,
+                               metaTagList=self.main_menu.get_meta_tags(), 
                                # These change as a result of user input
                                inputSpirit=input_spirit, 
                                inputCoord=input_coord,
@@ -574,8 +576,6 @@ class TestView(FlaskView):
                                removeResultString=remove_result, 
                                addResultString=add_result,
                                moveResultString=move_result,
-                               metaTagList=self.main_menu.get_meta_tags(),
-                               inputSpiritForTag=[], # same as inputTags but for spirits
                                )
     
     @method("GET")

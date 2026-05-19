@@ -29,3 +29,7 @@ Yuzu Gin:
   ingredients:
   - yu_gin
   notes: ''
+Test Parent:
+  collection: Tags
+  ingredients:
+  - null
