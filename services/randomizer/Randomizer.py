@@ -130,24 +130,18 @@ def select_random_recipe(recipes_by_collection:dict, classic=False):
 
 
 
-#This is all the ingredients listed as "Clearance"
-
-#clearance_weight is a parameter to encourage the randomizer using ingredients that are low in stock in order to clear them out 
-#the weight is set rather low right now because it otherwise causes stack overflows
-def resolve_random_recipe(rand_recipe):
+#Given a recipe format, fill in each category with a randomly selected ingredient.
+#With an option for increased clearance preference since I think this is the context for it
+def resolve_random_recipe(rand_recipe, clearance_weight = 5):
     recipes = load_random_recipes()
     if rand_recipe == "Random Random":
         rand_recipe = get_random_recipe_options()[int(np.random.rand() * len(recipes))]
     random_ingredients = recipes[rand_recipe]['ingredients']
     for i in list(random_ingredients.keys()):
         if i[:6] == "Random":
-            resolution = resolve_random_ingredient(i)
+            resolution = resolve_random_ingredient(i, clearance_weight)
             random_ingredients[resolution] = random_ingredients[i]
             del random_ingredients[i]
-
-    #So the way this currently works is that it just generates random cocktails until it finds one that works
-        #the problem is that you might run into a stack overflow since it has no way to actually try to use an out-of-stock ingredient
-        #I'll think on how I want to address this, and it might also be a smaller problem in practice if the clearance rack is sufficiently well-stocked.
     return random_ingredients
 
 #Should this really be hardcoded?
