@@ -283,3 +283,23 @@ grid-template-rows: auto auto auto;
 #cocktailSubmit:hover{
   background-color: #7B0853;
 }
+
+#collectionsTable {
+  text-align: center;
+  font-size: x-large;
+  padding-left:20px;
+  padding-right:20px;
+}
+
+#collectionsRow {
+  vertical-align: top;
+  border-left: 100px solid transparent;
+  border-top: 20px solid transparent;
+  min-width: 40%;
+}
+
+#collectionsRow:first-child{
+  border:0px;
+  padding-bottom: 0px;
+  border-top: 20px solid transparent;
+}

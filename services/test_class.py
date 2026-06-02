@@ -210,7 +210,11 @@ class TestView(FlaskView):
         # If we're good, then load the available cocktails as dropdowns
         collections_dict = self.main_menu.sort_by_collections()
         cocktails_in_collection = collections_dict[title]
-        ingredients_list = [list(self.main_menu.menu_dict[cocktail]["ingredients"].keys()) for cocktail in cocktails_in_collection]
+        ingredients_list = []
+        for cocktail in cocktails_in_collection:
+            ings = list(self.main_menu.menu_dict[cocktail]["ingredients"].keys())
+            ingredients_list.append([recipe.format_as_recipe(ing) for ing in ings])
+        
         notes_list = [self.main_menu.menu_dict[cocktail]["notes"] for cocktail in cocktails_in_collection]
 
         return render_template('collection.html', header=title+" Collection",
