@@ -456,7 +456,7 @@ class Menu:
             return base_spirits
         
     def get_cocktails_by_base_spirit(self):
-        base_spirits = self.get_all_base_spirits()
+        base_spirits = self.load_all_base_spirits()
 
         # Set up the overarching dictionary
         base_spirit_cocktails = {base: [] for base in base_spirits}
@@ -483,7 +483,6 @@ class Menu:
             # Update the overarching dictionary
             base_spirit_cocktails.update({base: base_cocktails})
 
-        print(base_spirit_cocktails)
         return base_spirit_cocktails
 
 
@@ -1055,5 +1054,5 @@ if __name__ == "__main__":
 
     # print(myMenu.menu_dict["Licorice Fern Margarita"])
 
-    print(myMenu.tags_dict_organized)
+    print(list(myMenu.base_spirit_cocktails.values()))
 

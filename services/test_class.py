@@ -138,7 +138,9 @@ class TestView(FlaskView):
                                options=self.main_menu.get_recipe_names(), 
                                ingredients=self.main_menu.get_inventory(), 
                                collections=collection_names,
-                               notes=collection_notes)        
+                               notes=collection_notes,
+                               baseSpirits=self.main_menu.base_spirit_cocktails,
+                               baseSpiritCocktails = self.main_menu.base_spirit_cocktails.values())        
 
     @method("GET")
     @method("POST")
