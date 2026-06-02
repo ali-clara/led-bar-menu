@@ -27,7 +27,7 @@
 
         <h3>How this works</h3>
         <p>You've reached the LED liquor cabinet web interface, our bar at your fingertips! Enter a cocktail recipe to light up the spirits needed to make that drink. Enter a
-            category of alcohol - Whisky, Amaro, Tequila, etc etc - to see our availability. And while you're here, don't miss browsing our house-made recipes or experimenting
+            category of alcohol - Whisky, Amaro, Tequila, etc etc - to see our availability. And while you're here, don't miss browsing our <a href=/collections_main_page/>house-made recipes</a> or experimenting
             with the <a href="/random_cocktail_generator">random cocktail generator</a>. 
         </p>
 
@@ -59,12 +59,45 @@
             </select>
             <button type="submit">Go</button>
         </form> -->
+
+
         <div class="middle">
-            {% for i in range(collections|length)%}
+            <!-- {% for i in range(collections|length)%}
               <a href="/collection/{{collections[i]}}">{{collections[i]}}</a><br>
               &emsp;-&ensp;{{notes[i]}}
               <br><br>
+            {% endfor %} -->
+
+            <table>
+            
+            {% set cols = 3 %}
+            {% for key in baseSpirits %}
+                
+                {% set count = namespace(value=(baseSpirits|length/cols)|round | int) %}
+                <tr><td><strong>{{key}}</strong></td></tr>
+               
+                {% if baseSpirits[key]|length < cols %}
+                    <tr>
+                    {% for val in baseSpirits[key] %}
+                        <td><a href="/resippy/{{val}}">{{val}}</a></td>
+                    {% endfor %}
+                    </tr>
+                {% else %}
+                    {% for i in range((baseSpirits[key]|length / cols)|round()|int) %}
+                        <tr>
+                            {% for j in range(cols) %}
+                            <td><a href="/resippy/{{baseSpirits[key][count.value + j - 1]}}">{{baseSpirits[key][count.value + j - 1]}}</a> </td>
+                            <!-- <td>{{baseSpirits[key][count.value + 1]}}</td>
+                            <td>{{baseSpirits[key][count.value + 2]}}</td> -->
+                            {% endfor %}
+                        </tr>
+                        {% set count.value = count.value + 3 %}
+                    {% endfor %}
+
+                {% endif %}
             {% endfor %}
+
+            </table>
         </div>  
 
     </div>  
