@@ -33,7 +33,7 @@
                 {% for j in range(2) %}
                   <!-- minus one because we index at 1, not 0 like a reasonable language -->
                   <td id="collectionsRow">
-                  <summary><strong><a href="/resippy/{{cocktails[i]}}">{{cocktails[ns.counter + j - 1]}} </a></strong></summary>
+                  <summary><strong><a href="/resippy/{{cocktails[ns.counter + j - 1]}}">{{cocktails[ns.counter + j - 1]}} </a></strong></summary>
                       {% for ingredient in ingredients[ns.counter + j - 1] %}
                       {{ingredient}}{% if not loop.last %},{%endif%}
                       {% endfor %}

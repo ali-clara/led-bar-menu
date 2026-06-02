@@ -55,11 +55,9 @@ Pear Brandy:
 Fig Brandy:
   collection: Tags
   ingredients:
-  - null
   notes: Fig Brandies
 Pisco:
   collection: Tags
   ingredients:
-  - null
   - don_cesar_pisco_
   notes: null
