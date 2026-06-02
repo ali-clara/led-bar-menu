@@ -27,15 +27,15 @@
         <!-- {They're in jinja, this took forever} -->
       <div class="middle">
           {% for i in range(cocktails|length) %}
-              <details>
+              <!-- <details> -->
                   <summary> <a href="/resippy/{{cocktails[i]}}">{{cocktails[i]}}</a></summary>
                       {% for ingredient in ingredients[i] %}
                       &emsp;&emsp;{{ingredient}}<br>
                       {% endfor %}
                       <br>
-                      &emsp;&emsp;Bartender's note: {{notes[i]}}
-              </details>
-              <br>
+                      <!-- &emsp;&emsp;Bartender's note: {{notes[i]}} -->
+              <!-- </details> -->
+              <!-- <br> -->
           {% endfor %}
       </div>  
   
