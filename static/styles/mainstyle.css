@@ -253,17 +253,9 @@ grid-template-rows: auto auto auto;
 
 .dropdown-button.vivid {
     background-color:green;
-}   
+} 
 
-
-/* --------------------- Specific elements by ID --------------------- */
-#tagsDropdown {
-    font-size:16px;
-    background-color: var(--main-bg-color);
-    max-height: fit-content;
-}
-
-#cocktail-input{
+.menu-search-input{
   max-height: fit-content;
   font-size: large;
   font-family:'Trebuchet MS';
@@ -271,7 +263,7 @@ grid-template-rows: auto auto auto;
   margin: 10px 0px 10px 0px;
 }
 
-#cocktailSubmit{
+.menu-search-button{
   background-color: var(--accent-color);
   border: none;
   color: var(--light-font);
@@ -280,8 +272,16 @@ grid-template-rows: auto auto auto;
   transition: all 0.1s ease-in-out;
 }
 
-#cocktailSubmit:hover{
+.menu-search-button:hover{
   background-color: #7B0853;
+}
+
+
+/* --------------------- Specific elements by ID --------------------- */
+#tagsDropdown {
+    font-size:16px;
+    background-color: var(--main-bg-color);
+    max-height: fit-content;
 }
 
 #collectionsTable {

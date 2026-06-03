@@ -26,6 +26,14 @@
       <!-- The nested "for" loops for the cocktail dropdowns -->
         <!-- {They're in jinja, this took forever} -->
       <div class="middle">
+
+        <!-- {{didYouMean}} -->
+        
+        {% if not didYouMean==None %}
+        These cocktails exclusively contain {{spiritName}}. For a broader selection, try 
+        {% for option in didYouMean %}<a href="/collection/{{option}}">{{option}}</a>{% if not loop.last %}, {%endif%}{% endfor %}
+        {% endif %}
+
         <table id="collectionsTable"> 
           {% set ns = namespace(counter=1) %}
           {% for i in range((cocktails|length/1.9)|round | int) %} <!-- Two columns. Divide by 1.9 instead of 2 in case of lists of length 1 -->

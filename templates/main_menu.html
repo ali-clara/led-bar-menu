@@ -34,20 +34,33 @@
         <hr>
 
         <!-- Cocktail input -->
-        <h3>Light up a <strong>Cocktail</strong> or <strong>Category</strong> </h3>
+        <h3>Light up a cocktail or category </h3>
         <!-- Anything in the "name" field gets sent as a dictionary key in POST -->
         <form id="cocktail" method="POST">
-            &emsp;<input list="cocktails" id="cocktail-input" name="cocktail input">
+            &emsp;<input class="menu-search-input" list="cocktails" id="cocktail-input" name="cocktail input">
             <datalist id="cocktails">
                 {% for option in options %}
                 <option value="{{ option }}">{{ option }}</option>
                 {% endfor %}
             </datalist>
-            <button form="cocktail" id="cocktailSubmit" type="submit">Light em up</button>
+            <button class="menu-search-button" form="cocktail" id="cocktailSubmit" type="submit">Light em up</button>
         </form>
 
         <hr>
-    
+        
+        <h3>Looking for a specific flavor? Search the menu by spirit name or type</h3>
+        <form id="spiritSearch" method="POST">
+            &emsp;<input class="menu-search-input" list="spirits" id="spiritInput" name="spirit_input">
+            <datalist id="spirits">
+                {% for ingredient in allIngredients %}
+                <option value="{{ingredient}}">{{ingredient}}</option>
+                {% endfor %}
+            </datalist>
+            <button class="menu-search-button" form="spiritSearch" id="spiritSubmit" type="submit">Search</button>
+        </form>
+
+        <hr>
+
         <!-- <p>Prefer to browse the options instead?</p> -->
         <h3>Prefer to browse? Take a look through our various collections</h3>
         <!-- <form method="POST">
@@ -60,46 +73,14 @@
             <button type="submit">Go</button>
         </form> -->
 
-
         <div class="middle">
-            <!-- {% for i in range(collections|length)%}
+            {% for i in range(collections|length)%}
               <a href="/collection/{{collections[i]}}">{{collections[i]}}</a><br>
               &emsp;-&ensp;{{notes[i]}}
               <br><br>
-            {% endfor %} -->
-
-            <table>
-            
-            {% set cols = 3 %}
-            {% for key in baseSpirits %}
-                
-                {% set count = namespace(value=(baseSpirits|length/cols)|round | int) %}
-                <tr><td><strong>{{key}}</strong></td></tr>
-               
-                {% if baseSpirits[key]|length < cols %}
-                    <tr>
-                    {% for val in baseSpirits[key] %}
-                        <td><a href="/resippy/{{val}}">{{val}}</a></td>
-                    {% endfor %}
-                    </tr>
-                {% else %}
-                    {% for i in range((baseSpirits[key]|length / cols)|round()|int) %}
-                        <tr>
-                            {% for j in range(cols) %}
-                            <td><a href="/resippy/{{baseSpirits[key][count.value + j - 1]}}">{{baseSpirits[key][count.value + j - 1]}}</a> </td>
-                            <!-- <td>{{baseSpirits[key][count.value + 1]}}</td>
-                            <td>{{baseSpirits[key][count.value + 2]}}</td> -->
-                            {% endfor %}
-                        </tr>
-                        {% set count.value = count.value + 3 %}
-                    {% endfor %}
-
-                {% endif %}
             {% endfor %}
 
-            </table>
         </div>  
-
     </div>  
   
   <div class="footer">
