@@ -62,26 +62,45 @@ def get_ingredients(tag):
     return ingredience
 
 
+#This is a list of ingredients listed as being "on clearance"
+#i.e. they're low in supply, and we want the randomizer to prefer to use them in order to clear out stock
+clearance_ingredients = yamls['tags_meta']['Clearance']['ingredients']
+
 #Take an (extant!) random ingredient tag and resolve it to an existing ingredient
-def resolve_random_ingredient(rand_ingredient):
+#rand_ingredient is the random ingredient tag, which should be found in random_rags.yml
+#clearance_weight is the factor by which ingredients on clearance should be preferred
+#i.e. if it's 2, then clearance ingredients should be twice as likely as they would otherwise be
+def resolve_random_ingredient(rand_ingredient, clearance_weight = 50):
     data = {}
     with open(dir_path+"/random_tags.yml", 'r') as file:
         data = yaml.safe_load(file)
     configuration = data[rand_ingredient]['included']
+    #configuation here is a list of weights for subcategories of whatever the ingredient is
+    #As of 2026-05-20, the only interesting data here is in the "Random Citrus" category
+    #where it's weighted in favor of lemons and limes
+
+
     #Select a tag category from the configuration
     distribution = []
     for i in configuration:
         distribution = distribution + [i]*configuration[i]
     selected = distribution[int(np.random.rand()*len(distribution))]
+    #At this point, "selected" is either a tag for a randomly selected ingredient, or it's an ingredient
+    #As of 2026-05-20, the latter is only true if it's a citrus
     if selected in ingredients:
         return selected
+    #If it's in fact a tag, we look at all the possible ingredients
     elif selected in tags:
         known_ingredients = get_ingredients(selected)
         available_ingredients = []
         for i in known_ingredients:
             if i not in eighty_six:
                 available_ingredients.append(i)
-        return available_ingredients[int(np.random.rand()*len(available_ingredients))]
+                #And if we want to favor ingredients on clearance, we just add some more copies to the list
+                if i in clearance_ingredients:
+                    available_ingredients = available_ingredients + [i]*(clearance_weight-1)
+        selection =  available_ingredients[int(np.random.rand()*len(available_ingredients))]
+        return selection
 
 def load_random_recipes():
     recipes = {}
@@ -108,18 +127,24 @@ def select_random_recipe(recipes_by_collection:dict, classic=False):
     # Pick a random one and return it
     return options[int(np.random.rand() * len(options))]
 
-def resolve_random_recipe(rand_recipe):
+
+
+
+#Given a recipe format, fill in each category with a randomly selected ingredient.
+#With an option for increased clearance preference since I think this is the context for it
+def resolve_random_recipe(rand_recipe, clearance_weight = 5):
     recipes = load_random_recipes()
     if rand_recipe == "Random Random":
         rand_recipe = get_random_recipe_options()[int(np.random.rand() * len(recipes))]
     random_ingredients = recipes[rand_recipe]['ingredients']
     for i in list(random_ingredients.keys()):
         if i[:6] == "Random":
-            resolution = resolve_random_ingredient(i)
+            resolution = resolve_random_ingredient(i, clearance_weight)
             random_ingredients[resolution] = random_ingredients[i]
             del random_ingredients[i]
     return random_ingredients
 
+#Should this really be hardcoded?
 if __name__ == "__main__":
     # for i in range(1000):
     #     R = resolve_random_ingredient("Random Base Spirit")
