@@ -26,17 +26,34 @@
       <!-- The nested "for" loops for the cocktail dropdowns -->
         <!-- {They're in jinja, this took forever} -->
       <div class="middle">
-          {% for i in range(cocktails|length) %}
-              <details>
-                  <summary> <a href="/resippy/{{cocktails[i]}}">{{cocktails[i]}}</a></summary>
-                      {% for ingredient in ingredients[i] %}
-                      &emsp;&emsp;{{ingredient}}<br>
+
+        <!-- {{didYouMean}} -->
+        
+        {% if not didYouMean==None %}
+        These cocktails exclusively contain {{spiritName}}. For a broader selection, try 
+        {% for option in didYouMean %}<a href="/collection/{{option}}">{{option}}</a>{% if not loop.last %}, {%endif%}{% endfor %}
+        {% endif %}
+
+        <table id="collectionsTable"> 
+          {% set ns = namespace(counter=1) %}
+          {% for i in range((cocktails|length/1.9)|round | int) %} <!-- Two columns. Divide by 1.9 instead of 2 in case of lists of length 1 -->
+                <tr>
+                {% for j in range(2) %}
+                  <!-- minus one because we index at 1, not 0 like a reasonable language -->
+                  <td id="collectionsRow">
+                  <summary><strong><a href="/resippy/{{cocktails[ns.counter + j - 1]}}">{{cocktails[ns.counter + j - 1]}} </a></strong></summary>
+                      {% for ingredient in ingredients[ns.counter + j - 1] %}
+                      {{ingredient}}{% if not loop.last %},{%endif%}
                       {% endfor %}
-                      <br>
-                      &emsp;&emsp;Bartender's note: {{notes[i]}}
-              </details>
-              <br>
-          {% endfor %}
+                  </td>
+                
+                {% endfor %}
+                </tr>
+                
+              {% set ns.counter = ns.counter + 2 %}
+
+            {% endfor %}
+        </table>
       </div>  
   
     <div class="footer">

@@ -23,6 +23,7 @@ Brandy (Inclusive):
 Calvados:
   collection: Tags
   ingredients:
+  - berneroy_calvados_
   - boulard_calvados
   notes: Calvados
 Cherry Brandy:
@@ -54,12 +55,10 @@ Pear Brandy:
   notes: Pear Brandies
 Fig Brandy:
   collection: Tags
-  ingredients:
-  - null
+  ingredients: null
   notes: Fig Brandies
 Pisco:
   collection: Tags
   ingredients:
-  - null
   - don_cesar_pisco_
   notes: null

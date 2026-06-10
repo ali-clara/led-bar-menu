@@ -100,6 +100,8 @@ class Menu:
         
         # Sort, validate, and modify anything that needs modifying
         self.menu_dict = self.validate_all_recipes(verbose, quiet)
+        # Dictionary of cocktails sorted into base spirit
+        self.base_spirit_cocktails = self.get_cocktails_by_base_spirit()
         # Inventory formatted for the website
         self.inventory_user_facing = [format_as_recipe(spirit) for spirit in self.inventory]
         # List of used locations not in the cabinet (e.g "fridge")
@@ -126,6 +128,11 @@ class Menu:
         return recipes_dict
         
     def load_tags(self):
+        """Loads from any yaml file in the /config directory that starts with "tags".
+
+        Returns:
+            tuple: tags_dict_all, tags_dict_organized, meta_tags
+        """
         tags_dict_all = {}
         tags_dict_organized = {}
         meta_tags = []
@@ -311,8 +318,8 @@ class Menu:
 
         return ingredient_list
     
-    def get_used_ingredients_expanded(self, verbose=False):
-        """Gets all used ingredients and expands all tags.
+    def get_used_ingredients_expanded(self, verbose=False, user_facing=False):
+        """Gets all used ingredients and expands all tags. Includes tag names.
 
         Args:
             menu_dict (dict): big menu dictionary, created by read_main_menu()
@@ -334,6 +341,7 @@ class Menu:
             recipe = self.menu_dict[key]["ingredients"]
             recipe_ingredients = list(recipe.keys())
             for ingredient in recipe_ingredients:
+                all_ingredience_once.add(ingredient)
                 # If we've found a tag, add all its children
                 if ingredient in tag_names:
                     children = self.expand_tag(ingredient)
@@ -344,12 +352,15 @@ class Menu:
                             printed_tags.append(ingredient)
                             print(f"Tag identified: {ingredient}. \n Children: {children}")
                 # Otherwise, just add the ingredient
-                else:
-                    all_ingredience_once.add(ingredient)
+                # else:
+                #     all_ingredience_once.add(ingredient)
 
         if verbose:
             print("\n All ingredients identified:")
             print(all_ingredience_once)
+
+        if user_facing:
+            all_ingredience_once = [format_as_recipe(ing) for ing in all_ingredience_once]
 
         return all_ingredience_once
     
@@ -424,6 +435,68 @@ class Menu:
         if recipe_name in self.get_recipe_names():
             return list(self.menu_dict[recipe_name]['ingredients'].keys())
     
+    def load_all_base_spirits(self):
+        """Loads base spirit tags from tags_category.yml and expands into children
+
+        Returns:
+            _type_: _description_
+        """
+        categories_filepath = os.path.join(self.recipe_path, "tags_category.yml")
+        # Open the yaml
+        try:
+            with open(categories_filepath) as stream:
+                # All categories (tag: {ingredients: [spirit_1, spirit_2, ..., spirit_n], notes: , etc})
+                contents = yaml.safe_load(stream)
+                # Pull out only the base spirits and create an empty dictionary with each spirit as a key
+                base_spirits = {spirit: [] for spirit in contents["Base Spirits"]["ingredients"]}
+        except TypeError as e:
+            print(f"Failed to read {categories_filepath}: {e}")
+        except FileNotFoundError as e:
+            print(e)
+        except KeyError as e:
+            print(f"key error in reading base spirits: {e}")
+        else:
+            # If we loaded and read the file correctly, we have a dictionary of base spirits to fill in.
+            # Conveniently, we already have a method that gets all the children of a spirit tag. Expand 
+            # each base spirit and fill in the dictionary with their children.
+            for spirit in base_spirits:
+                base_spirits.update({spirit: self.expand_tag(spirit)})
+
+            return base_spirits
+        
+    def get_cocktails_by_base_spirit(self):
+        base_spirits = self.load_all_base_spirits()
+
+        # Set up the overarching dictionary
+        base_spirit_cocktails = {base: [] for base in base_spirits}
+
+        # For each base spirit (whisky, brandy, rum, etc)...
+        for base in base_spirits:
+            # ... we need to compare the children of the base spirit ('saint_george_single_malt', 'famous_grouse', 'the_deacon', etc)
+            # with the children of every cocktail ingredient.
+            base_children = base_spirits[base]
+            # Loop through every cocktail and expand any ingredient tags
+            base_cocktails = []
+            for cocktail in self.menu_dict:
+                ingredients = self.menu_dict[cocktail]["ingredients"].keys()
+                ingredients_expanded = []
+                for ing in ingredients:
+                    children = self.expand_tag(ing)
+                    if children:
+                        [ingredients_expanded.append(c) for c in children]
+                    else:
+                        ingredients_expanded.append(ing)
+
+                # If any of those tags match our expanded base spirit tags, add the cocktail to our running list
+                if any((True for x in base_children if x in ingredients_expanded)):
+                    base_cocktails.append(cocktail)
+
+            # Update the overarching dictionary
+            base_spirit_cocktails.update({base: base_cocktails})
+
+        return base_spirit_cocktails
+    
+
     # -------------------- TAGS & ALIASES -------------------- #
     def remove_empty_tags(self, all_tags:dict, quiet=True):
         self.unstocked_tags = []
@@ -547,6 +620,83 @@ class Menu:
             
         print(f"Could not find parent tag for {tag}")
 
+    def find_tags_of_spirit(self, spirit):
+        """Finds the tag(s) of a spirit. E.g "Falernum" is the tag of velvet_falernum
+
+        Args:
+            spirit (str): _description_
+
+        Returns:
+            list or None: tag names, if they exist
+        """
+
+        blacklist_tags = ["Base Spirits", "Category"]
+        
+        # Sometimes a spirit is a tag
+        if format_as_recipe(spirit) in self.get_all_tag_names():
+            spirit = format_as_recipe(spirit)
+        # Sometimes it is not
+        else:
+            spirit = format_as_inventory(spirit)
+
+        # Loop through all tags and check if they include our spirit
+        tags_list = set([])
+        for tag in self.tags_dict_all:
+            if self.tags_dict_all[tag]["ingredients"]: # if the list exists TODO -- this is much cleaner than what I've been doing. See if I should use this syntax elsewhere
+                if spirit in self.tags_dict_all[tag]["ingredients"]:
+                    # Grab both the direct tag of the spirit (i.e Scotch Whisky)...
+                    tags_list.add(tag)
+                    # ... and the parent tag (i.e Whisky). 
+                    parent_tag = self.find_tag_parent(tag)
+                    # If the parent tag exists and isn't just the same name as the spirit/tag in question, add it too
+                    # (prevents tequila from being a parent of tequlia)
+                    # It's a bit weird here because "parent tag" is the name of the yaml file, which usually corresponds
+                    # to the highest level tag, but not always
+                    print("parent", parent_tag) # TODO - bug with scotch
+                    if parent_tag and parent_tag != spirit: 
+                        tags_list.add(parent_tag)
+
+        for blacklist in blacklist_tags:
+            if blacklist in tags_list:
+                tags_list.remove(blacklist)
+        
+        if tags_list:
+            return tags_list
+        else:
+            print(f"Could not find tags for {spirit}") # TODO: logs
+
+    def get_cocktails_by_spirit(self, spirit):
+        children = self.expand_tag(spirit)
+        # expand_tag either returns a list of children, or None. I don't care about the None case, so overwrite it
+        if not children:
+            children = [spirit]
+
+        spirit_cocktails = []
+        for cocktail in self.menu_dict:
+            ingredients = self.menu_dict[cocktail]["ingredients"].keys()
+            # If we can find it right away without expanding, great do that
+            if spirit in ingredients:
+                spirit_cocktails.append(cocktail)
+            # Otherwise, catch any children - a cocktail that calls for Famous Grouse should show up when you ask for Whisky
+            else:
+                ingredients_expanded = []
+                for ing in ingredients:
+                    cocktail_children = self.expand_tag(ing)
+                    if cocktail_children:
+                        [ingredients_expanded.append(c) for c in cocktail_children]
+                    else:
+                        ingredients_expanded.append(ing)
+
+                # If any of the expanded ingredient tags match our expanded given spirit tags, add the cocktail to our running list
+                if any((True for x in children if x in ingredients_expanded)):
+                    spirit_cocktails.append(cocktail)
+
+        # Finally, grab the tag parent and return it too
+        parent_tag = self.find_tags_of_spirit(spirit)
+
+        return spirit_cocktails, parent_tag
+
+    
     # -------------------- CHECKING INVENTORY -------------------- #
     def is_in_stock(self, ingredient:str, recipe_name:str="", verbose=False, quiet=True):
         """Checks a given ingredient against our inventory (which has the location "none" if out of stock).
@@ -991,5 +1141,11 @@ if __name__ == "__main__":
 
     # print(myMenu.menu_dict["Licorice Fern Margarita"])
 
-    print(myMenu.tags_dict_organized)
+    # print(myMenu.get_cocktails_by_spirit("Whiskey"))
+
+    # print(myMenu.get_used_ingredients_expanded())
+
+    print(myMenu.find_spirit_tags("elderflower liqueur"))
+
+
 

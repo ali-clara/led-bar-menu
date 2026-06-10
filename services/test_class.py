@@ -101,7 +101,7 @@ class TestView(FlaskView):
             element_name = list(request.form.keys())[0]
             form_entry = request.form.get(element_name)
 
-            # If the form has returned a cocktail, process it
+            # Lighting up cocktail or tag
             if element_name == "cocktail input":
                 # Fuzzy string checking!
                 is_recipe, recipe_match, recipe_score = recipe.check_match(form_entry, self.main_menu.get_recipe_names(), match_threshold=0.705)
@@ -125,6 +125,28 @@ class TestView(FlaskView):
                     print(f"lighting up single ingredient: {ingredient_match}")
                     self.lights.illuminate_spirit([ingredient_match])
 
+            # Sorting the menu by spirit
+            elif element_name == "spirit_input":
+                is_ingredient, ingredient_match, ingredient_score = recipe.check_match(form_entry, self.main_menu.get_inventory(), match_threshold=0.75)
+                print(is_ingredient, ingredient_match, ingredient_score)
+                is_tag, tag_match, tag_score = recipe.check_match(form_entry, self.main_menu.get_used_tag_names(), match_threshold=0.75)
+                print(is_tag, tag_match, tag_score)
+
+                if is_tag and is_ingredient:
+                    if tag_score > ingredient_score:
+                        return redirect(url_for('TestView:collection', arg=tag_match))
+                    else:
+                        return redirect(url_for('TestView:collection', arg=recipe.format_as_recipe(ingredient_match)))
+                
+                elif is_tag:
+                    return redirect(url_for('TestView:collection', arg=tag_match))
+
+                elif is_ingredient:
+                    return redirect(url_for('TestView:collection', arg=recipe.format_as_recipe(ingredient_match)))
+                
+                
+
+
             # Otherwise, if the form has returned a collection, process ~that~
             # elif element_name == "collection dropdown":
             #     if form_entry in self.main_menu.get_collection_names():
@@ -138,7 +160,10 @@ class TestView(FlaskView):
                                options=self.main_menu.get_recipe_names(), 
                                ingredients=self.main_menu.get_inventory(), 
                                collections=collection_names,
-                               notes=collection_notes)        
+                               notes=collection_notes,
+                               baseSpirits=self.main_menu.base_spirit_cocktails,
+                               baseSpiritCocktails = self.main_menu.base_spirit_cocktails.values(),
+                               allIngredients=self.main_menu.get_used_ingredients_expanded(user_facing=True))        
 
     @method("GET")
     @method("POST")
@@ -203,20 +228,48 @@ class TestView(FlaskView):
         else:
             title = recipe.format_as_recipe(arg)
 
-        # Check if it's a valid collection name. If not, stop here and let us know
-        if title not in self.main_menu.get_collection_names():
-            return "<p> not a valid cocktail menu collection :3 </p>"
+        # If we've gotten a valid collection name, then load the available cocktails as dropdowns
+        if title in self.main_menu.get_collection_names():
+            collections_dict = self.main_menu.sort_by_collections()
+            cocktails_in_collection = collections_dict[title]
+            ingredients_list = []
+            for cocktail in cocktails_in_collection:
+                ings = list(self.main_menu.menu_dict[cocktail]["ingredients"].keys())
+                ingredients_list.append([recipe.format_as_recipe(ing) for ing in ings])
+            
+            notes_list = [self.main_menu.menu_dict[cocktail]["notes"] for cocktail in cocktails_in_collection]
 
-        # If we're good, then load the available cocktails as dropdowns
-        collections_dict = self.main_menu.sort_by_collections()
-        cocktails_in_collection = collections_dict[title]
-        ingredients_list = [list(self.main_menu.menu_dict[cocktail]["ingredients"].keys()) for cocktail in cocktails_in_collection]
-        notes_list = [self.main_menu.menu_dict[cocktail]["notes"] for cocktail in cocktails_in_collection]
-
-        return render_template('collection.html', header=title+" Collection",
+            return render_template('collection.html', header=title+" Collection",
                                cocktails=cocktails_in_collection,
                                ingredients=ingredients_list,
                                notes=notes_list)
+        
+        # Otherwise if we've gotten an ingredient or a tag, load all drinks featuring that ingredient
+        elif title in self.main_menu.get_used_ingredients_expanded(user_facing=True) or title in self.main_menu.get_all_tag_names():
+            
+            cocktail_list, parent_tag = self.main_menu.get_cocktails_by_spirit(title)
+            ingredients_list = []
+            for cocktail in cocktail_list:
+                ings = list(self.main_menu.menu_dict[cocktail]["ingredients"].keys())
+                ingredients_list.append([recipe.format_as_recipe(ing) for ing in ings])
+
+            # # If 
+            # if title not in parent_tag:
+            #     did_you_mean = parent_tag
+            # else:
+            #     did_you_mean = None
+            
+            return render_template('collection.html', header=title+" Drinks",
+                                   cocktails=cocktail_list,
+                                   ingredients=ingredients_list,
+                                #    parentTag=parent_tag,
+                                   didYouMean=parent_tag,
+                                   spiritName=title,
+                               )
+        
+        else:
+            return redirect(url_for('TestView:menu'))
+
 
     def _get_collection_info(self):
         # should make this be an external yaml probably
@@ -227,7 +280,7 @@ class TestView(FlaskView):
                                    "Cocktails from our undergrad days at Ali's uncle's house",
                                    "Classic drinks! You could order these in public and people will probably know what you mean",
                                     "Drinks inspired by Steely Dan songs and albums. Ask for a physical menu for extra ~zing~",
-                                    "Miscellaneous!",
+                                    # "Miscellaneous!",
                                     "Plagiarized from our favorite cocktail bar, The Zig Zag Cafe in Pike Place",
                                     ]
         
@@ -235,17 +288,10 @@ class TestView(FlaskView):
 
     def collections_main_page(self):
         self._quick_update()
-        collection_names = self.main_menu.get_collection_names()
-        collection_names.sort()
-
-        collection_descriptions = ["The creations of Jack and Dane from their time in the 2201 N 106th st apartment",
-                                   "Cocktails from our undergrad days at Ali's uncle's house",
-                                   "Classic drinks! You could order these in public and people will probably know what you mean",
-                                    "Drinks inspired by Steely Dan songs and albums. Ask for a physical menu for extra ~zing~",
-                                    # "Miscellaneous!",
-                                    "Plagiarized from our favorite cocktail bar, The Zig Zag Cafe in Pike Place",
-                                    ]
-        return render_template('collections_main.html', collections=self.main_menu.get_collection_names(), notes=collection_descriptions)
+        
+        collection_names, collection_descriptions = self._get_collection_info()
+        
+        return render_template('collections_main.html', collections=collection_names, notes=collection_descriptions)
 
     @method("POST")
     @method("GET")

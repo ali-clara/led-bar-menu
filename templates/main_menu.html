@@ -27,27 +27,40 @@
 
         <h3>How this works</h3>
         <p>You've reached the LED liquor cabinet web interface, our bar at your fingertips! Enter a cocktail recipe to light up the spirits needed to make that drink. Enter a
-            category of alcohol - Whisky, Amaro, Tequila, etc etc - to see our availability. And while you're here, don't miss browsing our house-made recipes or experimenting
+            category of alcohol - Whisky, Amaro, Tequila, etc etc - to see our availability. And while you're here, don't miss browsing our <a href=/collections_main_page/>house-made recipes</a> or experimenting
             with the <a href="/random_cocktail_generator">random cocktail generator</a>. 
         </p>
 
         <hr>
 
         <!-- Cocktail input -->
-        <h3>Light up a <strong>Cocktail</strong> or <strong>Category</strong> </h3>
+        <h3>Light up a cocktail or category </h3>
         <!-- Anything in the "name" field gets sent as a dictionary key in POST -->
         <form id="cocktail" method="POST">
-            &emsp;<input list="cocktails" id="cocktail-input" name="cocktail input">
+            &emsp;<input class="menu-search-input" list="cocktails" id="cocktail-input" name="cocktail input">
             <datalist id="cocktails">
                 {% for option in options %}
                 <option value="{{ option }}">{{ option }}</option>
                 {% endfor %}
             </datalist>
-            <button form="cocktail" id="cocktailSubmit" type="submit">Light em up</button>
+            <button class="menu-search-button" form="cocktail" id="cocktailSubmit" type="submit">Light em up</button>
         </form>
 
         <hr>
-    
+        
+        <h3>Looking for a specific flavor? Search the menu by spirit name or type</h3>
+        <form id="spiritSearch" method="POST">
+            &emsp;<input class="menu-search-input" list="spirits" id="spiritInput" name="spirit_input">
+            <datalist id="spirits">
+                {% for ingredient in allIngredients %}
+                <option value="{{ingredient}}">{{ingredient}}</option>
+                {% endfor %}
+            </datalist>
+            <button class="menu-search-button" form="spiritSearch" id="spiritSubmit" type="submit">Search</button>
+        </form>
+
+        <hr>
+
         <!-- <p>Prefer to browse the options instead?</p> -->
         <h3>Prefer to browse? Take a look through our various collections</h3>
         <!-- <form method="POST">
@@ -59,14 +72,15 @@
             </select>
             <button type="submit">Go</button>
         </form> -->
+
         <div class="middle">
             {% for i in range(collections|length)%}
               <a href="/collection/{{collections[i]}}">{{collections[i]}}</a><br>
               &emsp;-&ensp;{{notes[i]}}
               <br><br>
             {% endfor %}
-        </div>  
 
+        </div>  
     </div>  
   
   <div class="footer">
