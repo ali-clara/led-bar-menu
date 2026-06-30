@@ -447,7 +447,7 @@ Ramos Gin Fizz:
   ingredients:
     Egg White:
       amount: '1'
-      units: pcs
+      units: egg
     Gin:
       amount: '2'
       units: oz

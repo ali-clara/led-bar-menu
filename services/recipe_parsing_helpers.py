@@ -41,8 +41,6 @@ def format_new_tag_yaml(tag_name:str, ingredients):
     new_tag = {tag_name: {'collection': 'Tags', 'ingredients': ingredients}}
     return new_tag
 
-
-
 # -------------------- FUZZY STRINGS -------------------- #
 def get_closest_match(x, to_check_against, similarity_threshold=0.75, verbose=False):
     best_match = None
@@ -453,7 +451,7 @@ class Menu:
         return self.out_of_stock
     
     def get_ingredients(self, recipe_name, user_facing=False):
-        """Gets the ingredients of a given named cocktail
+        """Gets the ingredients of a given named cocktail and sorts them intuitively
 
         Args:
             recipe_name (str): the given named cocktail
@@ -462,9 +460,42 @@ class Menu:
             list: list of strings
         """
         # recipe_name = format_as_recipe(recipe_name)
+        units_priority = ["oz", "tsp", "bsp", "squeeze", "dashes", "dash", "float", "spritz"]
+
+        def units_key(s):
+            a,u,i = s
+            if u in units_priority:
+                return units_priority.index(u)
+            else:
+                return len(units_priority)+1
+
+        def amounts_key(s):
+            a,u,i = s
+            if a is None:
+                return 0
+            elif a.replace('.','',1).isdigit():
+                # print(a)
+                return float(a)
+            else:
+                return 0
+
         print(recipe_name)
         if recipe_name in self.get_recipe_names():
+            
             ings = list(self.menu_dict[recipe_name]['ingredients'].keys())
+            amounts = [self.menu_dict[recipe_name]['ingredients'][ing]["amount"] for ing in ings]
+            units = [self.menu_dict[recipe_name]['ingredients'][ing]["units"] for ing in ings]
+
+            s = [(a,u,i) for i, u, a in zip(ings, units, amounts)]
+
+            # print(s)
+            s.sort(key=amounts_key, reverse=True)
+            
+            # print(s)
+            s.sort(key=units_key)
+            
+            print(s)
+
             if user_facing:
                 return [format_as_recipe(ing) for ing in ings]
             else:
@@ -725,7 +756,6 @@ class Menu:
 
         return spirit_cocktails, parent_tag
 
-    
     # -------------------- CHECKING INVENTORY -------------------- #
     def is_in_stock(self, ingredient:str, recipe_name:str="", verbose=False, quiet=True):
         """Checks a given ingredient against our inventory (which has the location "none" if out of stock).
@@ -1166,15 +1196,12 @@ if __name__ == "__main__":
 
     # update_recipe_yaml("test2", "blah", "notes", ["", "two"], ["", "2"], ["", "oz"])
 
-    # print(myMenu.get_all_tag_names())
+    for r in myMenu.get_recipe_names()[31:40]:
+        myMenu.get_ingredients(r)
 
-    # print(myMenu.menu_dict["Licorice Fern Margarita"])
+    # myMenu.get_ingredients("Corn and Oil")
 
-    # print(myMenu.get_cocktails_by_spirit("Whiskey"))
 
-    # print(myMenu.get_used_ingredients_expanded())
-
-    print(myMenu.find_spirit_tags("elderflower liqueur"))
 
 
 
