@@ -8,7 +8,7 @@ print("Welcome to the main menu recipe builder (terminal version). Eventually th
 "rather write Python than CSS.")
 main_menu = {}
 while True:
-    choice = input("(a) Add a recipe (b) List the recipe names you've added (c) Print a recipe (q) Save and quit \n")
+    choice = input("(a) Add a recipe (b) List the recipe names you've added (c) Print a recipe (t) Add a tag (q) Save and quit \n")
     if choice == "a":
         name = input("Recipe name: ")
         collection = input("Collection: ")
@@ -47,6 +47,34 @@ while True:
         except:
             print("Could not find that recipe in the saved dictionary. Recipes you've entered: ") 
             print(list(main_menu.keys()))
+
+    # Copied from option a, but with shortcuts 
+    if choice == "t":
+        name = input("Recipe name: ")
+        collection = "Tags"
+        main_menu.update({name: {"ingredients": {}}})
+        ingredients = []
+        amounts = []
+        units = []
+        while True:
+            ingredients.append(input("    Ingredient: "))
+            amounts.append("")
+            units.append("")
+
+            done_ask = input("Hit 9 to stop adding ingredients. Hit 2 to clear that last ingredient. Hit anything else to save and continue.")
+            if done_ask == "9":
+                break
+            elif done_ask == "2":
+                ingredients.pop()
+                amounts.pop()
+                units.pop()
+        
+        notes = input("Notes: ")
+        
+        main_menu[name].update({"notes": notes})
+        main_menu[name].update({"collection": collection})
+        for ingredient in ingredients:
+            main_menu[name]["ingredients"].update({ingredient: {}})
 
     elif choice == "q":
         print("-----")

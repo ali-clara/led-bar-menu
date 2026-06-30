@@ -3,3 +3,6 @@ Flask
 Flask-Classful
 jellyfish
 pandas
+numpy
+titlecase
+readerwriterlock

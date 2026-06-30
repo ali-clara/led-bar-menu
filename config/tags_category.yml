@@ -1,0 +1,52 @@
+Amaro:
+  collection: Tags
+  ingredients:
+  - torani_amer
+  - ramazzoti_amaro
+  - aperol
+  - Cynar
+  - campari
+  - Brovo Amaro
+  - rosso_amaro
+  - cardamaro
+  - kina_laero_dor
+  - amaro_averna
+  - fernet-branca
+  - gran_classico
+  - reddit_aroma
+  - Brucato Amaro
+  - amaro_angostura
+  - meletti
+  - nonino
+  - byrrh
+  - Gentian Amaro
+  notes: Include all amaros. Use high-level tags where possible
+Base Spirits:
+  collection: Tags
+  ingredients:
+  - Brandy (Inclusive)
+  - Gin (Inclusive)
+  - Mezcal (Inclusive)
+  - Rum (Inclusive)
+  - Vodka (Inclusive)
+  - Whiskey (Inclusive)
+  notes: Include only high-level tags here
+Citrus:
+  collection: Tags
+  ingredients:
+  - Grapefruit Juice
+  - Key Lime Juice
+  - Lemon Juice
+  - Lime Juice
+  - Meyer Lemon Juice
+  - Orange Juice
+  notes: Citrus
+Liqueurs:
+  collection: Tags
+  ingredients:
+  - brovo_ginger_liqueur
+  - midori
+  - Herbal Liqueur
+  - Fruit Liqueur
+  - Misc Liqueur
+  notes: Include only high-level tags here

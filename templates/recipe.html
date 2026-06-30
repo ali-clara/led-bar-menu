@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="{{ url_for('static',filename='styles/mainstyle.css') }}">
+  <title>Main Menu</title>
+</head>
+
+<body>
+  <div class="grid-container">
+      <div class="header">
+          <h2>{{header}}</h2>
+      </div>
+  
+      <div class="left">
+        <!-- Navbar! We're on the collections page, so make sure that one's "active" -->
+        <div class="vertical-menu">
+          <a href="/menu">Home</a>
+          <a class="active" href="/collections_main_page">Collections</a>
+          <a href="/inventory">Inventory</a>
+          <a href="/random_cocktail_generator">Random Cocktail Generator</a>
+          <a href="/credits">Credits</a>
+        </div>
+      </div>
+
+        <!-- {They're in jinja, this took forever} -->
+      <div class="middle">
+        <h4>Ingredients</h4>
+            {% for i in range(ingredients|length) %}
+            &emsp;{{ingredients[i]}}<br>
+            &emsp;&emsp;{{amounts[i]}} {{units[i]}}<br>
+            {% endfor %}
+        <h4>Bartenders Notes</h4>
+            <p>&emsp;{{notes}}</p>
+      </div>  
+  
+    <div class="footer">
+      <a href="/put_away_ingredient">♫♪♪ Clean up, clean up ♫♪♪</a> <br>
+      <a href="/modify_spirits">Add a new spirit</a>
+    </div>
+
+  </div>
+</body>
+
+</html>

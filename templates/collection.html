@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="{{ url_for('static',filename='styles/mainstyle.css') }}">
+  <title>{{header}} Collection</title>
+</head>
+
+<body>
+  <div class="grid-container">
+      <div class="header">
+          <h2>{{header}}</h2>
+      </div>
+  
+      <div class="left">
+        <!-- Navbar! We're on the collections page, so make sure that one's "active" -->
+        <div class="vertical-menu">
+          <a href="/menu">Home</a>
+          <a class="active" href="/collections_main_page">Collections</a>
+          <a href="/inventory">Inventory</a>
+          <a href="/random_cocktail_generator">Random Cocktail Generator</a>
+          <a href="/credits">Credits</a>
+        </div>
+      </div>
+
+      <!-- The nested "for" loops for the cocktail dropdowns -->
+        <!-- {They're in jinja, this took forever} -->
+      <div class="middle">
+
+        <!-- {{didYouMean}} -->
+        
+        {% if not didYouMean==None %}
+        These cocktails contain {{spiritName}}. For a broader selection, try 
+        {% for option in didYouMean %}<a href="/collection/{{option}}">{{option}}</a>{% if not loop.last %}, {%endif%}{% endfor %}
+        {% endif %}
+
+        <table id="collectionsTable"> 
+          {% set ns = namespace(counter=1) %}
+          {% for i in range((cocktails|length/1.9)|round | int) %} <!-- Two columns. Divide by 1.9 instead of 2 in case of lists of length 1 -->
+                <tr>
+                {% for j in range(2) %}
+                  <!-- minus one because we index at 1, not 0 like a reasonable language -->
+                  <td id="collectionsRow">
+                  <summary><strong><a href="/resippy/{{cocktails[ns.counter + j - 1]}}">{{cocktails[ns.counter + j - 1]}} </a></strong></summary>
+                      {% for ingredient in ingredients[ns.counter + j - 1] %}
+                      {{ingredient}}{% if not loop.last %},{%endif%}
+                      {% endfor %}
+                  </td>
+                
+                {% endfor %}
+                </tr>
+                
+              {% set ns.counter = ns.counter + 2 %}
+
+            {% endfor %}
+        </table>
+      </div>  
+  
+    <div class="footer">
+        <a href="/put_away_ingredient">♫♪♪ Clean up, clean up ♫♪♪</a> <br>
+        <a href="/modify_spirits">Add a new spirit</a>
+    </div>
+
+  </div>
+</body>
+
+</html>

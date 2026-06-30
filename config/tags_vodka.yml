@@ -1,0 +1,15 @@
+Flavored Vodka:
+  collection: Tags
+  ingredients:
+  - red_huck_jar
+  notes: ''
+Vodka:
+  collection: Tags
+  ingredients:
+  notes: Plain vodka
+Vodka (Inclusive):
+  collection: Tags
+  ingredients:
+  - Vodka
+  - Flavored Vodka
+  notes: ''

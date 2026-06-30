@@ -1,19 +1,51 @@
-/* Set up highlighted font for dummy leds, get rid of this eventually*/
-.highlighted {
-    background-color: rgb(204, 0, 255);
+:root {
+  --main-bg-color: #bbb;
+  --navbar-color: #10202d;
+  --footer-color: #657694;
+  --accent-color: #650242;
+  --dark-font: #10202d;
+  --light-font: #fff;
 }
 
-/* General body style params */
+/* General style params for existing classes that are applicable to every page */
 body {
-    font-family: Georgia, 'Times New Roman', Times, serif
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: large;
     }
 
-/* Not sure what this one is exactly, I think it's page grid layout */
-/* * {
-box-sizing: border-box;
-} */
+summary {
+  cursor: pointer;
+}
 
-/* Set up the grid container. Two columns, three rows */
+a:link {
+  color: black;
+  background-color: transparent;
+}
+
+a:visited{
+  color: var(--accent-color);
+}
+
+button {
+    text-align: left;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    padding: 3px 10px;
+    font-family:'Trebuchet MS';
+}
+
+table, th, td {
+  border: 1px solid #bbb;
+}
+
+nav ul {
+  overflow:hidden; 
+  overflow-y:scroll;
+}
+
+
+/* --------------------- Set up the overall grid container. Two columns, three rows --------------------- */
 /* https://www.w3schools.com/css/css_grid_item.asp */
 .grid-container {
 display: grid;
@@ -22,11 +54,11 @@ grid-template-rows: auto auto auto;
 /* width: 100vw; */
 } 
 
-/* Style the left column */
+/* Left column */
 .left {
     grid-column: 1 / span 1; /* Starts in column 1, spans 1 column. etc etc */
     grid-row: 1 / span 3;
-    background-color: #579cba;
+    background-color: var(--navbar-color);
     padding: 10px;
     min-height: 250px;
 }
@@ -42,25 +74,76 @@ grid-template-rows: auto auto auto;
     padding-bottom: 10px;
     text-align: center;
     font-size: 30px;
+    min-height: 120px;
 }
 
 /* Style the middle column */
 .middle {
-grid-column: 2 / end;
-grid-row: 2 / span 1;
-padding: 10px;
-background-color: #bbb;
-width: end;
+  grid-column: 2 / end;
+  grid-row: 2 / span 1;
+  padding: 10px;
+  background-color: var(--main-bg-color);
+  width: end;
+}
+
+.middle h3 {
+  font-weight: normal;
+  font-size: larger;
+  position: relative;
+  /* Top right bottom left */
+  margin: 20px 20px 5px 5px;
+}
+
+.middle p {
+  margin: 10px 10px 10px 5px;
+  font-size: large;
+}
+
+.middle hr {
+  border: none;
+  border-top: 3px double #333333;
+  color: #333333;
+  overflow: visible;
+  text-align: center;
+  height: 5px;
+  width: 30%;
+  margin: 20px 20px 0px 0px;
+}
+
+.middle hr::after {
+  left: 0;
+  background: var(--main-bg-color);
+  content: "§";
+  padding: 0 4px;
+  position: relative;
+  top: -13px;
+  
+}
+
+.middle li {
+  margin: 0px 0px 5px 40px;
 }
 
 /* Style the footer */
 .footer {
-grid-column: 1 / end;
-grid-row: 3 / span 1;
-background-color: #f1f1f1;
-padding: 10px;
-text-align: center;
+  grid-column: 1 / end;
+  grid-row: 3 / span 1;
+  background-color: var(--footer-color);
+  padding: 10px;
+  text-align: center;
 }
+
+.footer a {
+  color: var(--light-font);
+  /* font-family:'Trebuchet MS'; */
+}
+
+.footer p {
+  color: var(--light-font);
+  font-style: italic;
+}
+
+/* --------------------- Custom classes and objects --------------------- */
 
 /* Navbar */
 .vertical-menu{
@@ -69,22 +152,154 @@ text-align: center;
     position: fixed; /* Make it stay in place when you scroll */
 }
 
-/* Style the elements <a> inside the navbar */
+/* Link elements <a> inside the navbar */
 .vertical-menu a {
-    color: black; /* Black text color */
+    color: var(--light-font); /* Black text color */
     display: block; /* Make the links appear below each other */
     padding: 5px 5px 16px 16px; /* Add some padding */
     text-decoration: none; /* Remove underline from links */
+    /* font-family:'Trebuchet MS'; */
 }
 
-/* Style the navbar "active" element, e.g which one we're on */
+/* Navbar "active" element, e.g which one we're on */
 .vertical-menu a.active {
-    background-color: #04AA6D;
+    background-color: var(--accent-color);
     color: white;
     }
 
-/* Style the navbar hover */
+/* Navbar hover */
 .vertical-menu a:hover {
-    background-color: #555;
+    background-color: var(--footer-color);
     color: white;
     }
+
+/* Button container - used in the random cocktail generator */
+.button-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 10px;
+
+  @media (min-width: 415px) {
+    grid-template-columns: repeat(auto-fit, minmax(150px, max-content));
+    justify-content: left;
+  }
+
+  margin: 20px;
+  padding: 10px;
+}
+
+/* Dropdown checklist - used to add spirits to tags, could be used elsewhere*/
+.dropdown-check-list {
+  display: inline-block;
+}
+
+.dropdown-check-list .anchor {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-check-list ul.items {
+  padding: 2px;
+  display: none;
+  margin: 0;
+  border: 1px solid #ccc;
+  border-top: none;
+  max-height:200px;
+  max-height:auto;
+  overflow:hidden; 
+  overflow-y:scroll;
+}
+
+.dropdown-check-list ul.items li {
+  list-style: none;
+}
+
+.dropdown-check-list.visible .items {
+  display: block;
+}
+
+/* Dropdown checklist toggles */
+.arrow {
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  /* margin-left: 10px; */
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+.rotate-up {
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+}
+
+.dropdown-button {
+  border: none;
+  background-color: var(--main-bg-color);
+  color: black;
+  width: max-content;
+  max-height: fit-content;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.dropdown-button.pressed {
+    background-color:white;
+}   
+
+.dropdown-button.vivid {
+    background-color:green;
+} 
+
+.menu-search-input{
+  max-height: fit-content;
+  font-size: large;
+  font-family:'Trebuchet MS';
+  /* Top right bottom left */
+  margin: 10px 0px 10px 0px;
+}
+
+.menu-search-button{
+  background-color: var(--accent-color);
+  border: none;
+  color: var(--light-font);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+
+.menu-search-button:hover{
+  background-color: #7B0853;
+}
+
+
+/* --------------------- Specific elements by ID --------------------- */
+#tagsDropdown {
+    font-size:16px;
+    background-color: var(--main-bg-color);
+    max-height: fit-content;
+}
+
+#collectionsTable {
+  text-align: center;
+  font-size: x-large;
+  padding-left:20px;
+  padding-right:20px;
+}
+
+#collectionsRow {
+  vertical-align: top;
+  border-left: 100px solid transparent;
+  border-top: 20px solid transparent;
+  min-width: 40%;
+}
+
+#collectionsRow:first-child{
+  border:0px;
+  padding-bottom: 0px;
+  border-top: 20px solid transparent;
+}

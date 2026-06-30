@@ -1,0 +1,31 @@
+Gin:
+  collection: Tags
+  ingredients:
+  - dryfly_gin
+  - tanqueray_london_dry
+  - bainbridge_doug_fir_gin
+  - roku
+  notes: Plain gins. For all gins, see Gin (Inclusive)
+Gin (Inclusive):
+  collection: Tags
+  ingredients:
+  - Gin
+  - Orange Gin
+  - Sloe Gin
+  - Yuzu Gin
+  notes: Includes normal and flavored gins
+Orange Gin:
+  collection: Tags
+  ingredients:
+  - tanqueray_sevilla
+  notes: ''
+Sloe Gin:
+  collection: Tags
+  ingredients:
+  - sipsmith_sloe_gin
+  notes: ''
+Yuzu Gin:
+  collection: Tags
+  ingredients:
+  - yu_gin
+  notes: ''

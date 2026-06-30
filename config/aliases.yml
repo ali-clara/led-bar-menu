@@ -1,0 +1,28 @@
+# Be extra cautious with your formatting here, there's some validation but it's not as strict as others. This file expects you know what you're doing
+'BroVo Amaro #4':
+  - amaro_04
+  # - brovo_amaro_#4
+'BroVo Amaro #1':
+  - amaro_01
+'BroVo Amaro #14':
+  - amaro_14
+BroVo Amaro Kim:
+  - amaro_kim
+BroVo American Amaro:
+  - brovo_american
+Reddit Aromatic Bitter:
+  - reddit_aroma
+Roku Gin:
+  - roku
+Elderflower:
+  - Elderflower Liqueur # Rare to add elderflower not as a liqueur
+Amaro Meletti:
+  - meletti
+Velvet Falernum:
+  - falernum
+Rye:
+  - Rye Whiskey
+Orange Flower Water:
+  - Orange Blossom Water
+Tanqueray Sevilla Orange:
+  - Tanqueray Sevilla

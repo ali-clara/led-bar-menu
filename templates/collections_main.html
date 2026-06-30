@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/mainstyle.css') }}">
+    <title>Collections</title>
+</head>
+
+<body>
+    <div class="grid-container">
+        <div class="header">
+          <h2>Collections</h2>
+        </div>
+    
+        <div class="left">
+          <!-- Navbar! -->
+          <div class="vertical-menu">
+            <a href="/menu">Home</a>
+            <a class="active" href="/collections_main_page">Collections</a>
+            <a href="/inventory">Inventory</a>
+            <a href="/random_cocktail_generator">Random Cocktail Generator</a>
+            <a href="/credits">Credits</a>
+          </div>
+        </div>
+  
+        <div class="middle">
+            {% for i in range(collections|length)%}
+              <a href="/collection/{{collections[i]}}">{{collections[i]}}</a><br>
+              &emsp;-&ensp;{{notes[i]}}
+              <br><br>
+            {% endfor %}
+        </div>  
+    
+      <div class="footer">
+        <a href="/put_away_ingredient">♫♪♪ Clean up, clean up ♫♪♪</a> <br>
+        <a href="/modify_spirits">Add a new spirit</a>
+      </div>
+  
+    </div>
+  </body>
+
+  </html>
