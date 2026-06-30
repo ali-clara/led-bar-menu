@@ -30,7 +30,7 @@
         <!-- {{didYouMean}} -->
         
         {% if not didYouMean==None %}
-        These cocktails exclusively contain {{spiritName}}. For a broader selection, try 
+        These cocktails contain {{spiritName}}. For a broader selection, try 
         {% for option in didYouMean %}<a href="/collection/{{option}}">{{option}}</a>{% if not loop.last %}, {%endif%}{% endfor %}
         {% endif %}
 

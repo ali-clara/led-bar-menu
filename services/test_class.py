@@ -85,6 +85,7 @@ class TestView(FlaskView):
 
         # Initialize HTML args
         chosen_collection = None
+        result_text = None
 
         collection_names, collection_notes = self._get_collection_info()
 
@@ -102,7 +103,7 @@ class TestView(FlaskView):
             form_entry = request.form.get(element_name)
 
             # Lighting up cocktail or tag
-            if element_name == "cocktail input":
+            if element_name == "cocktail_input":
                 # Fuzzy string checking!
                 is_recipe, recipe_match, recipe_score = recipe.check_match(form_entry, self.main_menu.get_recipe_names(), match_threshold=0.705)
                 print(is_recipe, recipe_match, recipe_score)
@@ -126,7 +127,7 @@ class TestView(FlaskView):
                     self.lights.illuminate_spirit([ingredient_match])
 
             # Sorting the menu by spirit
-            elif element_name == "spirit_input":
+            elif element_name == "sort_input":
                 is_ingredient, ingredient_match, ingredient_score = recipe.check_match(form_entry, self.main_menu.get_inventory(), match_threshold=0.75)
                 print(is_ingredient, ingredient_match, ingredient_score)
                 is_tag, tag_match, tag_score = recipe.check_match(form_entry, self.main_menu.get_used_tag_names(), match_threshold=0.75)
@@ -144,9 +145,19 @@ class TestView(FlaskView):
                 elif is_ingredient:
                     return redirect(url_for('TestView:collection', arg=recipe.format_as_recipe(ingredient_match)))
                 
+            # Lighting up individual bottle
+            elif element_name == "bottle_input":
+                is_ingredient, ingredient_match, ingredient_score = recipe.check_match(form_entry, self.main_menu.get_inventory(), match_threshold=0.75)
+                print(is_ingredient, ingredient_match, ingredient_score)
+                if is_ingredient:
+                    self.lit_up_ingredients.add(ingredient_match)
+                    self.lights.illuminate_spirit(self.lit_up_ingredients)
+                    selected_loc = self.main_menu.get_coord_from_spirit(ingredient_match)
+                    if selected_loc in self.main_menu.cabinet_locations:
+                        result_text = f"Lighting up {recipe.format_as_recipe(ingredient_match)} in location {selected_loc}"
+                    else:
+                        result_text = f"Not lighting up {recipe.format_as_recipe(ingredient_match)} because it goes in the {recipe.format_as_recipe(selected_loc)}"
                 
-
-
             # Otherwise, if the form has returned a collection, process ~that~
             # elif element_name == "collection dropdown":
             #     if form_entry in self.main_menu.get_collection_names():
@@ -158,12 +169,14 @@ class TestView(FlaskView):
 
         return render_template('main_menu.html', 
                                options=self.main_menu.get_recipe_names(), 
-                               ingredients=self.main_menu.get_inventory(), 
+                               ingredients=self.main_menu.inventory_user_facing, 
                                collections=collection_names,
                                notes=collection_notes,
                                baseSpirits=self.main_menu.base_spirit_cocktails,
                                baseSpiritCocktails = self.main_menu.base_spirit_cocktails.values(),
-                               allIngredients=self.main_menu.get_used_ingredients_expanded(user_facing=True))        
+                               allIngredients=self.main_menu.get_used_ingredients_expanded(user_facing=True),
+                               resultText=result_text,
+                               )        
 
     @method("GET")
     @method("POST")
@@ -242,6 +255,7 @@ class TestView(FlaskView):
             return render_template('collection.html', header=title+" Collection",
                                cocktails=cocktails_in_collection,
                                ingredients=ingredients_list,
+                               didYouMean=None,
                                notes=notes_list)
         
         # Otherwise if we've gotten an ingredient or a tag, load all drinks featuring that ingredient
