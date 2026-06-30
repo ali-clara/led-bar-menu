@@ -41,6 +41,8 @@ def format_new_tag_yaml(tag_name:str, ingredients):
     new_tag = {tag_name: {'collection': 'Tags', 'ingredients': ingredients}}
     return new_tag
 
+
+
 # -------------------- FUZZY STRINGS -------------------- #
 def get_closest_match(x, to_check_against, similarity_threshold=0.75, verbose=False):
     best_match = None
@@ -291,6 +293,35 @@ class Menu:
 
             return categories_organized
 
+    def load_all_base_spirits(self):
+        """Loads base spirit tags from tags_category.yml and expands into children
+
+        Returns:
+            _type_: _description_
+        """
+        categories_filepath = os.path.join(self.recipe_path, "tags_category.yml")
+        # Open the yaml
+        try:
+            with open(categories_filepath) as stream:
+                # All categories (tag: {ingredients: [spirit_1, spirit_2, ..., spirit_n], notes: , etc})
+                contents = yaml.safe_load(stream)
+                # Pull out only the base spirits and create an empty dictionary with each spirit as a key
+                base_spirits = {spirit: [] for spirit in contents["Base Spirits"]["ingredients"]}
+        except TypeError as e:
+            print(f"Failed to read {categories_filepath}: {e}")
+        except FileNotFoundError as e:
+            print(e)
+        except KeyError as e:
+            print(f"key error in reading base spirits: {e}")
+        else:
+            # If we loaded and read the file correctly, we have a dictionary of base spirits to fill in.
+            # Conveniently, we already have a method that gets all the children of a spirit tag. Expand 
+            # each base spirit and fill in the dictionary with their children.
+            for spirit in base_spirits:
+                base_spirits.update({spirit: self.expand_tag(spirit)})
+
+            return base_spirits
+
     def get_recipe_names(self):
         return list(self.menu_dict.keys())
     
@@ -421,50 +452,33 @@ class Menu:
     def get_out_of_stock(self):
         return self.out_of_stock
     
-    def get_ingredients(self, recipe_name):
+    def get_ingredients(self, recipe_name, user_facing=False):
         """Gets the ingredients of a given named cocktail
 
         Args:
-            recipe_name (_type_): _description_
+            recipe_name (str): the given named cocktail
 
         Returns:
-            _type_: _description_
+            list: list of strings
         """
         # recipe_name = format_as_recipe(recipe_name)
         print(recipe_name)
         if recipe_name in self.get_recipe_names():
-            return list(self.menu_dict[recipe_name]['ingredients'].keys())
+            ings = list(self.menu_dict[recipe_name]['ingredients'].keys())
+            if user_facing:
+                return [format_as_recipe(ing) for ing in ings]
+            else:
+                return ings
+        else:
+            print("Not a valid cocktail name")
+            return []
     
-    def load_all_base_spirits(self):
-        """Loads base spirit tags from tags_category.yml and expands into children
+    def get_cocktails_by_base_spirit(self):
+        """Makes a dictionary of cocktails sorted by base spirit (as given in tags_category.yml)
 
         Returns:
-            _type_: _description_
+            dict: {whisky: ['saint_george_single_malt', 'famous_grouse', 'the_deacon'... etc etc]}
         """
-        categories_filepath = os.path.join(self.recipe_path, "tags_category.yml")
-        # Open the yaml
-        try:
-            with open(categories_filepath) as stream:
-                # All categories (tag: {ingredients: [spirit_1, spirit_2, ..., spirit_n], notes: , etc})
-                contents = yaml.safe_load(stream)
-                # Pull out only the base spirits and create an empty dictionary with each spirit as a key
-                base_spirits = {spirit: [] for spirit in contents["Base Spirits"]["ingredients"]}
-        except TypeError as e:
-            print(f"Failed to read {categories_filepath}: {e}")
-        except FileNotFoundError as e:
-            print(e)
-        except KeyError as e:
-            print(f"key error in reading base spirits: {e}")
-        else:
-            # If we loaded and read the file correctly, we have a dictionary of base spirits to fill in.
-            # Conveniently, we already have a method that gets all the children of a spirit tag. Expand 
-            # each base spirit and fill in the dictionary with their children.
-            for spirit in base_spirits:
-                base_spirits.update({spirit: self.expand_tag(spirit)})
-
-            return base_spirits
-        
-    def get_cocktails_by_base_spirit(self):
         base_spirits = self.load_all_base_spirits()
 
         # Set up the overarching dictionary
@@ -496,11 +510,19 @@ class Menu:
 
         return base_spirit_cocktails
     
-
     # -------------------- TAGS & ALIASES -------------------- #
     def remove_empty_tags(self, all_tags:dict, quiet=True):
+        """Makes a copy of the provided dictionary and clears it of any empty tags. Does NOTHING to the external files. Freaked myself out with the name of this one. 
+
+        Args:
+            all_tags (dict): dictionary of tags, some of which may be empty
+            quiet (bool, optional): _description_. Defaults to True.
+
+        Returns:
+            dict: _description_
+        """
         self.unstocked_tags = []
-        # Remove any empty tags from both dictionaries, including as the values of other keys
+        # Remove any empty tags, including as the values of other keys
         used_tags = copy.copy(all_tags)
         tags_dict_copy = copy.copy(used_tags)
         for key in tags_dict_copy:
@@ -512,13 +534,9 @@ class Menu:
                 used_tags.pop(key)
                 # Remove it as a value
                 for tag in used_tags:
-                    if used_tags[tag]["ingredients"] is not None:
+                    if used_tags[tag]["ingredients"]:
                         if key in used_tags[tag]["ingredients"]:
                             used_tags[tag]["ingredients"].remove(key)
-                # for parent_tag in self.tags_dict_organized:
-                #     if self.tags_dict_organized[parent_tag] is not None:
-                #         if key in self.tags_dict_organized[parent_tag]:
-                #             self.tags_dict_organized[parent_tag].remove(key)
 
         return used_tags
 
@@ -666,6 +684,17 @@ class Menu:
             print(f"Could not find tags for {spirit}") # TODO: logs
 
     def get_cocktails_by_spirit(self, spirit):
+        """Gets all the cocktails with the given spirit as an ingredient. 
+        Expands tags but doesn't consider parents (e.g "Whisky" will find drinks with Famous Grouse, 
+        but "Famous Grouse" won't find drinks that call generically for Whisky).
+        Returns cocktails and parent tags (if extant)
+
+        Args:
+            spirit (str): Name of spirit
+
+        Returns:
+            (list, list or None): list of cocktails, list of parent tags (None if no parents exist)
+        """
         children = self.expand_tag(spirit)
         # expand_tag either returns a list of children, or None. I don't care about the None case, so overwrite it
         if not children:
