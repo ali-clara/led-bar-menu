@@ -37,7 +37,7 @@
         <h3>Light up a cocktail or category </h3>
         <!-- Anything in the "name" field gets sent as a dictionary key in POST -->
         <form id="cocktail" method="POST">
-            &emsp;<input class="menu-search-input" list="cocktails" id="cocktail-input" name="cocktail input">
+            &emsp;<input class="menu-search-input" list="cocktails" id="cocktail-input" name="cocktail_input">
             <datalist id="cocktails">
                 {% for option in options %}
                 <option value="{{ option }}">{{ option }}</option>
@@ -47,10 +47,27 @@
         </form>
 
         <hr>
+
+        <h3>Trying to find a specific bottle? Light up by name </h3>
+            <form id="putAway" method="POST">
+                &emsp;<input class="menu-search-input" list="ingredients" id="ingredientInput" name="bottle_input">
+                <datalist id="ingredients">
+                    {% for ingredient in ingredients %}
+                    <option value="{{ingredient}}">{{ingredient}}</option>
+                    {% endfor %}
+                </datalist>
+                <button class="menu-search-button" form="putAway" type="submit">Light it up</button>
+                {% if not resultText==None %}
+                <br>&emsp; {{resultText}}
+                {%endif%}
+            </form>
+
+        
+        <hr>
         
         <h3>Looking for a specific flavor? Search the menu by spirit name or type</h3>
         <form id="spiritSearch" method="POST">
-            &emsp;<input class="menu-search-input" list="spirits" id="spiritInput" name="spirit_input">
+            &emsp;<input class="menu-search-input" list="spirits" id="spiritInput" name="sort_input">
             <datalist id="spirits">
                 {% for ingredient in allIngredients %}
                 <option value="{{ingredient}}">{{ingredient}}</option>
