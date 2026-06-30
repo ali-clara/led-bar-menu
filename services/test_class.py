@@ -245,11 +245,7 @@ class TestView(FlaskView):
         if title in self.main_menu.get_collection_names():
             collections_dict = self.main_menu.sort_by_collections()
             cocktails_in_collection = collections_dict[title]
-            ingredients_list = []
-            for cocktail in cocktails_in_collection:
-                ings = list(self.main_menu.menu_dict[cocktail]["ingredients"].keys())
-                ingredients_list.append([recipe.format_as_recipe(ing) for ing in ings])
-            
+            ingredients_list = [self.main_menu.get_ingredients(cocktail, user_facing=True) for cocktail in cocktails_in_collection]
             notes_list = [self.main_menu.menu_dict[cocktail]["notes"] for cocktail in cocktails_in_collection]
 
             return render_template('collection.html', header=title+" Collection",
@@ -266,12 +262,6 @@ class TestView(FlaskView):
             for cocktail in cocktail_list:
                 ings = list(self.main_menu.menu_dict[cocktail]["ingredients"].keys())
                 ingredients_list.append([recipe.format_as_recipe(ing) for ing in ings])
-
-            # # If 
-            # if title not in parent_tag:
-            #     did_you_mean = parent_tag
-            # else:
-            #     did_you_mean = None
             
             return render_template('collection.html', header=title+" Drinks",
                                    cocktails=cocktail_list,
