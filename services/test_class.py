@@ -187,7 +187,11 @@ class TestView(FlaskView):
         self.lit_up_ingredients.clear()
 
         # chosen_ingredients = list(self.main_menu.menu_dict[arg]['ingredients'].keys())
-        chosen_ingredients = self.main_menu.get_ingredients(arg)
+        # chosen_ingredients = self.main_menu.get_ingredients(arg)
+        # print(self.main_menu.get_ingredients(arg))
+        
+        # Unzip the list we created in get_ingredients()
+        amounts, units, chosen_ingredients = map(list, zip(*self.main_menu.get_ingredients(arg))) 
         print(chosen_ingredients)
 
         # Part 1 - the LEDS. Expand any children and call the LED class
@@ -217,7 +221,7 @@ class TestView(FlaskView):
         for ing in chosen_ingredients:
             # Check stock and format the ingredients
             print(self.main_menu.menu_dict[arg]['ingredients'][ing])
-            if self.main_menu.menu_dict[arg]['ingredients'][ing]['stocked'] == False:
+            if not self.main_menu.is_in_stock(ing):
                 ingredient_display = recipe.format_as_recipe(ing) + " -- out of stock"
             else:
                 ingredient_display = recipe.format_as_recipe(ing)
@@ -245,8 +249,15 @@ class TestView(FlaskView):
         if title in self.main_menu.get_collection_names():
             collections_dict = self.main_menu.sort_by_collections()
             cocktails_in_collection = collections_dict[title]
-            ingredients_list = [self.main_menu.get_ingredients(cocktail, user_facing=True) for cocktail in cocktails_in_collection]
-            notes_list = [self.main_menu.menu_dict[cocktail]["notes"] for cocktail in cocktails_in_collection]
+            # ingredients_list = [self.main_menu.get_ingredients(cocktail, user_facing=True) for cocktail in cocktails_in_collection]
+            ingredients_list = []
+            notes_list = []
+            for cocktail in cocktails_in_collection:
+                amounts, units, ingredients = map(list, zip(*self.main_menu.get_ingredients(cocktail))) 
+                ingredients_list.append(ingredients)
+                notes_list.append(self.main_menu.menu_dict[cocktail]["notes"])
+            
+            # notes_list = [self.main_menu.menu_dict[cocktail]["notes"] for cocktail in cocktails_in_collection]
 
             return render_template('collection.html', header=title+" Collection",
                                cocktails=cocktails_in_collection,
