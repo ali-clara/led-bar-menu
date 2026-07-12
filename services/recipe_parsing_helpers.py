@@ -496,10 +496,12 @@ class Menu:
             
             print(s)
 
-            if user_facing:
-                return [format_as_recipe(ing) for ing in ings]
-            else:
-                return ings
+            # if user_facing:
+            #     return [format_as_recipe(ing) for ing in ings]
+            # else:
+            #     return ings
+
+            return s
         else:
             print("Not a valid cocktail name")
             return []
