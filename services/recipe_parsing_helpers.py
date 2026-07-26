@@ -237,7 +237,7 @@ class Menu:
         return out_of_stock
 
     def load_categories(self, user_facing=False):
-        """Loads tags_category.yml and sorts spirits accordingly. Currently only used to display on the inventory page
+        """Loads tags_category.yml and sorts spirits accordingly. Currently only used to display on the inventory page and to assign LED colors by spirit type
 
         Very messy. 
         TODO rewrite and flag out of stock items instead of getting rid of them entirely.
@@ -273,6 +273,8 @@ class Menu:
                             children = [format_as_recipe(child) for child in children]
                         categories_organized.update({spirit: children})
                 # Otherwise, pull each category/keys combo
+                elif category == "Citrus":
+                    continue
                 else:
                     sorted = contents[category]["ingredients"]
                     sorted_expanded = []

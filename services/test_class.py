@@ -18,12 +18,10 @@ try: # run from this script
     import recipe_parsing_helpers as recipe
     from randomizer import Randomizer as rands
     import parameter_helpers as params
-    from threads_helpers import RepeatTimer
 except ImportError: # run from the main script
     from services import recipe_parsing_helpers as recipe
     from services.randomizer import Randomizer as rands
     from services import parameter_helpers as params
-    from services.threads_helpers import RepeatTimer
     from services.led import LED
 
 print("Starting")
@@ -65,21 +63,6 @@ class TestView(FlaskView):
     def _shutdown(self):
         print("bye bye")
         self.lights.shutdown()
-        
-    # def _lights_timer(self, timer_start, tick):
-    #     """_summary_
-
-    #     Args:
-    #         lights_off_after (int or float, optional): Number of MINUTES after which to turn off the LEDs. Defaults to 5.
-    #     """
-    #     # TODO make this thread resetable, and every call that turns on the LEDS resets it
-    #     loop_tick = float(tick)*60.0
-    #     while True: # TODO ehhhhhhhh
-    #         print(time.monotonic())
-    #         # Equivalent to time.sleep() but while sleeping it checks for the exit_event flag
-    #         if self.exit_event.wait(timeout=loop_tick - ((time.monotonic() - timer_start) % loop_tick)):
-    #             break
-    #         self.lights.all_off()
     
     def _quick_update(self):
         """Checks if we need to update the menu dictionary, and updates if so. Always disables lights flashing.
