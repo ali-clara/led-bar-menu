@@ -15,10 +15,12 @@ if platform.system() == "Linux" and platform.uname()[1] == "raspberrypi":
     try:
         import recipe_parsing_helpers as recipe
         import parameter_helpers as params
+        from threads_helpers import RepeatTimer
     # Run from the main script
     except ImportError:
         from services import recipe_parsing_helpers as recipe
         from services import parameter_helpers as params
+        from services.threads_helpers import RepeatTimer
 # We're on the laptop or other
 else:
     print(f"Could not detect neopixel hardware. Running in shadow environment on {platform.system()}")
