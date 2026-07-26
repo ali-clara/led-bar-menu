@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/mainstyle.css') }}">
+    <title>Inventory</title>
+</head>
+
+<body>
+    <div class="grid-container">
+        <div class="header">
+          <h2>Inventory</h2>
+        </div>
+    
+        <div class="left">
+          <!-- Navbar! -->
+          <div class="vertical-menu">
+            <a href="/menu">Home</a>
+            <a href="/collections_main_page">Collections</a>
+            <a class="active" href="/inventory">Inventory</a>
+            <a href="/random_cocktail_generator">Random Cocktail Generator</a>
+            <a href="/credits">Credits</a>
+          </div>
+        </div>
+  
+        <div class="middle">
+          <table id="tbl">
+            <!-- God these loops suck. Make a nice table printout with 3 columns and infinite rows -->
+            {% for key in categories %}
+              <tr><td><strong>{{key}}</strong></td></tr>
+              {% set count = namespace(value=0) %}
+              <!-- If we have fewer than 3 elements in our category, list them all on one row -->
+              {% if categories[key]|length < 3 %}
+              <tr>
+                {% for val in categories[key] %}
+                  <td>{{val}}</td>
+                {% endfor %}
+              </tr>
+              <!-- Otherwise, fill out the table with 3 per row -->
+              {% else %}
+                {% for i in range((categories[key]|length / 3)|round()|int) %}
+                <tr>
+                  <td>{{categories[key][count.value]}}</td>
+                  <td>{{categories[key][count.value + 1]}}</td>
+                  <td>{{categories[key][count.value + 2]}}</td>
+                </tr>
+                {% set count.value = count.value + 3 %}
+                {% endfor %}
+              {% endif %}
+              <tr><td></td></tr>
+              <tr><td></td></tr>
+            {% endfor %}
+          </table>
+        </div>  
+    
+      <div class="footer">
+        <a href="/put_away_ingredient">♫♪♪ Clean up, clean up ♫♪♪</a> <br>
+        <a href="/modify_spirits">Add a new spirit</a>
+      </div>
+  
+    </div>
+  </body>
+
+  </html>
