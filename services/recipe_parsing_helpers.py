@@ -635,6 +635,8 @@ class Menu:
         names_to_check = [ingredient]
 
         # TODO - think about the formatting here. recipe vs inventory
+            # something was going wrong with this - tried to find 'roku_gin', but Roku doesn't show up
+            # anywhere except aliases as Roku Gin
 
         # print(ingredient)
         # if it's a key, add its values

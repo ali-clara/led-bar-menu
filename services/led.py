@@ -27,11 +27,13 @@ else:
         from simulated_neopixel import board
         import recipe_parsing_helpers as recipe
         import parameter_helpers as params
+        from threads_helpers import RepeatTimer
     except ImportError: # run from the main script
         import services.simulated_neopixel as neopixel
         from services.simulated_neopixel import board
         from services import recipe_parsing_helpers as recipe
         from services import parameter_helpers as params
+        from services.threads_helpers import RepeatTimer
     
 # Find the 'global' directory path
 dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
@@ -47,6 +49,15 @@ class LED:
         self.pixels.show()
 
         self.main_menu = main_menu
+
+        # Timer to turn off the lights after 10 minutes
+        def dummy():
+            print(time.monotonic())
+
+        lights_off_time = 10.0*60.0 # 10 mins converted to seconds
+        self.lights_timer = RepeatTimer(lights_off_time, self.all_off)
+        # self.lights_timer = RepeatTimer(5, dummy)
+        self.lights_timer.start()
 
         # Dictionary of spirit:location, where 'location' is NOT a neopixel address (e.g A7 not 150)
         # all_ingredients, self.spirit_loc_dict = self.main_menu.load_all_ingredients()
@@ -84,6 +95,14 @@ class LED:
     #     self.spirit_loc_dict = new_dict
         # should just turn this into "reload everything pls" now that this file reads config independently
         
+    # def set_timer(self, timer:RepeatTimer):
+    #     self.timer = timer
+    
+    def shutdown(self):
+        self.lights_timer.cancel()
+        self.all_off()
+        params.add_or_update_param("lights_timer_on", False)
+    
     def load_and_sort_cabinet_locs(self):
         # Dictionary of location:[neopixel start, neopixel stop]
         with open(dir_path+"/config/led_locs_final.yml") as stream:
@@ -159,6 +178,9 @@ class LED:
             print("Tried to illuminate something that wasn't a spirit name or a list of spirit names. Hmm.")
 
     def illuminate_location(self, location:str, flash=False, verbose=False):  
+        
+        self.lights_timer.reset()
+        
         print(location)      
         # Check if our location is valid. If it's not, flag and return
         if location not in self.all_cabinet_locations:
@@ -191,6 +213,7 @@ class LED:
                 if verbose:
                     print(f"lit up {start} through {stop}")
                 self.pixels.show()
+
 
     def all_on(self, color=(255, 255, 0)):
         self.pixels.fill(color)

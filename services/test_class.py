@@ -2,22 +2,29 @@
 from flask import Flask, render_template, redirect, url_for
 from flask_classful import FlaskView, method, route, request
 from titlecase import titlecase
-try:
-    from led import LED
-except ImportError:
-    from services.led import LED
-
 import os
 import threading
+import time
+import signal
+import sys
+
+# try:
+#     from led import LED
+# except ImportError:
+#     from services.led import LED
 
 try: # run from this script
+    from led import LED
     import recipe_parsing_helpers as recipe
     from randomizer import Randomizer as rands
     import parameter_helpers as params
+    from threads_helpers import RepeatTimer
 except ImportError: # run from the main script
     from services import recipe_parsing_helpers as recipe
     from services.randomizer import Randomizer as rands
     from services import parameter_helpers as params
+    from services.threads_helpers import RepeatTimer
+    from services.led import LED
 
 print("Starting")
 dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
@@ -41,9 +48,39 @@ class TestView(FlaskView):
         self.lit_up_ingredients = set([""])
         self.random_ten = []
         self.input_tags = []
+       
+        # Set up graceful shutdown by catching the keyboard interrupt signal
+        def sigint_handler(signal, frame):
+            self._shutdown()
+            sys.exit(0)
+        signal.signal(signal.SIGINT, sigint_handler)
 
+        # Do a quick update before getting started
         self._quick_update()
+    
+    # This will trigger nicely if the script ends on its own, and poorly if hit with a keyboard interrupt. Think about that
+    # def __del__(self):
+    #     self._shutdown()
+    
+    def _shutdown(self):
+        print("bye bye")
+        self.lights.shutdown()
         
+    # def _lights_timer(self, timer_start, tick):
+    #     """_summary_
+
+    #     Args:
+    #         lights_off_after (int or float, optional): Number of MINUTES after which to turn off the LEDs. Defaults to 5.
+    #     """
+    #     # TODO make this thread resetable, and every call that turns on the LEDS resets it
+    #     loop_tick = float(tick)*60.0
+    #     while True: # TODO ehhhhhhhh
+    #         print(time.monotonic())
+    #         # Equivalent to time.sleep() but while sleeping it checks for the exit_event flag
+    #         if self.exit_event.wait(timeout=loop_tick - ((time.monotonic() - timer_start) % loop_tick)):
+    #             break
+    #         self.lights.all_off()
+    
     def _quick_update(self):
         """Checks if we need to update the menu dictionary, and updates if so. Always disables lights flashing.
         """
@@ -157,15 +194,6 @@ class TestView(FlaskView):
                         result_text = f"Lighting up {recipe.format_as_recipe(ingredient_match)} in location {selected_loc}"
                     else:
                         result_text = f"Not lighting up {recipe.format_as_recipe(ingredient_match)} because it goes in the {recipe.format_as_recipe(selected_loc)}"
-                
-            # Otherwise, if the form has returned a collection, process ~that~
-            # elif element_name == "collection dropdown":
-            #     if form_entry in self.main_menu.get_collection_names():
-            #         # This line isn't strictly necessary, but I think title case with spaces looks dumb in a URL, so I
-            #         #   do some string formatting
-            #         chosen_collection = recipe.format_as_inventory(form_entry)
-            #         # Redirect us to the "collections" page with the given collection
-            #         return redirect(url_for('TestView:collection', arg=chosen_collection), code=308)
 
         return render_template('main_menu.html', 
                                options=self.main_menu.get_recipe_names(), 
@@ -183,14 +211,12 @@ class TestView(FlaskView):
     def resippy(self, arg:str):
         """http://localhost:5000/recipe/arg"""
 
+        # Reset some vars
         self.lights.all_off()
         self.lit_up_ingredients.clear()
 
-        # chosen_ingredients = list(self.main_menu.menu_dict[arg]['ingredients'].keys())
-        # chosen_ingredients = self.main_menu.get_ingredients(arg)
-        # print(self.main_menu.get_ingredients(arg))
-        
-        # Unzip the list we created in get_ingredients()
+        # Grab the recipe
+        # Unzip the mega list we created in get_ingredients()
         amounts, units, chosen_ingredients = map(list, zip(*self.main_menu.get_ingredients(arg))) 
         print(chosen_ingredients)
 
@@ -216,8 +242,6 @@ class TestView(FlaskView):
 
         # Part 2 - the website. For each ingredient
         rendered_ingredients = []
-        units = []
-        amounts = []
         for ing in chosen_ingredients:
             # Check stock and format the ingredients
             print(self.main_menu.menu_dict[arg]['ingredients'][ing])
@@ -226,9 +250,7 @@ class TestView(FlaskView):
             else:
                 ingredient_display = recipe.format_as_recipe(ing)
             rendered_ingredients.append(ingredient_display)
-            # Grab units and amounts
-            units.append(self.main_menu.menu_dict[arg]['ingredients'][ing]["units"])
-            amounts.append(self.main_menu.menu_dict[arg]['ingredients'][ing]["amount"])
+
         notes = self.main_menu.menu_dict[arg]["notes"]
         
         # Then render the html page
@@ -249,7 +271,6 @@ class TestView(FlaskView):
         if title in self.main_menu.get_collection_names():
             collections_dict = self.main_menu.sort_by_collections()
             cocktails_in_collection = collections_dict[title]
-            # ingredients_list = [self.main_menu.get_ingredients(cocktail, user_facing=True) for cocktail in cocktails_in_collection]
             ingredients_list = []
             notes_list = []
             for cocktail in cocktails_in_collection:
@@ -257,7 +278,6 @@ class TestView(FlaskView):
                 ingredients_list.append(ingredients)
                 notes_list.append(self.main_menu.menu_dict[cocktail]["notes"])
             
-            # notes_list = [self.main_menu.menu_dict[cocktail]["notes"] for cocktail in cocktails_in_collection]
 
             return render_template('collection.html', header=title+" Collection",
                                cocktails=cocktails_in_collection,
@@ -475,6 +495,7 @@ class TestView(FlaskView):
             params.add_or_update_param("flashing", True)
             t = threading.Thread(target=self.lights.illuminate_location, args=(coordinate, True, False))
             t.start()
+            self.threads.append(t)
             # self.lights.illuminate_location(self.input_coord, flash=True)
             # result = f'Lighting up coordinate {coordinate}'
             if coordinate in self.main_menu.unused_locations or coordinate in self.main_menu.non_cabinet_locations:
@@ -651,6 +672,7 @@ class TestView(FlaskView):
         t = threading.Thread(target=self.lights.animate_generalized, args=(self.lights.screensaver, 5),
                              kwargs={"cx": 10, "cy": 10, "rball": 4})
         t.start()
+        self.threads.append(t)
 
         return render_template("empty_template.html")
 
