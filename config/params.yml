@@ -1,3 +1,4 @@
 animation: false
 flashing: false
-menu_update_pending: false
+lights_timer_on: false
+menu_update_pending: true
