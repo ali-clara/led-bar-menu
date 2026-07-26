@@ -41,7 +41,7 @@ else:
 dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
 
 class LED:
-    def __init__(self, main_menu):
+    def __init__(self, main_menu:recipe.Menu):
         # Initialize the NeoPixel strip with GPIO pin 10 (needed for not running this with SUDO privileges),
         # 255 lights, and 20% brightness. Auto_write means we're going to need to call pixels.show() whenever we want them lit up
         self.num_lights = 255
@@ -53,12 +53,11 @@ class LED:
         self.main_menu = main_menu
 
         # Timer to turn off the lights after 10 minutes
-        def dummy():
-            print(time.monotonic())
-
+        # def dummy():
+        #     print(time.monotonic())
+        # self.lights_timer = RepeatTimer(5, dummy)
         lights_off_time = 10.0*60.0 # 10 mins converted to seconds
         self.lights_timer = RepeatTimer(lights_off_time, self.all_off)
-        # self.lights_timer = RepeatTimer(5, dummy)
         self.lights_timer.start()
 
         # Dictionary of spirit:location, where 'location' is NOT a neopixel address (e.g A7 not 150)
@@ -78,32 +77,18 @@ class LED:
             print(e)
 
         # Initialize colors
-        self.rainbow_dict = {"yellow": (255, 237, 0),
-                            "red": (228, 3, 3),
-                            "orange": (255, 69, 0),
-                            "green": (0, 255, 10),
-                            "blue": (0, 77, 255),
-                            "violet": (117, 7, 135),
-                            "white": (255, 255, 255),
-                            "pink": (255, 105, 180),
-                            "light blue": (0, 191, 255),
-                            "brown": (139, 69, 19),
-                            }
-        
-        self.unused_colors = list(self.rainbow_dict.values())
-
-    
-    # def update_loc_dict(self, new_dict):
-    #     self.spirit_loc_dict = new_dict
-        # should just turn this into "reload everything pls" now that this file reads config independently
-        
-    # def set_timer(self, timer:RepeatTimer):
-    #     self.timer = timer
+        self.load_colors()
     
     def shutdown(self):
         self.lights_timer.cancel()
         self.all_off()
         params.add_or_update_param("lights_timer_on", False)
+    
+    def update(self):
+        print("Updating LED locations")
+        self.main_menu.update(verbose=False, quiet=True)
+
+# -------------------- LOCATION PARSING -------------------- #    
     
     def load_and_sort_cabinet_locs(self):
         # Dictionary of location:[neopixel start, neopixel stop]
@@ -116,17 +101,6 @@ class LED:
     def load_cabinet_xy(self):
         with open(dir_path+"/config/led_coords_final.yml") as stream:
             self.led_coord_dict = yaml.safe_load(stream)
-    
-    def update(self):
-        print("Updating LED locations")
-        self.main_menu.update(verbose=False, quiet=True)
-    
-    def get_rainbow_color(self):
-        # When we run out of colors, reset the rainbow and continue
-        if len(self.unused_colors) == 0:
-            self.unused_colors = list(self.rainbow_dict.values())
-        
-        return self.unused_colors.pop(0)
     
     def get_cabinet_location(self, spirit):
         # Read in the location of the given spirit. 
@@ -145,7 +119,15 @@ class LED:
         return cabinet_location
     
     def _get_brightness_scalar(self, location:str):
-        # Returns a scalar between 0-1 based on the cabinet location
+        """Returns a scalar between 0-1 based on the cabinet location. All values manually determined
+
+        Args:
+            location (str): Cabinet location (e.g "A7")
+
+        Returns:
+            float: value between 0-1, where 0 is off and 1 is max bright
+        """
+        
         if "A" in location:
             return 1
         elif "B" in location or "C" in location or "D" in location or "E" in location or "F" in location:
@@ -157,7 +139,58 @@ class LED:
         else:
             print("Not a standard led location")
             return 0.4
+
+# -------------------- COLORS -------------------- #
+
+    def load_colors(self):
+        self.rainbow_dict = {"yellow": (255, 237, 0),
+                            "red": (228, 3, 3),
+                            "orange": (255, 69, 0),
+                            "green": (0, 255, 10),
+                            "blue": (0, 77, 255),
+                            "violet": (117, 7, 135),
+                            "white": (255, 255, 255),
+                            "pink": (255, 105, 180),
+                            "light blue": (0, 191, 255),
+                            "brown": (139, 69, 19),
+                            }
+        
+        self.unused_colors = list(self.rainbow_dict.values())
+
+        self.assign_colors_by_spirit_type()
+
+    def assign_colors_by_spirit_type(self):
+        self.spirit_color_dict = {}
+        # Dict of {category: [spirit1, spirit2]}, where the categories are the standard base spirits + liqueur + amaro
+        categories_dict = self.main_menu.load_categories() 
+        # Assign each spirit a color based on their category. Colors are pulled from the rainbow dict
+        for i, category in enumerate(categories_dict):
+            color = list(self.rainbow_dict.keys())[i]
+            for spirit in categories_dict[category]:
+                self.spirit_color_dict.update({spirit: color})
+
+    def get_rainbow_color(self):
+        # Grab the next color in the rainbow
+        # When we run out of colors, reset the rainbow and continue
+        if len(self.unused_colors) == 0:
+            self.unused_colors = list(self.rainbow_dict.values())
+        
+        return self.unused_colors.pop(0)
     
+    def get_color_by_spirit(self, spirit):
+        try:
+            color_name = self.spirit_color_dict[spirit]
+            color = self.rainbow_dict[color_name]
+        except KeyError as e:
+            print(f"Error in assigning color. {e} is not a valid dictionray key")
+            color = self.rainbow_dict["brown"]
+        
+        return color
+
+
+
+# -------------------- LIGHTS -------------------- #
+
     def illuminate_spirit(self, spirit_input, flash=False, verbose=True):
         ## should return success/failure
         
@@ -168,18 +201,24 @@ class LED:
                 print(spirit)
                 # Read our external config files to determine the location and pixel range of the spirit
                 cabinet_location = self.get_cabinet_location(spirit)
-                # Get the pixel range that corresponds to the cabinet location.
-                self.illuminate_location(cabinet_location, flash, verbose)
+                # Assign a color based on spirit type
+                color = self.get_color_by_spirit(spirit)
+                # Light up the pixel range that corresponds to the cabinet location.
+                self.illuminate_location(cabinet_location, color, flash, verbose)
         elif type(spirit_input) == str:
             spirit_input = recipe.format_as_inventory(spirit_input)
             print("---")
             print(spirit_input)
+            # Get loc
             cabinet_location = self.get_cabinet_location(spirit_input)
-            self.illuminate_location(cabinet_location, flash, verbose)
+            # Assign a color
+            color = self.get_color_by_spirit(spirit)
+            # Light em up
+            self.illuminate_location(cabinet_location, color, flash, verbose)
         else:
             print("Tried to illuminate something that wasn't a spirit name or a list of spirit names. Hmm.")
 
-    def illuminate_location(self, location:str, flash=False, verbose=False):  
+    def illuminate_location(self, location:str, color=None, flash=False, verbose=False):  
         
         self.lights_timer.reset()
         
@@ -196,7 +235,8 @@ class LED:
         
         # Then get color and brightness
         # TODO - more than just random colors. Website-chosen, themed, etc
-        color = self.get_rainbow_color()
+        if not color:
+            color = self.get_rainbow_color()
         brightness = self._get_brightness_scalar(location)
 
         if verbose:
@@ -216,7 +256,6 @@ class LED:
                     print(f"lit up {start} through {stop}")
                 self.pixels.show()
 
-
     def all_on(self, color=(255, 255, 0)):
         self.pixels.fill(color)
         self.pixels.show()
@@ -227,7 +266,6 @@ class LED:
         self.pixels.show()
     
     def set_pixels_from_range(self, start_pix: int, stop_pix: int, color=(255,255,0), brightness=0.1):
-        # Replaces range_on (or should)
         # Doesn't turn anything on, just updates the self.pixels variable with the right color
         # Must call self.pixels.show() afterward
         scaled_color = brightness*np.array(color)
@@ -237,24 +275,6 @@ class LED:
                 self.pixels[i] = int_scaled_color
             except IndexError:
                 pass
-    
-    # def range_on(self, start_pix: int, stop_pix: int, color=(255,255,0), brightness=0.1):
-    #     print(f"lighting up pixels {start_pix, stop_pix}")
-    #     scaled_color = brightness*np.array(color)
-    #     int_scaled_color = scaled_color.astype(int)
-    #     print(int_scaled_color)
-    #     for i in range(start_pix, stop_pix+1):
-    #         try:
-    #             self.pixels[i] = int_scaled_color
-    #         except IndexError as e:
-    #             print(e)
-
-    #     self.pixels.show()
-
-    # def range_off(self, start_pix: int, stop_pix: int):                                                                     
-    #     for i in range(start_pix, stop_pix):
-    #         self.pixels[i] = (0,0,0)
-    #     self.pixels.show()
     
     def range_flash(self, neopixel_range, color, brightness, time_on=0.5, time_off=0.5):
         """Flashes a given neopixel range on and off.
@@ -285,53 +305,8 @@ class LED:
             print("off")
             time.sleep(time_off)
 
-    def animate_rainbow(self, wait=0.1):
-        """Animates a subtly color-changing rainbow across all pixels
-        """
-        # Read params -- this pulls from an external file that's updated by other parts of the website. This allows us to kill the animation
-        # from elsewhere on the website, and it has proper read/write locking. If the animation isn't going to run forever, this isn't necessary
-        params_dict = params.read()
-        
-        i = 0
-        while params_dict["animation"]: # while we're allowed to be animating...
-            # Update our reference
-            params_dict = params.read()
-            # Loop through each pixel in the string and set its color
-            for j in range(self.num_lights):
-                try:
-                    # Set color based on pixel location and loop index, modulo the number of lights. Keeps us rainbowing indefinitely
-                    self.pixels[j] = self._wheel((i+j)%self.num_lights) 
-                # Make sure we don't crash because of any funny business
-                except IndexError as e:
-                    print(e)
-            # Update colors all at once
-            self.pixels.show()
-            # Incrememt time and iteration
-            time.sleep(wait)
-            i += 1
+# -------------------- ANIMATIONS -------------------- # 
 
-    def _wheel(self, pos):
-        # From Adafruit
-        # Input a value 0 to 255 to get a color value.
-        # The colours are a transition r - g - b - back to r.
-        if pos < 0 or pos > 255:
-            r = g = b = 0
-        elif pos < 85:
-            r = int(pos * 3)
-            g = int(255 - pos * 3)
-            b = 0
-        elif pos < 170:
-            pos -= 85
-            r = int(255 - pos * 3)
-            g = 0
-            b = int(pos * 3)
-        else:
-            pos -= 170
-            r = 0
-            g = int(pos * 3)
-            b = int(255 - pos * 3)
-        return (r, g, b)
-    
     def coord_from_pix(self, pix):
         return float(self.led_coord_dict[pix]["x"]), float(self.led_coord_dict[pix]["y"])
     
@@ -395,12 +370,63 @@ class LED:
 
         return max(z, 0)
     
+    def animate_rainbow(self, wait=0.1):
+        """Animates a subtly color-changing rainbow across all pixels
+        """
+        # Read params -- this pulls from an external file that's updated by other parts of the website. This allows us to kill the animation
+        # from elsewhere on the website, and it has proper read/write locking. If the animation isn't going to run forever, this isn't necessary
+        params_dict = params.read()
+        
+        i = 0
+        while params_dict["animation"]: # while we're allowed to be animating...
+            # Update our reference
+            params_dict = params.read()
+            # Loop through each pixel in the string and set its color
+            for j in range(self.num_lights):
+                try:
+                    # Set color based on pixel location and loop index, modulo the number of lights. Keeps us rainbowing indefinitely
+                    self.pixels[j] = self._wheel((i+j)%self.num_lights) 
+                # Make sure we don't crash because of any funny business
+                except IndexError as e:
+                    print(e)
+            # Update colors all at once
+            self.pixels.show()
+            # Incrememt time and iteration
+            time.sleep(wait)
+            i += 1
+
+    def _wheel(self, pos):
+        # From Adafruit
+        # Input a value 0 to 255 to get a color value.
+        # The colours are a transition r - g - b - back to r.
+        if pos < 0 or pos > 255:
+            r = g = b = 0
+        elif pos < 85:
+            r = int(pos * 3)
+            g = int(255 - pos * 3)
+            b = 0
+        elif pos < 170:
+            pos -= 85
+            r = int(255 - pos * 3)
+            g = 0
+            b = int(pos * 3)
+        else:
+            pos -= 170
+            r = 0
+            g = int(pos * 3)
+            b = int(255 - pos * 3)
+        return (r, g, b)
 
 if __name__ == "__main__":
+    myMenu = recipe.Menu()
 
-    myled = LED()
-    print(myled.non_cabinet_locations)
-    myled.illuminate_spirit("test_param")
+    myled = LED(myMenu)
+    # print(myled.non_cabinet_locations)
+    
+    print(myled.spirit_color_dict)
+
+    print(myled.get_color_by_spirit("galliano"))
+
 
     # myled.illuminate_location("L2", verbose=True, flash=True)
     # myled.illuminate_location(None)
