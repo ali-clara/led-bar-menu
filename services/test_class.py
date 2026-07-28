@@ -115,6 +115,7 @@ class TestView(FlaskView):
             # Clear the LEDS, if they're on
             self.lights.all_off()
             self.lit_up_ingredients.clear()
+            lit_up_ingredients = []
 
             # When "post" is triggered, take a look at what happened in the HTML form. The value "request.form" is
             # a dictionary with key-value pairs "element-name" "element-entry". We use "element-name" to determine which
@@ -132,15 +133,15 @@ class TestView(FlaskView):
                 is_tag, tag_match, tag_score = recipe.check_match(form_entry, self.main_menu.get_used_tag_names(), match_threshold=0.75)
                 print(is_tag, tag_match, tag_score)
 
-                if is_recipe and recipe_score > ingredient_score:
+                if is_recipe and recipe_score > ingredient_score and recipe_score > tag_score:
                     # Once we know the name of the cocktail, we can grab its ingredients
                     return redirect(url_for('TestView:resippy', arg=recipe_match), code=308)
 
-                elif is_tag:
+                elif is_tag and tag_score > ingredient_score:
                     children = self.main_menu.expand_tag(tag_match)
-                    [self.lit_up_ingredients.add(child) for child in children]
+                    [lit_up_ingredients.append(child) for child in children]
                     print(f"lighting up tag: {tag_match}")
-                    self.lights.illuminate_spirit(self.lit_up_ingredients)
+                    self.lights.illuminate_spirits_by_group([lit_up_ingredients])
 
                 elif is_ingredient:
                     print(f"lighting up single ingredient: {ingredient_match}")
@@ -213,10 +214,11 @@ class TestView(FlaskView):
             if tag_name in self.main_menu.get_used_tag_names():
                 print(f"found {tag_name} in tags")
                 children = self.main_menu.expand_tag(tag_name)
+                full_tag = set(children)
                 for child in children:
                     aliases = self.main_menu.expand_alias(child)
-                    [children.add(alias) for alias in aliases]
-                lit_up_ingredients.append(children)
+                    [full_tag.add(alias) for alias in aliases]
+                lit_up_ingredients.append(full_tag)
             # Otherwise it's not a tag, so just get any aliases and pass them to the LEDs
             else:
                 aliases = self.main_menu.expand_alias(ingredient)
@@ -389,7 +391,8 @@ class TestView(FlaskView):
                     print(f"Could not index cocktails: '{e}' not found in {self.random_ten}")
                 else:
                     button_color[index] = "#657694"
-                    self.lights.illuminate_spirit(ingredients)
+                    for ing in ingredients:
+                        self.lights.illuminate_spirit(ing)
             # If we've hit the "I'm feeling lucky" button
             elif element_name == "random existing":
                 random_cocktail = rands.select_random_recipe(self.main_menu.sort_by_collections())
@@ -425,9 +428,9 @@ class TestView(FlaskView):
             # print(is_tag, tag_match, tag_score)
 
             if is_ingredient and ingredient_score > tag_score:
-                self.lit_up_ingredients.add(ingredient_match)
+                # self.lit_up_ingredients.add(ingredient_match)
                 print("from put_away:")
-                self.lights.illuminate_spirit(self.lit_up_ingredients)
+                self.lights.illuminate_spirit(ingredient_match)
 
                 # Update the website display
                 ingredient_selected = recipe.format_as_recipe(ingredient_match)
