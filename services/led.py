@@ -202,7 +202,8 @@ class LED:
                 # Read our external config files to determine the location and pixel range of the spirit
                 cabinet_location = self.get_cabinet_location(spirit)
                 # Assign a color based on spirit type
-                color = self.get_color_by_spirit(spirit)
+                # color = self.get_color_by_spirit(spirit)
+                color = self.get_rainbow_color()
                 # Light up the pixel range that corresponds to the cabinet location.
                 self.illuminate_location(cabinet_location, color, flash, verbose)
         elif type(spirit_input) == str:
