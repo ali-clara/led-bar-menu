@@ -191,36 +191,43 @@ class LED:
 
 # -------------------- LIGHTS -------------------- #
 
-    def illuminate_spirit(self, spirit_input, flash=False, verbose=True):
-        ## should return success/failure
-        
-        if type(spirit_input) == list or type(spirit_input) == set:
-            for spirit in spirit_input:
-                spirit = recipe.format_as_inventory(spirit)
-                print("---")
+    def illuminate_spirits_by_group(self, group_list, flash=False, verbose=False):
+        # """_summary_
+
+        # Args:
+        #     spirit_list (list): This is a LIST OF LISTS grouped by ingredient in the recipe. 
+        #     So a Gin&Tonic might look like [[gin1, gin2, gin3], [tonic]]
+        # """
+        print(group_list)
+
+        for spirit_list in group_list:
+            color = self.get_rainbow_color()
+            print(color)
+            for spirit in spirit_list:
                 print(spirit)
-                # Read our external config files to determine the location and pixel range of the spirit
-                cabinet_location = self.get_cabinet_location(spirit)
-                # Assign a color based on spirit type
-                color = self.get_color_by_spirit(spirit)
-                # Light up the pixel range that corresponds to the cabinet location.
-                self.illuminate_location(cabinet_location, color, flash, verbose)
-        elif type(spirit_input) == str:
+                self.illuminate_spirit(spirit, color, flash, verbose)
+
+    
+    def illuminate_spirit(self, spirit_input, color=None, flash=False, verbose=True):
+        ## should return success/failure
+        if type(spirit_input) == str:
             spirit_input = recipe.format_as_inventory(spirit_input)
             print("---")
             print(spirit_input)
             # Get loc
             cabinet_location = self.get_cabinet_location(spirit_input)
             # Assign a color
-            color = self.get_color_by_spirit(spirit)
+            # color = self.get_color_by_spirit(spirit)
+            if not color:
+                color = self.get_rainbow_color()
             # Light em up
             self.illuminate_location(cabinet_location, color, flash, verbose)
         else:
-            print("Tried to illuminate something that wasn't a spirit name or a list of spirit names. Hmm.")
+            print("Tried to illuminate a spirit that wasn't a string type. Hmm.")
 
     def illuminate_location(self, location:str, color=None, flash=False, verbose=False):  
         
-        self.lights_timer.reset()
+        
         
         print(location)      
         # Check if our location is valid. If it's not, flag and return
@@ -255,6 +262,9 @@ class LED:
                 if verbose:
                     print(f"lit up {start} through {stop}")
                 self.pixels.show()
+
+        # Finally, reset our timer that turns lights off after 10mins of no use
+        self.lights_timer.reset()
 
     def all_on(self, color=(255, 255, 0)):
         self.pixels.fill(color)
