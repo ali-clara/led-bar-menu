@@ -212,7 +212,8 @@ class LED:
             # Get loc
             cabinet_location = self.get_cabinet_location(spirit_input)
             # Assign a color
-            color = self.get_color_by_spirit(spirit)
+            # color = self.get_color_by_spirit(spirit)
+            color = self.get_rainbow_color()
             # Light em up
             self.illuminate_location(cabinet_location, color, flash, verbose)
         else:

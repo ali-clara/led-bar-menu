@@ -9,7 +9,6 @@ Getting lit (hah)
 - "did you mean" feature in lots of places (adding recipe/ingredient, searching, really anywhere there's user input)
 - pi isn't automatically updating from github
 - comments on recipes
-- "add tag" option to modify spirits page
 - inventory page needs out of stock and led connection
 - 'sort by' pages - sweet drinks, boozy drinks, herbal drinks, etc. Could have a tool that checks each ingredient and makes an educated guess
 
