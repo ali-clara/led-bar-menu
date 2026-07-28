@@ -170,8 +170,8 @@ class TestView(FlaskView):
                 is_ingredient, ingredient_match, ingredient_score = recipe.check_match(form_entry, self.main_menu.get_inventory(), match_threshold=0.75)
                 print(is_ingredient, ingredient_match, ingredient_score)
                 if is_ingredient:
-                    self.lit_up_ingredients.add(ingredient_match)
-                    self.lights.illuminate_spirit(self.lit_up_ingredients)
+                    # self.lit_up_ingredients.add(ingredient_match)
+                    self.lights.illuminate_spirit(ingredient_match)
                     selected_loc = self.main_menu.get_coord_from_spirit(ingredient_match)
                     if selected_loc in self.main_menu.cabinet_locations:
                         result_text = f"Lighting up {recipe.format_as_recipe(ingredient_match)} in location {selected_loc}"
@@ -197,6 +197,7 @@ class TestView(FlaskView):
         # Reset some vars
         self.lights.all_off()
         self.lit_up_ingredients.clear()
+        lit_up_ingredients = []
 
         # Grab the recipe
         # Unzip the mega list we created in get_ingredients()
@@ -214,14 +215,17 @@ class TestView(FlaskView):
                 children = self.main_menu.expand_tag(tag_name)
                 for child in children:
                     aliases = self.main_menu.expand_alias(child)
-                    [self.lit_up_ingredients.add(alias) for alias in aliases]
+                    [children.add(alias) for alias in aliases]
+                lit_up_ingredients.append(children)
             # Otherwise it's not a tag, so just get any aliases and pass them to the LEDs
             else:
                 aliases = self.main_menu.expand_alias(ingredient)
-                for alias in aliases:
-                    self.lit_up_ingredients.add(alias)
-                
-        self.lights.illuminate_spirit(self.lit_up_ingredients)
+                # for alias in aliases:
+                #     self.lit_up_ingredients.add(alias)
+                lit_up_ingredients.append(aliases)
+
+        print(lit_up_ingredients)
+        self.lights.illuminate_spirits_by_group(lit_up_ingredients, flash=False)
 
         # Part 2 - the website. For each ingredient
         rendered_ingredients = []
