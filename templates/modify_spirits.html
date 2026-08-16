@@ -390,13 +390,13 @@
                         <td>Ingredient, Amount, Units: &emsp;</td>
                         <td><input list="allIngredients" id="inputIngName" name="input_recipe_ingredient_0"> , 
                             <datalist id="allIngredients">
-                                {% for spirit in spiritList %}
+                                {% for spirit in tagAndSpiritList %}
                                 <option value="{{spirit}}">{{spirit}}</option>
                                 {% endfor %}
                             </datalist>
                             <input id="inputIngAmount" name="input_recipe_amount_0"> , 
                             <input id="inputIngUnit" name="input_recipe_unit_0"></td>
-                        <td><button form="add recipe" type="button" id="btnAddIng" onclick="addField('tbl', 'btnAddIng', {{spiritList}})">Add ingredient</button></td>
+                        <td><button form="add recipe" type="button" id="btnAddIng" onclick="addField('tbl', 'btnAddIng', {{tagAndSpiritList}})">Add ingredient</button></td>
                         <!-- <td><button type="button" id="button1" value="button 1" onclick="enableButton2()">Test</button></td> -->
                     </tr>
                 </form>

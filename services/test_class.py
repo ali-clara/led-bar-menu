@@ -682,7 +682,8 @@ class TestView(FlaskView):
                                spiritList=self.main_menu.inventory_user_facing,
                                tagList=self.main_menu.get_all_tag_names(),
                                tagsDictOrganized=self.main_menu.tags_dict_organized,
-                               metaTagList=self.main_menu.get_meta_tags(), 
+                               metaTagList=self.main_menu.get_meta_tags(),
+                               tagAndSpiritList=[*self.main_menu.inventory_user_facing, *self.main_menu.get_all_tag_names()], 
                                # These change as a result of user input
                                inputSpirit=input_spirit, 
                                inputCoord=input_coord,
