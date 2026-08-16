@@ -1,0 +1,7 @@
+Frodo:
+  collection: Lord of the Rings
+  ingredients:
+    Plantation Light:
+      amount: '1'
+      units: Oz
+  notes: Test
