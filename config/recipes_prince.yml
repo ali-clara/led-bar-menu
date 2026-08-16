@@ -1,0 +1,19 @@
+Take Me With You:
+  collection: Prince
+  ingredients:
+    Plantation Dark:
+      amount: '1'
+      units: oz
+    Plantation Pineapple:
+      amount: '0.5'
+      units: oz
+    Lime Juice:
+      amount: '.5'
+      units: oz
+    Meletti:
+      amount: '.5'
+      units: oz
+    Angostura Bitters:
+      amount: '1'
+      units: dash
+  notes: Pour over a flaming lime peel
