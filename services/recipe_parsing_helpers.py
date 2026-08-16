@@ -2,15 +2,32 @@ import yaml
 import copy
 import pandas as pd
 import os
+import time
 import jellyfish as jf
 import glob
 import numpy as np
 import csv
 from titlecase import titlecase
+import logging
 try:
     import parameter_helpers as params
 except ImportError:
     from services import parameter_helpers as params
+
+# Define our directory path (where the 'services' directory lives, and where we do most of our useful work)
+dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
+
+# Set up a logger for this module
+logger = logging.getLogger(__name__)
+# Set the lowest-severity log message the logger will handle (debug = lowest, critical = highest)
+logger.setLevel(logging.DEBUG)
+# Create a handler that saves logs to the log folder named as the current date
+fh = logging.FileHandler(os.path.join(dir_path, "log", f"{time.strftime('%Y-%m-%d', time.localtime())}.log"))
+fh.setLevel(logging.DEBUG)
+logger.addHandler(fh)
+# Create a formatter to specify our log format
+formatter = logging.Formatter("%(levelname)s: %(asctime)s - %(name)s:  %(message)s", datefmt="%H:%M:%S")
+fh.setFormatter(formatter)
 
 # -------------------- FORMATTING -------------------- #
 def format_as_inventory(input_str:str):
@@ -42,7 +59,7 @@ def format_new_tag_yaml(tag_name:str, ingredients):
     return new_tag
 
 # -------------------- FUZZY STRINGS -------------------- #
-def get_closest_match(x, to_check_against, similarity_threshold=0.75, verbose=False):
+def get_closest_match(x, to_check_against, similarity_threshold=0.75):
     best_match = None
     highest_jaro = 0
     close_to = []
@@ -54,16 +71,14 @@ def get_closest_match(x, to_check_against, similarity_threshold=0.75, verbose=Fa
             highest_jaro = current_score
             best_match = current_string
 
-    if verbose:
-        if len(close_to) > 1:
-                print(f"Watch out: {x} is close to {close_to}. Choosing {best_match}")
+    if len(close_to) > 1:
+            logger.warning(f"Watch out: {x} is close to {close_to}. Choosing {best_match}")
 
     return best_match, highest_jaro
 
 def check_match(given_input, valid_names, match_threshold=0.875):
     # checks to see if a given tag is close to a key in tags_dict. If it is, it replaces the given tag with the key
     best_match, score = get_closest_match(given_input, valid_names)
-    # print(given_tag, best_match, score)
     if score > match_threshold:
         return True, best_match, score
     else:
@@ -71,18 +86,17 @@ def check_match(given_input, valid_names, match_threshold=0.875):
 
 def test_similarity(list_to_match:list, to_check_against:list):
     for used in list_to_match:
-        result, score = get_closest_match(used, to_check_against, verbose=True)
-        print(used, "|", result, "|", score)
+        result, score = get_closest_match(used, to_check_against)
+        logger.info(used, "|", result, "|", score)
 
 class Menu:
-    def __init__(self, verbose=False, quiet=True):
+    def __init__(self):
         self.dir_path = os.path.join(os.path.dirname( __file__ ), os.pardir)
         self.recipe_path = os.path.join(self.dir_path, "config")
-        self.update(verbose, quiet)
+        self.update()
 
-    def update(self, verbose=False, quiet=True):
-        # if not quiet:
-        #   print("Updating main menu")
+    def update(self):
+        logger.info("Updating main menu")
         # Load everything
         # Big menu, matches the layout of the yamls
         # menu_dict_raw = self.load_recipes()
@@ -99,7 +113,7 @@ class Menu:
         self.alias_dict = self.load_aliases()
         
         # Sort, validate, and modify anything that needs modifying
-        self.menu_dict = self.validate_all_recipes(verbose, quiet)
+        self.menu_dict = self.validate_all_recipes()
         # Dictionary of cocktails sorted into base spirit
         self.base_spirit_cocktails = self.get_cocktails_by_base_spirit()
         # Inventory formatted for the website
@@ -110,10 +124,11 @@ class Menu:
         self.hidden_collections = ["Debug"]
         self.collections = self.get_collection_names()
 
-        # print("Finished updating main menu")
     
     # -------------------- LOADING & READING -------------------- #
-    def load_recipes(self, quiet):
+    def load_recipes(self):
+        logger.info("Loading recipes")
+
         recipes_dict = {}
         
         for file in glob.glob(self.recipe_path+"/recipes*.yml"):
@@ -121,12 +136,10 @@ class Menu:
                 with open(file) as stream:
                     recipes_dict.update(yaml.safe_load(stream))
             except TypeError as e:
-                if not quiet:
-                    print(f"Failed to read {file}: {e}")
+                    logger.warning(f"Failed to read {file}: {e}")
             except FileNotFoundError as e:
-                if not quiet:
-                    print(e)
-            
+                    logger.error(f"Found no yamls: {e}")
+
         return recipes_dict
         
     def load_tags(self):
@@ -135,6 +148,8 @@ class Menu:
         Returns:
             tuple: tags_dict_all, tags_dict_organized, meta_tags
         """
+        logger.info("Loading tags")
+
         tags_dict_all = {}
         tags_dict_organized = {}
         meta_tags = []
@@ -157,22 +172,23 @@ class Menu:
                     # Remember -- tags_dict_organized is used in modify_spirits.html. Changing its format for some reason may break something there
                     tags_dict_organized.update({format_as_recipe(meta_tag): tag_names})
         except TypeError as e:
-            print(f"Failed to read {file}: {e}")
+            logger.error(f"Failed to read {file}: {e}")
         except FileNotFoundError as e:
-            print(e)
+            logger.error(e)
         else:
             meta_tags.sort()
             return tags_dict_all, tags_dict_organized, meta_tags
         
     def load_aliases(self):
+        logger.info("Loading aliases")
         try:
             file = os.path.join(self.recipe_path, "aliases.yml")
             with open(file) as stream:
                 alias_dict = yaml.safe_load(stream)
         except TypeError as e:
-            print(f"Failed to read {file}: {e}")
+            logger.error(f"Failed to read {file}: {e}")
         except FileNotFoundError as e:
-            print(e)
+            logger.error(e)
         else:
             alias_dict_restructured = {}
             for key in alias_dict:
@@ -202,12 +218,13 @@ class Menu:
         Returns:
             dict: Location: [[start pix 1, stop pix 1], ... [start pix n, stop pix n]]
         """
+        logger.info("Loading cabinet locations")
         try:
             file = os.path.join(self.recipe_path, "led_locs_final.yml")
             with open(file) as stream:
                 led_locations_dict = yaml.safe_load(stream)
         except FileNotFoundError as e:
-            print(e)
+            logger.error(e)
         else:
             cabinet_locations = list(led_locations_dict.keys())
             cabinet_locations.sort()
@@ -219,6 +236,7 @@ class Menu:
         Returns:
             list, dict: list of text-formatted ingredients, dictionary of ingredient:location
         """
+        logger.info("Loading ingredients")
         all_ingredients = pd.read_csv(os.path.join(self.recipe_path, "ingredients.csv"), names=["ingredients", "locations"])
         all_ingredients_list =  list(all_ingredients["ingredients"])
         locations = [loc.strip() for loc in all_ingredients["locations"]]
@@ -247,6 +265,7 @@ class Menu:
         Returns:
             _type_: _description_
         """
+        logger.info("Loading categories")
         categories_filepath = os.path.join(self.recipe_path, "tags_category.yml")
         categories_organized = {}
         # Open the yaml
@@ -255,9 +274,9 @@ class Menu:
                 # All categories (tag: {ingredients: [spirit_1, spirit_2, ..., spirit_n], notes: , etc})
                 contents = yaml.safe_load(stream)
         except TypeError as e:
-            print(f"Failed to read {categories_filepath}: {e}")
+            logger.error(f"Failed to read {categories_filepath}: {e}")
         except FileNotFoundError as e:
-            print(e)
+            logger.error(e)
         # If we can do that, split the yaml into a dictionary of {category: [spirit1, spirit2]}
         # This is tag-aware (expands every entry as much as possible) and doesn't include out of stock items
         else:
@@ -301,6 +320,7 @@ class Menu:
         Returns:
             _type_: _description_
         """
+        logger.info("Loading base spirits")
         categories_filepath = os.path.join(self.recipe_path, "tags_category.yml")
         # Open the yaml
         try:
@@ -310,11 +330,11 @@ class Menu:
                 # Pull out only the base spirits and create an empty dictionary with each spirit as a key
                 base_spirits = {spirit: [] for spirit in contents["Base Spirits"]["ingredients"]}
         except TypeError as e:
-            print(f"Failed to read {categories_filepath}: {e}")
+            logger.error(f"Failed to read {categories_filepath}: {e}")
         except FileNotFoundError as e:
-            print(e)
+            logger.error(e)
         except KeyError as e:
-            print(f"key error in reading base spirits: {e}")
+            logger.error(f"key error in reading base spirits: {e}")
         else:
             # If we loaded and read the file correctly, we have a dictionary of base spirits to fill in.
             # Conveniently, we already have a method that gets all the children of a spirit tag. Expand 
@@ -347,17 +367,16 @@ class Menu:
             try:
                 [ingredient_list.add(ing) for ing in self.menu_dict[cocktail]["ingredients"].keys()]
             except KeyError as e:
-                print(f"Parsing ingredients raised key error -- {cocktail} does not have {e} field.")
+                logger.error(f"Parsing ingredients raised key error -- {cocktail} does not have {e} field.")
 
         return ingredient_list
     
-    def get_used_ingredients_expanded(self, verbose=False, user_facing=False):
+    def get_used_ingredients_expanded(self, user_facing=False):
         """Gets all used ingredients and expands all tags. Includes tag names.
 
         Args:
             menu_dict (dict): big menu dictionary, created by read_main_menu()
             tags_dict (dict): big tags dictionary, created by read_main_menu()
-            verbose (bool, optional): Set True to print during the loop. Defaults to False.
 
         Returns:
             list: names of all ingredients used in recipes
@@ -380,17 +399,15 @@ class Menu:
                     children = self.expand_tag(ingredient)
                     [all_ingredience_once.add(child) for child in children]
                     # Optional printout of every tag identified (only once per tag)
-                    if verbose:
-                        if ingredient not in printed_tags:
-                            printed_tags.append(ingredient)
-                            print(f"Tag identified: {ingredient}. \n Children: {children}")
+                    if ingredient not in printed_tags:
+                        printed_tags.append(ingredient)
+                        logger.debug(f"Tag identified: {ingredient}. \n Children: {children}")
                 # Otherwise, just add the ingredient
                 # else:
                 #     all_ingredience_once.add(ingredient)
 
-        if verbose:
-            print("\n All ingredients identified:")
-            print(all_ingredience_once)
+        logger.debug("All ingredients identified:")
+        logger.debug(all_ingredience_once)
 
         if user_facing:
             all_ingredience_once = [format_as_recipe(ing) for ing in all_ingredience_once]
@@ -404,7 +421,7 @@ class Menu:
             try:
                 collection = format_as_recipe(self.menu_dict[cocktail]['collection'])
             except KeyError as e:
-                    print(f"Parsing collections raised key error -- {cocktail} does not have {e} field.")
+                    logger.error(f"Parsing collections raised key error -- {cocktail} does not have {e} field.")
             # Check if its in our list of collections. If it's not, add it.
             else:
                 if collection not in collections and collection not in self.hidden_collections:
@@ -427,7 +444,7 @@ class Menu:
                     if format_as_recipe(self.menu_dict[cocktail]["collection"]) == collection:
                         collection_dict[collection].append(cocktail)
                 except KeyError as e:
-                    print(f"Sorting collections raised key error {e} -- {cocktail} does not have 'collection' field.")
+                    logger.error(f"Sorting collections raised key error {e} -- {cocktail} does not have 'collection' field.")
         
         return collection_dict
     
@@ -464,28 +481,26 @@ class Menu:
             list: list of strings
         """
         # recipe_name = format_as_recipe(recipe_name)
-        units_priority = ["oz", "tsp", "bsp", "squeeze", "dashes", "dash", "float", "spritz"]
+        
 
+        # Custom function to define sorting by units
+        units_priority = ["oz", "tsp", "bsp", "squeeze", "dashes", "dash", "float", "spritz"]
         def units_key(s):
             a,u,i = s
             if u in units_priority:
-                return units_priority.index(u)
+                return units_priority.index(u) # If we've defined it, grab its place in line
             else:
-                return len(units_priority)+1
-
+                return len(units_priority)+1 # If we haven't defined it, it's in last
+            
+        # Custom function to define sorting by amounts
         def amounts_key(s):
             a,u,i = s
             if a is None:
                 return 0
             elif a.replace('.','',1).isdigit():
-                # print(a)
                 return float(a)
             else:
                 return 0
-
-        print(recipe_name)
-        print("----")
-        print(self.get_recipe_names())
 
         if recipe_name in self.get_recipe_names():
             
@@ -501,7 +516,7 @@ class Menu:
             # print(s)
             s.sort(key=units_key)
             
-            print(s)
+            logger.debug(f"Sorted recipe: {s}")
 
             # if user_facing:
             #     return [format_as_recipe(ing) for ing in ings]
@@ -510,7 +525,7 @@ class Menu:
 
             return s
         else:
-            print("Not a valid cocktail name")
+            logger.error("Not a valid cocktail name")
             return []
     
     def get_cocktails_by_base_spirit(self):
@@ -551,12 +566,11 @@ class Menu:
         return base_spirit_cocktails
     
     # -------------------- TAGS & ALIASES -------------------- #
-    def remove_empty_tags(self, all_tags:dict, quiet=True):
+    def remove_empty_tags(self, all_tags:dict):
         """Makes a copy of the provided dictionary and clears it of any empty tags. Does NOTHING to the external files. Freaked myself out with the name of this one. 
 
         Args:
             all_tags (dict): dictionary of tags, some of which may be empty
-            quiet (bool, optional): _description_. Defaults to True.
 
         Returns:
             dict: _description_
@@ -567,8 +581,7 @@ class Menu:
         tags_dict_copy = copy.copy(used_tags)
         for key in tags_dict_copy:
             if used_tags[key]["ingredients"] is None:
-                if not quiet:
-                    print("Empty tag: ", key)
+                logger.info(f"Empty tag: {key.split('"')[0]}")
                 # Remove it as a key
                 self.unstocked_tags.append(key)
                 used_tags.pop(key)
@@ -603,7 +616,7 @@ class Menu:
         i = 0
         while len(parents) > 0:
             if i > timeout:
-                print(f"Error: circular tags detected: {parents}")
+                logger.error(f"Error: circular tags detected: {parents}")
                 return False
             
             for parent in parents:
@@ -678,7 +691,7 @@ class Menu:
             if tag in tags_dict_organized[parent_tag]:
                 return parent_tag
             
-        print(f"Could not find parent tag for {tag}")
+        logger.warning(f"Could not find parent tag for {tag}")
 
     def find_tags_of_spirit(self, spirit):
         """Finds the tag(s) of a spirit. E.g "Falernum" is the tag of velvet_falernum
@@ -712,7 +725,7 @@ class Menu:
                     # (prevents tequila from being a parent of tequlia)
                     # It's a bit weird here because "parent tag" is the name of the yaml file, which usually corresponds
                     # to the highest level tag, but not always
-                    print("parent", parent_tag) # TODO - bug with scotch
+                    logger.info("parent", parent_tag) # TODO - bug with scotch
                     if parent_tag and parent_tag != spirit: 
                         tags_list.add(parent_tag)
 
@@ -723,7 +736,7 @@ class Menu:
         if tags_list:
             return tags_list
         else:
-            print(f"Could not find tags for {spirit}") # TODO: logs
+            logger.warning(f"Could not find tags for {spirit}")
 
     def get_cocktails_by_spirit(self, spirit):
         """Gets all the cocktails with the given spirit as an ingredient. 
@@ -768,51 +781,41 @@ class Menu:
         return spirit_cocktails, parent_tag
 
     # -------------------- CHECKING INVENTORY -------------------- #
-    def is_in_stock(self, ingredient:str, recipe_name:str="", verbose=False, quiet=True):
+    def is_in_stock(self, ingredient:str, recipe_name:str=""):
         """Checks a given ingredient against our inventory (which has the location "none" if out of stock).
 
         Args:
             ingredient (str): _description_
             recipe_name (str): _description_
-            verbose (bool, optional): _description_. Defaults to False.
 
         Returns:
             _type_: _description_
         """
         ingredient = format_as_inventory(ingredient)
         if ingredient in self.out_of_stock:
-            if not quiet:
-                ingredient = "\033[1m"+ingredient+"\033[0m"
-                print(f"Stock flag {recipe_name} - {ingredient} out of stock")
+            logger.info(f"Stock flag {recipe_name} - {ingredient} out of stock")
             return False
         else:
-            if verbose:
-                print(f"Found {ingredient} in inventory list, location {self.spirit_dict[ingredient]}")
+            # logger.debug(f"Found {ingredient} in inventory list, location {self.spirit_dict[ingredient]}")
             return True
     
-    def validate_one_recipe(self, recipe:dict, recipe_name:str, verbose, quiet):
+    def validate_one_recipe(self, recipe:dict, recipe_name:str):
         # if all the ingredients of the recipe are good, recipe is good. return recipe
         # otherwise, false
-        if verbose:
-            print(f"\n Checking {recipe_name}")
-
+        
         tag_names = self.get_used_tag_names()
         recipe_ingredients = list(recipe.keys())
         
         for ingredient in recipe_ingredients:
-            # print(ingredient)
             ingredient_exists = False
             # First, check the ingredient name and any aliases it might be under
             ing_aliases = self.expand_alias(ingredient)
-            # print(ing_aliases)
-            if verbose:
-                print(f"Checking {ingredient} (aliases {ing_aliases[1:]})")
             # For each alias: 
             for alias in ing_aliases:
                 # if we can find it as an ingredient, check if it's in stock.
                 if format_as_inventory(alias) in self.inventory:
                     ingredient_exists = True
-                    if self.is_in_stock(alias, recipe_name, verbose, quiet):
+                    if self.is_in_stock(alias, recipe_name):
                         recipe[ingredient].update({'stocked': True})
                     else:
                         recipe[ingredient].update({'stocked': False})
@@ -824,13 +827,11 @@ class Menu:
                     for child in children:
                         child_in_stock = False
                         tag_aliases = self.expand_alias(child)
-                        if verbose:
-                            print(f"Found {child} in the {ingredient} tag")
                         for t_alias in tag_aliases:
                             if t_alias in self.inventory:
                                 ingredient_exists = True
                                 child_in_stock = True # if we find anything in stock, stop checking early (speeds up loop)
-                                if self.is_in_stock(t_alias, recipe_name, verbose, quiet):
+                                if self.is_in_stock(t_alias, recipe_name):
                                     recipe[ingredient].update({'stocked': True})
                                 else:
                                     recipe[ingredient].update({'stocked': False})
@@ -841,21 +842,28 @@ class Menu:
                 recipe[ingredient].update({'stocked': False})
             
             elif not ingredient_exists:
-                if not quiet:
-                    print(f"Could not validate {recipe_name}, {ingredient} not found in inventory or tags")
+                logger.warning(f"Could not validate {recipe_name}, {ingredient} not found in inventory or tags")
                 return False
                     
         return recipe
 
-    def validate_all_recipes(self, verbose=False, quiet=True):
+    def validate_all_recipes(self):
         # Makes sure we have the ingredients to make a recipe
-        menu_to_validate = self.load_recipes(quiet)
+        menu_to_validate = self.load_recipes()
         # for each recipe, validate it. If it's good, keep it.
         # Otherwise, throw out the recipe and flag it (let us know)
         validated_menu = copy.deepcopy(menu_to_validate)
         for key in menu_to_validate:
+
+            # If its collection is in our blacklist, skip it
+            blacklist = ["Debug", "debug", "uncategorized", "Uncategorized"] #TODO - make this a class variable? find where I'd defined it before?
+            if menu_to_validate[key]["collection"] in blacklist:
+                logger.debug(f"Recipe skipped: {key}")
+                validated_menu.pop(key)
+                continue
+
             recipe = menu_to_validate[key]["ingredients"]
-            validated_recipe = self.validate_one_recipe(recipe, key, verbose, quiet)
+            validated_recipe = self.validate_one_recipe(recipe, key)
             # If valid, update its ingredients with the checked stock
             if validated_recipe:
                 validated_menu[key]["ingredients"].update(recipe)
@@ -877,36 +885,37 @@ class Menu:
         # Look for any recipe file that has the collection name. Should only be one file
         num_files = 0
         for file in glob.glob(f"{self.recipe_path}/recipes_*{collection.lower()}*.yml"):
-            print(file)
+            logger.debug(f"Found existing file for the {collection} collection")
+            logger.debug(file)
             num_files += 1
         # If we haven't found any files, make a new one
         if num_files == 0:
-            print(f"No file found for the {collection} collection. Making one")
+            logger.info(f"No file found for the {collection} collection. Making one")
             file = f"{self.recipe_path}/recipes_{collection.lower()}.yml"
-            print(file)
+            logger.debug(file)
             with open(file, 'x'):
                 pass
         
         # If we've found too many, throw an error
         if num_files > 1:
-            print(f"Found more than one recipe yaml with '{collection}' in the name. Is that intentional?")
+            logger.error(f"Found more than one recipe yaml with '{collection}' in the name. Is that intentional?")
         # Otherwise, open and update
         else:
             try:
                 with open(file) as stream:
                     menu_dict = yaml.safe_load(stream)
             except FileNotFoundError as e:
-                print(e)
+                logger.error(e)
             else:
                 new_recipe, recipe_name = format_new_recipe_yaml(recipe_name, collection, notes, ingredients, amounts, units)
                 if type(menu_dict) == dict:
                     menu_dict.update(new_recipe)
                 else:
                     menu_dict = new_recipe
-                    print("Expected dictionary, did not find one. Replacing file contents with new recipe")
+                    logger.warning("Expected dictionary, did not find one. Replacing file contents with new recipe")
                 with open(file, 'w') as outfile:
                     yaml.dump(menu_dict, outfile, sort_keys=False)
-                self.update()
+                # self.update()
                 return True, recipe_name
             
         return False, recipe_name
@@ -934,10 +943,9 @@ class Menu:
             coord = format_as_inventory(coord)
 
         # Add the spirit to the appropriate tags
-        print(f"adding {spirit} to {tags}")
         result = self.add_spirit_to_tag_list(spirit, tags)
         if not result:
-            print(f"Failed to add {spirit} to tags. Not updating inventory.")
+            logger.error(f"Failed to add {spirit} to tags. Not updating inventory.")
             return False
 
         # Format a new entry with the given location
@@ -965,20 +973,20 @@ class Menu:
                         writer.writerow(new_row)
                         spirit_exists = True
                 except Exception as e:
-                    print(e)
+                    logger.error(e)
 
         # If we don't find a match, add the new spirit to the end
         if spirit_exists:
-            self.update()
+            # self.update()
             return True
         else:
             with open(os.path.join(self.recipe_path, "ingredients.csv"), 'a') as csvfile:
                 writer = csv.writer(csvfile, delimiter=',', lineterminator='\n\r')
                 writer.writerow(new_row)
-                self.update()
+                # self.update()
                 return True
         
-        print(f"Failed to add {spirit} to inventory")
+        logger.error(f"Failed to add {spirit} to inventory")
         return False
 
     def remove_spirit(self, spirit:str):
@@ -1012,9 +1020,9 @@ class Menu:
                     else:
                         writer.writerow(new_row)
                 except Exception as e:
-                    print(e)
+                    logger.error(e)
 
-        self.update()
+        # self.update()
         if spirit in self.get_out_of_stock():
             return True
         else:
@@ -1033,25 +1041,25 @@ class Menu:
                 ingredients_set.add(spirit)
                 data_dict[tag].update({"ingredients": list(ingredients_set)})
             except KeyError as e:
-                print(f"Key error in adding spirit {spirit} to tag {tag}: {e}")
+                logger.error(f"Key error in adding spirit {spirit} to tag {tag}: {e}")
             else:
                 with open(parent_file, 'w') as outfile:
                     yaml.dump(data_dict, outfile, sort_keys=False)
                 return True
         else:
-            print(f"Unable to add {spirit} to {tag} - no parent file")
+            logger.error(f"Unable to add {spirit} to {tag} - no parent file")
             return False
 
     def add_spirit_to_tag_list(self, spirit:str, tags:list):
+        logger.info(f"Adding {spirit} to {tags}")
         results = []
         for tag in tags:
-            print(tag)
             result = self.add_spirit_to_tag(spirit, tag)
             results.append(result)
             if not result:
-                print(f"Failed to add {spirit} to {tag}")
+                logger.error(f"Failed to add {spirit} to {tag}")
 
-        self.update()
+        # self.update()
 
         if all(results):
             return True
@@ -1061,6 +1069,8 @@ class Menu:
     def add_tag(self, tag:str, tag_category:str, spirits_for_tag, tag_parents):
         # Trigger the update flag before any other shenanigans happen
         params.add_or_update_param("menu_update_pending", True)
+
+        logger.info(f"Adding {tag} tag to system")
         
         # Get the parent file out of the category name
         filename = f"tags_{tag_category.lower()}.yml"
@@ -1080,7 +1090,7 @@ class Menu:
                 # Update the file to include the new tag
                 data_dict.update(new_tag)
             except KeyError as e:
-                print(f"Key error in updating tag file {parent_file}: {e}")
+                logger.error(f"Key error in updating tag file {parent_file}: {e}")
             else:
                 with open(parent_file, 'w') as outfile:
                     yaml.dump(data_dict, outfile, sort_keys=False)
@@ -1097,11 +1107,11 @@ class Menu:
                 return True
 
 if __name__ == "__main__":
-    myMenu = Menu(verbose=False, quiet=False)
+    myMenu = Menu()
 
     # Unit tests
     # -------------------- FLAGGING OUR MISTAKES -------------------- #
-    def check_recipe_against_csv(verbose=False):
+    def check_recipe_against_csv():
         """Checks each used ingredient against our master CSV, and throws a flag if it can't find a match. Used
         only for internal system checks.
 
@@ -1119,8 +1129,7 @@ if __name__ == "__main__":
             found = False
             # Check for any aliases, and reformat to match ingredients.csv
             aliases = myMenu.expand_alias(ingredient)
-            if verbose:
-                print(f"Given {ingredient}, checking {aliases}")
+            print(f"Given {ingredient}, checking {aliases}")
             # aliases = [format_as_inventory(alias) for alias in aliases]
             # If we couldn't find any aliases in our master ingredients list, throw a flag
             if any((True for x in aliases if format_as_inventory(x) in myMenu.get_inventory())):
@@ -1163,7 +1172,7 @@ if __name__ == "__main__":
     def check_inventory():
         # print("\nBig menu: \n", myMenu.menu_dict)
         # print("----")
-        myMenu.validate_all_recipes(quiet=False)
+        myMenu.validate_all_recipes()
         # print(myMenu.inventory_user_facing)
         print("--")
         # print(myMenu.menu_dict)
