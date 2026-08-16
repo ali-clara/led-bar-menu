@@ -255,7 +255,7 @@ class TestView(FlaskView):
             title = titlecase(arg.replace("-", " "))
         else:
             title = recipe.format_as_recipe(arg)
-
+        print(self.main_menu.get_collection_names())
         # If we've gotten a valid collection name, then load the available cocktails as dropdowns
         if title in self.main_menu.get_collection_names():
             collections_dict = self.main_menu.sort_by_collections()

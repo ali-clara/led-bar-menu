@@ -482,6 +482,8 @@ class Menu:
                 return 0
 
         print(recipe_name)
+        print("----")
+        print(self.get_recipe_names())
         if recipe_name in self.get_recipe_names():
             
             ings = list(self.menu_dict[recipe_name]['ingredients'].keys())
