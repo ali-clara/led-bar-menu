@@ -1,0 +1,7 @@
+Blach:
+  collection: blach
+  ingredients:
+    Plantation Light:
+      amount: '1'
+      units: oz
+  notes: test

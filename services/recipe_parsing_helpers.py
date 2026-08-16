@@ -81,8 +81,8 @@ class Menu:
         self.update(verbose, quiet)
 
     def update(self, verbose=False, quiet=True):
-        if not quiet:
-            print("Updating main menu")
+        # if not quiet:
+        #   print("Updating main menu")
         # Load everything
         # Big menu, matches the layout of the yamls
         # menu_dict_raw = self.load_recipes()
@@ -109,6 +109,8 @@ class Menu:
         # List of collection names
         self.hidden_collections = ["Debug"]
         self.collections = self.get_collection_names()
+
+        # print("Finished updating main menu")
     
     # -------------------- LOADING & READING -------------------- #
     def load_recipes(self, quiet):
@@ -484,6 +486,7 @@ class Menu:
         print(recipe_name)
         print("----")
         print(self.get_recipe_names())
+
         if recipe_name in self.get_recipe_names():
             
             ings = list(self.menu_dict[recipe_name]['ingredients'].keys())
@@ -1204,8 +1207,10 @@ if __name__ == "__main__":
 
     # update_recipe_yaml("test2", "blah", "notes", ["", "two"], ["", "2"], ["", "oz"])
 
-    for r in myMenu.get_recipe_names()[31:40]:
-        myMenu.get_ingredients(r)
+    # for r in myMenu.get_recipe_names()[31:40]:
+    #     myMenu.get_ingredients(r)
+
+    print(myMenu.get_recipe_names())
 
     # myMenu.get_ingredients("Corn and Oil")
 
