@@ -1,0 +1,38 @@
+Miruvor:
+  collection: Lord of the Rings
+  ingredients:
+    Chartreuse:
+      amount: 1/2
+      units: oz
+    Elderflower Liqueur:
+      amount: '1'
+      units: oz
+    Tequila:
+      amount: '1'
+      units: oz
+    Lemon:
+      amount: '1'
+      units: squeeze
+    Orange Bitters:
+      amount: '1'
+      units: Dash
+  notes: ''
+Aragorn:
+  collection: Lord of the Rings
+  ingredients:
+    Vodka:
+      amount: '2'
+      units: oz
+    Amaro Meletti:
+      amount: 1/2
+      units: oz
+    Lemon Juice:
+      amount: 1/4
+      units: oz
+    Simple Syrup:
+      amount: 1/4
+      units: oz
+    Angostura Bitters:
+      amount: '2'
+      units: dash
+  notes: Claudia says to shake with ice, strain, and garnish with a sprig of rosemary
