@@ -802,7 +802,7 @@ class Menu:
     def validate_one_recipe(self, recipe:dict, recipe_name:str):
         # if all the ingredients of the recipe are good, recipe is good. return recipe
         # otherwise, false
-
+        
         tag_names = self.get_used_tag_names()
         recipe_ingredients = list(recipe.keys())
         
@@ -854,6 +854,14 @@ class Menu:
         # Otherwise, throw out the recipe and flag it (let us know)
         validated_menu = copy.deepcopy(menu_to_validate)
         for key in menu_to_validate:
+
+            # If its collection is in our blacklist, skip it
+            blacklist = ["Debug", "debug", "uncategorized", "Uncategorized"] #TODO - make this a class variable? find where I'd defined it before?
+            if menu_to_validate[key]["collection"] in blacklist:
+                logger.debug(f"Recipe skipped: {key}")
+                validated_menu.pop(key)
+                continue
+
             recipe = menu_to_validate[key]["ingredients"]
             validated_recipe = self.validate_one_recipe(recipe, key)
             # If valid, update its ingredients with the checked stock

@@ -36,3 +36,22 @@ Aragorn:
       amount: '2'
       units: dash
   notes: Claudia says to shake with ice, strain, and garnish with a sprig of rosemary
+Gandalf:
+  collection: lord of the rings
+  ingredients:
+    Lemon Juice:
+      amount: '1'
+      units: oz
+    Mezcal:
+      amount: '1'
+      units: oz
+    Elderflower Liqueur:
+      amount: 1/2
+      units: oz
+    Falernum:
+      amount: 1/2
+      units: oz
+    Aperol:
+      amount: 1/2
+      units: oz
+  notes: ''
