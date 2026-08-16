@@ -86,7 +86,7 @@ class LED:
     
     def update(self):
         print("Updating LED locations")
-        self.main_menu.update(verbose=False, quiet=True)
+        self.main_menu.update()
 
 # -------------------- LOCATION PARSING -------------------- #    
     
@@ -226,8 +226,6 @@ class LED:
             print("Tried to illuminate a spirit that wasn't a string type. Hmm.")
 
     def illuminate_location(self, location:str, color=None, flash=False, verbose=False):  
-        
-        
         
         print(location)      
         # Check if our location is valid. If it's not, flag and return
