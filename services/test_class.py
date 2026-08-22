@@ -116,7 +116,8 @@ class TestView(FlaskView):
     def menu(self):
         """http://localhost:5000/menu"""
 
-        self._full_update()
+        # self._full_update()
+        self._quick_update()
 
         # Initialize HTML args
         result_text = None
@@ -215,7 +216,8 @@ class TestView(FlaskView):
         self.lights.all_off()
         self.lit_up_ingredients.clear()
         lit_up_ingredients = []
-        self._full_update()
+        # self._full_update()
+        self._quick_update()
 
         # Grab the recipe
         # Unzip the mega list we created in get_ingredients()
@@ -266,7 +268,8 @@ class TestView(FlaskView):
         """http://localhost:5000/collection/arg"""
         # Do some string processing to match our collection title formatting -
         #   replace any underscores or hyphens with spaces, and make it title case
-        self._full_update()
+        # self._full_update()
+        self._quick_update()
         logger.info(f"Loading collection {arg}")
         
         if "-" in arg:
@@ -317,7 +320,8 @@ class TestView(FlaskView):
 
     def _get_collection_info(self):
 
-        self._full_update()
+        # self._full_update()
+        self._quick_update()
 
         # Load the descriptions
         file = os.path.join(dir_path, "config", "collections_descriptions.yml")
@@ -343,8 +347,8 @@ class TestView(FlaskView):
         return collection_names, collection_descriptions
 
     def collections_main_page(self):
-        # self._quick_update()
-        self._full_update()
+        self._quick_update()
+        # self._full_update()
         
         collection_names, collection_descriptions = self._get_collection_info()
         
@@ -353,7 +357,8 @@ class TestView(FlaskView):
     @method("POST")
     @method("GET")
     def inventory(self):
-        self._full_update()
+        # self._full_update()
+        self._quick_update()
 
         categories = self.main_menu.load_categories(user_facing=True)
         logger.debug(f"Loading categories: {categories}")
@@ -366,9 +371,9 @@ class TestView(FlaskView):
     @method("POST")
     @method("GET")
     def random_cocktail_generator(self):
-        # self._quick_update()
+        self._quick_update()
         logger.info("Loading random cocktail generator")
-        self._full_update()
+        # self._full_update()
         random_recipe_options = rands.get_random_recipe_options()
 
         # What we want displayed on the website
@@ -445,8 +450,8 @@ class TestView(FlaskView):
     @method("GET")
     @method("POST")
     def put_away_ingredient(self):
-        # self._quick_update()
-        self._full_update()
+        self._quick_update()
+        # self._full_update()
 
         # HTML args
         ingredient_selected = ""
@@ -518,7 +523,8 @@ class TestView(FlaskView):
         return render_template("test_datalist.html", testList=fruits)
     
     def preview_cabinet_loc(self, coordinate):
-        self._full_update()
+        # self._full_update()
+        self._quick_update()
         if coordinate in self.main_menu.cabinet_locations:
             # Spin up a thread to flash the LEDs in that location
             params.add_or_update_param("flashing", True)
@@ -540,8 +546,8 @@ class TestView(FlaskView):
     @method("POST")
     def modify_spirits(self):
         """Developer mode babey"""
-        # self._quick_update()
-        self._full_update()
+        self._quick_update()
+        # self._full_update()
 
         # Set some initial parameters. These get passed to the HTML as result strings for the user
         # (e.g "Successfully added Roku Gin at coordinate A7" or "Failed to remove St Germain")
