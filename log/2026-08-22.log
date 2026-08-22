@@ -1,0 +1,1816 @@
+INFO: 10:43:02 - services.test_class:  Starting Flask app
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:02 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:02 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:02 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+WARNING: 10:43:02 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:02 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+WARNING: 10:43:02 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:02 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:02 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:02 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+WARNING: 10:43:02 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:02 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+WARNING: 10:43:02 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:02 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:03 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:03 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:03 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+WARNING: 10:43:03 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:03 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+WARNING: 10:43:03 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:03 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:03 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:03 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+WARNING: 10:43:03 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:03 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+WARNING: 10:43:03 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:03 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:03 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:03 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+WARNING: 10:43:03 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:03 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+WARNING: 10:43:03 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:03 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:03 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:03 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+WARNING: 10:43:03 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:03 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+WARNING: 10:43:03 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:03 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:03 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:03 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+WARNING: 10:43:03 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:03 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+WARNING: 10:43:03 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:03 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:04 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:04 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:04 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+WARNING: 10:43:04 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:04 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+WARNING: 10:43:04 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:04 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:04 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:04 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+WARNING: 10:43:04 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:04 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+WARNING: 10:43:04 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:04 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:04 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:04 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+WARNING: 10:43:04 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:04 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+WARNING: 10:43:04 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:04 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:04 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:04 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+WARNING: 10:43:04 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:04 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+WARNING: 10:43:04 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:04 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:04 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:04 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+WARNING: 10:43:04 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:04 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+WARNING: 10:43:04 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:04 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:05 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:05 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:05 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+WARNING: 10:43:05 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:05 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+WARNING: 10:43:05 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:05 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:05 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:05 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+WARNING: 10:43:05 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:05 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+WARNING: 10:43:05 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:05 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:05 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:05 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+WARNING: 10:43:05 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:05 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+WARNING: 10:43:05 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:05 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:05 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:05 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+WARNING: 10:43:05 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:05 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+WARNING: 10:43:05 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:05 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:05 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:06 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:06 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+WARNING: 10:43:06 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:06 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+WARNING: 10:43:06 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:06 - services.test_class:  Starting Flask app
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:06 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:06 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:06 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Green Flower Street - st_germain out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Miruvor - st_germain out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Gandalf - st_germain out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag I've Got the News - kahlua out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Parker's Band - st_germain out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Third World Man - st_germain out of stock
+WARNING: 10:43:06 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Boomer Sour - st_germain out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:06 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Monet - st_germain out of stock
+WARNING: 10:43:06 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Pear Flower Spritz - st_germain out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Saskatoon Slammer - st_germain out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag White Rose - st_germain out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:06 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:06 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:06 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Green Flower Street - st_germain out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Miruvor - st_germain out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Gandalf - st_germain out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag I've Got the News - kahlua out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Parker's Band - st_germain out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Third World Man - st_germain out of stock
+WARNING: 10:43:06 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Boomer Sour - st_germain out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:06 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Monet - st_germain out of stock
+WARNING: 10:43:06 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Pear Flower Spritz - st_germain out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Saskatoon Slammer - st_germain out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag White Rose - st_germain out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:06 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:06 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:06 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Green Flower Street - st_germain out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Miruvor - st_germain out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Gandalf - st_germain out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag I've Got the News - kahlua out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Parker's Band - st_germain out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Third World Man - st_germain out of stock
+WARNING: 10:43:06 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Boomer Sour - st_germain out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:06 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Monet - st_germain out of stock
+WARNING: 10:43:06 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Pear Flower Spritz - st_germain out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag Saskatoon Slammer - st_germain out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Stock flag White Rose - st_germain out of stock
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:06 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:07 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:07 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:07 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Green Flower Street - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Miruvor - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Gandalf - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag I've Got the News - kahlua out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Parker's Band - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Third World Man - st_germain out of stock
+WARNING: 10:43:07 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Boomer Sour - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:07 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Monet - st_germain out of stock
+WARNING: 10:43:07 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Pear Flower Spritz - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Saskatoon Slammer - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag White Rose - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:07 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:07 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:07 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Green Flower Street - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Miruvor - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Gandalf - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag I've Got the News - kahlua out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Parker's Band - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Third World Man - st_germain out of stock
+WARNING: 10:43:07 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Boomer Sour - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:07 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Monet - st_germain out of stock
+WARNING: 10:43:07 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Pear Flower Spritz - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Saskatoon Slammer - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag White Rose - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:07 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:07 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:07 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Green Flower Street - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Miruvor - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Gandalf - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag I've Got the News - kahlua out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Parker's Band - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Third World Man - st_germain out of stock
+WARNING: 10:43:07 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Boomer Sour - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:07 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Monet - st_germain out of stock
+WARNING: 10:43:07 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Pear Flower Spritz - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Saskatoon Slammer - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag White Rose - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:07 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:07 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:07 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Green Flower Street - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Miruvor - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Gandalf - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag I've Got the News - kahlua out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Parker's Band - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Third World Man - st_germain out of stock
+WARNING: 10:43:07 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Boomer Sour - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:07 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Monet - st_germain out of stock
+WARNING: 10:43:07 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Pear Flower Spritz - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Saskatoon Slammer - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag White Rose - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:07 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:07 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:07 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Green Flower Street - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Miruvor - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Gandalf - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag I've Got the News - kahlua out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Parker's Band - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Third World Man - st_germain out of stock
+WARNING: 10:43:07 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Boomer Sour - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:07 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Monet - st_germain out of stock
+WARNING: 10:43:07 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Pear Flower Spritz - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag Saskatoon Slammer - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Stock flag White Rose - st_germain out of stock
+INFO: 10:43:07 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:08 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:08 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:08 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Green Flower Street - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Miruvor - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Gandalf - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag I've Got the News - kahlua out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Parker's Band - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Third World Man - st_germain out of stock
+WARNING: 10:43:08 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Boomer Sour - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:08 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Monet - st_germain out of stock
+WARNING: 10:43:08 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Pear Flower Spritz - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Saskatoon Slammer - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag White Rose - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:08 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:08 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:08 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Green Flower Street - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Miruvor - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Gandalf - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag I've Got the News - kahlua out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Parker's Band - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Third World Man - st_germain out of stock
+WARNING: 10:43:08 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Boomer Sour - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:08 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Monet - st_germain out of stock
+WARNING: 10:43:08 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Pear Flower Spritz - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Saskatoon Slammer - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag White Rose - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:08 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:08 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:08 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Green Flower Street - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Miruvor - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Gandalf - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag I've Got the News - kahlua out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Parker's Band - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Third World Man - st_germain out of stock
+WARNING: 10:43:08 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Boomer Sour - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:08 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Monet - st_germain out of stock
+WARNING: 10:43:08 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Pear Flower Spritz - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Saskatoon Slammer - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag White Rose - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:08 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:08 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:08 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Green Flower Street - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Miruvor - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Gandalf - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag I've Got the News - kahlua out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Parker's Band - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Third World Man - st_germain out of stock
+WARNING: 10:43:08 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Boomer Sour - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:08 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Monet - st_germain out of stock
+WARNING: 10:43:08 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Pear Flower Spritz - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag Saskatoon Slammer - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Stock flag White Rose - st_germain out of stock
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:08 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:09 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:09 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:09 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Green Flower Street - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Miruvor - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Gandalf - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag I've Got the News - kahlua out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Parker's Band - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Third World Man - st_germain out of stock
+WARNING: 10:43:09 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Boomer Sour - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:09 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Monet - st_germain out of stock
+WARNING: 10:43:09 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Pear Flower Spritz - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Saskatoon Slammer - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag White Rose - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:09 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:09 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:09 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Green Flower Street - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Miruvor - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Gandalf - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag I've Got the News - kahlua out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Parker's Band - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Third World Man - st_germain out of stock
+WARNING: 10:43:09 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Boomer Sour - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:09 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Monet - st_germain out of stock
+WARNING: 10:43:09 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Pear Flower Spritz - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Saskatoon Slammer - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag White Rose - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:09 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:09 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:09 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Green Flower Street - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Miruvor - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Gandalf - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag I've Got the News - kahlua out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Parker's Band - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Third World Man - st_germain out of stock
+WARNING: 10:43:09 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Boomer Sour - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:09 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Monet - st_germain out of stock
+WARNING: 10:43:09 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Pear Flower Spritz - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Saskatoon Slammer - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag White Rose - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:09 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:09 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:09 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Green Flower Street - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Miruvor - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Gandalf - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag I've Got the News - kahlua out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Parker's Band - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Third World Man - st_germain out of stock
+WARNING: 10:43:09 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Boomer Sour - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:09 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Monet - st_germain out of stock
+WARNING: 10:43:09 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Pear Flower Spritz - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Saskatoon Slammer - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag White Rose - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading categories
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Updating main menu
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading cabinet locations
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading ingredients
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading tags
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Empty tag: Vodka
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Empty tag: Japanese Whisky
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Empty tag: Fig Brandy
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Empty tag: White Wine
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Empty tag: Coconut Rum
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Empty tag: Tequila Anejo
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading aliases
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading recipes
+WARNING: 10:43:09 - services.recipe_parsing_helpers:  Failed to read /home/alicj/Documents/Github/led-bar-menu/services/../config/recipes_uncategorized.yml: 'NoneType' object is not iterable
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Bees Knees - honey_syrup out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Corpse Reviver No. 2 - lillet_blanc out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Cosmopolitan - cranberry_juice out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - cranberry_juice out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Littoral Coitus - peachtree out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Martini - olive out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Paloma - grapefruit_soda out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Penicillin - honey_ginger_syrup out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Pina Colada - pineapple_juice out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Ramos Gin Fizz - heavy_cream out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Vodka Martini - olive out of stock
+DEBUG: 10:43:09 - services.recipe_parsing_helpers:  Recipe skipped: Test_With_Output
+DEBUG: 10:43:09 - services.recipe_parsing_helpers:  Recipe skipped: Test Refactored
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Green Flower Street - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag New Frontier - honey_syrup out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag The Goodbye Look - pineapple out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Miruvor - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Gandalf - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag I've Got the News - kahlua out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Parker's Band - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Third World Man - st_germain out of stock
+WARNING: 10:43:09 - services.recipe_parsing_helpers:  Could not validate Agares, Pistachio Liqueur not found in inventory or tags
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Boomer Sour - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag General Tso - san_pellegrino_blood_orange out of stock
+WARNING: 10:43:09 - services.recipe_parsing_helpers:  Could not validate Licorice Fern Margarita, Honey Liqueur not found in inventory or tags
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Monet - st_germain out of stock
+WARNING: 10:43:09 - services.recipe_parsing_helpers:  Could not validate Oil Spill, Coconut Liqueur not found in inventory or tags
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Pear Flower Spritz - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag Saskatoon Slammer - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag The Spanish Graft - amaro_nonino out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Stock flag White Rose - st_germain out of stock
+INFO: 10:43:09 - services.recipe_parsing_helpers:  Loading base spirits
+INFO: 10:43:10 - services.recipe_parsing_helpers:  Loading categories
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Orange Liqueur. 
+ Children: {'cointreau', 'tacoma_punk', 'blue_curacao_jar', 'cointreau_noir', 'arancino_cinque_terra', 'chateaux_blue_curacao', 'bols_triple_sec', 'dry_curacao', 'mandarinetto'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Creme de Violette. 
+ Children: {'pages_creme_de_violette'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Gin. 
+ Children: {'bainbridge_doug_fir_gin', 'tanqueray_london_dry', 'roku', 'dryfly_gin'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Maraschino. 
+ Children: {'cristiani_maraschino', 'luxardo_maraschino'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Whiskey. 
+ Children: {'bulleit_95_rye', 'kilbrin_irish', 'four_roses_bourbon', 'famous_grouse_smoky_black', 'saint_george_single_malt', 'mesquite_smoked_whiskey', 'high_west_bourye', 'famous_grouse', 'sonoma_cherrywood_rye', 'aultmore_12_year', 'mellow_corn_whiskey_', 'knappogue_12_year', 'yellowstone_bourbon', '509_canadian_whisky', 'sandstone_white_whiskey', 'the_deacon', 'black_velvet'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Falernum. 
+ Children: {'velvet_falernum', 'brovo_lucky_falernum'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Rum. 
+ Children: {'largo_bay_151', 'bacardi_gold', 'plantation_dark', 'wray_and_nephew_overproof', 'plantation_light', 'rhum_barbancourt'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Calvados. 
+ Children: {'berneroy_calvados_', 'boulard_calvados'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Cognac. 
+ Children: {'cognac_comandon', 'christian_brothers_vs', 'christian_brothers_vsop'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Absinthe. 
+ Children: {'absente', 'marilyn_mansinthe'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Vodka (Inclusive). 
+ Children: {'red_huck_jar'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Light Rum. 
+ Children: {'plantation_light'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Dark Rum. 
+ Children: {'plantation_dark', 'rhum_barbancourt'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Rye Whiskey. 
+ Children: {'bulleit_95_rye', 'high_west_bourye', 'sonoma_cherrywood_rye'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Tequila Blanco. 
+ Children: {'1800_tequila'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Bourbon. 
+ Children: {'four_roses_bourbon', 'high_west_bourye', 'yellowstone_bourbon'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: White Rum. 
+ Children: {'plantation_light'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Whisky. 
+ Children: {'bulleit_95_rye', 'kilbrin_irish', 'four_roses_bourbon', 'famous_grouse_smoky_black', 'saint_george_single_malt', 'mesquite_smoked_whiskey', 'high_west_bourye', 'famous_grouse', 'sonoma_cherrywood_rye', 'aultmore_12_year', 'mellow_corn_whiskey_', 'knappogue_12_year', 'yellowstone_bourbon', '509_canadian_whisky', 'sandstone_white_whiskey', 'the_deacon', 'black_velvet'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Tequila. 
+ Children: {'azunia_reposado', 'cuervo_gold', '1800_tequila', 'zignum_reposado'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Scotch. 
+ Children: {'famous_grouse_smoky_black', 'famous_grouse', 'aultmore_12_year', 'the_deacon'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Orange Bitters. 
+ Children: {'hella_orange_bitters', 'angostura_orange_bitters'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Blue Curacao. 
+ Children: {'blue_curacao_jar', 'chateaux_blue_curacao'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Elderflower Liqueur. 
+ Children: {'st_germain', 'craft_cordials_elderflower', 'drillaud_elderflower'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Amaretto. 
+ Children: {'cristiani_amaretto', 'creme_de_noyaux'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Red Wine. 
+ Children: {'red_blend_portugal', 'port'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: White Creme de Cacao. 
+ Children: {'mr_stacks_creme_de_cacao'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Chartreuse. 
+ Children: {'uncharted_rhapsody', 'genepy', 'gen-p', 'green_chartreuse', 'brucato_chaparral', 'yellow_chartreuse'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Mezcal. 
+ Children: {'del_maguey_chichicapa', 'del_maguey_classico', 'tj_mezcal', 'del_maguey_puebla'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Yuzu Gin. 
+ Children: {'yu_gin'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Black Lemon Bitters. 
+ Children: {'scrappy_black_lemon_bitters'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Kirschwasser. 
+ Children: {'fidelitas_kirsch'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Smoky Scotch Whisky. 
+ Children: {'islay_scotch', 'famous_grouse_smoky_black'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Aztec Chocolate Bitters. 
+ Children: {'hella_aztec_chocolate_bitters', 'fee_bros_aztec_chocolate_bitters'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Brandy. 
+ Children: {'christian_brothers_vs', 'christian_brothers_vsop'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Sloe Gin. 
+ Children: {'sipsmith_sloe_gin'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Triple Sec. 
+ Children: {'cointreau', 'tacoma_punk', 'blue_curacao_jar', 'cointreau_noir', 'arancino_cinque_terra', 'chateaux_blue_curacao', 'bols_triple_sec', 'dry_curacao', 'mandarinetto'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Scotch Whisky. 
+ Children: {'famous_grouse_smoky_black', 'famous_grouse', 'aultmore_12_year', 'the_deacon'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Grapefruit Bitters. 
+ Children: {'scrappy_grapefruit_bitters'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Pear Brandy. 
+ Children: {'pear_williams'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Coffee Liqueur. 
+ Children: {'kahlua', 'drip_coffee_liqueur'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Overproof Rum. 
+ Children: {'largo_bay_151', 'wray_and_nephew_overproof'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Black Walnut Bitters. 
+ Children: {'fee_bros_black_walnut'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Dark Creme de Cacao. 
+ Children: {'giffard_cacao'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Planteray Dark Rum. 
+ Children: {'plantation_dark'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Smoky Scotch. 
+ Children: {'islay_scotch', 'famous_grouse_smoky_black', 'mesquite_smoked_whiskey'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Macadamia Liqueur. 
+ Children: {'kahana_mac_nut'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Creme de Cassis. 
+ Children: {'creme_de_cassie_de_dijon'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Canadian Whisky. 
+ Children: {'509_canadian_whisky', 'black_velvet'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Creme de Cacao. 
+ Children: {'giffard_cacao', 'mr_stacks_creme_de_cacao'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Del Maguey Vida. 
+ Children: {'del_maguey_chichicapa', 'del_maguey_classico', 'del_maguey_puebla'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Gentian Amaro. 
+ Children: {'lofi_gentian'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  Tag identified: Chocolate Bitters. 
+ Children: {'hella_aztec_chocolate_bitters', 'angostura_cacao_bitters', 'fee_bros_aztec_chocolate_bitters'}
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  All ingredients identified:
+DEBUG: 10:43:11 - services.recipe_parsing_helpers:  {'tacoma_punk', 'chateaux_blue_curacao', 'Sweet Vermouth', 'st_germain', 'Aperol', '1800_tequila', 'Lofi Gentian', 'Coconut Cream', 'BroVo Jammy', 'Lemon Juice', 'scrappy_grapefruit_bitters', 'Peychauds Bitters', 'Rum', 'Sugar', 'Macadamia Liqueur', 'yellowstone_bourbon', 'absente', 'creme_de_cassie_de_dijon', 'Lemon twist', 'Ginger Beer', 'Velvet Falernum', 'Whiskey', 'famous_grouse', 'Rosemary', 'Coffee Liqueur', 'Del Maguey Vida', 'Overproof Rum', 'kahana_mac_nut', 'Angostura Orange Bitters', 'angostura_orange_bitters', 'azunia_reposado', '509_canadian_whisky', 'port', 'Famous Grouse Smoky Black', 'angostura_cacao_bitters', 'Black Walnut Bitters', 'Simple Syrup', 'cuervo_gold', 'Red Wine', 'Blanc Vermouth', 'cointreau_noir', 'Brandy', 'Dark Creme de Cacao', 'Triple Sec', 'Amaro Nonino', 'Kirschwasser', 'White Rum', 'sipsmith_sloe_gin', 'Amaretto', 'Light Rum', 'Lemon', 'hella_orange_bitters', 'BroVo Amaro #4', 'creme_de_noyaux', 'tj_mezcal', 'plantation_light', 'San Pellegrino Blood Orange', 'Lillet Blanc', 'Scotch Whisky', 'knappogue_12_year', 'Szechuan tincture', 'dry_curacao', 'marilyn_mansinthe', 'Rye Whiskey', 'Zirbenz', 'Lemon juice', 'Sparkling water', 'bulleit_95_rye', 'Sloe Gin', 'Sonoma Cherrywood Rye', 'Creme de Cacao', 'Maple Syrup', 'the_deacon', 'boulard_calvados', 'Campari', 'del_maguey_classico', 'famous_grouse_smoky_black', 'Honey Syrup', 'gen-p', 'Mezcal', 'Sakura Bitters', 'Canadian Whisky', 'Brovo Pink', 'red_huck_jar', 'Grapefruit Juice', 'Whisky', 'yu_gin', 'Aztec Chocolate Bitters', 'bainbridge_doug_fir_gin', 'Kaffir lime bitters', 'green_chartreuse', 'pages_creme_de_violette', 'Lime', 'Champagne', 'Brucato Woodlands', 'Creme de Cassis', 'Four Roses Bourbon', 'Del Maguey Classico', 'Blue Curacao', 'Grapefruit Bitters', 'tanqueray_london_dry', 'Honey Ginger Syrup', 'del_maguey_puebla', 'Plantation Pineapple', 'islay_scotch', 'Grapefruit Sparkling Water', 'Cinnamon', 'mr_stacks_creme_de_cacao', 'del_maguey_chichicapa', 'Nixta', 'giffard_cacao', 'Maraschino', 'bols_triple_sec', 'mellow_corn_whiskey_', 'Orange Bitters', 'Cardamaro', 'brucato_chaparral', 'Yuzu Gin', 'black_velvet', 'Mint', 'Hella Orange Bitters', 'Planteray Dark Rum', 'christian_brothers_vs', 'Green Chartreuse', 'Vodka (Inclusive)', 'cristiani_maraschino', 'Orange Juice', 'saint_george_single_malt', 'plantation_dark', 'Pineapple Juice', 'Tequila Blanco', 'dryfly_gin', 'pear_williams', 'Orgeat', 'Cointreau', 'Amaro Meletti', 'craft_cordials_elderflower', 'blue_curacao_jar', 'Bourbon', 'Tanqueray London Dry', 'Simple syrup', 'Gentian Amaro', 'high_west_bourye', 'cristiani_amaretto', 'Cuervo Gold', 'christian_brothers_vsop', 'Tequila', 'lofi_gentian', 'bacardi_gold', 'Club Soda', 'Plantation Dark', 'Falernum', 'Byrrh', 'red_blend_portugal', 'Tonic', 'scrappy_black_lemon_bitters', 'Reddit Aroma', 'Cranberry Juice', 'White Creme de Cacao', 'Angostura Bitters', 'Elderflower Liqueur', 'Tanqueray Sevilla Orange', 'uncharted_rhapsody', 'berneroy_calvados_', 'Prosecco', 'Dry Vermouth', 'Scotch', 'Islay Scotch', 'sonoma_cherrywood_rye', 'luxardo_maraschino', 'Yellow Chartreuse', 'Chocolate Bitters', 'Cognac', 'Brut', 'sandstone_white_whiskey', 'Lapsang Whiskey', 'mandarinetto', 'Tacoma Punk', 'Black Lemon Bitters', 'kahlua', 'kilbrin_irish', '360 Huckleberry', 'Brucato Chaparral', 'Peachtree', 'Chartreuse', 'mesquite_smoked_whiskey', 'Smoky Scotch Whisky', 'Seltzer', 'White Sugar', 'brovo_lucky_falernum', 'Rye', 'Nocino', 'Olive', 'Orange Flower Water', 'drillaud_elderflower', 'yellow_chartreuse', 'fee_bros_black_walnut', 'Meletti', 'genepy', 'Cinnamon Infused Whiskey', 'Dark Rum', 'Prickly Pear Syrup', 'cognac_comandon', 'Lemon Twist', 'Rootbeer bitters', 'wray_and_nephew_overproof', 'Pear Brandy', 'Angostura orange bitters', 'Pineapple', 'Famous Grouse', 'velvet_falernum', 'Szechuan Tincture', 'Brovo Ginger Liqueur', 'cointreau', 'fidelitas_kirsch', 'largo_bay_151', 'Vodka', 'arancino_cinque_terra', 'Creme de Violette', 'four_roses_bourbon', 'Calvados', 'Orange Liqueur', 'Ruby Porto', 'Irish Cream', 'Lime juice', 'Vanilla Extract', 'Genepy', 'Grapefruit Soda', 'drip_coffee_liqueur', 'Fig Brandy', 'Szechuan bitters', 'aultmore_12_year', 'roku', 'Heavy Cream', 'Gin', 'zignum_reposado', 'Egg White', 'Cookie Monster Bitters', 'Yuzu Curacao', 'fee_bros_aztec_chocolate_bitters', 'Smoky Scotch', 'Lime Juice', 'rhum_barbancourt', 'Absinthe', 'Simple', 'Meyer lemon juice', 'hella_aztec_chocolate_bitters'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Orange Liqueur. 
+ Children: {'cointreau', 'tacoma_punk', 'blue_curacao_jar', 'cointreau_noir', 'arancino_cinque_terra', 'chateaux_blue_curacao', 'bols_triple_sec', 'dry_curacao', 'mandarinetto'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Creme de Violette. 
+ Children: {'pages_creme_de_violette'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Gin. 
+ Children: {'bainbridge_doug_fir_gin', 'tanqueray_london_dry', 'roku', 'dryfly_gin'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Maraschino. 
+ Children: {'cristiani_maraschino', 'luxardo_maraschino'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Whiskey. 
+ Children: {'bulleit_95_rye', 'kilbrin_irish', 'four_roses_bourbon', 'famous_grouse_smoky_black', 'saint_george_single_malt', 'mesquite_smoked_whiskey', 'high_west_bourye', 'famous_grouse', 'sonoma_cherrywood_rye', 'aultmore_12_year', 'mellow_corn_whiskey_', 'knappogue_12_year', 'yellowstone_bourbon', '509_canadian_whisky', 'sandstone_white_whiskey', 'the_deacon', 'black_velvet'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Falernum. 
+ Children: {'velvet_falernum', 'brovo_lucky_falernum'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Rum. 
+ Children: {'largo_bay_151', 'bacardi_gold', 'plantation_dark', 'wray_and_nephew_overproof', 'plantation_light', 'rhum_barbancourt'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Calvados. 
+ Children: {'berneroy_calvados_', 'boulard_calvados'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Cognac. 
+ Children: {'cognac_comandon', 'christian_brothers_vs', 'christian_brothers_vsop'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Absinthe. 
+ Children: {'absente', 'marilyn_mansinthe'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Vodka (Inclusive). 
+ Children: {'red_huck_jar'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Light Rum. 
+ Children: {'plantation_light'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Dark Rum. 
+ Children: {'plantation_dark', 'rhum_barbancourt'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Rye Whiskey. 
+ Children: {'bulleit_95_rye', 'high_west_bourye', 'sonoma_cherrywood_rye'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Tequila Blanco. 
+ Children: {'1800_tequila'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Bourbon. 
+ Children: {'four_roses_bourbon', 'high_west_bourye', 'yellowstone_bourbon'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: White Rum. 
+ Children: {'plantation_light'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Whisky. 
+ Children: {'bulleit_95_rye', 'kilbrin_irish', 'four_roses_bourbon', 'famous_grouse_smoky_black', 'saint_george_single_malt', 'mesquite_smoked_whiskey', 'high_west_bourye', 'famous_grouse', 'sonoma_cherrywood_rye', 'aultmore_12_year', 'mellow_corn_whiskey_', 'knappogue_12_year', 'yellowstone_bourbon', '509_canadian_whisky', 'sandstone_white_whiskey', 'the_deacon', 'black_velvet'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Tequila. 
+ Children: {'azunia_reposado', 'cuervo_gold', '1800_tequila', 'zignum_reposado'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Scotch. 
+ Children: {'famous_grouse_smoky_black', 'famous_grouse', 'aultmore_12_year', 'the_deacon'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Orange Bitters. 
+ Children: {'hella_orange_bitters', 'angostura_orange_bitters'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Blue Curacao. 
+ Children: {'blue_curacao_jar', 'chateaux_blue_curacao'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Elderflower Liqueur. 
+ Children: {'st_germain', 'craft_cordials_elderflower', 'drillaud_elderflower'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Amaretto. 
+ Children: {'cristiani_amaretto', 'creme_de_noyaux'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Red Wine. 
+ Children: {'red_blend_portugal', 'port'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: White Creme de Cacao. 
+ Children: {'mr_stacks_creme_de_cacao'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Chartreuse. 
+ Children: {'uncharted_rhapsody', 'genepy', 'gen-p', 'green_chartreuse', 'brucato_chaparral', 'yellow_chartreuse'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Mezcal. 
+ Children: {'del_maguey_chichicapa', 'del_maguey_classico', 'tj_mezcal', 'del_maguey_puebla'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Yuzu Gin. 
+ Children: {'yu_gin'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Black Lemon Bitters. 
+ Children: {'scrappy_black_lemon_bitters'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Kirschwasser. 
+ Children: {'fidelitas_kirsch'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Smoky Scotch Whisky. 
+ Children: {'islay_scotch', 'famous_grouse_smoky_black'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Aztec Chocolate Bitters. 
+ Children: {'hella_aztec_chocolate_bitters', 'fee_bros_aztec_chocolate_bitters'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Brandy. 
+ Children: {'christian_brothers_vs', 'christian_brothers_vsop'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Sloe Gin. 
+ Children: {'sipsmith_sloe_gin'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Triple Sec. 
+ Children: {'cointreau', 'tacoma_punk', 'blue_curacao_jar', 'cointreau_noir', 'arancino_cinque_terra', 'chateaux_blue_curacao', 'bols_triple_sec', 'dry_curacao', 'mandarinetto'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Scotch Whisky. 
+ Children: {'famous_grouse_smoky_black', 'famous_grouse', 'aultmore_12_year', 'the_deacon'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Grapefruit Bitters. 
+ Children: {'scrappy_grapefruit_bitters'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Pear Brandy. 
+ Children: {'pear_williams'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Coffee Liqueur. 
+ Children: {'kahlua', 'drip_coffee_liqueur'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Overproof Rum. 
+ Children: {'largo_bay_151', 'wray_and_nephew_overproof'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Black Walnut Bitters. 
+ Children: {'fee_bros_black_walnut'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Dark Creme de Cacao. 
+ Children: {'giffard_cacao'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Planteray Dark Rum. 
+ Children: {'plantation_dark'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Smoky Scotch. 
+ Children: {'islay_scotch', 'famous_grouse_smoky_black', 'mesquite_smoked_whiskey'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Macadamia Liqueur. 
+ Children: {'kahana_mac_nut'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Creme de Cassis. 
+ Children: {'creme_de_cassie_de_dijon'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Canadian Whisky. 
+ Children: {'509_canadian_whisky', 'black_velvet'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Creme de Cacao. 
+ Children: {'giffard_cacao', 'mr_stacks_creme_de_cacao'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Del Maguey Vida. 
+ Children: {'del_maguey_chichicapa', 'del_maguey_classico', 'del_maguey_puebla'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Gentian Amaro. 
+ Children: {'lofi_gentian'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  Tag identified: Chocolate Bitters. 
+ Children: {'hella_aztec_chocolate_bitters', 'angostura_cacao_bitters', 'fee_bros_aztec_chocolate_bitters'}
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  All ingredients identified:
+DEBUG: 10:43:14 - services.recipe_parsing_helpers:  {'tacoma_punk', 'chateaux_blue_curacao', 'Sweet Vermouth', 'st_germain', 'Aperol', '1800_tequila', 'Lofi Gentian', 'Coconut Cream', 'BroVo Jammy', 'Lemon Juice', 'scrappy_grapefruit_bitters', 'Peychauds Bitters', 'Rum', 'Sugar', 'Macadamia Liqueur', 'yellowstone_bourbon', 'absente', 'creme_de_cassie_de_dijon', 'Lemon twist', 'Ginger Beer', 'Velvet Falernum', 'Whiskey', 'famous_grouse', 'Rosemary', 'Coffee Liqueur', 'Del Maguey Vida', 'Overproof Rum', 'kahana_mac_nut', 'Angostura Orange Bitters', 'angostura_orange_bitters', 'azunia_reposado', '509_canadian_whisky', 'port', 'Famous Grouse Smoky Black', 'angostura_cacao_bitters', 'Black Walnut Bitters', 'Simple Syrup', 'cuervo_gold', 'Red Wine', 'Blanc Vermouth', 'cointreau_noir', 'Brandy', 'Dark Creme de Cacao', 'Triple Sec', 'Amaro Nonino', 'Kirschwasser', 'White Rum', 'sipsmith_sloe_gin', 'Amaretto', 'Light Rum', 'Lemon', 'hella_orange_bitters', 'BroVo Amaro #4', 'creme_de_noyaux', 'tj_mezcal', 'plantation_light', 'San Pellegrino Blood Orange', 'Lillet Blanc', 'Scotch Whisky', 'knappogue_12_year', 'Szechuan tincture', 'dry_curacao', 'marilyn_mansinthe', 'Rye Whiskey', 'Zirbenz', 'Lemon juice', 'Sparkling water', 'bulleit_95_rye', 'Sloe Gin', 'Sonoma Cherrywood Rye', 'Creme de Cacao', 'Maple Syrup', 'the_deacon', 'boulard_calvados', 'Campari', 'del_maguey_classico', 'famous_grouse_smoky_black', 'Honey Syrup', 'gen-p', 'Mezcal', 'Sakura Bitters', 'Canadian Whisky', 'Brovo Pink', 'red_huck_jar', 'Grapefruit Juice', 'Whisky', 'yu_gin', 'Aztec Chocolate Bitters', 'bainbridge_doug_fir_gin', 'Kaffir lime bitters', 'green_chartreuse', 'pages_creme_de_violette', 'Lime', 'Champagne', 'Brucato Woodlands', 'Creme de Cassis', 'Four Roses Bourbon', 'Del Maguey Classico', 'Blue Curacao', 'Grapefruit Bitters', 'tanqueray_london_dry', 'Honey Ginger Syrup', 'del_maguey_puebla', 'Plantation Pineapple', 'islay_scotch', 'Grapefruit Sparkling Water', 'Cinnamon', 'mr_stacks_creme_de_cacao', 'del_maguey_chichicapa', 'Nixta', 'giffard_cacao', 'Maraschino', 'bols_triple_sec', 'mellow_corn_whiskey_', 'Orange Bitters', 'Cardamaro', 'brucato_chaparral', 'Yuzu Gin', 'black_velvet', 'Mint', 'Hella Orange Bitters', 'Planteray Dark Rum', 'christian_brothers_vs', 'Green Chartreuse', 'Vodka (Inclusive)', 'cristiani_maraschino', 'Orange Juice', 'saint_george_single_malt', 'plantation_dark', 'Pineapple Juice', 'Tequila Blanco', 'dryfly_gin', 'pear_williams', 'Orgeat', 'Cointreau', 'Amaro Meletti', 'craft_cordials_elderflower', 'blue_curacao_jar', 'Bourbon', 'Tanqueray London Dry', 'Simple syrup', 'Gentian Amaro', 'high_west_bourye', 'cristiani_amaretto', 'Cuervo Gold', 'christian_brothers_vsop', 'Tequila', 'lofi_gentian', 'bacardi_gold', 'Club Soda', 'Plantation Dark', 'Falernum', 'Byrrh', 'red_blend_portugal', 'Tonic', 'scrappy_black_lemon_bitters', 'Reddit Aroma', 'Cranberry Juice', 'White Creme de Cacao', 'Angostura Bitters', 'Elderflower Liqueur', 'Tanqueray Sevilla Orange', 'uncharted_rhapsody', 'berneroy_calvados_', 'Prosecco', 'Dry Vermouth', 'Scotch', 'Islay Scotch', 'sonoma_cherrywood_rye', 'luxardo_maraschino', 'Yellow Chartreuse', 'Chocolate Bitters', 'Cognac', 'Brut', 'sandstone_white_whiskey', 'Lapsang Whiskey', 'mandarinetto', 'Tacoma Punk', 'Black Lemon Bitters', 'kahlua', 'kilbrin_irish', '360 Huckleberry', 'Brucato Chaparral', 'Peachtree', 'Chartreuse', 'mesquite_smoked_whiskey', 'Smoky Scotch Whisky', 'Seltzer', 'White Sugar', 'brovo_lucky_falernum', 'Rye', 'Nocino', 'Olive', 'Orange Flower Water', 'drillaud_elderflower', 'yellow_chartreuse', 'fee_bros_black_walnut', 'Meletti', 'genepy', 'Cinnamon Infused Whiskey', 'Dark Rum', 'Prickly Pear Syrup', 'cognac_comandon', 'Lemon Twist', 'Rootbeer bitters', 'wray_and_nephew_overproof', 'Pear Brandy', 'Angostura orange bitters', 'Pineapple', 'Famous Grouse', 'velvet_falernum', 'Szechuan Tincture', 'Brovo Ginger Liqueur', 'cointreau', 'fidelitas_kirsch', 'largo_bay_151', 'Vodka', 'arancino_cinque_terra', 'Creme de Violette', 'four_roses_bourbon', 'Calvados', 'Orange Liqueur', 'Ruby Porto', 'Irish Cream', 'Lime juice', 'Vanilla Extract', 'Genepy', 'Grapefruit Soda', 'drip_coffee_liqueur', 'Fig Brandy', 'Szechuan bitters', 'aultmore_12_year', 'roku', 'Heavy Cream', 'Gin', 'zignum_reposado', 'Egg White', 'Cookie Monster Bitters', 'Yuzu Curacao', 'fee_bros_aztec_chocolate_bitters', 'Smoky Scotch', 'Lime Juice', 'rhum_barbancourt', 'Absinthe', 'Simple', 'Meyer lemon juice', 'hella_aztec_chocolate_bitters'}
+DEBUG: 10:43:15 - services.test_class:  Cocktail input
+DEBUG: 10:43:15 - services.test_class:  Recipe match results: False, , 0
+DEBUG: 10:43:15 - services.test_class:  Ingredient match results: False, , 0
+DEBUG: 10:43:15 - services.test_class:  Tag match results: False, , 0
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Orange Liqueur. 
+ Children: {'cointreau', 'tacoma_punk', 'blue_curacao_jar', 'cointreau_noir', 'arancino_cinque_terra', 'chateaux_blue_curacao', 'bols_triple_sec', 'dry_curacao', 'mandarinetto'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Creme de Violette. 
+ Children: {'pages_creme_de_violette'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Gin. 
+ Children: {'bainbridge_doug_fir_gin', 'tanqueray_london_dry', 'roku', 'dryfly_gin'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Maraschino. 
+ Children: {'cristiani_maraschino', 'luxardo_maraschino'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Whiskey. 
+ Children: {'bulleit_95_rye', 'kilbrin_irish', 'four_roses_bourbon', 'famous_grouse_smoky_black', 'saint_george_single_malt', 'mesquite_smoked_whiskey', 'high_west_bourye', 'famous_grouse', 'sonoma_cherrywood_rye', 'aultmore_12_year', 'mellow_corn_whiskey_', 'knappogue_12_year', 'yellowstone_bourbon', '509_canadian_whisky', 'sandstone_white_whiskey', 'the_deacon', 'black_velvet'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Falernum. 
+ Children: {'velvet_falernum', 'brovo_lucky_falernum'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Rum. 
+ Children: {'largo_bay_151', 'bacardi_gold', 'plantation_dark', 'wray_and_nephew_overproof', 'plantation_light', 'rhum_barbancourt'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Calvados. 
+ Children: {'berneroy_calvados_', 'boulard_calvados'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Cognac. 
+ Children: {'cognac_comandon', 'christian_brothers_vs', 'christian_brothers_vsop'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Absinthe. 
+ Children: {'absente', 'marilyn_mansinthe'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Vodka (Inclusive). 
+ Children: {'red_huck_jar'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Light Rum. 
+ Children: {'plantation_light'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Dark Rum. 
+ Children: {'plantation_dark', 'rhum_barbancourt'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Rye Whiskey. 
+ Children: {'bulleit_95_rye', 'high_west_bourye', 'sonoma_cherrywood_rye'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Tequila Blanco. 
+ Children: {'1800_tequila'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Bourbon. 
+ Children: {'four_roses_bourbon', 'high_west_bourye', 'yellowstone_bourbon'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: White Rum. 
+ Children: {'plantation_light'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Whisky. 
+ Children: {'bulleit_95_rye', 'kilbrin_irish', 'four_roses_bourbon', 'famous_grouse_smoky_black', 'saint_george_single_malt', 'mesquite_smoked_whiskey', 'high_west_bourye', 'famous_grouse', 'sonoma_cherrywood_rye', 'aultmore_12_year', 'mellow_corn_whiskey_', 'knappogue_12_year', 'yellowstone_bourbon', '509_canadian_whisky', 'sandstone_white_whiskey', 'the_deacon', 'black_velvet'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Tequila. 
+ Children: {'azunia_reposado', 'cuervo_gold', '1800_tequila', 'zignum_reposado'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Scotch. 
+ Children: {'famous_grouse_smoky_black', 'famous_grouse', 'aultmore_12_year', 'the_deacon'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Orange Bitters. 
+ Children: {'hella_orange_bitters', 'angostura_orange_bitters'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Blue Curacao. 
+ Children: {'blue_curacao_jar', 'chateaux_blue_curacao'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Elderflower Liqueur. 
+ Children: {'st_germain', 'craft_cordials_elderflower', 'drillaud_elderflower'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Amaretto. 
+ Children: {'cristiani_amaretto', 'creme_de_noyaux'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Red Wine. 
+ Children: {'red_blend_portugal', 'port'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: White Creme de Cacao. 
+ Children: {'mr_stacks_creme_de_cacao'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Chartreuse. 
+ Children: {'uncharted_rhapsody', 'genepy', 'gen-p', 'green_chartreuse', 'brucato_chaparral', 'yellow_chartreuse'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Mezcal. 
+ Children: {'del_maguey_chichicapa', 'del_maguey_classico', 'tj_mezcal', 'del_maguey_puebla'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Yuzu Gin. 
+ Children: {'yu_gin'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Black Lemon Bitters. 
+ Children: {'scrappy_black_lemon_bitters'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Kirschwasser. 
+ Children: {'fidelitas_kirsch'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Smoky Scotch Whisky. 
+ Children: {'islay_scotch', 'famous_grouse_smoky_black'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Aztec Chocolate Bitters. 
+ Children: {'hella_aztec_chocolate_bitters', 'fee_bros_aztec_chocolate_bitters'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Brandy. 
+ Children: {'christian_brothers_vs', 'christian_brothers_vsop'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Sloe Gin. 
+ Children: {'sipsmith_sloe_gin'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Triple Sec. 
+ Children: {'cointreau', 'tacoma_punk', 'blue_curacao_jar', 'cointreau_noir', 'arancino_cinque_terra', 'chateaux_blue_curacao', 'bols_triple_sec', 'dry_curacao', 'mandarinetto'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Scotch Whisky. 
+ Children: {'famous_grouse_smoky_black', 'famous_grouse', 'aultmore_12_year', 'the_deacon'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Grapefruit Bitters. 
+ Children: {'scrappy_grapefruit_bitters'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Pear Brandy. 
+ Children: {'pear_williams'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Coffee Liqueur. 
+ Children: {'kahlua', 'drip_coffee_liqueur'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Overproof Rum. 
+ Children: {'largo_bay_151', 'wray_and_nephew_overproof'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Black Walnut Bitters. 
+ Children: {'fee_bros_black_walnut'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Dark Creme de Cacao. 
+ Children: {'giffard_cacao'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Planteray Dark Rum. 
+ Children: {'plantation_dark'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Smoky Scotch. 
+ Children: {'islay_scotch', 'famous_grouse_smoky_black', 'mesquite_smoked_whiskey'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Macadamia Liqueur. 
+ Children: {'kahana_mac_nut'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Creme de Cassis. 
+ Children: {'creme_de_cassie_de_dijon'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Canadian Whisky. 
+ Children: {'509_canadian_whisky', 'black_velvet'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Creme de Cacao. 
+ Children: {'giffard_cacao', 'mr_stacks_creme_de_cacao'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Del Maguey Vida. 
+ Children: {'del_maguey_chichicapa', 'del_maguey_classico', 'del_maguey_puebla'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Gentian Amaro. 
+ Children: {'lofi_gentian'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  Tag identified: Chocolate Bitters. 
+ Children: {'hella_aztec_chocolate_bitters', 'angostura_cacao_bitters', 'fee_bros_aztec_chocolate_bitters'}
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  All ingredients identified:
+DEBUG: 10:43:15 - services.recipe_parsing_helpers:  {'tacoma_punk', 'chateaux_blue_curacao', 'Sweet Vermouth', 'st_germain', 'Aperol', '1800_tequila', 'Lofi Gentian', 'Coconut Cream', 'BroVo Jammy', 'Lemon Juice', 'scrappy_grapefruit_bitters', 'Peychauds Bitters', 'Rum', 'Sugar', 'Macadamia Liqueur', 'yellowstone_bourbon', 'absente', 'creme_de_cassie_de_dijon', 'Lemon twist', 'Ginger Beer', 'Velvet Falernum', 'Whiskey', 'famous_grouse', 'Rosemary', 'Coffee Liqueur', 'Del Maguey Vida', 'Overproof Rum', 'kahana_mac_nut', 'Angostura Orange Bitters', 'angostura_orange_bitters', 'azunia_reposado', '509_canadian_whisky', 'port', 'Famous Grouse Smoky Black', 'angostura_cacao_bitters', 'Black Walnut Bitters', 'Simple Syrup', 'cuervo_gold', 'Red Wine', 'Blanc Vermouth', 'cointreau_noir', 'Brandy', 'Dark Creme de Cacao', 'Triple Sec', 'Amaro Nonino', 'Kirschwasser', 'White Rum', 'sipsmith_sloe_gin', 'Amaretto', 'Light Rum', 'Lemon', 'hella_orange_bitters', 'BroVo Amaro #4', 'creme_de_noyaux', 'tj_mezcal', 'plantation_light', 'San Pellegrino Blood Orange', 'Lillet Blanc', 'Scotch Whisky', 'knappogue_12_year', 'Szechuan tincture', 'dry_curacao', 'marilyn_mansinthe', 'Rye Whiskey', 'Zirbenz', 'Lemon juice', 'Sparkling water', 'bulleit_95_rye', 'Sloe Gin', 'Sonoma Cherrywood Rye', 'Creme de Cacao', 'Maple Syrup', 'the_deacon', 'boulard_calvados', 'Campari', 'del_maguey_classico', 'famous_grouse_smoky_black', 'Honey Syrup', 'gen-p', 'Mezcal', 'Sakura Bitters', 'Canadian Whisky', 'Brovo Pink', 'red_huck_jar', 'Grapefruit Juice', 'Whisky', 'yu_gin', 'Aztec Chocolate Bitters', 'bainbridge_doug_fir_gin', 'Kaffir lime bitters', 'green_chartreuse', 'pages_creme_de_violette', 'Lime', 'Champagne', 'Brucato Woodlands', 'Creme de Cassis', 'Four Roses Bourbon', 'Del Maguey Classico', 'Blue Curacao', 'Grapefruit Bitters', 'tanqueray_london_dry', 'Honey Ginger Syrup', 'del_maguey_puebla', 'Plantation Pineapple', 'islay_scotch', 'Grapefruit Sparkling Water', 'Cinnamon', 'mr_stacks_creme_de_cacao', 'del_maguey_chichicapa', 'Nixta', 'giffard_cacao', 'Maraschino', 'bols_triple_sec', 'mellow_corn_whiskey_', 'Orange Bitters', 'Cardamaro', 'brucato_chaparral', 'Yuzu Gin', 'black_velvet', 'Mint', 'Hella Orange Bitters', 'Planteray Dark Rum', 'christian_brothers_vs', 'Green Chartreuse', 'Vodka (Inclusive)', 'cristiani_maraschino', 'Orange Juice', 'saint_george_single_malt', 'plantation_dark', 'Pineapple Juice', 'Tequila Blanco', 'dryfly_gin', 'pear_williams', 'Orgeat', 'Cointreau', 'Amaro Meletti', 'craft_cordials_elderflower', 'blue_curacao_jar', 'Bourbon', 'Tanqueray London Dry', 'Simple syrup', 'Gentian Amaro', 'high_west_bourye', 'cristiani_amaretto', 'Cuervo Gold', 'christian_brothers_vsop', 'Tequila', 'lofi_gentian', 'bacardi_gold', 'Club Soda', 'Plantation Dark', 'Falernum', 'Byrrh', 'red_blend_portugal', 'Tonic', 'scrappy_black_lemon_bitters', 'Reddit Aroma', 'Cranberry Juice', 'White Creme de Cacao', 'Angostura Bitters', 'Elderflower Liqueur', 'Tanqueray Sevilla Orange', 'uncharted_rhapsody', 'berneroy_calvados_', 'Prosecco', 'Dry Vermouth', 'Scotch', 'Islay Scotch', 'sonoma_cherrywood_rye', 'luxardo_maraschino', 'Yellow Chartreuse', 'Chocolate Bitters', 'Cognac', 'Brut', 'sandstone_white_whiskey', 'Lapsang Whiskey', 'mandarinetto', 'Tacoma Punk', 'Black Lemon Bitters', 'kahlua', 'kilbrin_irish', '360 Huckleberry', 'Brucato Chaparral', 'Peachtree', 'Chartreuse', 'mesquite_smoked_whiskey', 'Smoky Scotch Whisky', 'Seltzer', 'White Sugar', 'brovo_lucky_falernum', 'Rye', 'Nocino', 'Olive', 'Orange Flower Water', 'drillaud_elderflower', 'yellow_chartreuse', 'fee_bros_black_walnut', 'Meletti', 'genepy', 'Cinnamon Infused Whiskey', 'Dark Rum', 'Prickly Pear Syrup', 'cognac_comandon', 'Lemon Twist', 'Rootbeer bitters', 'wray_and_nephew_overproof', 'Pear Brandy', 'Angostura orange bitters', 'Pineapple', 'Famous Grouse', 'velvet_falernum', 'Szechuan Tincture', 'Brovo Ginger Liqueur', 'cointreau', 'fidelitas_kirsch', 'largo_bay_151', 'Vodka', 'arancino_cinque_terra', 'Creme de Violette', 'four_roses_bourbon', 'Calvados', 'Orange Liqueur', 'Ruby Porto', 'Irish Cream', 'Lime juice', 'Vanilla Extract', 'Genepy', 'Grapefruit Soda', 'drip_coffee_liqueur', 'Fig Brandy', 'Szechuan bitters', 'aultmore_12_year', 'roku', 'Heavy Cream', 'Gin', 'zignum_reposado', 'Egg White', 'Cookie Monster Bitters', 'Yuzu Curacao', 'fee_bros_aztec_chocolate_bitters', 'Smoky Scotch', 'Lime Juice', 'rhum_barbancourt', 'Absinthe', 'Simple', 'Meyer lemon juice', 'hella_aztec_chocolate_bitters'}
+INFO: 10:43:18 - services.recipe_parsing_helpers:  Loading categories
+DEBUG: 10:43:18 - services.test_class:  Loading categories: {'Amaro': ['Torani Amer', 'Ramazzoti Amaro', 'Aperol', 'Cynar 70', 'Cynar STD', 'Campari', 'Tacoma Punk', 'Brovo American', 'Amaro Kim', 'Amaro 01', 'Amaro 04', 'Amaro 14', 'Rosso Amaro', 'Cardamaro', 'Kina Laero Dor', 'Amaro Averna', 'Fernet-Branca', 'Gran Classico', 'Reddit Aroma', 'Brucato Chaparral', 'Brucato Woodlands', 'Amaro Angostura', 'Meletti', 'Nonino', 'Byrrh', 'Lofi Gentian'], 'Brandy (Inclusive)': ['Berneroy Calvados', 'Christian Brothers Vs', 'Don Cesar Pisco', 'Christian Brothers Vsop', 'Pear Williams', 'Boulard Calvados', 'Fidelitas Kirsch'], 'Gin (Inclusive)': ['Bainbridge Doug Fir Gin', 'Tanqueray London Dry', 'Dryfly Gin', 'Sipsmith Sloe Gin', 'Yu Gin', 'Tanqueray Sevilla', 'Roku'], 'Mezcal (Inclusive)': ['Del Maguey Classico', 'Cuervo Gold', 'Zignum Reposado', 'Del Maguey Puebla', 'Tj Mezcal', '1800 Tequila', 'Del Maguey Chichicapa', 'Azunia Reposado'], 'Rum (Inclusive)': ['Largo Bay 151', 'Plantation Pineapple', 'Plantation Dark', 'Wray and Nephew Overproof', 'Bacardi Gold', 'Plantation Light', 'Rhum Barbancourt', 'Pitu Cachaca'], 'Vodka (Inclusive)': ['Red Huck Jar'], 'Whiskey (Inclusive)': ['Bulleit 95 Rye', 'Kilbrin Irish', 'Four Roses Bourbon', 'Famous Grouse Smoky Black', 'Saint George Single Malt', 'Mesquite Smoked Whiskey', 'Cinnamon Infused Whiskey', 'High West Bourye', 'Famous Grouse', 'Sonoma Cherrywood Rye', 'Aultmore 12 Year', 'Mellow Corn Whiskey', 'Knappogue 12 Year', 'Yellowstone Bourbon', '509 Canadian Whisky', 'Sandstone White Whiskey', 'The Deacon', 'Black Velvet'], 'Liqueurs': ['Brovo Ginger Liqueur', 'Midori', 'Uncharted Rhapsody', 'Brovo Ginger Liqueur', 'Genepy', 'Gen-P', 'Green Chartreuse', 'Sambuca Di Amore', 'Galliano', 'Zirbenz', 'De Kuyper Creme de Menthe', 'Brucato Chaparral', 'Douglas Fir', 'Yellow Chartreuse', 'Tacoma Punk', 'Yuzu Curacao', 'Chateaux Blue Curacao', 'St Germain', 'Cristiani Maraschino', 'Drillaud Elderflower', 'Midori', 'Craft Cordials Elderflower', 'Blue Curacao Jar', '360 Huckleberry', 'Drillaud Blackberry', 'Cointreau', 'Cointreau Noir', 'Arancino Cinque Terra', 'Limoncello', 'Peachtree', 'Luxardo Maraschino', 'Bols Triple Sec', 'Dry Curacao', 'Mandarinetto', 'Kahlua', 'Creme de Noyaux', 'Cristiani Amaretto', 'Mr Stacks Creme de Cacao', 'Giffard Cacao', 'Kahana Mac Nut', 'Brovo Lucky Falernum', 'Drip Coffee Liqueur', 'Nocino', 'Velvet Falernum', 'Nixta']}
+INFO: 10:43:19 - services.test_class:  Loading random cocktail generator
+INFO: 10:43:21 - services.test_class:  Loading collection Prince
+DEBUG: 10:43:21 - services.test_class:  Prince found in collection names
+DEBUG: 10:43:21 - services.recipe_parsing_helpers:  Sorted recipe: [('1', 'oz', 'Plantation Dark'), ('0.5', 'oz', 'Plantation Pineapple'), ('.5', 'oz', 'Lime Juice'), ('.5', 'oz', 'Meletti'), ('1', 'dash', 'Angostura Bitters')]
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Orange Liqueur. 
+ Children: {'cointreau', 'tacoma_punk', 'blue_curacao_jar', 'cointreau_noir', 'arancino_cinque_terra', 'chateaux_blue_curacao', 'bols_triple_sec', 'dry_curacao', 'mandarinetto'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Creme de Violette. 
+ Children: {'pages_creme_de_violette'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Gin. 
+ Children: {'bainbridge_doug_fir_gin', 'tanqueray_london_dry', 'roku', 'dryfly_gin'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Maraschino. 
+ Children: {'cristiani_maraschino', 'luxardo_maraschino'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Whiskey. 
+ Children: {'bulleit_95_rye', 'kilbrin_irish', 'four_roses_bourbon', 'famous_grouse_smoky_black', 'saint_george_single_malt', 'mesquite_smoked_whiskey', 'high_west_bourye', 'famous_grouse', 'sonoma_cherrywood_rye', 'aultmore_12_year', 'mellow_corn_whiskey_', 'knappogue_12_year', 'yellowstone_bourbon', '509_canadian_whisky', 'sandstone_white_whiskey', 'the_deacon', 'black_velvet'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Falernum. 
+ Children: {'velvet_falernum', 'brovo_lucky_falernum'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Rum. 
+ Children: {'largo_bay_151', 'bacardi_gold', 'plantation_dark', 'wray_and_nephew_overproof', 'plantation_light', 'rhum_barbancourt'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Calvados. 
+ Children: {'berneroy_calvados_', 'boulard_calvados'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Cognac. 
+ Children: {'cognac_comandon', 'christian_brothers_vs', 'christian_brothers_vsop'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Absinthe. 
+ Children: {'absente', 'marilyn_mansinthe'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Vodka (Inclusive). 
+ Children: {'red_huck_jar'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Light Rum. 
+ Children: {'plantation_light'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Dark Rum. 
+ Children: {'plantation_dark', 'rhum_barbancourt'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Rye Whiskey. 
+ Children: {'bulleit_95_rye', 'high_west_bourye', 'sonoma_cherrywood_rye'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Tequila Blanco. 
+ Children: {'1800_tequila'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Bourbon. 
+ Children: {'four_roses_bourbon', 'high_west_bourye', 'yellowstone_bourbon'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: White Rum. 
+ Children: {'plantation_light'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Whisky. 
+ Children: {'bulleit_95_rye', 'kilbrin_irish', 'four_roses_bourbon', 'famous_grouse_smoky_black', 'saint_george_single_malt', 'mesquite_smoked_whiskey', 'high_west_bourye', 'famous_grouse', 'sonoma_cherrywood_rye', 'aultmore_12_year', 'mellow_corn_whiskey_', 'knappogue_12_year', 'yellowstone_bourbon', '509_canadian_whisky', 'sandstone_white_whiskey', 'the_deacon', 'black_velvet'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Tequila. 
+ Children: {'azunia_reposado', 'cuervo_gold', '1800_tequila', 'zignum_reposado'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Scotch. 
+ Children: {'famous_grouse_smoky_black', 'famous_grouse', 'aultmore_12_year', 'the_deacon'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Orange Bitters. 
+ Children: {'hella_orange_bitters', 'angostura_orange_bitters'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Blue Curacao. 
+ Children: {'blue_curacao_jar', 'chateaux_blue_curacao'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Elderflower Liqueur. 
+ Children: {'st_germain', 'craft_cordials_elderflower', 'drillaud_elderflower'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Amaretto. 
+ Children: {'cristiani_amaretto', 'creme_de_noyaux'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Red Wine. 
+ Children: {'red_blend_portugal', 'port'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: White Creme de Cacao. 
+ Children: {'mr_stacks_creme_de_cacao'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Chartreuse. 
+ Children: {'uncharted_rhapsody', 'genepy', 'gen-p', 'green_chartreuse', 'brucato_chaparral', 'yellow_chartreuse'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Mezcal. 
+ Children: {'del_maguey_chichicapa', 'del_maguey_classico', 'tj_mezcal', 'del_maguey_puebla'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Yuzu Gin. 
+ Children: {'yu_gin'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Black Lemon Bitters. 
+ Children: {'scrappy_black_lemon_bitters'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Kirschwasser. 
+ Children: {'fidelitas_kirsch'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Smoky Scotch Whisky. 
+ Children: {'islay_scotch', 'famous_grouse_smoky_black'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Aztec Chocolate Bitters. 
+ Children: {'hella_aztec_chocolate_bitters', 'fee_bros_aztec_chocolate_bitters'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Brandy. 
+ Children: {'christian_brothers_vs', 'christian_brothers_vsop'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Sloe Gin. 
+ Children: {'sipsmith_sloe_gin'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Triple Sec. 
+ Children: {'cointreau', 'tacoma_punk', 'blue_curacao_jar', 'cointreau_noir', 'arancino_cinque_terra', 'chateaux_blue_curacao', 'bols_triple_sec', 'dry_curacao', 'mandarinetto'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Scotch Whisky. 
+ Children: {'famous_grouse_smoky_black', 'famous_grouse', 'aultmore_12_year', 'the_deacon'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Grapefruit Bitters. 
+ Children: {'scrappy_grapefruit_bitters'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Pear Brandy. 
+ Children: {'pear_williams'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Coffee Liqueur. 
+ Children: {'kahlua', 'drip_coffee_liqueur'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Overproof Rum. 
+ Children: {'largo_bay_151', 'wray_and_nephew_overproof'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Black Walnut Bitters. 
+ Children: {'fee_bros_black_walnut'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Dark Creme de Cacao. 
+ Children: {'giffard_cacao'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Planteray Dark Rum. 
+ Children: {'plantation_dark'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Smoky Scotch. 
+ Children: {'islay_scotch', 'famous_grouse_smoky_black', 'mesquite_smoked_whiskey'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Macadamia Liqueur. 
+ Children: {'kahana_mac_nut'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Creme de Cassis. 
+ Children: {'creme_de_cassie_de_dijon'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Canadian Whisky. 
+ Children: {'509_canadian_whisky', 'black_velvet'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Creme de Cacao. 
+ Children: {'giffard_cacao', 'mr_stacks_creme_de_cacao'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Del Maguey Vida. 
+ Children: {'del_maguey_chichicapa', 'del_maguey_classico', 'del_maguey_puebla'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Gentian Amaro. 
+ Children: {'lofi_gentian'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  Tag identified: Chocolate Bitters. 
+ Children: {'hella_aztec_chocolate_bitters', 'angostura_cacao_bitters', 'fee_bros_aztec_chocolate_bitters'}
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  All ingredients identified:
+DEBUG: 10:43:22 - services.recipe_parsing_helpers:  {'tacoma_punk', 'chateaux_blue_curacao', 'Sweet Vermouth', 'st_germain', 'Aperol', '1800_tequila', 'Lofi Gentian', 'Coconut Cream', 'BroVo Jammy', 'Lemon Juice', 'scrappy_grapefruit_bitters', 'Peychauds Bitters', 'Rum', 'Sugar', 'Macadamia Liqueur', 'yellowstone_bourbon', 'absente', 'creme_de_cassie_de_dijon', 'Lemon twist', 'Ginger Beer', 'Velvet Falernum', 'Whiskey', 'famous_grouse', 'Rosemary', 'Coffee Liqueur', 'Del Maguey Vida', 'Overproof Rum', 'kahana_mac_nut', 'Angostura Orange Bitters', 'angostura_orange_bitters', 'azunia_reposado', '509_canadian_whisky', 'port', 'Famous Grouse Smoky Black', 'angostura_cacao_bitters', 'Black Walnut Bitters', 'Simple Syrup', 'cuervo_gold', 'Red Wine', 'Blanc Vermouth', 'cointreau_noir', 'Brandy', 'Dark Creme de Cacao', 'Triple Sec', 'Amaro Nonino', 'Kirschwasser', 'White Rum', 'sipsmith_sloe_gin', 'Amaretto', 'Light Rum', 'Lemon', 'hella_orange_bitters', 'BroVo Amaro #4', 'creme_de_noyaux', 'tj_mezcal', 'plantation_light', 'San Pellegrino Blood Orange', 'Lillet Blanc', 'Scotch Whisky', 'knappogue_12_year', 'Szechuan tincture', 'dry_curacao', 'marilyn_mansinthe', 'Rye Whiskey', 'Zirbenz', 'Lemon juice', 'Sparkling water', 'bulleit_95_rye', 'Sloe Gin', 'Sonoma Cherrywood Rye', 'Creme de Cacao', 'Maple Syrup', 'the_deacon', 'boulard_calvados', 'Campari', 'del_maguey_classico', 'famous_grouse_smoky_black', 'Honey Syrup', 'gen-p', 'Mezcal', 'Sakura Bitters', 'Canadian Whisky', 'Brovo Pink', 'red_huck_jar', 'Grapefruit Juice', 'Whisky', 'yu_gin', 'Aztec Chocolate Bitters', 'bainbridge_doug_fir_gin', 'Kaffir lime bitters', 'green_chartreuse', 'pages_creme_de_violette', 'Lime', 'Champagne', 'Brucato Woodlands', 'Creme de Cassis', 'Four Roses Bourbon', 'Del Maguey Classico', 'Blue Curacao', 'Grapefruit Bitters', 'tanqueray_london_dry', 'Honey Ginger Syrup', 'del_maguey_puebla', 'Plantation Pineapple', 'islay_scotch', 'Grapefruit Sparkling Water', 'Cinnamon', 'mr_stacks_creme_de_cacao', 'del_maguey_chichicapa', 'Nixta', 'giffard_cacao', 'Maraschino', 'bols_triple_sec', 'mellow_corn_whiskey_', 'Orange Bitters', 'Cardamaro', 'brucato_chaparral', 'Yuzu Gin', 'black_velvet', 'Mint', 'Hella Orange Bitters', 'Planteray Dark Rum', 'christian_brothers_vs', 'Green Chartreuse', 'Vodka (Inclusive)', 'cristiani_maraschino', 'Orange Juice', 'saint_george_single_malt', 'plantation_dark', 'Pineapple Juice', 'Tequila Blanco', 'dryfly_gin', 'pear_williams', 'Orgeat', 'Cointreau', 'Amaro Meletti', 'craft_cordials_elderflower', 'blue_curacao_jar', 'Bourbon', 'Tanqueray London Dry', 'Simple syrup', 'Gentian Amaro', 'high_west_bourye', 'cristiani_amaretto', 'Cuervo Gold', 'christian_brothers_vsop', 'Tequila', 'lofi_gentian', 'bacardi_gold', 'Club Soda', 'Plantation Dark', 'Falernum', 'Byrrh', 'red_blend_portugal', 'Tonic', 'scrappy_black_lemon_bitters', 'Reddit Aroma', 'Cranberry Juice', 'White Creme de Cacao', 'Angostura Bitters', 'Elderflower Liqueur', 'Tanqueray Sevilla Orange', 'uncharted_rhapsody', 'berneroy_calvados_', 'Prosecco', 'Dry Vermouth', 'Scotch', 'Islay Scotch', 'sonoma_cherrywood_rye', 'luxardo_maraschino', 'Yellow Chartreuse', 'Chocolate Bitters', 'Cognac', 'Brut', 'sandstone_white_whiskey', 'Lapsang Whiskey', 'mandarinetto', 'Tacoma Punk', 'Black Lemon Bitters', 'kahlua', 'kilbrin_irish', '360 Huckleberry', 'Brucato Chaparral', 'Peachtree', 'Chartreuse', 'mesquite_smoked_whiskey', 'Smoky Scotch Whisky', 'Seltzer', 'White Sugar', 'brovo_lucky_falernum', 'Rye', 'Nocino', 'Olive', 'Orange Flower Water', 'drillaud_elderflower', 'yellow_chartreuse', 'fee_bros_black_walnut', 'Meletti', 'genepy', 'Cinnamon Infused Whiskey', 'Dark Rum', 'Prickly Pear Syrup', 'cognac_comandon', 'Lemon Twist', 'Rootbeer bitters', 'wray_and_nephew_overproof', 'Pear Brandy', 'Angostura orange bitters', 'Pineapple', 'Famous Grouse', 'velvet_falernum', 'Szechuan Tincture', 'Brovo Ginger Liqueur', 'cointreau', 'fidelitas_kirsch', 'largo_bay_151', 'Vodka', 'arancino_cinque_terra', 'Creme de Violette', 'four_roses_bourbon', 'Calvados', 'Orange Liqueur', 'Ruby Porto', 'Irish Cream', 'Lime juice', 'Vanilla Extract', 'Genepy', 'Grapefruit Soda', 'drip_coffee_liqueur', 'Fig Brandy', 'Szechuan bitters', 'aultmore_12_year', 'roku', 'Heavy Cream', 'Gin', 'zignum_reposado', 'Egg White', 'Cookie Monster Bitters', 'Yuzu Curacao', 'fee_bros_aztec_chocolate_bitters', 'Smoky Scotch', 'Lime Juice', 'rhum_barbancourt', 'Absinthe', 'Simple', 'Meyer lemon juice', 'hella_aztec_chocolate_bitters'}
+INFO: 10:43:24 - services.recipe_parsing_helpers:  Loading categories
+DEBUG: 10:43:24 - services.test_class:  Loading categories: {'Amaro': ['Torani Amer', 'Ramazzoti Amaro', 'Aperol', 'Cynar 70', 'Cynar STD', 'Campari', 'Tacoma Punk', 'Brovo American', 'Amaro Kim', 'Amaro 01', 'Amaro 04', 'Amaro 14', 'Rosso Amaro', 'Cardamaro', 'Kina Laero Dor', 'Amaro Averna', 'Fernet-Branca', 'Gran Classico', 'Reddit Aroma', 'Brucato Chaparral', 'Brucato Woodlands', 'Amaro Angostura', 'Meletti', 'Nonino', 'Byrrh', 'Lofi Gentian'], 'Brandy (Inclusive)': ['Berneroy Calvados', 'Christian Brothers Vs', 'Don Cesar Pisco', 'Christian Brothers Vsop', 'Pear Williams', 'Boulard Calvados', 'Fidelitas Kirsch'], 'Gin (Inclusive)': ['Bainbridge Doug Fir Gin', 'Tanqueray London Dry', 'Dryfly Gin', 'Sipsmith Sloe Gin', 'Yu Gin', 'Tanqueray Sevilla', 'Roku'], 'Mezcal (Inclusive)': ['Del Maguey Classico', 'Cuervo Gold', 'Zignum Reposado', 'Del Maguey Puebla', 'Tj Mezcal', '1800 Tequila', 'Del Maguey Chichicapa', 'Azunia Reposado'], 'Rum (Inclusive)': ['Largo Bay 151', 'Plantation Pineapple', 'Plantation Dark', 'Wray and Nephew Overproof', 'Bacardi Gold', 'Plantation Light', 'Rhum Barbancourt', 'Pitu Cachaca'], 'Vodka (Inclusive)': ['Red Huck Jar'], 'Whiskey (Inclusive)': ['Bulleit 95 Rye', 'Kilbrin Irish', 'Four Roses Bourbon', 'Famous Grouse Smoky Black', 'Saint George Single Malt', 'Mesquite Smoked Whiskey', 'Cinnamon Infused Whiskey', 'High West Bourye', 'Famous Grouse', 'Sonoma Cherrywood Rye', 'Aultmore 12 Year', 'Mellow Corn Whiskey', 'Knappogue 12 Year', 'Yellowstone Bourbon', '509 Canadian Whisky', 'Sandstone White Whiskey', 'The Deacon', 'Black Velvet'], 'Liqueurs': ['Brovo Ginger Liqueur', 'Midori', 'Uncharted Rhapsody', 'Brovo Ginger Liqueur', 'Genepy', 'Gen-P', 'Green Chartreuse', 'Sambuca Di Amore', 'Galliano', 'Zirbenz', 'De Kuyper Creme de Menthe', 'Brucato Chaparral', 'Douglas Fir', 'Yellow Chartreuse', 'Tacoma Punk', 'Yuzu Curacao', 'Chateaux Blue Curacao', 'St Germain', 'Cristiani Maraschino', 'Drillaud Elderflower', 'Midori', 'Craft Cordials Elderflower', 'Blue Curacao Jar', '360 Huckleberry', 'Drillaud Blackberry', 'Cointreau', 'Cointreau Noir', 'Arancino Cinque Terra', 'Limoncello', 'Peachtree', 'Luxardo Maraschino', 'Bols Triple Sec', 'Dry Curacao', 'Mandarinetto', 'Kahlua', 'Creme de Noyaux', 'Cristiani Amaretto', 'Mr Stacks Creme de Cacao', 'Giffard Cacao', 'Kahana Mac Nut', 'Brovo Lucky Falernum', 'Drip Coffee Liqueur', 'Nocino', 'Velvet Falernum', 'Nixta']}
+INFO: 10:43:26 - services.test_class:  Loading collection Zig Zag Clones
+DEBUG: 10:43:26 - services.test_class:  Zig Zag Clones found in collection names
+DEBUG: 10:43:26 - services.recipe_parsing_helpers:  Sorted recipe: [('unkn', 'oz', 'Dry Vermouth'), ('unkn', 'oz', 'Elderflower Liqueur'), ('unkn', 'oz', 'Gin'), ('unkn', 'dashes', 'Grapefruit Bitters'), ('unkn', 'lemon', 'Lemon juice')]
+INFO: 10:43:32 - services.test_class:  Bye bye
+INFO: 10:43:32 - services.test_class:  Bye bye
